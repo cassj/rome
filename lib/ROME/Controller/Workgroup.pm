@@ -51,7 +51,7 @@ sub index : Private{
   my @pending_invites = $c->model('ROMEDB::WorkgroupInvite')->search(person=>$c->user->username);
   $c->stash->{pending_invites} = \@pending_invites if scalar(@pending_invites);
   
-  $c->stash->{template}="workgroup/admin.tt2";
+  $c->stash->{template}="workgroup/admin";
 }
 
 
@@ -73,7 +73,7 @@ sub autocomplete_leader : Local {
     $c->model('ROMEDB::Person')->search_like({username=>$val});
   
   $c->stash->{ajax} = "1";
-  $c->stash->{template}='scriptaculous/autocomplete_list.tt2';
+  $c->stash->{template}='scriptaculous/autocomplete_list';
   $c->stash->{complete_list}= \%complete_list;
 }
 
@@ -226,7 +226,7 @@ sub list_user_workgroups : Local{
   $c->stash->{ajax} = 1;
   $c->stash->{workgroups_member} = \@workgroups;
   $c->stash->{workgroups_led}= \@workgroups_led;
-  $c->stash->{template}="workgroup/my_workgroups.tt2";
+  $c->stash->{template}="workgroup/my_workgroups";
 
 }
 
@@ -277,7 +277,7 @@ sub delete : Local {
 
 
   $c->request->params->{name} = $name if $name;
-  $c->stash->{template} = 'messages.tt2';
+  $c->stash->{template} = 'site/messages';
   $c->stash->{ajax} = 1;
   
   #check params, delete role
@@ -318,7 +318,7 @@ sub search : Local {
 
     my($self, $c) = @_;
     
-    $c->stash->{template} = 'workgroup/list.tt2' if $c->request->headers->header('x-requested-with');
+    $c->stash->{template} = 'workgroup/list' if $c->request->headers->header('x-requested-with');
     $c->stash->{ajax} = 1;
     
     my @workgroups;
@@ -360,10 +360,10 @@ sub update_form : Local{
     my $workgroupname = $c->request->params->{workgroup};
     my $workgroup = $c->model('ROMEDB::Workgroup')->find($workgroupname);
     $c->stash->{workgroup} = $workgroup;
-    $c->stash->{template} = 'workgroup/update_form.tt2';
+    $c->stash->{template} = 'workgroup/update_form';
   }
   else{
-    $c->stash->{template} = 'messages.tt2';
+    $c->stash->{template} = 'site/messages';
   }
   
   return;
@@ -442,7 +442,7 @@ sub _validate_update_form_params :Private{
 sub update : Local {
    my($self, $c) = @_;
 
-   $c->stash->{template} = 'messages.tt2';
+   $c->stash->{template} = 'site/messages';
    $c->stash->{ajax} = 1;
 
    # check params, update role
@@ -538,7 +538,7 @@ sub manage : Local{
 	
     }
 
-    $c->stash->{template} = 'workgroup/manage.tt2';
+    $c->stash->{template} = 'workgroup/manage';
     return;
 
 }
@@ -592,7 +592,7 @@ sub pending_joins : Local{
     $c->request->params->{workgroup} = $workgroup if $workgroup;    
     if ($c->forward('_validate_pending_join_params')){
 	my @pending_joins = $c->model('ROMEDB::WorkgroupJoinRequest')->search(workgroup=>$workgroup);
-	$c->stash->{template} = 'workgroup/pending_join_list.tt2';
+	$c->stash->{template} = 'workgroup/pending_join_list';
 	$c->stash->{pending_joins} = \@pending_joins;
     }
     return;
@@ -612,7 +612,7 @@ sub autocomplete : Local {
   my %complete_list =  map {$_->name=>$_->description} 
     $c->model('ROMEDB::Workgroup')->search_like({name=>'%'.$val.'%'});
   
-  $c->stash->{template}='scriptaculous/autocomplete_list.tt2';
+  $c->stash->{template}='scriptaculous/autocomplete_list';
   $c->stash->{complete_list}=\%complete_list;
 }
 
@@ -664,7 +664,7 @@ sub join :Local {
   
    $c->request->params->{workgroup} = $workgroup if $workgroup;
    $c->stash->{ajax} = 1;
-   $c->stash->{template} = 'messages.tt2';
+   $c->stash->{template} = 'site/messages';
 
    if ($c->forward('_validate_join_params')  ){
 
@@ -730,7 +730,7 @@ sub confirm_join:Local{
     my ($self,$c, $wg, $person) = @_;
      
     $c->stash->{ajax} = 1;
-    $c->stash->{template} = 'messages.tt2';
+    $c->stash->{template} = 'site/messages';
 
     #stick url params in form params for validation.
     $c->request->params->{workgroup}= $wg if $wg;
@@ -845,7 +845,7 @@ sub deny_join :Local{
     my ($self,$c, $wg, $person) = @_;
     
     $c->stash->{ajax} = 1;
-    $c->stash->{template} = 'messages.tt2';
+    $c->stash->{template} = 'site/messages';
     
     $c->request->params->{workgroup}= $wg if $wg;
     $c->request->params->{person} = $person if $person;
@@ -962,7 +962,7 @@ sub invite :Local{
     my ($self,$c) = @_;
     
     $c->stash->{ajax} = 1;
-    $c->stash->{template} = 'messages.tt2';
+    $c->stash->{template} = 'site/messages';
 
     if ($c->forward('_validate_invite_params')){
 
@@ -1017,7 +1017,7 @@ sub confirm_invite: Local{
     my ($self,$c, $wg, $person) = @_;
      
     $c->stash->{ajax} = 1;
-    $c->stash->{template} = 'messages.tt2';
+    $c->stash->{template} = 'site/messages';
 
     #stick url params in form params for validation.
     $c->request->params->{workgroup}= $wg if $wg;
@@ -1135,7 +1135,7 @@ sub deny_invite:Local{
     my ($self,$c, $wg, $person) = @_;
     
     $c->stash->{ajax} = 1;
-    $c->stash->{template} = 'messages.tt2';
+    $c->stash->{template} = 'site/messages';
     
     $c->request->params->{workgroup}= $wg if $wg;
     $c->request->params->{person} = $person if $person;
@@ -1208,7 +1208,7 @@ sub deny_invite:Local{
 sub pending_invites : Local{
     my ($self,$c) = @_;
     $c->stash->{ajax} = 1;
-    $c->stash->{template} = 'workgroup/pending_invites_user.tt2';
+    $c->stash->{template} = 'workgroup/pending_invites_user';
     my @pending_invites = $c->model('ROMEDB::WorkgroupInvite')->search(person=>$c->user->username);
     $c->stash->{pending_invites} =\@pending_invites if scalar(@pending_invites);
 
@@ -1266,7 +1266,7 @@ sub pending_invites : Local{
 sub leave : Local {
    my($self, $c) = @_;
 
-   $c->stash->{template} = 'messages.tt2';
+   $c->stash->{template} = 'site/messages';
    $c->stash->{ajax} = 1;
 
    # check params, update role
@@ -1337,7 +1337,7 @@ sub _validate_remove_params : Private{
 sub remove : Local {
    my($self, $c, $workgroup,$person) = @_;
    
-   $c->stash->{template} = 'messages.tt2';
+   $c->stash->{template} = 'site/messages';
    $c->stash->{ajax} = 1;
    
    $c->request->params->{workgroup} = $workgroup if $workgroup;
@@ -1382,7 +1382,7 @@ sub members_autocomplete :Local{
     $val =~s/[^\w\d]//g;
 
     $c->stash->{ajax} = 1;
-    $c->stash->{template} = 'scriptaculous/autocomplete_list.tt2';
+    $c->stash->{template} = 'scriptaculous/autocomplete_list';
 
     #check that the workgroup exists amd that the user is a member. 
     #If not, just return nothing - can't really put an error message
@@ -1422,7 +1422,7 @@ sub users_autocomplete : Local {
                          $c->model('ROMEDB::Person')->search_like({username=>'%'.$val.'%'});
   
   $c->stash->{ajax} = "1";
-  $c->stash->{template}='scriptaculous/autocomplete_list.tt2';
+  $c->stash->{template}='scriptaculous/autocomplete_list';
   $c->stash->{complete_list}=\%complete_list;
 }
 

@@ -10,7 +10,7 @@
 </ul>
 </div>
 
-[%INCLUDE dfv_error.tt2%]
+[%#INCLUDE dfv_error%]
 <form method="post" action="[%Catalyst.uri_for('/role/add')%]">
   <fieldset>
     <legend>Add a new role</legend>

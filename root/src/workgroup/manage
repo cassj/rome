@@ -7,7 +7,7 @@
 [% IF pending_joins %]
   <h3>Pending Join Requests</h3>
   <div id="pending_join_res"></div>
-  [%INCLUDE 'workgroup/pending_join_list.tt2' %]
+  [%INCLUDE 'workgroup/pending_join_list' %]
 [%ELSE%]
 <h3>No pending join requests</h3>
 [% END %]
@@ -16,7 +16,7 @@
 [% IF pending_invites %]
   <h3>Pending Invitations</h3>
   <div id="pending_invite_res"></div>
-  [%INCLUDE 'workgroup/pending_invite_list.tt2' %]
+  [%INCLUDE 'workgroup/pending_invite_list' %]
 [%ELSE%]
 <h3>No pending invitations</h3>
 [% END %]
@@ -24,7 +24,7 @@
 
 
 
-[% INCLUDE 'workgroup/update_form.tt2'  %]
+[% INCLUDE 'workgroup/update_form'  %]
 
 
 [%Catalyst.prototype.form_remote_tag({

@@ -1,20 +1,20 @@
 [% META title = 'Experiments' %]
 
 <div id="current">
-[% INCLUDE 'experiment/current.tt2' %]
+[% INCLUDE 'experiment/current' %]
 </div>
 
 <div id="share">
-[% INCLUDE 'experiment/share.tt2' %]
+[% INCLUDE 'experiment/share' %]
 </div>
 
 <div id="search">
-[% INCLUDE 'experiment/search.tt2' %]
+[% INCLUDE 'experiment/search' %]
 </div>
 
 
 <div id="add">
-[% INCLUDE 'experiment/add.tt2' %]
+[% INCLUDE 'experiment/add' %]
 </div>
 
 

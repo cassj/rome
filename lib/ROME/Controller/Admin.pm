@@ -37,7 +37,7 @@ sub components :Local{
     $c->stash->{error_msg} = 'Permission Denied. You must be an administrator to view this page';
     return;
   }
-  $c->stash->{template} = 'admin/components.tt2'
+  $c->stash->{template} = 'admin/components'
 }
 
 =item installable_components

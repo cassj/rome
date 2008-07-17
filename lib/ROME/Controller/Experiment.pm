@@ -31,7 +31,7 @@ sub index : Private{
   my ($self, $c) = @_;
 
   #return an admin GUI page with AJAX calls to your various methods.
-  $c->stash->{template} = 'experiment/admin.tt2'; 
+  $c->stash->{template} = 'experiment/admin'; 
 }
 
 
@@ -111,7 +111,7 @@ sub _validate_add_params :Private {
 sub add : Local{
   my($self, $c) = @_;
 
-  $c->stash->{template} = 'messages.tt2';
+  $c->stash->{template} = 'site/messages';
   $c->stash->{ajax}=1;
 
   #default to current user as owner
@@ -196,7 +196,7 @@ sub delete : Local {
   $c->request->params->{name} = $name if $name;
   $c->request->params->{owner} = $owner if $owner;
 
-  $c->stash->{template} = 'messages.tt2';
+  $c->stash->{template} = 'site/messages';
   $c->stash->{ajax} = 1;
 
   #check params
@@ -256,7 +256,7 @@ sub delete : Local {
 sub search_like :Local{
 
   my($self, $c) = @_;
-  $c->stash->{template} = 'experiment/list.tt2';
+  $c->stash->{template} = 'experiment/list';
   $c->stash->{ajax}=1;
 
   #grab the post params so we can reload the list if we need to
@@ -347,7 +347,7 @@ sub update_form : Local{
   $c->request->params->{name} = $name if $name;
   $c->request->params->{owner} = $owner if $owner;
 
-  $c->stash->{template} = 'experiment/update_form.tt2';
+  $c->stash->{template} = 'experiment/update_form';
   $c->stash->{ajax}=1;
 
   #default to current user as owner
@@ -475,7 +475,7 @@ sub autocomplete : Local {
     $experiments = $c->model('ROMEDB::ExperimentByUser')->search_like({name=>'%'.$val.'%'},  {bind=>[$c->user->username, $c->user->username]});
   }
 
-  $c->stash->{template} = 'experiment/autocomplete.tt2';
+  $c->stash->{template} = 'experiment/autocomplete';
   $c->stash->{experiments} = $experiments;
 
 }
@@ -496,7 +496,7 @@ sub autocomplete_owner : Local {
                          $c->model('ROMEDB::Person')->search_like({username=>'%'.$val.'%'});
   
   $c->stash->{ajax} = "1";
-  $c->stash->{template}='scriptaculous/autocomplete_list.tt2';
+  $c->stash->{template}='scriptaculous/autocomplete_list';
   $c->stash->{complete_list}=\%complete_list;
 }
 
@@ -714,13 +714,13 @@ sub share_with_workgroup :Local{
 
   ajax: experiment current
 
-  Hands the experiment/current.tt2 template off to the view
+  Hands the experiment/current template off to the view
 
 =cut
 sub current :Local{
   my ($self,$c) = @_;
   $c->stash->{ajax} = 1;
-  $c->stash->{template} = 'experiment/current.tt2'
+  $c->stash->{template} = 'experiment/current'
 }
 
 

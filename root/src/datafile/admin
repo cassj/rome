@@ -3,7 +3,7 @@
 [% IF Catalyst.user.experiment %]
 
 <div id="selected_datafiles">
-[% INCLUDE 'datafile/selected_datafiles.tt2' %]
+[% INCLUDE 'datafile/selected_datafiles' %]
 </div>
 
 <div id="list_datafiles">

@@ -31,19 +31,19 @@
 
 
 	 <div class="process_accepts">
-           [% INCLUDE 'devel/process_accepts.tt2' %]
+           [% INCLUDE 'devel/process_accepts' %]
          </div>
    
          <div class="process_creates">
-           [% INCLUDE 'devel/process_creates.tt2' %]
+           [% INCLUDE 'devel/process_creates' %]
          </div> 
 	 
          <div class="process_parameters">
-           [% INCLUDE 'devel/process_parameters.tt2' %]
+           [% INCLUDE 'devel/process_parameters' %]
 	 </div>
 	 
 	 <div class="process_template">
-           [% INCLUDE 'devel/process_template.tt2' %]
+           [% INCLUDE 'devel/process_template' %]
     	 </div>
 
    [% END %]

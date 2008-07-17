@@ -27,11 +27,11 @@ sub add_to : Local{
   my($self, $c) = @_;
 
   unless ($c->check_user_roles('admin')){
-    $c->stash->{template} = 'access_denied.tt2';
+    $c->stash->{template} = 'site/access_denied';
     return;
   } 
   
-  $c->stash->{template} = 'role/add_to.tt2'
+  $c->stash->{template} = 'role/add_to'
 
 }
 

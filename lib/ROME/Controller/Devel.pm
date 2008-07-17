@@ -27,7 +27,7 @@ Catalyst Controller.
 
   matches devel/components
 
-  hands the new_component.tt2 page template to the view.
+  hands the new_component page template to the view.
 
 =cut
 
@@ -49,7 +49,7 @@ sub components :Local{
 	  );
     }
 
-    $c->stash->{template} = 'devel/create_component.tt2';
+    $c->stash->{template} = 'devel/create_component';
 }
 
 
@@ -62,7 +62,7 @@ sub components :Local{
 =cut
 sub component_current :Path('component/current'){
   my ($self, $c) = @_;
-  $c->stash->{template} = 'devel/current_component.tt2';
+  $c->stash->{template} = 'devel/current_component';
   $c->stash->{ajax} = 1;
   
   #retrieve the selected component.
@@ -204,7 +204,7 @@ sub create_component :Path('component/create'){
 		author   => $c->user->forename.' '.$c->user->surname,
 		version  => $c->request->params->{component_version},
 	       };
-    $template->process('controller.tt2', $vars, $cc_component_name.'.pm')
+    $template->process('controller', $vars, $cc_component_name.'.pm')
       || die $template->error();
 
 
@@ -440,7 +440,7 @@ sub component_autocomplete :Path('component/autocomplete') {
 
   my $components =  $c->model('ROMEDB::Component')->search_like({name=>'%'.$val.'%'});
 
-  $c->stash->{template} = 'devel/component_autocomplete.tt2';
+  $c->stash->{template} = 'devel/component_autocomplete';
   $c->stash->{components} = $components;
 
 }
@@ -541,7 +541,7 @@ sub create_process :Path('process/create'){
 
 
     #Create the process page template file
-    my $template_file = $c->path_to('root','src',$process->component_name,$process->name).'.tt2';
+    my $template_file = $c->path_to('root','src',$process->component_name,$process->name).'';
 
     my $config = {
 		  INCLUDE_PATH => $c->path_to('components','templates'),
@@ -558,7 +558,7 @@ sub create_process :Path('process/create'){
 		component_version => $process->component_version,
 	       };
 
-    $template->process('process_template.tt2', $vars, $template_file)
+    $template->process('process_template', $vars, $template_file)
       || die $template->error();
 
 
@@ -571,7 +571,7 @@ sub create_process :Path('process/create'){
 		 $c->request->params->{process_component_name}));
  
 
-    #parse the process_action.tt2 template file into a string.
+    #parse the process_action template file into a string.
     $config = {
 		  INCLUDE_PATH => $c->path_to('components','templates'),
 		  INTERPOLATE  => 1,
@@ -585,7 +585,7 @@ sub create_process :Path('process/create'){
 	     component_version => $process->component_version,
 	    };
     my $process_action;
-    $template->process('process_action.tt2', $vars, \$process_action)
+    $template->process('process_action', $vars, \$process_action)
       || die $template->error();
 
     #and insert it into the controller, saving the previous version in component_name.pm.bak
@@ -696,7 +696,7 @@ sub delete_process :Path('process/delete'){
     }
 
     #remove the process page template file 
-    my $template_file = $c->path_to('root','src',$process->component_name,$process->name).'.tt2';
+    my $template_file = $c->path_to('root','src',$process->component_name,$process->name).'';
     unlink ($template_file) or warn "Failed to delete file $template_file"; 
     
     #remove the bits of the process from the Controller.
@@ -743,7 +743,7 @@ sub delete_process :Path('process/delete'){
 sub process_form :Path('process/form'){
   my ($self,$c) = @_;
   $c->stash->{ajax} = 1;
-  $c->stash->{template} = 'devel/new_process.tt2';
+  $c->stash->{template} = 'devel/new_process';
   if ($c->session->{component_name} && $c->session->{component_version}){
     my $comp= $c->model('ROMEDB::Component')->find
       (
@@ -837,7 +837,7 @@ sub process_accepts_form :Path('process/accepts_form'){
 	   });
 	$c->stash->{process} = $proc;
       }
-    $c->stash->{template} = 'devel/new_process_accepts.tt2';
+    $c->stash->{template} = 'devel/new_process_accepts';
   }
   else{
     return;
@@ -885,7 +885,7 @@ sub process_creates_form :Path('process/creates_form'){
 	   });
 	$c->stash->{process} = $proc;
       }
-    $c->stash->{template} = 'devel/new_process_creates.tt2';
+    $c->stash->{template} = 'devel/new_process_creates';
   }
   else{
     return;
@@ -913,7 +913,7 @@ sub process_autocomplete :Path('process/autocomplete') {
 
   my $processes =  $c->model('ROMEDB::Process')->search_like({name=>'%'.$val.'%'});
 
-  $c->stash->{template} = 'devel/process_autocomplete.tt2';
+  $c->stash->{template} = 'devel/process_autocomplete';
   $c->stash->{processes} = $processes;
 
 }
@@ -1393,7 +1393,7 @@ sub datatype_autocomplete :Path('datatype/autocomplete') {
 
   my $datatypes =  $c->model('ROMEDB::Datatype')->search_like({name=>'%'.$val.'%'});
 
-  $c->stash->{template} = 'devel/datatype_autocomplete.tt2';
+  $c->stash->{template} = 'devel/datatype_autocomplete';
   $c->stash->{datatypes} = $datatypes;
 
 }
@@ -1418,7 +1418,7 @@ sub datatype_description_autocomplete :Path('datatype/description_autocomplete')
 
   my $datatypes =  $c->model('ROMEDB::Datatype')->search_like({description=>'%'.$val.'%'});
 
-  $c->stash->{template} = 'devel/datatype_description_autocomplete.tt2';
+  $c->stash->{template} = 'devel/datatype_description_autocomplete';
   $c->stash->{datatypes} = $datatypes;
 
 }
@@ -1433,7 +1433,7 @@ sub datatype_description_autocomplete :Path('datatype/description_autocomplete')
 
   matches devel/component/distribution
 
-  hands the make_component_distribution.tt2 page template
+  hands the make_component_distribution page template
   to the view
 
 =cut
@@ -1451,7 +1451,7 @@ sub make_component_distribution :Local{
     #of the currently installed version of that component.
     
     #then stick that distribution in the root/components dir.
-    $c->stash->{template} = 'devel/make_component_distribution.tt2';
+    $c->stash->{template} = 'devel/make_component_distribution';
     return;
 }
 
@@ -1478,7 +1478,7 @@ sub datatypes :Local{
   if ($c->session->{datatype_name}){
     $c->stash->{datatype} = $c->model('ROMEDB::Datatype')->find($c->session->{datatype_name});
   }
-  $c->stash->{template} = 'devel/datatypes.tt2';
+  $c->stash->{template} = 'devel/datatypes';
 }
 
 
@@ -1504,7 +1504,7 @@ sub current_datatype :Path('datatype/current'){
      $c->stash->{datatype} = $c->model('ROMEDB::Datatype')->find($c->session->{datatype_name});
    }
 
-   $c->stash->{template} = 'devel/current_datatype.tt2'; 
+   $c->stash->{template} = 'devel/current_datatype'; 
 
 }
 
@@ -1862,7 +1862,7 @@ sub _validate_process_param_form :Local{
 
   Matches /devel/process/parameters_form
 
-  Ajax. Passees the process_param_form.tt2 template
+  Ajax. Passees the process_param_form template
   to the view
 
 =cut
@@ -1894,7 +1894,7 @@ sub process_param_form :Path('process/parameters_form'){
 
     $c->stash->{selected_process} = $process;
 
-    $c->stash->{template} = 'devel/process_param_form.tt2';
+    $c->stash->{template} = 'devel/process_param_form';
   }
   else{
     return;
@@ -2259,7 +2259,7 @@ sub process_param_create :Path('process/parameter/create'){
 =item process_template_upload_form
 
   Matches devel/process/template/upload_form
-  Passes the process_template.tt2 template
+  Passes the process_template template
   to the view.
 
 
@@ -2267,7 +2267,7 @@ sub process_param_create :Path('process/parameter/create'){
 sub process_template_upload_form :Path('process/template/upload_form'){
   my ($self,$c) = @_;
   $c->stash->{ajax} = 1;
-  $c->stash->{template} = 'devel/process_template.tt2';
+  $c->stash->{template} = 'devel/process_template';
 }
 
 

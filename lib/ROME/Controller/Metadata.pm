@@ -28,7 +28,7 @@ Catalyst Controller.
 
 sub index : Private {
     my ( $self, $c ) = @_;
-    $c->stash->{template} = 'metadata/admin.tt2';
+    $c->stash->{template} = 'metadata/admin';
 }
 
 
@@ -50,7 +50,7 @@ sub owner_autocomplete :Local {
 
   my $people =$c->model('ROMEDB::Person')->search_like({username=>'%'.$val.'%'});
 
-  $c->stash->{template} = 'metadata/owner_autocomplete.tt2';
+  $c->stash->{template} = 'metadata/owner_autocomplete';
   $c->stash->{people} = $people;
 
 
@@ -429,7 +429,7 @@ sub level_add : Path('level/add') {
 
 sub factor_create_form :Path('factor/create_form'){
   my ($self, $c) = @_;
-  $c->stash->{template} = 'metadata/factor_create_form.tt2';
+  $c->stash->{template} = 'metadata/factor_create_form';
   $c->stash->{ajax} = 1;
 }
 
@@ -448,7 +448,7 @@ sub factor_create_form :Path('factor/create_form'){
 
 sub level_create_form :Path('level/create_form'){
   my ($self, $c) = @_;
-  $c->stash->{template} = 'metadata/level_create_form.tt2';
+  $c->stash->{template} = 'metadata/level_create_form';
   $c->stash->{ajax} = 1;
 }
 
@@ -479,7 +479,7 @@ sub factor_autocomplete :Path('factor/autocomplete') {
   }
 
 
-  $c->stash->{template} = 'metadata/factor_autocomplete.tt2';
+  $c->stash->{template} = 'metadata/factor_autocomplete';
   $c->stash->{factors} = $factors;
 }
 
@@ -495,7 +495,7 @@ sub factor_autocomplete :Path('factor/autocomplete') {
 sub factor_list :Path('factor/list'){
   my ($self,$c) = @_;
   $c->stash->{ajax} = 1;
-  $c->stash->{template} = 'metadata/factor_list.tt2';
+  $c->stash->{template} = 'metadata/factor_list';
 }
 
 
@@ -1133,7 +1133,7 @@ sub cont_var_add_to_experiment : Path('cont_var/add_to_experiment') {
 
 sub cont_var_create_form :Path('cont_var/create_form'){
   my ($self, $c) = @_;
-  $c->stash->{template} = 'metadata/cont_var_create_form.tt2';
+  $c->stash->{template} = 'metadata/cont_var_create_form';
   $c->stash->{ajax} = 1;
 }
 
@@ -1163,7 +1163,7 @@ sub cont_var_autocomplete :Path('cont_var/autocomplete') {
     $cont_vars = $c->model('ROMEDB::ContVarByUser')->search_like({name=>'%'.$val.'%'},  {bind=>[$c->user->username, $c->user->username]});    
   }
 
-  $c->stash->{template} = 'metadata/cont_var_autocomplete.tt2';
+  $c->stash->{template} = 'metadata/cont_var_autocomplete';
   $c->stash->{cont_vars} = $cont_vars;
 }
 
@@ -1179,7 +1179,7 @@ sub cont_var_autocomplete :Path('cont_var/autocomplete') {
 sub cont_var_list :Path('cont_var/list'){
   my ($self,$c) = @_;
   $c->stash->{ajax} = 1;
-  $c->stash->{template} = 'metadata/cont_var_list.tt2';
+  $c->stash->{template} = 'metadata/cont_var_list';
 }
 
 
@@ -1541,13 +1541,13 @@ sub cont_var_share_workgroup :Path('cont_var/share_with_workgroup'){
 
   metadata/outcome/list
 
-  hands the outcomes.tt2 template to the view
+  hands the outcomes template to the view
 
 =cut
 sub outcome_list :Path('outcome/list'){
     my ($self, $c) = @_;
     $c->stash->{ajax} = 1;
-    $c->stash->{template} = 'metadata/outcomes.tt2';
+    $c->stash->{template} = 'metadata/outcomes';
 }
 
 

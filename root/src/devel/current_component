@@ -2,10 +2,10 @@
 
 [% IF selected_component %]
   
-  [%INCLUDE 'devel/component_update.tt2'%]
+  [%INCLUDE 'devel/component_update'%]
 
    <div id="current_component_processes">
-     [% INCLUDE 'devel/current_component_processes.tt2' %]  
+     [% INCLUDE 'devel/current_component_processes' %]  
    </div> 
 
 

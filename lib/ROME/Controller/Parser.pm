@@ -54,7 +54,7 @@ sub valid_files : Local {
 sub parse : Global {
     my ($self, $c) = @_;
 
-    $c->stash->{template} = 'parser/form.tt2';
+    $c->stash->{template} = 'parser/form';
 
    #submitted?
    $c->forward('parse_files') if $c->request->params->{selected_files};
@@ -71,7 +71,7 @@ sub parse : Global {
 
 =item set_parser
 
-  Global ajax method called when the select_parser form (in parser/form.tt2) is submitted.
+  Global ajax method called when the select_parser form (in parser/form) is submitted.
   
 
 =cut
@@ -80,7 +80,7 @@ sub set_parser : Global {
     my ($self, $c) = @_;
 
     $c->stash->{ajax} = 1;
-    $c->stash->{template} = 'parser/select_files.tt2';
+    $c->stash->{template} = 'parser/select_files';
 
     unless ($c->request->params->{selected_parser}){
       $c->session->{parser} = '';

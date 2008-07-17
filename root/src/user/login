@@ -11,7 +11,6 @@ Please login to use [%Catalyst.config.name%].
 [% END %]
 </p>
 
-[%# INCLUDE 'dfv_error.tt2' %]
 <form method="post" action="[% Catalyst.uri_for('/user/login') %]">
   <fieldset>
     <legend>login</legend> 

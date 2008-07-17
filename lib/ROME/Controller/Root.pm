@@ -10,7 +10,7 @@ use base 'Catalyst::Controller';
 #
 __PACKAGE__->config->{namespace} = '';
 
-# Any ajax response can use the messages.tt2 template. 
+# Any ajax response can use the messages template. 
 # A single page may have multiple ajax calls and the response div needs
 # to have a unique ID, so we initialise a counter here which is incremented
 # every time the message div is called.
@@ -132,7 +132,7 @@ sub end : ActionClass('RenderView') {
   #if we've got an xml rpc request, don't bother looking for a template.
   #$c->response->body('XMLRPC') if $c->req->xmlrpc->is_xmlrpc_request;
 
-  #the messages.tt2 template uses a bit of javascript to flash the
+  #the messages template uses a bit of javascript to flash the
   #messages div on update, but you can have multiple instances of the
   #template on a given page, so we just increment a count variable 
   #every time it's used and append that value to the name of the div.
@@ -145,7 +145,7 @@ sub end : ActionClass('RenderView') {
   # They get an apology, and an error message if appropriate
   if ( scalar @{ $c->error } && !$c->debug) {
     $c->stash->{errors}   = $c->error;
-    $c->stash->{template} = 'error.tt2';
+    $c->stash->{template} = 'site/error';
     $c->error(0);
     $c->response->status('500');
   }

@@ -68,7 +68,7 @@ sub login : Local {
       my $password = $c->request->params->{password} || "";
       if ($c->login($username, $password)) {
 	# If successful, then let them use the application
-  	$c->stash->{template} = 'user/login_successful.tt2';
+  	$c->stash->{template} = 'user/login_successful';
 	return 1;
       } else {
 	# Set an error message
@@ -80,7 +80,7 @@ sub login : Local {
   }
 
   # If either of above don't work out, send to the login page
-  $c->stash->{template} = 'user/login.tt2';
+  $c->stash->{template} = 'user/login';
 }
 
 
@@ -160,7 +160,7 @@ sub register : Local{
   }
 
   # If the form hasn't been submitted, return the form.
-  $c->stash->{template} = 'user/register.tt2';
+  $c->stash->{template} = 'user/register';
 }
 
 
@@ -354,7 +354,7 @@ sub user_confirm : Local
     #check your params.
     unless ($username && $email_id){
       $c->stash->{error_msg} = "Invalid account confirmation. Please check your URL.";
-      $c->stash->{template} = "user_error.tt2";
+      $c->stash->{template} = "user_error";
       return;
     }
 
@@ -365,14 +365,14 @@ sub user_confirm : Local
     unless ($user->username){
       $c->stash->{error_msg} = "Your registration details were not found. Please check your URL.</br>"
 	                     . "If it has been over a week since you registered, they may have been deleted.";
-      $c->stash->{template} = "user_error.tt2";
+      $c->stash->{template} = "user_error";
       return;
     }
 
     #stop if the email_id given isn't the same as the one in the DB.
     unless ($email_id eq $user->email_id){
       $c->stash->{error_msg} = "Problem with registration confirmation. Please check your URL";
-      $c->stash->{template} = "user_error.tt2";
+      $c->stash->{template} = "user_error";
       return;
     }
 
@@ -444,7 +444,7 @@ sub admin_confirm : Local
     #check your params.
     unless ($username && $email_id){
       $c->stash->{error_msg} = "Invalid account confirmation. Please check your URL.";
-      $c->stash->{template} = "user_error.tt2";
+      $c->stash->{template} = "user_error";
       return;
     }
 
@@ -455,14 +455,14 @@ sub admin_confirm : Local
     unless ($user->username){
       $c->stash->{error_msg} = "Registration details for user $username were not found. Please check your URL.</br>"
 	                     . "If it has been over a week since registration, they may have been deleted.";
-      $c->stash->{template} = "user_error.tt2";
+      $c->stash->{template} = "user_error";
       return;
     }
 
     #stop if the email_id given isn't the same as the one in the DB.
     unless ($email_id eq $user->email_id){
       $c->stash->{error_msg} = "Problem with registration confirmation. Please check your URL";
-      $c->stash->{template} = "user_error.tt2";
+      $c->stash->{template} = "user_error";
       return;
     }
 
@@ -490,11 +490,11 @@ sub _complete_registration : Private
 
     unless ($self->user->user_approved){
       $c->stash->{user} = $self->user;
-      $c->stash->{template} = 'user/awaiting_user_approval.tt2';
+      $c->stash->{template} = 'user/awaiting_user_approval';
       return;
     }
     unless ($self->user->admin_approved){
-      $c->stash->{template} = 'user/awaiting_admin_approval.tt2';
+      $c->stash->{template} = 'user/awaiting_admin_approval';
       return;
     }
 
@@ -506,7 +506,7 @@ sub _complete_registration : Private
     #confirm to the user
     $self->_email_completion($c);
     $c->stash->{user} = $self->user->username;
-    $c->stash->{template} = 'user/registration_success.tt2';
+    $c->stash->{template} = 'user/registration_success';
 }
 
 #email the user to confirm their registration
@@ -550,7 +550,7 @@ sub account : Local {
   my ($self, $c) = @_;
   
   # send to the account page.
-  $c->stash->{template} = 'user/account.tt2';
+  $c->stash->{template} = 'user/account';
   
 }
 
@@ -566,7 +566,7 @@ sub account_update :Path('account/update'){
 
   my ($self, $c) = @_;
   $c->stash->{ajax} = 1;
-  $c->stash->{template} = 'messages.tt2';  
+  $c->stash->{template} = 'site/messages';  
 
   #check the form params
   if ($c->forward('_validate_account_params')){
@@ -656,21 +656,21 @@ sub reset_password : Local{
       my $password = $c->request->params->{password} || "";
       if ($c->login($username, $password)) {      
 	$c->stash->{ajax} = 1;
-	$c->stash->{template} = 'messages.tt2';  
+	$c->stash->{template} = 'site/messages';  
 	$c->stash->{status_msg} = 'Your password has been reset.';
 	return 1;
       }
       else {
 	# If there are problems, send them back to the login and apologise
 	$c->stash->{error_msg} = 'Sorry, there was a problem resetting your password. If you cannot login, contact '.$c->config->{admin_email};
-	$c->stash->{template} = 'user/login.tt2';
+	$c->stash->{template} = 'user/login';
 	return 1;
       }
     }
   }
 
   #otherwise, return the form
-  $c->stash->{template} = 'user/reset_password.tt2';
+  $c->stash->{template} = 'user/reset_password';
 
 }
 
@@ -719,7 +719,7 @@ sub lost_password : Local{
 
    #set ajax response
    $c->stash->{ajax} = 1;
-   $c->stash->{template} = 'messages.tt2';    
+   $c->stash->{template} = 'site/messages';    
      
      #check the form params
      if ($c->forward('_validate_lost_password_params')){
@@ -765,7 +765,7 @@ sub lost_password : Local{
      }
    }
    
-   $c->stash->{template} = 'user/lost_password.tt2';
+   $c->stash->{template} = 'user/lost_password';
  }
 
 
@@ -917,7 +917,7 @@ sub workgroup_member_autocomplete : Path('workgroup/autocomplete_member') {
 			    $c->user->workgroups;
   
   $c->stash->{ajax} = "1";
-  $c->stash->{template}='scriptaculous/autocomplete_list.tt2';
+  $c->stash->{template}='scriptaculous/autocomplete_list';
   $c->stash->{complete_list}= \%complete_list;
 }
 
@@ -946,7 +946,7 @@ sub workgroup_leader_autocomplete : Path('workgroup/autocomplete_leader') {
  
   
   $c->stash->{ajax} = "1";
-  $c->stash->{template}='scriptaculous/autocomplete_list.tt2';
+  $c->stash->{template}='scriptaculous/autocomplete_list';
   $c->stash->{complete_list}= \%complete_list;
 }
 

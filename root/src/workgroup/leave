@@ -2,6 +2,6 @@
 
 [%IF Catalyst.form.success%]
   <p class="message">[%person.username%] has been removed from workgroup [%workgroup.name%] </p>
-[%ELSE%]
-  [%INCLUDE dfv_error.tt2%]
+[%#ELSE%]
+  [%#INCLUDE dfv_error.tt2%]
 [%END%]

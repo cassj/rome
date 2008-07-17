@@ -36,7 +36,7 @@ sub index : Private {
 
 sub upload : Local {
     my ( $self, $c ) = @_;
-    $c->stash->{template} = 'upload/upload.tt2';
+    $c->stash->{template} = 'upload/upload';
 
     return unless my $upload = $c->request->uploads->{upload_file};
 
@@ -208,7 +208,7 @@ sub autocomplete_subdir : Local{
   closedir DIR;
   
 
-  $c->stash->{template}='upload/autocomplete_subdirs.tt2';
+  $c->stash->{template}='upload/autocomplete_subdirs';
   $c->stash->{subdirs}=\@subdirs;
 }
 
@@ -223,7 +223,7 @@ sub autocomplete_subdir : Local{
 sub list :Local{
   my ($self, $c) = @_;
   $c->stash->{ajax} = 1;
-  $c->stash->{template} = 'upload/list.tt2';
+  $c->stash->{template} = 'upload/list';
   
 }
 
@@ -237,7 +237,7 @@ sub list :Local{
 sub delete :Local{
   my ($self, $c, $subdir, $file) = @_;
   $c->stash->{ajax} = 1;
-  $c->stash->{template} = 'upload/list.tt2';
+  $c->stash->{template} = 'upload/list';
  
   $subdir = $c->request->params->{subdir} unless $subdir;
   $file = $c->request->params->{file} unless $file;

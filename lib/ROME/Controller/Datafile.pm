@@ -30,7 +30,7 @@ sub index : Private{
   my ($self, $c) = @_;
   
   #return an admin GUI page 
-  $c->stash->{template} = 'datafile/admin.tt2'; 
+  $c->stash->{template} = 'datafile/admin'; 
 }
 
 =head2 selected
@@ -44,7 +44,7 @@ sub index : Private{
 sub selected : Local {
     my ($self,$c) = @_;
     $c->stash->{ajax} = 1;
-    $c->stash->{template} = 'datafile/selected_datafiles.tt2';
+    $c->stash->{template} = 'datafile/selected_datafiles';
 }
 
 =head2 graph 
@@ -73,7 +73,7 @@ sub graph : Local {
 
 
   #and send to the view
-  $c->stash->{template} = 'datafile/list_datafiles.tt2';
+  $c->stash->{template} = 'datafile/list_datafiles';
 
 }
 
@@ -224,7 +224,7 @@ return 1;
 #    
 #    #don't need any param checks here - we haven't got any
 #
-#    $c->stash->{template} = 'messages.tt2';
+#    $c->stash->{template} = 'messages';
 #    $c->stash->{ajax} = 1;
 #    
 #    foreach ($c->user->datafiles){

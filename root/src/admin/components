@@ -8,5 +8,5 @@
 
 <!-- Add a new component -->
 <div id="add_component">
-[% INCLUDE 'admin/component_add.tt2' %]
+[% INCLUDE 'admin/component_add' %]
 </div>

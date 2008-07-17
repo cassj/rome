@@ -44,4 +44,4 @@
 
 
 
-[%INCLUDE 'upload/list.tt2'%]
+[%INCLUDE 'upload/list'%]

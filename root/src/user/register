@@ -1,7 +1,5 @@
 [% META title = 'Register' %]
 
-[%# INCLUDE 'dfv_error.tt2' %]
-
 <form method="post" action="[% Catalyst.uri_for('/user/register') %]">
 
   <fieldset>
