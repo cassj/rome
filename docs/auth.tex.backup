@@ -1,9 +1,0 @@
-\subsubsection{Authentication and Authorization}
-
-\paragraph{}
-Authentication (verifying that the user is indeed who they claim to be) is implemented using passwords. Auth::Store::DBIC, Auth::Cred::Password, RequireSSL
-Although the passwords are encrypted in the database, they are sent as plaintext between the client and server. To improve security, ROME uses the catalyst RequireSSL plugin which, in a production environment, would force redirect to a secure server.
-
-\paragraph{}
-Authorization (verifying that an authenticated user has access rights to a given part of the application) is implemented at two levels. Firstly, a role-based approach controls access to particular parts of the interface. Individual controller actions can check whether a user has a particular role (in the \texttt{role} table of the database) and to allow or deny access correspondingly. At the moment roles are limited to users and administrators. A second level of control is implemented to limit access to experiments and datafiles and is discussed further in relation to workgroups (section \ref{sec:workgroups}). 
-Auth::Roles

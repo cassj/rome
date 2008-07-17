@@ -1,5 +1,0 @@
-\subsubsection{Components}
-\label{sec:model_components}
-
-\paragraph{}
-The \texttt{component} table holds information about ROME add-on components. It has a two column primary key of \texttt{name} and \texttt{version}. The installed version

@@ -1,5 +1,0 @@
-\subsubsection{The Root Controller}
-\label{sec:root_controller}
-
-\paragraph{}
-The Root controller, ROME::Controller::Root, provides some generic functions for all ROME Controllers. The Root default action is called when no other matching action has been found in the by Catalyst's URL mapping process. It is defined to return an HTML 404 Not Found error page, the template for which is 'site/404'.
