@@ -1,0 +1,6 @@
+[% META title = 'Registration Incomplete' %]
+
+<p>An email has been sent to the system administrator, however confirmation of registration for <span class="highlight">[%username%]</span> has not yet been received. Please be patient.</p>
+
+<p>If you do not receive an email in the next few days confirming the activation of your account, contact [%Catalyst.config.admin_email%]</p>
+

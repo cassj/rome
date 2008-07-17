@@ -1,0 +1,22 @@
+[%Catalyst.prototype.form_remote_tag({
+     update => 'search_results',
+     url    => "/workgroup/search"
+   } )
+%]
+  <fieldset>
+  <legend>Search for workgroups to join</legend>
+
+    <p><span class="big_text">*</span> can be used as a wildcard, at either end of your search pattern,  eg *foo*</p>
+
+    <div class="labelled_input">
+      <label for="pattern">Search by name:</label>
+      <input type="text" name="pattern" />
+    </div>
+
+    <input type="submit" name="submit" value="Search" class="button"/>
+
+   </fieldset>
+</form>
+
+<div id="search_results"></div>
+

@@ -1,0 +1,42 @@
+<form action="/metadata/cont_var/add_to_experiment" 
+      method="post" 
+      onsubmit=" new Ajax.Updater( 'search_cont_var_messages',  
+      		     		   '/metadata/cont_var/add_to_experiment', 
+				   { 
+				     parameters: Form.serialize(this),
+				     asynchronous: 1,
+                                     onComplete: function(){
+                                                  setTimeout(
+                                                    function(){
+                                                      update_cont_var_list('cont_var_list');
+                                                    }, 
+                                                    1000
+                                                  );
+                                                }				     
+				     } ) ; return false"
+>
+
+  <fieldset>
+  <legend>Search for existing continuous variables to add to this experiment</legend>
+   <div id="search_cont_var_messages"></div>
+   
+    <div class="labelled_input">
+      <label for="cont_var_name">Variable Name</label>
+      <input type="text" name="cont_var_name" id="cont_var_search" />
+      <input type="hidden" name="cont_var_owner" id="cont_var_search_owner">
+      <div id="cont_var_search_autocomplete_choices" class="autocomplete"></div>
+        <script type="text/javascript" language="javascript">
+         // <![CDATA[
+             new Ajax.Autocompleter("cont_var_search",
+	                            "cont_var_search_autocomplete_choices",
+                                    "/metadata/cont_var/autocomplete",
+                                    {afterUpdateElement:function(e,s_e){$('cont_var_search_owner').value=s_e.childNodes.item(1).childNodes.item(3).innerHTML;}}
+             );
+         // ]]>
+        </script>
+    </div>
+
+
+    <input type="submit" name="submit" value="Add to Experiment" class="button"/>
+   </fieldset>
+</form>

@@ -1,0 +1,10 @@
+<div id="pending_invites">
+<ul>
+  [%FOREACH invite IN pending_invites%]
+  <li>
+    [% invite.person.username %] ([%invite.person.forname%] [%invite.person.surname%])
+  </li> 
+ 
+  [% END %]
+</ul>
+</div>

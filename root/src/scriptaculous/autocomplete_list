@@ -1,0 +1,5 @@
+<ul>
+    [%FOREACH key IN complete_list.keys%]
+     <li>[%key%][%IF complete_list.$key%] <span class="informal">[%complete_list.$key%]</span>[%END%]</li>  
+    [%END%]
+</ul>

@@ -1,0 +1,78 @@
+[% META title = 'My Workgroups' %]
+
+<h3>Workgroups of which you are a member:</h3>
+
+<div id="delete_messages"></div>
+
+<ul>  
+  [% FOREACH workgroup IN Catalyst.user.workgroups %]
+    [% leave_link = ['/crud/workgroup/leave','/',workgroup.name,'/',Catalyst.user.username]%]
+    [% leave_link = Catalyst.uri_for(leave_link.join('')) %]
+    <li>[%workgroup.name%] [%IF workgroup.description%] ([%workgroup.description%])[%END%]
+         [%Catalyst.prototype.link_to_remote( 'Leave', {url=>leave_link, update=>'delete_messages'},{class=>'ajax_link'})%]
+    </li>   
+  [% END %]
+</ul>
+
+
+<h3>Workgroups of which you are leader:</h3>
+
+<div id="delete_results"></div>
+<ul>
+  [%FOREACH workgroup IN Catalyst.user.workgroups_led%]
+    [% manage_link = ['/crud/workgroup/manage/',workgroup.name]%]
+    [% manage_link = Catalyst.uri_for(manage_link.join('')) %]
+    [% delete_link = ['/crud/workgroup/delete','/',workgroup.name] %]
+    [% delete_link = Catalyst.uri_for(delete_link.join('')) %]
+    <li>[%workgroup.name%] [%IF workgroup.description%] ([%workgroup.description%])[%END%] 
+    <a href="[%manage_link%]" class="ajax_link">Manage</a>
+    [%Catalyst.prototype.link_to_remote( 'Delete', {url=>delete_link, update=>'delete_results'},{class=>'ajax_link'})%]
+    </li>   
+   [%END%]
+ </ul> 
+
+<br/>
+[%Catalyst.prototype.form_remote_tag({
+     update => 'create_results',
+     url    => "/crud/workgroup/create"
+   } )
+%]
+
+  <fieldset>
+    <legend>Create a new workgroup</legend>
+
+      <div id="create_results"></div>
+
+      [%IF Catalyst.check_user_roles('admin')%]
+        <div class="labelled_input">
+          <label for="person">Leader</label>
+          <input type="person" name="person" id="person" value="[%Catalyst.user.username%]"/>
+        </div>    
+        <div id="person_autocomplete_choices" class="autocomplete"></div>
+        <script type="text/javascript" language="javascript">
+        // <![CDATA[
+             new Ajax.Autocompleter("person","person_autocomplete_choices","/crud/person/autocomplete",{});
+        // ]]>
+      </script>
+      [%ELSE%]
+      <input type="hidden" name="leader" id="leader" value="[%Catalyst.user.username%]" /> 
+      [%END%]
+
+      <div class="labelled_input">
+        <label for="name">Name</label>
+        <input type="text" name="name"/>
+      </div> 
+
+      <div class="labelled_input">
+        <label for="description">Description</label>
+        <textarea name="description"></textarea>
+      </div>
+
+      <br/><input type="submit" name="submit" value="add workgroup" class="button"/>
+     
+   
+  </fieldset>
+</form>
+
+
+

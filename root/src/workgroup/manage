@@ -1,0 +1,84 @@
+[% META title = 'Manage Workgroup' %]
+
+[%IF workgroup%]
+<h2>Workgroup [%workgroup.name%]</h2>
+
+
+[% IF pending_joins %]
+  <h3>Pending Join Requests</h3>
+  <div id="pending_join_res"></div>
+  [%INCLUDE 'workgroup/pending_join_list.tt2' %]
+[%ELSE%]
+<h3>No pending join requests</h3>
+[% END %]
+
+
+[% IF pending_invites %]
+  <h3>Pending Invitations</h3>
+  <div id="pending_invite_res"></div>
+  [%INCLUDE 'workgroup/pending_invite_list.tt2' %]
+[%ELSE%]
+<h3>No pending invitations</h3>
+[% END %]
+
+
+
+
+[% INCLUDE 'workgroup/update_form.tt2'  %]
+
+
+[%Catalyst.prototype.form_remote_tag({
+     update => 'remove_messages',
+     url    => "/workgroup/remove"
+   } )
+%]
+  <fieldset>
+  <legend>Remove someone from [%workgroup.name%]</legend>
+   <div id="remove_messages"></div>
+   
+    <input type="hidden" name="workgroup" value="[%workgroup.name%]"/>
+
+    <div class="labelled_input">
+      <label for="person">Username</label>
+      <input type="text" name="person" id="person" />
+      <div id="person_autocomplete_choices3" class="autocomplete"></div>
+        <script type="text/javascript" language="javascript">
+         // <![CDATA[
+             new Ajax.Autocompleter("person","person_autocomplete_choices3","/workgroup/members_autocomplete/[%workgroup.name%]",{});
+         // ]]>
+        </script>
+    </div>
+
+
+    <input type="submit" name="submit" value="Remove" class="button"/>
+   </fieldset>
+</form>
+
+
+[%Catalyst.prototype.form_remote_tag({
+     update => 'invite_messages',
+     url    => "/workgroup/invite"
+   } )
+%]
+  <fieldset>
+  <legend>Invite someone to join [%workgroup.name%]</legend>
+   <div id="invite_messages"></div>
+   
+    <input type="hidden" name="workgroup" value="[%workgroup.name%]"/>
+
+    <div class="labelled_input">
+      <label for="person">Username</label>
+      <input type="text" name="person2" id="person2" />
+    <div id="person_autocomplete_choices4" class="autocomplete"></div>
+        <script type="text/javascript" language="javascript">
+         // <![CDATA[
+             new Ajax.Autocompleter("person2","person_autocomplete_choices4","/workgroup/users_autocomplete",{});
+         // ]]>
+        </script>
+    </div>
+    <input type="submit" name="submit" value="Invite" class="button"/>
+   </fieldset>
+</form>
+
+
+[%END%]

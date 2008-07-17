@@ -1,0 +1,5 @@
+[% META title = 'Access Denied' %]
+
+<p>Sorry - you do not have permission to access the page you requested</p>
+
+<p>If you think you are seeing this page in error, please <a href="[%Catalyst.uri_for('sysadmin/contact')%]">contact your system administrator</a></p>

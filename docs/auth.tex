@@ -1,0 +1,10 @@
+\subsubsection{Authentication and Authorization}
+
+\paragraph{}
+Both authentication (verifying that the user is who they claim to be) and authorization (verifying that the user has access rights to a given part of the application) are implemented using Catalyst plugin modules. 
+
+\paragraph{}
+\texttt{Catalyst::Plugin::Authentication} provides methods for user login and logout. It uses the sub-plugins \texttt{Catalyst::Plugin::Credential::Password} and \texttt{Authentication::Store::DBIC} to check a username and supplied password against the SHA1 encrypted password stored in the \texttt{person} table of the database. Although the passwords are encrypted in the database, they are sent as plaintext between the client and server. To improve security, ROME uses \texttt{Catalyst::Plugin::RequireSSL} which, in a production environment, would force redirect to a secure server.
+
+\paragraph{}
+\texttt{Catalyst::Plugin::Authorization::Roles} is used, in conjunction with the \texttt{role} and \texttt{person\_role} tables in the database, to allow controller actions to limit their access to users with a particular role (for example allowing only admin users to run admin actions). This level of access control is separate from the access controls on experiments and datafiles, which are implemented as part of ROME and are described in more detail later.

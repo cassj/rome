@@ -1,0 +1,33 @@
+<form action="/devel/component/update" 
+      method="post" 
+      onsubmit=" new Ajax.Updater( 'messages',  
+                                   '/devel/component/update', 
+                                   { parameters: Form.serialize(this), 
+                                     asynchronous: 1,
+				     onComplete: function(){update_current_component('current_component');}
+				   } ) ; 	
+                return false"
+>
+
+
+  <fieldset>
+  <legend>Current Component</legend>
+
+
+    <h3>[%selected_component.name%]</h3>
+    <h4>version [%selected_component.version %]</h4>    
+
+    <input type="hidden" name="component_name" value="[% selected_component.name%]"/>
+    <input type="hidden" name="component_version" value="[% selected_component.version%]"/>
+
+
+    <div class="labelled_input">
+        <label for="component_description">Description</label>
+        <textarea name="component_description">[%selected_component.description%]</textarea>
+    </div>
+
+
+   <input type="submit" name="submit" value="Update Component" class="button"/>
+
+  </fieldset>
+</form>

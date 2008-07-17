@@ -1,0 +1,58 @@
+<!-- on an ajax call, these don't get added automagically -->
+[%IF error_msg%]<p class="error">[%error_msg%]</p>[%END%]
+[%IF status_msg%]<p class="message">[%status_msg%]</p>[%END%]
+
+
+[%IF Catalyst.session.parser%]
+
+
+[%IF Catalyst.user.experiment.root_datafile_name%]
+<p class="warning">You have already defined a root_datafile for this experiment. Parsing the data again will create a new root datafile and delete any datafiles you have created in this experiment. Only do this if you're SURE it's what you mean. /p>
+[%END%]
+
+<!--prototype seems to cock up ajax submits of checkbox groups -->
+<form name="files_form"
+      method="post"
+      action="[%Catalyst.uri_for('/parse')%]"
+>
+<div id="parse_results"></div>
+
+  <fieldset>
+  <legend>Define a prefix for the names of generated files...</legend>
+      <div class="labelled_input">
+        <label for="file_prefix">Prefix</label>
+        <input type="text" name="file_prefix"/>
+      </div> 
+  </fieldset>
+
+  <fieldset>
+    <legend>Select the files you wish to use...</legend>
+
+
+        [%count=1%]
+	[% FOREACH file IN uploaded_file_list %]
+          <div class="labelled_input">
+	  <input type="checkbox" name="selected_files" value="[% file %]" />[% file %]<br/>
+          </div>
+          [%count = count+1%]
+        [% END %]
+
+
+
+     <input type="button" 
+            name="select_all_files" 
+            value="select all" 
+            onClick="select_all(document.files_form.selected_files, document.files_form.select_all_files);" 
+            class="button"
+     /> 
+
+       <div class="force_clear"/>
+
+       <input type="submit" 
+              class="button" 
+              value="OK, Parse these files" 
+              /> 
+  </fieldset>
+ </form>
+
+[%END%]

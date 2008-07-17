@@ -1,0 +1,518 @@
+\documentclass[a4paper,10pt]{report}
+
+\usepackage[numbers]{natbib}
+\bibpunct{(}{)}{;}{a}{,}{,}
+\bibliographystyle{plainnat}
+
+\usepackage{graphicx}
+
+% Title Page
+\title{ROME: R-Omics Made Easy. Developers' Guide}
+\author{Cass Johnston}
+
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+
+R and the Bioconductor suite of bioinformatics tools provide an extremely useful framework in which to analyse transcriptomics data. Unfortunately the command line interface to R has prevented their widespread use among biologists. With the rapid development of high throughput molecular biology techniques for -omics studies in recent years, biologists have an increasingly urgent need for statistical methods which are designed to cope with these new large and noisy datasets. In order to make the bioconductor tools and in-house R code for transcriptomics analysis available to the biologists with whom we work, we need a relatively quick and easy way of generating graphical user interfaces (GUIs) for them. Hence ROME (R-omics Made Easy).
+
+\end{abstract}
+
+\newpage
+\tableofcontents
+\newpage
+
+
+
+
+
+
+
+
+
+
+\section{Upload}
+
+Data upload is acheived via the upload component. The controller for this component is in lib/ROME/Controller/Upload.pm
+We use the Catalyst UploadProgress plugin to generate an ajax upload progress bar for our files.
+
+The uploadprogress plugin requires two concurent connections, one for the upload and another for the progress tracker, so we need to start the server with 
+
+\begin{verbatim}
+  script/rome_server.pl -f 
+\end{verbatim}
+
+Which allows the server to fork. <NEED TO FIGURE OUT HOW THIS WORKS WITH APACHE>
+
+\paragraph*{}
+The javascript shiny is all taken care of by the Catalyst::Plugin::UploadProgress module. The lib/ROME/Controller/Upload.pm module deals with the file as a normal http upload. It's index action (mapping to /upload) just forwards to the upload action, which either processes the uploaded file, or returns the upload form (defined in root/src/upload/upload.tt2). Processing the uploaded file just involves saving it to the user's upload directory. The only complication being that if it is a .tar, .gzip, .bzip or .zip file it is unpacked by the \_unpack method (also in the Upload.pm controller) and the original file is deleted. Only administators may upload data for users other than themselves.
+
+\paragraph*{}
+The upload does not link the new files to any other piece of information. They can be deleted at will.
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+ 
+
+\section{ROME::Processor::R}
+
+\subsection{ROME Datafiles}\label{sec:datafiles}
+R scripts operate on and create Datafiles. These are stored on disk as .RData files, but they also get an entry in the datafiles table of the database.
+
+\paragraph*{}
+Datafiles belong to an experiment. They cannot be shared between experiments. The table has a multi-column primary key consisting of the name, experiment\_name and experiment\_owner (the last two being the composite primary key of the experiment table). This implies that the name of a datafile must be unique to a particular experiment. It also implies that datafiles inherit the owner of the experiment to which they belong. 
+
+\paragraph*{}
+The process field is reference to the process which created this datafile. Processes are discussed in section \ref{sec:processes}.
+
+\paragraph*{}
+The path is the location of the file, relative to its owner's data\_dir. 
+
+\paragraph*{}
+The datatype is a reference to the datatype entry in the database. The datatype represents the class of the R object stored in the datafile. The datatype determines what processes can operate on a datafile so where possible you should use existing datatypes to ensure that your compenents can interoperate with other people's components. Datatypes are discussed in section \ref{sec:datatypes}.
+
+\paragraph*{}
+The status of a datafile can be public, shared or private. The status of the experiment to which the datafile belongs will also affect its status. The setting with the highest level of privacy will win out, so if the experiment is private, the datafile cannot be shared. If the experiment is shared, then the datafile can be set to private and be invisible from members of the workgroup with which the experiment is shared. If the expriment is public, the individual datafiles can be public, shared with a workgroup or private.
+
+
+
+\section{The Catalyst::ROME plugin}
+
+The R processor class is defined in lib/ROME/R.pm. The Catalyst::Plugin::ROME plugin defines \verb|$c->R| which returns an R processor object for you. 
+
+\subsection{ROMEDB::Process}
+The R processor runs processes. These exist in the process table in the database. They have a primary key 'name' which must be unique, an optional description and a tmpl\_file, which is just the name of the file in the R\_templates directory that should be used for this process. 
+
+\subsubsection*{ROMEDB::ProcessAccepts}
+The process\_accepts table holds information about the datatypes of the datafiles a process can accept. It acts as a mapping table between the Process and Datatype tables. A process may only accept a single datatype. Allowing multiple datatypes would break ROME's ability to determine whether a component can operate on the currently selected datafile. We will add a seperate mechanism to deal with multi-datafile components in the future. 
+
+\paragraph*{}
+Processes have parameters. We store these in the database so we know exactly what has been done to a given datafile (these are user supplied parameters, not things that ROME determines from context, like the current datafile or user data\_dir). They are also used in chaining components.
+
+\subsubsection*{Creating new parsers} 
+A ROME parser is just a regular controller in the namespace ROME::Controller::Parser:: We create the controller with the catalyst helper script like:
+
+\begin{verbatim}
+script/rome_create.pl controller Parser::MyParser
+\end{verbatim}
+
+now open up the file lib/ROME/Controller/Parser/MyParser.pm. Delete the line:
+
+\begin{verbatim}
+use base 'Catalyst::Controller';
+\end{verbatim}
+
+and delete the index action, you don't need it. Now, add the lines:
+
+\begin{verbatim}
+use File::Find::Rule;
+use base 'ROME::Controller::Parser::Base';
+
+\end{verbatim}
+
+somewhere at the top of the file and define a rule for your parser. A simple example is:
+
+\begin{verbatim}
+__PACKAGE__->file_rule(File::Find::Rule->file->name( qr/\.CEL/i ));
+\end{verbatim}
+
+This rule just needs to define how to identify the type of files your parser can process. Don't worry about actually finding them, this is taken care of by the Parser::Base controller from which your module inherits. Save your file and restart the server. Go to the /parse page in the browser and your parser should appear in the select menu. If you select the parser, you should get a list of all the valid files in the current user's upload directory.
+
+\paragraph*{}
+The next step is to create the process which turns your raw datafiles into a .RData file which will serve as a root datafile for ROME. This is a template toolkit file which lives in root/R\_templates. To start with, just create a file myparser.tt2 that directory and enter:
+
+\begin{verbatim}
+[% INCLUDE rome.tt2 %]
+\end{verbatim}
+
+This will do some setup for you and will serve as a test file. Now you need to add this template as a process in the database. 
+
+\paragraph*{}
+While it is probably quicker to add the information into the database by hand, if you want to be able to package your component up so that other people can use it then you should create a .yml file which contains information that ROME uses to install components. It doesn't matter where you put this file, 
+
+Each controller (aside from the core ones) should have its own .yml file in the add\_ons directory. This 
+
+ as it makes things simpler when we come to packaging them up as ROME add-ons. Open up a file in the sql directory named for your controller (but all in lower case and with :: replaced with \- eg Parser::AffymetrixExpression \-> parser-affymetrixexpression.sql) and add a line something like:
+
+\begin{verbatim}
+insert into process (name, tmpl_file, description) values ("ParseAffyExpression", "parse_affy_expression.tt2", 'this is a parser component for .CEL files.');
+
+insert into parameter (name, process, description) values ('selected_files', 'ParseAffyExpression', "Reference to an array containing the paths (relative to the user's upload directory) to be parsed");
+
+insert into process_creates(process,creates,num) values ("ParseAffyExpression", "AffyBatch",1);
+\end{verbatim}
+
+Use this SQL to load that data into your ROME database. To explain, we have created a process called ParseAffyExpression, which uses the template file parse\_affy\_expression.tt2. It requires a parameter, 'selected\_files' 
+
+\paragraph*{}
+Define the \_parse\_files action in your parser controller. The Parser::Base parse action forwards to its own parse\_files action to do various bits of setup, including validating the input files. It then hands over to this \_parse\_files action in the appropriate parser subclass.  Parser::Base sets the to template parser/parse\_results.tt2'. In \_parse\_files, you can set error\_msg in the stash if things go wrong which you think the user should know about, or you can throw an exception. 
+
+\paragraph*{}
+The following example is for affymetrix expression data.
+
+\begin{verbatim}
+sub _parse_files : Local {
+    my ($self, $c) = @_;
+
+    my $R  = $c->R;
+    
+    my $process = $c->model('ROMEDB::Process')->find('ParseAffyExpression');
+    die "ParseAffyExpression process not found in DB" unless $process;
+    
+    $R->process($process);
+		        
+    my $new_datafiles = $R->queue or die "Couldn't queue";
+
+    return $new_datafiles->[0];
+}
+\end{verbatim}
+
+\paragraph*{}
+In this above action, we call \$c->R to get a new instance of the R processor. We then retrieve the relevant process object from the database and hand it to our processor. 
+
+\paragraph*{}
+The R template which defines the process automagically has access to the catalyst context object (as 'Catalyst', the same as the view templates). This means that we can access the parameters from the http request in our template with [\%Catalyst.request.params.selected\_files\%]. 
+
+\paragraph*{}
+There are security implications involved in inserting user data into templates, as you're effectively allowing users to define bits of your R script. It is important to check your user input before letting it anywhere near a script that you're going to run on your system. For parsers, this is taken care of by the base class. Unless all of the contents of the selected\_files array are valid readable filenames in the current user's upload directory, the base parse\_files method will return an error to the user and won't ever call the \_parse\_files action.
+
+\paragraph*{}
+
+
+
+\chapter{Core Components}
+
+NOTE: All URIs given are relative to your ROME base href, which if you're using the inbuilt testing server will be something like http://localhost:3000/ (more details of how to set up your server can be found in section \ref{sec:server_setup}). All file paths are given relative to your ROME directory, which will be wherever you put it (see section \ref{sec:install} for installation instructions).
+
+\section{Navigation}
+The ROME menu is structured as a nested list of links, styled by css. For browsers which support css hovers, it will work fine without any javascript. For browsers without hover support, it will use javascript for rollovers. For older browsers, if should degrade to a nested list of links.
+
+\subsection*{Changing your menu}
+The ROME navigation menu is defined in the configuration file ROME/nav.yml. This makes changing your menu structure simple. 
+
+\paragraph*{}
+The easiest way to see how to change your menu is to simply take a look at the nav.yml file. It should be fairly self-explanatory. A top level menu section would look something like:
+
+\begin{verbatim}
+
+- Start Here:           # top level menu title, can be anything you like
+    title: Start here   # html 'title' field, appears on mouseover
+    dropdown:           #start submenu
+      - login:                    #a page link. Must be a ROME component name
+          display_name: Login     #optional display name
+          title: Login to ROME    
+          href: /user/login       #url, relative to your ROME base
+	  any_datatype: 1         #disable type-checking for this URL
+      - logout:
+          title: End your ROME session
+          href: /user/logout
+	  any_datatype: 1
+      - register:
+          title: Create a ROME account
+          href: /user/register
+	  any_datatype: 1
+
+\end{verbatim}
+
+\paragraph*{}
+As it is written in YAML, indentation is important. Use spaces not tabs and your spacing must be consistent. More information about YAML can be found at http://www.yaml.org if required. If in doubt, copy and paste an existing menu section and modify it to suit your needs.
+
+\paragraph*{}
+The menu and submenu entries can be named anything you like (though relatively succinct is better). You can use the title fields to add a mouseover tooltip. The links to pages must be named with the name of the ROME component to which they refer, otherwise they'll remain greyed out when a datafile of a type they can use is selected.
+
+\paragraph*{}
+By default, ROME compares the datatype of the current datafile with the process\_accepts datatypes of the components in the menu and greys them out if they're not usable with this datafile (for more details, see section \ref{sec:authorization}). For pages which don't process datafiles (for example, most of the core ROME functionality - login, user management, datafile management and so on) you'll need to disable this behaviour by setting the any\_datatype flag to a true value.
+
+\paragraph*{}
+If you want to prevent bits of the menu from being displayed to users without certain roles, just add a list of the roles who are allowed to view it, something like:
+
+\begin{verbatim}
+ 
+- Admin Tools:
+    title: Administration tools
+    roles: 
+      - admin
+      - dev
+    dropdown:
+      - manageroles:
+          display_name: Manage Roles
+          title: Manage roles
+          href: /role
+
+
+\end{verbatim}
+
+\paragraph*{}
+Note that hiding parts of the menu from certain users is merely a aesthetic choice, it provides no real access control as the user can still type the URL in if they know it. You need to check the user roles in the controller for actions which require authorization (see section \ref{sec:authorization}
+
+\paragraph*{}
+If you make changes to the nav.yml file, run script/rome\_makemenu.pl to regenerate the menu template file.
+
+\subsubsection*{The nav template file}
+The resulting template file is processed each time the menu is returned. Though this adds a bit of overhead to each call, this is outweighed by the benefit of having a context-aware menu. Any menu items which are irrelevant for the currently selected datafile will be greyed out. A bit of javascript prevents them from even being clickable. 
+
+\section{Users}
+
+R-OME requires that you have a user account. This section will look at how users are registered and logged in to the system, how their access to particular ROME components is controlled and how their user accounts are managed.
+
+\paragraph*{}
+The user component consists of the controller in lib/ROME/Controller/User.pm and the various template files in root/src/user/.
+
+\subsection*{Authentication}
+ROME uses the Catlyst plugin Authentication, which adds login and logout methods to the catalyst context object. 
+
+\paragraph*{}
+The Authentication plugin needs to be able to store and access information about the users. There are various options for doing this in Catalyst, but ROME uses the Authentication::Store::DBIC plugin. In the authentication section of the rome.yml config file we tell the Authentication plugins to use the ROMEDB::Person class and specifically the username and password fields for authentication. The ROMEDB::Person class was defined as part of the model, described in section \ref{sec:model}. 
+
+\paragraph*{}
+The Authentication plugin also needs the Authentication::Credential::Password plugin to provide the necessary logic for checking the username and password with those in the database. For security, the passwords are encrypted in the database using the SHA1 algorithm (which requires the Digest::SHA1 module from CPAN). New passwords are encrypted when the user registers (see section \ref{sec:registration}. The password\_type and password\_hash\_type settings under authentication in the rome.yml config file tell the Authentication plugins to use the appropriate encryption algorithm.
+
+\paragraph*{}
+In the controller module lib/ROME/Controller/User.pm, the index action simply hands over control to the login action, which means that the login page can be accessed through either /user or /user/login URLs.
+
+\paragraph*{}
+The login action checks for a submit parameter from the form data in the catalyst request object. If it doesn't find any, it sets the template to user/login.tt2 and returns (handing over control to the view). The client is therefore sent the login form.
+
+\paragraph*{}
+If the form has been submitted, the values of the form parameters are validated using the Data::FormValidator plugin.  user/login.tt2 includes dfv\_error.tt2 which checks whether there are any error messages from the form validation and if there are, displays them. If validation fails, the client will receive the login page with any validation errors listed at the top.
+
+\paragraph*{}
+Assuming the parameter validation is successful, the username and password parameters are handed over to the login method in the catalyst context object. The login method checks the username and password against those stored in the database and if they match stores the user object in the catalyst context. You can test if a user is logged in with \verb|$c->user_exists|.
+
+\paragraph*{}
+Although the passwords are encrypted in the database, they are sent as plaintext between the client and server. To improve security, ROME uses the catalyst RequireSSL plugin. Both the login and registration methods have a call to the require\_ssl method which, in a production environment, would force redirect to a secure server. This behaviour is disabled in the Catalyst test server script/rome\_server.pl. Configuration settings for the RequireSSL plugin are in rome.yml under require\_ssl.
+
+\paragraph*{}
+The Authentication plugin also adds a logout method to the catalyst context. This is called by the user/logout action.
+
+
+\subsection*{Registration}\label{sec:registration}
+
+\paragraph*{}
+The registration action checks for a submit parameter from the form data in the catalyst request object. If it doesn't find any, it sets the template to user/register.tt2 and returns (handing over control to the view). The client is therefore sent the login form.
+
+\paragraph*{}
+If the form is being submitted, the registration action forwards to a private action which validates the parameters using the Data::FormValidator plugin. If validation fails, the form is returned. As the \verb|user/register.tt2| template includes the \verb|dfv_error.tt2| template, any errors arising from the validation will appear at the top of the form.
+
+\paragraph*{}
+Once the form parameters have been validated, the action forwards to another private action \verb|_process_registration|, which in turn forwards to \verb|_insert_user|. The \verb|_insert_user| method creates a person and an associated person\_pending entry in the database and stores the associated DBIC object in \verb|$self->user|
+
+\paragraph*{}
+Once the new user is in the database, the \verb|_process_registration| action checks the config file to see if we need to get confirmation from the user and/or the administrator in order to complete the registration process. If confirmation is not required, the admin\_approved and user\_approved fields in the new user (actually in the new person\_pending, but these are proxied to the person class) are set to 1. If confirmation is required, it forwards to the \verb|_user_email_confirmation| or  \verb|_admin_email_confirmation| actions to email requests for confirmation.
+
+\paragraph*{}
+Finally the \verb|_process_registration| action forwards to the \verb|_complete_registration| action. This action checks to see if the admin\_approved and user\_approved fields are both set to true. If they are, it deletes the person\_pending entry from the database, leaving a valid new person entry and setting a template which informs the user they can now login. If the approved fields are not true, it sets an appropriate template explaining what to do next. \verb|_complete_registration|
+
+\paragraph*{}
+If confirmation emails were sent, they will include a URL to the admin\_confirm or user\_confirm actions with the username and email\_id as parameters. The email\_id is just a randomly generated string. The email id in the database must match that in the URL, which acts as a check to ensure that the new user really owns that email address with which they have registered. The admin\_confirm and user\_confirm actions simply set admin\_approved and user\_approved to 1 for this user the forward to the \verb|_complete_registration| action.
+
+\subsection{User Directories}
+The \verb|_complete_registration| action also creates two directories for the new user: A data directory for their datafiles, which only need to be available to the server and a static directory for any downloadable data they generate - this includes images and export files. 
+
+\paragraph*{}
+The location of the data directory is specified by the userdata entry in rome.yml. It must be specified as a full path and it must be readable and writeable by the user under which the ROME server is running. Users are given a directory under this location named with their username. A subdirectory called uploads is also created, into which they can upload raw data. This will be discussed in more detail in section \ref{sec:uploads}
+
+\paragraph*{}
+The static directories are created under root/rome/static/user. Each user is given a directory named by their own username which is only accessible by them. It is also possible to create other static directories with different permissions, discussed further in section \ref{sec:authorization}
+
+\subsection*{Authorization}\label{sec:authorization}
+There are two main types of access control in ROME. One is the URL bases authorization methods provided by the Catalyst authorization plugins, \verb|Authorization::Groups| and \verb|Authorization::ACL|, which controls access to actions. The other is the user and workgroup controls implemented specifically for ROME to control access to datafiles.
+
+\subsubsection*{Authorization::Roles}
+This plugin allows you to limit access to a given action to those users with a given role using something like \verb|$c->check_user_roles('admin')|. The plugin uses the person and role tables in the database, via DBIx::Class, as defined in rome.yml under authorization.
+
+\subsubsection*{Authorization::ACL}
+There are some cases when you need a more complicated access definition, and for these we use the ACL plugin. The plugin provides Access Control List style path protection. The ACL plugin only operates on the Catalyst "private namespace", which basically means you can only use if for 'Local' actions, it won't work on Path, Regex or Global actions. ACL rules are defined in the \verb|lib/ROME.pm| file. Details of how to define the rules can be found in the Catalyst::Plugin::Authorization::ACL perldoc.
+
+\subsubsection*{Access controls for data}
+Datafiles can be publicly accessible, shared with members of a workgroup or private to their owner (the user who created them). Access can be set at the experiment or individual datafile level (with datafile access rules overriding the controls on the experiment to which they belong). This is dealt with in the model and is discussed in more detail in sections \ref{sec:experiments} and \ref{sec:datafiles}.
+
+\subsection*{User Account}
+Users can manage their accounts from the URL \verb|user/account|.
+
+\subsection*{User Administration}
+
+\chapter{Things that need to go somewhere}
+\section{Creation and deletion of user directories in model}
+\section{flash}
+use for redirects, kept until accessed. status\_msg and error\_msg are \textit{always} accessed by layout. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\chapter{Scripting}
+Much of the ROME user-friendliness derives from its use of javascript and it will not work without it.  The goal of ROME was to provide a user-friendly interface and the clunkiness of a non-js-enabled web-app simply didn't seem worth the effort. If you prefer not to allow scripting in your browser, you're better off using R / Bioconductor from the command line.
+
+\section{ajax}
+
+
+
+\paragraph*{}
+Javascript common to every page is in root/src/rome.js.
+
+This file also does this:
+\begin{verbatim}
+[% jsfile = Catalyst.action.reverse %]
+[% IF jsfile %][% PROCESS "js/$jsfile" %][% END %]
+\end{verbatim}
+
+which means you can have action-specific javscript included by just sticking it in /root/src/js/path/to/action. For example, for the /crud/role/index the file root/src/js/crud/role/index contains:
+
+\begin{verbatim}
+[%INCLUDE js/prototype.js%]
+\end{verbatim}
+
+which just adds the prototype library javascript to this page. You don't have to use prototype for your actions, feel free to use dojo or something instead.
+
+\section{Wrapper}
+Changed to 
+
+\begin{verbatim}
+[% IF template.name.match('\.(css|js|txt)');
+     debug("Passing page through as text: $template.name");
+     content;
+   ELSE;
+     IF Catalyst.request.headers.header('x-requested-with');
+       debug("AJAX response");
+       content;
+     ELSE;
+       debug("Applying HTML page layout wrappers to $template.name\n");
+       content WRAPPER site/html + site/layout;
+     END;
+   END;
+-%]
+\end{verbatim}
+
+so we don't get headers on the ajax reponses.
+
+
+\chapter{Web-Services}
+Are implemented in ROME using XMLRPC with the Catalyst::Plugin::Server::XMLRPC plugin. 
+
+\paragraph*{}
+The entry point is at http://<romeserver>/rpc . 
+
+\paragraph*{}
+Most public methods are accessible via rpc. Authorization is still in force, so you will need to pass your username and password as parameters with each request. In Controller/Root.pm ROME wil attempt a login using these parameters if it detects and xmlrpc request. 
+
+\paragraph*{}
+Catalyst::Plugin::Server::XMLRPC uses the contents of \verb|$c->stash->{xmlrpc}|, or if that doesn't exist, the whole of \verb|$c->stash| and formats them into an xmlrpc response. 
+
+\paragraph*{}
+To stop the TT View from trying to find a default template (and likely failing and generating a server error), we have set \verb|$c->response->body('XMLRPC')| when an xmlrpc request is detected in Root.pm's end action. 
+
+\paragraph*{}
+Test for xmlrpc calls with:
+\verb|if ($c->req->xmlrpc->is_xmlrpc_request){}|
+
+\chapter{AJAX}
+We're using the prototype and scriptaculous libraries. With the Catalyst::Plugin::Prototype. 
+
+\paragraph*{}
+Test for AJAX calls with:
+\verb|if($c->request->header->{X-Requested-With} eq 'XMLHttpRequest){}|
+
+\paragraph*{}
+In root/lib/site/html we don't bother wrapping the content for ajax calls, so you can expect the client to get back the parsed version of your template exactly as it is written.
+
+\chapter{Testing}
+
+\section{Unit Testing}
+Uses Catalyst::Test.
+
+\chapter{Access Controls}
+
+\section{Roles}
+
+Uses Catalyst::Plugin::Authorization::Roles to control access to specific actions. 
+The plugin provides the methods:
+
+\verb|$c->assert_user_roles()|
+\verb|$c->check_user_roles()|
+\verb|$c->user->check_roles()|
+  
+The assert method requires that the user have all the roles specified for access to be granted. For check\_roles it is enough that they have any of the roles specified. If the access check fails, redirect your user to the access\_denied page, with something like:
+
+\begin{verbatim}
+  unless ($c->check_user_roles('admin')){
+    $c->stash->{template} = 'access_denied.tt2';
+    return;
+  }
+\end{verbatim}
+
+This check should be performed in your controllers for any action you wish to protect. You can also use the check in your templates, if you want to allow users with certain roles to view parts of your page, for example , in the navigation menu, we do:
+
+\begin{verbatim}
+[% IF Catalyst.user.check_roles('admin') %]
+  <li><a title="Administration tools" href="#" class="dropdown">Admin Tools</a>
+   <ul>
+    <li><a class="active"title="Manage roles" href="/admin/roles">Manage Roles</li></a>
+    <li><a class="active"title="Manage users" href="/admin/users">Manage Users</li></a>
+    <li><a title="" href="#" class="dropdown">Admin</a>
+     <ul>
+      <li><a class="active"title="Approve Registrations" href="/admin/reg">Approve Registrations</li></a>
+     </ul>
+    </li>
+   </ul>
+  </li>
+[% END %]
+\end{verbatim}
+
+It's important to note though, that testing user roles in the view is only for aesthetic purposes, it provides no real security. In the example above, a non-admin user would not see the link to /admin/users, but there is nothing stopping them from typing it in by hand unless you also test their role in the controller.
+
+Administrators can add roles and assign users to roles from \verb|/admin/roles|.
+
+\section{Workgroups}
+This uses the plugin Catalyst::Plugin::Authorization::Model
+
+This control is implemented in the model. If you access any datafiles or experiments, the results are automatically filtered based on the data to which the current user has access. 
+
+Both datafiles and experiments can be Public, Private or Shared. Public implies that
+  
+\section{Datatypes}
+Uses Catalyst::Plugin::ROME::Authorization::Datatype. Again, this is similar to the other Authorization plugins.
+It should be used in the model to enforce data 
+
+
+
+\section{Application Testing}
+Uses Test::WWW::Mechanize::Catalyst.
+See all of the \verb|t/live_app*| test scripts.
+
+\appendix
+
+
+
+\bibliography{refs}
+
+\end{document}          

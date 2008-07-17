@@ -1,0 +1,59 @@
+<form action="/metadata/level/add" 
+      method="post" 
+      onsubmit=" new Ajax.Updater( 'new_level_messages',  
+                                   '/metadata/level/add', 
+                                   { parameters: Form.serialize(this), 
+                                     asynchronous: 1,
+				     onComplete: function(){
+                                                  setTimeout(
+                                                    function(){
+                                                      update_factor_list('factor_list');
+                                                    }, 
+                                                    1000
+                                                  );
+                                                }
+				   } ) ; 	
+                return false"
+>
+
+
+  <fieldset>
+    <legend>Add a level to a selected factor</legend>
+
+    <div id="new_level_messages"></div>
+
+      <div class="labelled_input">
+        <label for="factor_name">Factor</label>
+        <input type="text" name="factor_name" id="factor_name"/>
+        <input type="hidden" name="factor_owner" id="level_factor_owner" value="[%Catalyst.user.username%]"/>
+        <div id="factor_name_autocomplete_choices" class="autocomplete"></div>
+        <script type="text/javascript" language="javascript">
+        // <![CDATA[
+             new Ajax.Autocompleter("factor_name",
+                                    "factor_name_autocomplete_choices",
+                                    "/metadata/factor/autocomplete",
+				    {
+                                       afterUpdateElement: function(e,s_e){var owner = s_e.childNodes.item(1).childNodes.item(1).innerHTML; $('level_factor_owner').value = owner;}
+				    }
+				    );         
+        // ]]>
+        </script>
+      </div>
+
+
+
+      <div class="labelled_input">
+        <label for="level_name">Name</label>
+        <input type="text" name="level_name"/>
+      </div> 
+
+      <div class="labelled_input">
+        <label for="level_description">Description</label>
+        <textarea name="level_description"></textarea>
+      </div>
+
+      <br/><input type="submit" name="submit" value="add level" class="button"/>
+     
+   
+  </fieldset>
+</form>

@@ -1,0 +1,49 @@
+   <h3>Processes associated with this component</h3>
+
+   <button
+      onclick=" new Ajax.Updater( 'forms',  
+                                   '[%Catalyst.uri_for("/devel/process/form")%]', 
+                                   { 
+                                     asynchronous: 1,
+				     onComplete: function(){new Effect.ScrollTo('forms'); return false;}
+				   } ) ; 	
+                return false"
+   >Add a new process to this component</button>
+
+   [% FOREACH process IN selected_component.processes%]
+ 
+      <div class="process">
+
+        <span class="process_name">[%process.name%]</span>
+
+        <img 
+	    src="[%Catalyst.uri_for('/delete.gif')%]" 
+	    onclick=" new Ajax.Updater( 'messages',  
+                                   '[%Catalyst.uri_for("/devel/process/delete")%]?process_name=[% process.name %]', 
+                                   { 
+                                     asynchronous:1,
+				     onComplete: function(){update_current_component('current_component');return false;}
+				   } ) ; 	
+                return false"
+	/>
+
+        <span class="process_description">[% process.description %]</span>
+
+
+	 <div class="process_accepts">
+           [% INCLUDE 'devel/process_accepts.tt2' %]
+         </div>
+   
+         <div class="process_creates">
+           [% INCLUDE 'devel/process_creates.tt2' %]
+         </div> 
+	 
+         <div class="process_parameters">
+           [% INCLUDE 'devel/process_parameters.tt2' %]
+	 </div>
+	 
+	 <div class="process_template">
+           [% INCLUDE 'devel/process_template.tt2' %]
+    	 </div>
+
+   [% END %]

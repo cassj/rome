@@ -1,0 +1,29 @@
+<html>
+<body>
+
+<p>
+ROME user <emph>[%user.username%]</emph> has received an invitation to join the workgroup <emph>[%workgroup.name%]</emph>
+</p>
+
+<p>
+To accept the invitation click here:
+<br/><a href="[% accept_link %]">[% accept_link %]</a>
+</p>
+
+<p>
+To deny the invitation, click here:
+<br/><a href="[% deny_link %]">[% deny_link %]</a>
+</p>
+
+<p>(You will need to be logged in to ROME in order to do this)</p>
+
+<p>
+Many thanks,
+<br/>ROME
+</p>
+
+<p>
+If you have been sent this mail in error, please contact the ROME administrator at <a href="mailto:[% Catalyst.config.admin_email%]">[%Catalyst.config.admin_email%]</a>
+</p>
+</body>
+</html>

@@ -1,0 +1,38 @@
+\subsubsection{Parser}
+\label{sec:controller_parser}
+
+\paragraph{}
+Parsing is the process of turning data from one format to another. In the specific context of ROME, this means the process of turning uploaded files into an .RData file (or potentially another type of file as long as it can be used as input to a process) and entering their details into the database. Datafiles cannot exist outside of an experiment, so parsing takes place in the context of the currently selected experiment. New datafiles become root datafiles in the currently selected experiment.
+
+\paragraph*{}
+In fact, the Parser controller itself does not contain the parsing code. Code for parsing specific filetypes into specific ROME datatypes resides in subclasses of the Parser class. For example, Parser::AffymetrixExpression generates an AffyBatch from Affymetrix .CEL files. This all occurs behind the scenes and only the actions in the base Parser class are public. They are as follows:
+
+\begin{scriptsize}
+\begin{verbatim}
+parse/
+parse/set_parser
+parse/parse_files
+\end{verbatim}
+\end{scriptsize}
+
+\paragraph{}
+The index action, which maps to \texttt{../parse} retreives a list of installed parsers and passes this on to the view that generates the main parser page. Parser subclasses have a valid\_files method which can return a list of the files in the upload directory that they are capable of parsing. The set\_parser method stores the given parser in the user's session from where it is retrieved when parse\_files is called.
+
+
+
+
+
+
+% 
+% 
+% \paragraph{}
+% Parsing is the process of turning data from one format to another. In the specific context of ROME, this means the process of turning uploaded files into some format that ROME can recognise (an .RData file of some sort) and registering them with the ROME database. Datafiles cannot exist outside of an experiment, so parsing takes place in the context of the currently selected experiment. A parsed file will be a root datafile - it does not have any parent datafiles within ROME. A single experiment may have multiple root datafiles. 
+% 
+% \paragraph*{}
+% The core controller responsible for parsing data is \texttt{lib/ROME/Controller/Parser/Base.pm}. This doesn't actually contain any code for parsing data, that is left to its subclasses. It does contain the global \verb|parse| action, which checks what parsers are installed (anything in the \texttt{ROME::Controller::Parser::*} namespace, other than Base) and passes them to the template defined in \texttt{root/src/parse/form.tt2}. This template defines a form with a select input from which the user can choose the appropriate parser for the data they are using. 
+% 
+% \paragraph*{}
+% The select parser form submits via an AJAX call to the \texttt{list\_files} action in the Parser::Base controller. This sets the selected parser for the session then returns a second form comprising checkboxes for each of the files in the current user's upload directory which that parser is capable of processing (as defined by a File::Find::Rule in the parser controller). 
+% 
+% \paragraph*{}
+% The file select form submits to the parse action again. When there are files selected, rather than simply returning the form, the parse action forwards to its \texttt{parse\_files} action, which runs some validation tests on the filenames, then forwards to the \texttt{\_parse\_files} action in the currently selected parser subclass. This action creates an R process to generate the root datafile.

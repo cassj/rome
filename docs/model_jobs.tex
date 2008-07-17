@@ -1,0 +1,5 @@
+\subsubsection{Jobs}
+\label{sec:model_jobs}
+\paragraph{}
+Processors are able to create jobs from a process and queue them to be run. The queue is implemented in the database table \texttt{queue} which holds (among other things) the ID of the job and its current status. Once the job is run, it also holds information about when the job started running and where. Jobs are run by a job scheduler, something discussed in more detail in section \ref{sec:job_scheduling}
+

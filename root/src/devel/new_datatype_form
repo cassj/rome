@@ -1,0 +1,32 @@
+<form action="/devel/datatype/create" 
+      method="post" 
+      onsubmit=" new Ajax.Updater( 'datatype_create_results',  
+                                   '[%Catalyst.uri_for('/devel/datatype/create')%]', 
+                                   { parameters: Form.serialize(this), 
+                                     asynchronous: 1,
+				     onComplete: function(){update_current_datatype('current_datatype'); return false;}
+				   } ) ; 	
+                return false"
+>
+
+  <fieldset>
+   <legend>Create a new datatype</legend>
+
+      <div id="datatype_create_results"></div>
+
+    <div class="labelled_input">
+      <label for="name">Name </label>
+      <input type="text" name="name" />
+    </div>
+
+    <div class="labelled_input">
+      <label for="description">Description</label>
+      <textarea name="description"></textarea>
+    </div>
+
+
+ <input type="submit" name="submit" value="Create datatype" class="button"/>
+     
+</fieldset>   
+
+</form>

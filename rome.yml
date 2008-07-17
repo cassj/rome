@@ -1,0 +1,118 @@
+---
+###
+# Application name. Don't change this!
+###
+
+name: ROME
+root: /home/cassj/work/ROME/root
+
+
+###
+# Database connection details 
+# (have to have name separate from dsn for R)
+###
+Model::ROMEDB:
+  schema_class: ROMEDB
+  name: rome
+  connect_info:
+    - dbi:mysql:rome_test
+    - 'rome'
+    - 'rome'
+    - AutoCommit: 1
+
+###
+# The skin determines the look and feel of ROME. 
+###
+
+skin: 'default'
+
+###
+#System admin email address
+###
+
+admin_email: 'cassj@localhost'
+
+###
+#full path to your userdata file
+###
+
+userdata: '/home/cassj/work/ROME/userdata'
+
+###
+#Location of external binaries ROME requires
+###
+
+#R: '/usr/bin/R'
+sendmail: '/usr/sbin/sendmail'
+
+###
+# Location of the help wiki. You probably don't want to change this.
+###
+
+wiki_root: 'http://bioinformatics.essex.ac.uk/romewiki'
+
+###
+# Location of process templates, relative to main ROME directory
+###
+process_templates: 'process_templates'
+
+
+###
+# Location to store generated job files until they have been successfully run. 
+###
+tmp_job_files: '/home/cassj/work/ROME/tmp_job_files'
+
+###
+# User registration settings. 
+# Set to 1 to enforce email confirmation of registration by user and administrator
+###
+registration:
+    user_confirm: '1'
+    admin_confirm: '0'
+
+###
+# SSL Settings. 
+# Various ROME actions will redirect to a secure server if enabled.
+# If disabled, they will still work, they just won't be secure.
+# Enter details of your secure server here, or set enable to 0
+# Note that if you're using the test server, scripts/rome_server.pl,
+# the secure server redirects are automatically disabled.
+###
+require_ssl:
+    enable: 0
+    https: secure.localhost
+    http: localhost
+    remain_in_ssl: 0
+
+
+
+###
+# Authentication settings.
+# The salt values are used in encrypting passwords.
+# You can set them to some random value on install.
+# Don't change them once there are users in the database.
+###
+
+authentication:
+    dbic:
+        user_class: 'ROMEDB::Person'
+        user_field: 'username'
+        password_field: 'password'
+        password_type: 'hashed'
+        password_hash_type: 'SHA-1'
+        password_pre_salt: 'gibbon' 
+        password_post_salt: ''
+
+
+###
+# Authorization settings.
+# You shouldn't need to change these.
+###
+authorization:
+    dbic:
+        role_class: ROMEDB::Role
+        role_field: name
+        role_rel: map_person_role
+        user_role_user_field: person
+
+

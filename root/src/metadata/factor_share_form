@@ -1,0 +1,111 @@
+<form action="/metadata/factor/share_with_all" 
+      method="post" 
+      onsubmit=" new Ajax.Updater( 'factor_share_all_messages',  
+                                   '/metadata/factor/share_with_all', 
+                                   { 
+                                     parameters: Form.serialize(this),
+                                     asynchronous: 1, 
+                                     onComplete: function(){
+                                                  setTimeout(
+                                                    function(){
+                                                      update_factor_list('factor_list');
+                                                    }, 
+                                                    1000
+                                                  );
+                                                }
+                                   } 
+                                 ) ; return false"
+>
+
+  <fieldset>
+    <legend>Share a factor with everyone</legend>
+
+    <div id="factor_share_all_messages"></div>
+
+   <div class="labelled_input">
+      <label for="factor_name">Factor Name</label>
+      <input type="text" name="factor_name" id="factor_share_all" />
+      <input type="hidden" name="factor_owner" id="factor_share_all_owner">
+      <div id="factor_share_all_autocomplete_choices" class="autocomplete"></div>
+        <script type="text/javascript" language="javascript">
+         // <![CDATA[
+             new Ajax.Autocompleter("factor_share_all",
+	                            "factor_share_all_autocomplete_choices",
+                                    "/metadata/factor/autocomplete",
+                                    {afterUpdateElement:function(e,s_e){$('factor_share_all_owner').value=s_e.childNodes.item(1).childNodes.item(3).innerHTML;}}
+             );
+         // ]]>
+        </script>
+    </div>
+
+
+    <input type="submit" name="submit" value="Share" class="button"/>
+   
+  </fieldset>
+</form>
+
+
+
+
+<form action="/metadata/factor/share_with_workgroup" 
+      method="post" 
+      onsubmit=" new Ajax.Updater( 'factor_share_wg_messages',  
+                                   '/metadata/factor/share_with_workgroup', 
+                                   { 
+                                     parameters: Form.serialize(this),
+                                     asynchronous: 1, 
+                                     onComplete: function(){
+                                                  setTimeout(
+                                                    function(){
+                                                      update_factor_list('factor_list');
+                                                    }, 
+                                                    1000
+                                                  );
+                                                }
+                                   } 
+                                 ) ; return false"
+>
+
+  <fieldset>
+    <legend>Share a factor with a workgroup</legend>
+
+    <div id="factor_share_wg_messages"></div>
+
+   <div class="labelled_input">
+      <label for="factor_name">Factor Name</label>
+      <input type="text" name="factor_name" id="factor_share_wg" />
+      <input type="hidden" name="factor_owner" id="factor_share_wg_owner">
+      <div id="factor_share_wg_autocomplete_choices" class="autocomplete"></div>
+        <script type="text/javascript" language="javascript">
+         // <![CDATA[
+             new Ajax.Autocompleter("factor_share_wg",
+	                            "factor_share_wg_autocomplete_choices",
+                                    "/metadata/factor/autocomplete",
+                                    {afterUpdateElement:function(e,s_e){$('factor_share_wg_owner').value=s_e.childNodes.item(1).childNodes.item(3).innerHTML;}}
+             );
+         // ]]>
+        </script>
+    </div>
+
+
+   <div class="labelled_input">
+      <label for="workgroup_name">Workgroup Name</label>
+      <input type="text" name="workgroup_name" id="factor_workgroup" />
+      <div id="factor_workgroup_autocomplete_choices" class="autocomplete"></div>
+        <script type="text/javascript" language="javascript">
+         // <![CDATA[
+             new Ajax.Autocompleter("factor_workgroup",
+	                            "factor_workgroup_autocomplete_choices",
+                                    "/user/workgroup/autocomplete_member",
+                                    {}
+             );
+         // ]]>
+        </script>
+    </div>
+
+
+
+    <input type="submit" name="submit" value="Share" class="button"/>
+   
+  </fieldset>
+</form>

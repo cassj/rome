@@ -1,0 +1,87 @@
+<ul id="experiment_list">
+
+[%IF error_msg%]<p class="warning">[%error_msg%]</p>[%END%]
+
+<div id="list_action_results"></div>
+
+[% UNLESS my_experiments OR shared_experiments OR public_experiments %]
+<h4>No experiments found</h4>
+[% END %]
+
+<!-- NOTE TO SELF: this should be a table not a list? -->
+
+<h4>Your Experiments:</h4>
+
+[%#          complete => "update_nav(); update_status_bar();",%]
+
+
+[%FOREACH experiment IN my_experiments%]
+  <li id="[%experiment.name%]_[%experiment.owner.username%]">[%experiment.name%][%IF experiment.description%] ([%experiment.description%])[%END%] 
+         [% Catalyst.prototype.link_to_remote( 'Set As Active', {
+          update => 'list_action_results',
+          url    => "/user/set_experiment?name=$experiment.name&owner=$experiment.owner.username",
+          complete => "update_nav(); update_status_bar();"
+	  evalScripts=>'true' 
+         },
+	{class="ajax_link"} )
+        %] 
+
+      [% IF Catalyst.user.username and experiment.owner.username%]
+        [% Catalyst.prototype.link_to_remote( 'Update', {
+          update => 'update_form',
+          url    => "/experiment/update_form?name=$experiment.name&owner=$experiment.owner.username"
+         },{class="ajax_link"} )
+        %]
+
+        <a class="ajax_link delete_check" 
+           href="/experiment/delete?name=[%experiment.name%]&owner=[%experiment.owner.username%]" 
+           onclick="new Ajax.Updater( 
+                         'list_action_results', 
+                         '/experiment/delete?name=[% experiment.name %]&amp;owner=[% experiment.owner.username %]',
+	                 {
+                           onSuccess: function(){setTimeout(function(){
+                                                 update_experiment_list(
+                                                                'search_results',
+                                                                '[%which%]',
+                                                                '[%pattern%]'
+                                                 ); update_current_experiment('current')}, 1000);
+                                      },
+                         }
+                  ); 
+                  return false;"
+        >Delete
+        </a>
+      [% END %]
+[% END %]
+
+<h4>Experiments Shared with your Workgroups:</h4>
+
+[%FOREACH experiment IN shared_experiments%]
+  <li id="[%experiment.name%]_[%experiment.owner.username%]">[%experiment.name%][%IF experiment.description%] ([%experiment.description%])[%END%] 
+         [% Catalyst.prototype.link_to_remote( 'Set As Active', {
+          update => 'list_action_results',
+          url    => "/user/set_experiment?name=$experiment.name&owner=$experiment.owner.username"
+          complete => "update_nav(); update_status_bar();" 
+         },
+	{class="ajax_link"} )
+        %]     
+[% END %]
+
+
+<h4>Public Experiments:</h4>
+
+[%FOREACH experiment IN public_experiments%]
+  <li id="[%experiment.name%]_[%experiment.owner.username%]">[%experiment.name%][%IF experiment.description%] ([%experiment.description%])[%END%] 
+         [% Catalyst.prototype.link_to_remote( 'Set As Active', {
+          update => 'list_action_results',
+          url    => "/user/set_experiment?name=$experiment.name&owner=$experiment.owner.username"
+          complete => "update_nav(); update_status_bar();" 
+         },
+	{class="ajax_link"} )
+        %]     
+[% END %]
+
+</ul>
+
+<div id="update_form"></div>
+

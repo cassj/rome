@@ -1,0 +1,19 @@
+\subsection{Distributed Computing}
+
+GridSAM requires Tomcat to be setup and looks like it might be an epic pita to install. Maybe we should just stick with condor? 
+
+
+\paragraph{}
+Processes in R are queued up to run in the process queue in the database. Many of these processes are processor and memory intensive and as such time consuming to run on a single machine. Currently, ROME has support for Condor. Support for other stuff may be added in the future. GridSAM and JDSL?
+
+installing GridSAM:
+
+1. get the client stack from \url{http://www.omii.ac.uk/wiki/STAFFDownloads}
+unpack it somewhere. You will need to have the java virtual machine installed and JAVA\_HOME set appropriately, for example:
+\texttt{export JAVA_HOME=/usr/lib/jvm/java-6-sun}. Change into the directory you just unpacked, and into its \texttt{client} subdirectory. From here, run \texttt{./OMIIclientInstall.sh} (as root if you want a root install). The installer will ask where you want to install the client and whether you are using http or https proxies. Next, enter the appropriate information and the installer will generate a certificate for you. When it asks if you would like to install software components answer yes. Next, enter \texttt{none} to deselect all components, then 4 to select only GridSAM. Hit enter again and it will download and install the client for you. Once the installation is finished, there should be a directory in your specified installation directory \texttt{omii-uk-client}, where the client files are installed and \texttt{omii-uk-client/gridsam} in which the GridSAM client is installed. You will need to add the GridSAM executables to your path \texttt{export PATH=\$PATH:<path to omii-uk-client>/gridsam/bin}
+
+Installing the server:
+
+you will need postgres. on debian machines apt-get install postgresql will get you the latest version. I assume rpms are available for redhat based distros.
+
+

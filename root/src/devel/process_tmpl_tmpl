@@ -1,0 +1,49 @@
+# Comment rows begun with a hash are R comments - 
+# they will be included in the script but ignored
+# by R.
+
+[%# Comments like this are Template::Toolkit
+    comments and will be ignored when the
+    script template is parsed (and so will
+    not be included in the script)
+%]
+
+
+[%# always include the setup file which does
+    things like setting up the database connection  
+%]
+
+[% INCLUDE 'setup/R' %]
+
+[%# You should now have access to the 
+    following ROME Variables:
+
+   con 
+   rome.data.dir
+   rome.upload.dir
+   rome.static.dir
+   rome.username  
+   rome.experiment_name 
+
+%]
+
+[%# And the datafile names from the processor are in
+
+  rome_datafiles_in
+  rome_datafiles_out
+
+  so you can access a particular input file like:
+  rome_datafiles_in.NameInProcessAccepts.name
+
+%]
+
+
+[%# Arguments from your component controller
+   
+   Whatever you have defined as arguments to this script.
+
+%]
+
+
+
+

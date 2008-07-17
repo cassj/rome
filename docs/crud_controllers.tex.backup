@@ -1,0 +1,26 @@
+\subsubsection{CRUD Controllers}
+\label{sec:crud_controllers}
+
+\paragraph{}
+The controllers defined under the ROME::Controller::CRUD namespace are responsible for generic Create, Retrieve, Update, Delete functions for the main database tables. These can be used by the component controllers. Table \ref{tab:crud_controllers} lists the available CRUD controllers. Each controller has an index action which provides admin-only access to the 
+
+%Lots of stuff missing here.
+
+\begin{table}
+\caption{ROME Plugins}
+\label{tab:plugins}
+\begin{footnotesize}
+\begin{tabular}{ll}
+Person\\
+Role\\
+PersonRole\\
+Workgroup\\
+PersonWorkgroup\\
+Experiment\\
+Datafile\\
+Factor\\
+Level\\
+Process\\
+\end{tabular}
+\end{footnotesize}
+\end{table}

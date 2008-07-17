@@ -1,0 +1,9 @@
+\subsection{Sessions and State}
+\paragraph{}
+HTTP is a stateless protocol: as far as the web server is concerned every client request is unique and unrelated. The concept of sessions
+
+In order to store information between http requests,  User-specific data can be stored on the server and linked to a session key. The session key is also stored client-side, typically in a cookie. The client then sends the session key data along with each request and any data associated with that session key is restored to the session hash. 
+
+Catalyst provides a Session plugin, which adds a session to the the Catalyst context object.
+The Session plugin oversees the management of sessions and requires two further plugins to deal with the mechanics of storing data on the server and maintaining the session state on the client. There are a number of options in Catalyst, but ROME uses cookies on the client-side, as implemented in the Session::State::Cookie plugin and a memory-mapped file as a shared interprocess cache on the server-side, as implemented by Session::Store::FastMmap.
+

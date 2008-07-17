@@ -1,0 +1,13 @@
+Dear [% user.forename %] [% user.surname %],
+
+Welcome to ROME!
+
+You have been registered as user [% user.username %] and should now be able to login by pointing your web browser at:
+
+[% link %]
+
+Thank you for testing this beta version of ROME. Please be aware that the server is still under development and data stored on the server is not guaranteed to remain there indefinitely. If you create files you wish to keep, it would be prudent to download a copy.
+
+If you have any problems with ROME, or suggestions on how we could improve the server, please contact Caroline at [% admin_email%].
+
+Thanks!

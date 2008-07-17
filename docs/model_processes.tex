@@ -1,0 +1,10 @@
+\subsubsection{Processes}
+\label{sec:model_processes}
+\paragraph{}
+Each process is stored in the database in the \texttt{process} table. Processes belong to components and the primary key of the table is composed of the three columns \texttt{name, component\_name} and \texttt{component\_version} to reflect this. A single process corresponds to a single script template, the filename of which is stored in the \texttt{tmpl\_file} field. The location of the template files is determined by the config file (\texttt{rome.yml}) \texttt{process\_templates} setting (by default the process\_templates directory in the ROME home directory) and the \texttt{tmpl\_file} should be relative to this location. Processes have associated \texttt{parameters} defined in the \texttt{parameter} table. Datatypes of the input datafiles this process expects and the datafiles this process produces are held in the \texttt{process\_accepts} and \texttt{process\_creates} tables. 
+
+\paragraph{}
+Parameters, input datafiles and output datafiles are linked to the process table using the primary key, including the version number. This means that different versions of a component can potentially have a process with different input parameters or input and output datafiles. For clarity's sake, and to avoid having to recreate workflows every time a process in that workflow is updated with any change, it is assumed that only major version number changes correspond to changes which will affect that component's processes' interfaces with ROME (the parameters and datafiles they use).
+
+% Parameter constraints are defined (when the process is installed) in the database \texttt{parameter\_constraint} table as perl subroutine references and serialized to the database using the Storable.pm freeze method. 
+

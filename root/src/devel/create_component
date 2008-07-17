@@ -1,0 +1,21 @@
+[% META title="Component Development" %]
+
+[% IF Catalyst.check_user_roles("dev") %]
+
+<div id="current_component">
+  [% INCLUDE devel/current_component.tt2 %]
+</div> 
+
+<div id="select_component">
+  [% INCLUDE 'devel/select_component.tt2'%]
+</div>
+
+<div id="new_component">
+  [% INCLUDE 'devel/new_component.tt2' %]
+</div>
+
+[% ELSE %]
+
+<p class="warning">You do not have permission to access this page</p>
+
+[% END %]

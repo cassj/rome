@@ -1,0 +1,7 @@
+[% META title = 'Userlist' %]
+
+<ul>
+  [%FOREACH user IN Catalyst.model('Person')%]
+   <li>[%user.username%]</li>
+  [%END%]
+</ul>

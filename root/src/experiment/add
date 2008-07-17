@@ -1,0 +1,52 @@
+<form action="/experiment/add" 
+      method="post" 
+      onsubmit=" new Ajax.Updater( 'add_results',  
+                                   '/experiment/add', 
+                                   { parameters: Form.serialize(this),
+                                     asynchronous: 1,
+                                     onSuccess: function(){$('search_results').innerHTML='';}
+
+                                   } ) ; return false"
+>
+
+  <fieldset>
+   <legend>Create a new experiment</legend>
+
+      <div id="add_results"></div>
+
+      <div class="labelled_input">
+        <label for="name">Name</label>
+        <input type="text" name="name"/>
+      </div> 
+
+      [%IF Catalyst.check_user_roles('admin')%]
+      <div class="labelled_input">
+        <label for="owner">Owner</label>
+        <input type="text" id="owner" name="owner"/>
+	<div id="owner_autocomplete_choices" class="autocomplete"></div>
+        <script type="text/javascript" language="javascript">
+        // <![CDATA[
+             new Ajax.Autocompleter("owner","owner_autocomplete_choices","/experiment/autocomplete_owner",{});
+        // ]]>
+        </script>
+      </div>
+      [%ELSE%]
+        <input type="hidden" name="owner" value="[%Catalyst.user.username%]">
+      [%END%]
+
+
+      <div class="labelled_input">
+         <label for="pubmed_id">Pubmed ID</label>
+         <input type="text" name="pubmed_id">
+      </div>
+
+      <div class="labelled_input">
+        <label for="description">Description</label>
+        <textarea name="description"></textarea>
+      </div>
+
+<br/><input type="submit" name="submit" value="add experiment" class="button"/>
+     
+</fieldset>   
+
+</form>

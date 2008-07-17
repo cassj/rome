@@ -1,0 +1,5 @@
+\subsubsection{Components}
+\label{sec:model_components}
+
+\paragraph{}
+The \texttt{component} table holds information about ROME add-on components. It has a two column primary key of \texttt{name} and \texttt{version} and an optional (but advisable) \texttt{description} of this component. It also has an \texttt{installed} field which is a boolean flag stating whether this version of this component is currently installed. Only one version of a given component name can be installed at a time but other versions remain in the database along with the versioned entries for their processes. These will be referenced by any jobs in which they were used. This provides a record of the specific version of a process used to create a given datafile. More information about component versioning can be found in section \ref{sec:controller_admin} which discusses component installation and uninstallation via the Admin controller 

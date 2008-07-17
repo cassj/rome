@@ -1,0 +1,74 @@
+\subsection{View}
+\label{sec:view}
+
+\paragraph{}
+Currently the only ROME View module is based on Template Toolkit (TT). The module in question is \texttt{ROME::View::TT} and simply defines some TT settings.  Templates are given access to the catalyst context object (as \texttt{Catalyst}), the locations of the templates is defined (\texttt{root/src} and \texttt{root/skins/<currently\_active\_skin>}),  \texttt{config/main} is set to be run before any other template, \texttt{site/wrapper} is defined as the wrapper for each page and \texttt{site/error} is defined as the generic error response. Using this view module, component designers need only template a bit of html to display the data their controller has generated. It will automatically be wrapped with the appropriate headers.
+
+\subsubsection{Look and Feel}
+
+\paragraph{}
+Although the way in which data is presented to the user is, to some degree, component-specific, the overall look and feel of ROME is easily customisable. Simple changes, such as modifying the colour-scheme, can be achieved trivially in the config files. More dramatic changes can be achieved by designing new skins. Figure \ref{fig:default_skin} shows the default ROME skin (based on the default Catalyst style). Figure \ref{fig:lpc_skin} shows the skin used for the London Pain Consortium.
+
+\clearpage
+\begin{figure}
+\centering
+\caption{Default ROME skin}\label{fig:default_skin}
+\includegraphics[scale=0.2]{images/default_skin}
+\centering
+\caption{LPC ROME Skin}\label{fig:lpc_skin}
+\includegraphics[scale=0.2]{images/lpc_skin}
+\end{figure}
+
+
+
+
+\paragraph{}
+Multiple skins may be stored in \texttt{root/skins} and the selected skin is specified in the main config file. A skin consists of two directories, \texttt{config} and \texttt{site}.
+
+\paragraph{}
+The config files are Template Toolkit (section \ref{sec:tt}) files which define configuration settings for the templates in \texttt{site}. The default skin has two config files, \texttt{main}, and \texttt{col}. The various settings these files define can be accessed in the site templates as \texttt{site.setting\_name}, for example \texttt{site.col.page}.  Altering the colour scheme for ROME, can be acheived simply by altering the colours in \texttt{col}. \texttt{main} is used to define any other global template code, though this gets little use in the default skin. 
+
+\paragraph{}
+The files in the site directory of the default skin are Template Toolkit files defining the site-wide layout of ROME. 
+
+\paragraph{wrapper: }
+This template checks what type of content we are dealing with. If it is an AJAX response (as determined by the current value of the \texttt{ajax} parameter in the Catalyst stash) it returns the content as a chunk of XML, without wrapping it. Otherwise, it wraps the content from \texttt{site/layout} in \texttt{site/html}. There should be no need to edit this file during normal administration of a ROME installation.
+
+\paragraph{html: }
+This template defines the html tag and everything in the head of every page of ROME. This includes loading of css and javascript files. Again, there should be no call for an administrator to edit this file.
+
+\paragraph{layout: }
+This is where the layout of the body is defined. It creates a div called \texttt{header} into which it inserts \texttt{site/header} and \texttt{site/nav}. This is followed by the \texttt{status\_bar} div, which contains \texttt{site/status\_bar}. The main content is in a div with ID \texttt{content} which contains \texttt{site/messages} and the catalyst generated content. Finally, the footer div contains \texttt{site/footer}.
+
+\paragraph{}
+Major changes to the layout, for example moving the navigation menu from the header, may entail changes to the div structure in this file. Most alterations are probably better achieved in the template files for the individual sections which this file includes. These are described below.
+
+\paragraph{header: }
+The header currently just adds either the title of the current template or, failing that, the site title to the top of the page. It can be changed to include anything required to appear at the top of every page, though for usability it makes sense to keep the page titles in there somewhere.
+
+\paragraph{nav: }
+\texttt{nav} is the navigation menu, defined as a nested list. Changing nested lists by hand is prone to error, so in order to enable the ROME administrator to alter the structure of their menu this file is generated from a YAML configuration file \texttt{nav.yml} in the ROME directory using the \texttt{script/rome\_makenav.pl} script. The script will automatically generate the appropriate file in \texttt{rome/root/lib/site/nav} and this file should never be edited by hand.
+
+\paragraph{}
+The navigation menu is styled differently depending on the current user's selected experiment and datafile. This allows ROME to make a distinction between menu options which are applicable to the current datafile and those which are not. If a change is made to the current experiment, datafile or user without a page reload (ie. as the result of an AJAX call) then the navigation bar should also be updated. This is achieved via the javascript function \texttt{update\_nav} (defined in \texttt{rome.js}) which simply makes an AJAX call to the Catalyst action \texttt{common/nav}. 
+
+
+\paragraph{status\_bar: }
+The status bar contains information about the current user, including the active experiment and datafile. As with the navigation bar, the \texttt{status\_bar} is context dependant and can be updated following an AJAX-based change in the user, experiment or datafile via a call to the javascript \texttt{update\_status\_bar} function which makes an AJAX call to the \texttt{common/status\_bar} action.
+
+\paragraph{}
+Cosmetic changes can be made to the status bar, but generally changes should not alter the catalyst variables used in the template. The template has access to the Catalyst context object, so in principle extra information could be displayed in the bar, but it is important to ensure that this information will remain valid across any AJAX calls which do not update the status bar.
+
+\paragraph{footer: }
+The footer contains information to appear at the bottom of every page. Typically, details of where the site is based, who to contact with problems and so forth. This can be changed completely with no adverse consequences to ROME function although for user-friendliness it makes sense to keep an administrator contact email in the footer.
+
+
+
+\subsubsection{Making a new skin}
+
+\paragraph{}
+The simplest way to make a new ROME skin is to copy the default skin and alter the files to suit. For example, to make a new skin called \texttt{foo}, simply copy \texttt{root/skins/default} to \texttt{root/skins/foo} and make any required changes. 
+
+\paragraph{}
+To use the new skin, just change \texttt{skin: 'default'} to \texttt{skin: 'foo'} in \texttt{rome.yml}.  The view module (\texttt{ROME/View/TT.pm}) is set up to search the directory specified by the config file for templates.
+

@@ -1,0 +1,25 @@
+[% # config/main
+   #
+   # This is the main config template, as created by TTSite.
+   # I don't really use it much, but it is defined as a PRE_PROCESS
+   # template so if you have generic template setup stuff to do, this is
+   # probably where it should go. 
+   # Config stuff is probably better in the yml file though.
+
+   IF Catalyst.debug;
+     # define a debug() macro directed to Catalyst's log
+     MACRO debug(message) CALL Catalyst.log.debug(message);
+   END;
+
+   # define a data structure to hold sitewide data
+   site = {
+   };
+
+   # load up any other configuration items 
+   PROCESS config/col;
+
+   # set defaults for variables, etc.
+   #DEFAULT 
+   #    foo = 'bar';
+
+-%]

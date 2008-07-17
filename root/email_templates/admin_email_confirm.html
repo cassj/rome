@@ -1,0 +1,27 @@
+<html>
+<body>
+Dear ROME administrator,
+
+<p>
+Your ROME installation has received a registration request for the user [% user.username %]
+</p>
+
+<p>
+<strong>Name:</strong> [% user.forename %] [% user.surname %]<br/>
+<strong>Email:</strong> [% user.email%]<br/>
+<strong>Institution</strong> [% user.institution %]<br/>
+
+<p>
+If you would like to confirm their registration, please follow the link below:
+</p>
+
+<p>
+<a href="[% link %]">[% link %]</a>
+</p>
+
+<p>
+If you do not want to allow the user to register, you can simply do nothing. Their registration will time out. You may wish to contact the user on <a href="mailto:[%user.email%]">[% user.email %]</a> to explain why their registration was disallowed.
+</p>
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+<h4>Experimental Outcomes</h4>
+
+<ul>
+[% FOREACH outcome IN Catalyst.user.experiment.outcomes %]
+  <li>[% outcome.name %]</li>
+[% END %]
+</ul>

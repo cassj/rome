@@ -1,0 +1,24 @@
+[% META title = 'ROME Workgroups' %]
+
+<!--Pending Join Requests -->
+[%INCLUDE 'workgroup/pending_joins_user.tt2'%]
+
+<!--Pending Invites-->
+[%INCLUDE 'workgroup/pending_invites_user.tt2'%]
+
+
+<!-- List of user's workgroups  -->
+<div id="workgroup_list">
+ [% INCLUDE 'workgroup/my_workgroups.tt2'%]
+</div>
+
+<!-- Create new workgroups -->
+<div id="workgroup_create">
+     [% INCLUDE 'workgroup/create.tt2' %]
+</div>
+
+
+<!-- Find existing workgroups to join -->
+<div id="workgroup_search">
+     [% INCLUDE 'workgroup/search.tt2' %]
+</div>

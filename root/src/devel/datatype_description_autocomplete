@@ -1,0 +1,6 @@
+<ul>
+[%WHILE (datatype = datatypes.next)%]
+     <li>[%datatype.description%]<span class="informal">(<span>[%datatype.name%]</span>)</span>
+     </li>  
+[%END%]
+</ul>

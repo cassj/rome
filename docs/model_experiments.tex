@@ -1,0 +1,11 @@
+\subsubsection{Experiments}
+\label{sec:model_experiments}
+
+\paragraph{}
+Experiments are represented in the database in the \texttt{experiment} table. The experiment primary key is composed of the \texttt{name} and \texttt{owner} columns, which enforces the constraint that experiment names must be unique for a given user. \texttt{date\_created} and \texttt{description} fields are self-explanatory. The \texttt{pubmed\_id} allows an experiment to be linked with the paper in which it was first described. The experiment's \texttt{status} determines who is able to view the experiment.
+
+
+%The \texttt{root\_datafile} field stores the location of the first R datafile in this experiment, from which all others are derived. This is used internally and cannot be changed once set, even by an administrator. Obviously, many experiments produce data in the form of multiple files. These are parsed into a single R data structure which becomes the \texttt{root\_datafile}. For example multiple Affymetrix \texttt{.cel} files are parsed into an AffyBatch object. For more details see sections \ref{sec:datafile_management} (datafile management) and \ref{sec:parsers} (ROME parsers).
+
+\paragraph{}
+An experiment can be private, shared or public. A private experiment is viewable only by its owner (the person who created it). A shared experiment is viewable by everyone in the workgroups with which that experiment is shared. A public experiment is viewable by anyone. Regardless of the status of an experiment, only the owner has permissions to alter it. This includes both changing its attributes in the database and running further analysis steps.

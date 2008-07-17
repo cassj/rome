@@ -1,0 +1,18 @@
+  [%IF Catalyst.user_exists%]
+    <span id="current_user">User: [%Catalyst.user.username%]</span>
+    <span id="current_experiment">
+      [%IF Catalyst.user.experiment%]
+       [%experiment = Catalyst.user.experiment%]
+        Experiment: [%experiment.name%][%UNLESS experiment.owner.username == Catalyst.user.username%]([%experiment.owner.username%])[%END%]
+      [%ELSE%]
+        <span class="warning">No experiment selected</span>
+      [%END%]
+    </span>
+    <span id="current_datafile">
+      [%IF Catalyst.user.datafile%]
+        Datafile: [%Catalyst.user.datafile.name%]
+      [%ELSE%]
+        <span class="warning">No datafile selected</span>
+      [%END%]
+    </span>
+  [%END%]

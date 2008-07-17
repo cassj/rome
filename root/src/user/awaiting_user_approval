@@ -1,0 +1,6 @@
+[% META title = 'Registration Incomplete' %]
+
+<p>An email has been sent to <span class="highlight">[%user.username%]([%user.email%])</span> containing instructions for confirming this registration.</p>
+
+<p>If you do not receive the email shortly after submitting your registration, please contact [%Catalyst.config.admin_email%]</p>
+

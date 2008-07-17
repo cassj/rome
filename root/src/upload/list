@@ -1,0 +1,50 @@
+[% VIEW dir_tree_view %]
+
+  [% BLOCK file %]
+     [%url = "/upload/delete/$subdir/$item.name"%]
+
+     <li>
+         <a href="#" 
+            onclick=" if(confirm('are you sure you want to delete this file?')){ 
+                       new Ajax.Updater( 'dir_list',  
+                                        '[%url%]', 
+                                        { asynchronous: 1, evalScripts:'true'} ) } ; return false">
+            <img src="delete.gif" alt="delete_button" class="delete_img"/>
+         </a>  
+        [% item.name %]      
+    </li>
+  [% END %]
+    
+  [% BLOCK directory %]
+      <li class="toggle">
+       [% item.name %]
+     </li>    
+     <ul>
+     [%UNLESS item.name == 'uploads'%][%subdir = item.name%][%END%]
+     [% item.content(dir_tree_view) FILTER indent %]
+     </ul>
+  [% END %]
+
+[% END %]
+
+[%upload_dir = Catalyst.user.upload_dir%]
+[% USE dir = Directory("$upload_dir", recurse=1) %]
+
+
+<div id="dir_list">
+<ul class="dir_list">
+  <h3>Upload Directory Contents...</h3>
+  <p>If you want to delete files, just click the delete icon next to the filename. Empty directories are automatically deleted.</p>
+
+   [%IF error_msg%]<p class="warning">[%error_msg%]</p>[%END%]
+   [%IF status_msg%]<p class="message">[%status_msg%]</p>[%END%]
+
+  [% dir_tree_view.print(dir) %]
+</ul>
+</div>
+
+
+<script type="text/javascript">
+  // set your toggles on the list.
+  set_toggles();
+</script>

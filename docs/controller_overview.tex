@@ -1,0 +1,75 @@
+\subsubsection{Overview}
+\label{sec:controller_overview}
+
+
+\paragraph{}
+Catalyst provides the basis for the controller tier. The application base class ROME.pm inherits from Catalyst.pm, which, as discussed in section \ref{sec:catalyst} deals with many generic tasks such as parsing the request into a perl object, mapping the URL to the appropriate controller action and so on. The main functions of ROME.pm are to load in some extra functionality via a number of plugins and to perform some inital configuration of the application.
+
+\paragraph{Plugins}
+The full list of plugins loaded by ROME.pm is shown in table \ref{tab:plugins}, along with a brief description of each. Some further details are also provided regarding some of the more important plugin functionalities.
+
+
+\begin{table}
+\caption{ROME Plugins}
+\label{tab:plugins}
+\begin{scriptsize}
+\begin{tabular}{ll}
+ConfigLoader & Automatic loading of config file\\
+Static::Simple & Serving of static files\\
+Cache::FastMmap & mmap'ed file as shared memory interprocess cache\\
+Authentication &  Support for Authentication\\
+Authentication::Store::DBIC & Authentication via DBIC data store\\
+Authentication::Credential::Password & Authentication using passwords\\
+Authorization::Roles & Access controls using Roles\\
+Session & Session Management\\
+Session::Store::FastMmap & Server side session implementation using FastMmap\\
+Session::State::Cookie & Client side session implementation using cookies\\
+RequireSSL & Allows actions to require a secure connection\\
+FormValidator & Data::FormValidator validation of form data\\
+FillInForm & Automatic form completion\\
+Prototype & Convienience functions for prototype.js use\\
+UploadProgress & AJAX-enable upload-progress functionality\\
+SubRequest & Support for Catalyst SubRequests\\
+\end{tabular}
+\end{scriptsize}
+\end{table}
+
+\paragraph{Configuration}
+\paragraph{}
+Most of the configuration of the application is performed in the YAML configuration file \texttt{rome.yml} so that administrators never have to edit the code itself. The YAML file defines the name and root location of the application. It also defines values for context-dependent settings like database connection details, the selected skin, the location of external binaries and various movable directories, administrator email preferences and so on. ROME.pm sets up the application to use this configuration file.
+
+
+
+\paragraph{Sessions}
+\paragraph{}
+HTTP is a stateless protocol: as far as the web server is concerned every client request is unique and unrelated. Clearly for a web-application it is important to be able to keep track of users. The relationship between client and server is made to persist across multiple requests using the concept of sessions. User-specific data can be stored on the server and linked to a session key. The session key is also stored client-side, typically in a cookie. The client then sends the session key data along with each request and any data associated with that session key is restored to the session hash. Catalyst provides a Session plugin, which oversees the management of sessions and requires two further plugins to deal with the mechanics of storing data on the server and maintaining the session state on the client. There are a number of options in Catalyst, but ROME uses cookies on the client-side, as implemented in Catalyst::Plugin::Session::State::Cookie and a memory-mapped file as a shared interprocess cache on the server-side, as implemented by Catalyst::Plugin::Session::Store::FastMmap.
+
+
+\paragraph{Authentication and Authorization}
+
+\paragraph{}
+Both authentication (verifying that the user is who they claim to be) and authorization (verifying that the user has access rights to a given part of the application) are implemented using Catalyst plugin modules. 
+
+\paragraph{}
+Catalyst::Plugin::Authentication provides methods for user login and logout. It uses the sub-plugins Catalyst::Plugin::Credential::Password and Authentication::Store::DBIC to check a username and supplied password against the SHA1 encrypted password stored in the \texttt{person} table of the database. Although the passwords are encrypted in the database, they are sent as plaintext between the client and server. To improve security, ROME uses Catalyst::Plugin::RequireSSL which, in a production environment, forces redirect to a secure server.
+
+\paragraph{}
+Catalyst::Plugin::Authorization::Roles is used (in conjunction with the \texttt{role} and \texttt{person\_role} tables in the database) to allow controller actions to limit access to users with a particular role. This is frequently used to, for example, limit access to users who have the \textit{admin} role. This level of access control is separate from the access controls on experiments and datafiles, which are implemented as part of ROME and are described elsewhere.
+
+
+\paragraph{Constraints}
+
+\paragraph{}
+User input data is always a potential source of insecurity in an application. DBIx::Class, which uses bind variables, greatly reduces the possibility of SQL injection attacks however data validation should also be performed by any action using user-supplied data. The Data::FormValidator plugin allows ROME controllers to validate user input from HTML forms via the CPAN module Data::FormValidator (DFV). For a given form, the controller defines a DFV profile, which describes required and optional parameters, and constraints on those parameters (further details can be found in the DFV documentation). To validate the contents of a submitted form against a particular profile, the controller can then do something like \verb|$c->form($dfv\_profile);|. The author of a controller is free to define whatever constraints they like on their input data or they can use some of the pre-defined constraints in the ROME::Constraints package.
+
+% \paragraph{}
+% One important security issue to note: Form parameters in Catalyst are handled in a similar fashion to the older, but still widely used, CGI.pm. They can be accessed like \verb|$c->query->param('name')|. For a single-valued parameter the result will be the scalar value. For a multi-valued parameter, however, the result is an array. This makes code like:
+% 
+% \begin{verbatim}
+%   my $user = $c->model('ROMEDB::Person')->create({ 
+%       username => $c->req->param('username'), 
+%       ...
+%   });
+% \end{verbatim}
+% 
+% potentially dangerous, for reasons discussed on the Catalyst mailing list at \url{http://lists.scsys.co.uk/pipermail/catalyst/2007-December/016329.html}. Data::FormValidator validation of the parameter values will not necessarily catch this as it automatically deals with multi-valued parameters by validating them each seperately against the constraints for that field. To avoid the problem it is important that any field that is assumed to be single valued in the controller code is validated with ROME::Constraints::is\_single. If the field has other constraints, this one should be first in the list. 

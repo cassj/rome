@@ -1,0 +1,48 @@
+<form action="/devel/process/add_template" 
+      method="post" 
+      onsubmit=" new Ajax.Updater( 'process_add_template_results',  
+                                   '/devel/process/add_template', 
+                                   { parameters: Form.serialize(this), 
+                                     asynchronous: 1
+				   } ) ; 	
+                return false"
+>
+
+
+  <fieldset>
+   <legend>Add a template to a process</legend>
+
+   <p class="message">ROME will perform some basic checks of the script template against the datatypes the process accepts and creates and the parameters the process expects. Make sure you have defined these things before you upload the script template or the checks will fail.</p>
+
+      <div id="process_add_template_results"></div>
+
+
+
+      <div class="labelled_input">
+        <label for="process_name">Process Name</label>
+        <input type="text" id="process_name" name="process_name"/>
+	<div id="process_autocomplete_choices" class="autocomplete"></div>
+        <script type="text/javascript" language="javascript">
+        // <![CDATA[
+             new Ajax.Autocompleter("process_name",
+                                    "process_autocomplete_choices",
+                                    "/devel/process/autocomplete",
+                                    {afterUpdateElement:function(e,s_e){$('component_version').value=s_e.childNodes.item(1).childNodes.item(1).innerHTML;}});
+        // ]]>
+        </script>
+      </div>
+
+      <input type="hidden" name="component_version" id="component_version"/>
+
+
+
+       <div class="labelled_input">
+          <label for="tmpl_file">Template File:</label>
+          <input type="file" name="tmpl_file" />
+       </div>
+
+ <input type="submit" name="submit" value="Add template" class="button"/>
+     
+</fieldset>   
+
+</form>

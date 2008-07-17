@@ -1,0 +1,10 @@
+Dear [% user.forename %] [% user.surname %], 
+
+ROME has received your registration request. To confirm that you wish to register as user [% user.username %], please open the following URL in your web browser:
+
+[% link %]
+
+Many thanks,
+
+ROME.
+

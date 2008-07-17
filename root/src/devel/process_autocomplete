@@ -1,0 +1,9 @@
+<ul>
+[%WHILE (process = processes.next)%]
+     <li>[%process.name%]<span class="informal">
+        (<span>[%process.component_name%]</span> 
+         <span>[%process.component_version%]</span>)
+	 </span>
+     </li>  
+[%END%]
+</ul>

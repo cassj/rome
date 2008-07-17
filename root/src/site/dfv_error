@@ -1,0 +1,8 @@
+<div id="dfv_error">
+
+<h1>TEST</h1>
+ [% FOREACH thing IN Catalyst.form.msgs %]
+ <div class="name">[% thing.key %]:</div> <div>[% thing.value %]</div>
+ [% END %]
+</div>
+

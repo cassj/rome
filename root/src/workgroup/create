@@ -1,0 +1,63 @@
+<form action="/workgroup/add" 
+      method="post" 
+      onsubmit=" new Ajax.Updater( 'add_results',  
+                                   '/workgroup/add', 
+                                   { parameters: Form.serialize(this), 
+                                     asynchronous: 1,
+				     onComplete: function(){
+                                                  setTimeout(
+                                                    function(){
+                                                      update_workgroup_list('workgroup_list');
+                                                    }, 
+                                                    1000
+                                                  );
+                                                }
+				   } ) ; 	
+                return false"
+>
+
+
+[%#Catalyst.prototype.form_remote_tag({
+     update => 'add_results',
+     url    => "/workgroup/add",
+     onComplete => 'update_workgroup_list("workgroup_list");',
+   } )
+%]
+
+  <fieldset>
+   <legend>Create a new workgroup</legend>
+
+      <div id="add_results"></div>
+
+      <div class="labelled_input">
+        <label for="name">Name</label>
+        <input type="text" name="name"/>
+      </div> 
+
+      [%IF Catalyst.check_user_roles('admin')%]
+      <div class="labelled_input">
+        <label for="leader">Leader</label>
+        <input type="text" id="leader" name="leader"/>
+	<div id="leader_autocomplete_choices" class="autocomplete"></div>
+        <script type="text/javascript" language="javascript">
+        // <![CDATA[
+             new Ajax.Autocompleter("leader","leader_autocomplete_choices","/workgroup/autocomplete_leader",{});
+        // ]]>
+        </script>
+      </div>
+      [%ELSE%]
+        <input type="hidden" name="leader" value="[%Catalyst.user.username%]">
+      [%END%]
+
+      <div class="labelled_input">
+        <label for="description">Description</label>
+        <textarea name="description"></textarea>
+      </div>
+
+<br/><input type="submit" name="submit" value="create workgroup" class="button"/>
+     
+</fieldset>   
+
+</form>
+
+

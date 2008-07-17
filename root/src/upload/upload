@@ -1,0 +1,47 @@
+[%META title="Upload Files"%]
+
+<div id="form">
+
+<div id="progress"></div>
+ 
+<div id="upload_messages"></div>
+
+
+    <form action="/upload"
+          method="post"
+          enctype="multipart/form-data"
+          onsubmit="return startEmbeddedProgressBar(this)" >
+
+        <fieldset>
+            <legend>Select a file to upload...</legend>
+
+	    <p>If you have many files, you can upload a zipped file or a tarball (optionally gzipped)
+            <br/>It will be unpacked for you at the other end.
+	    <br/>Do not include any directory structures when you pack up the files as this is not currently supported.
+	    </p>
+
+	   <div class="labelled_input">
+               <label for="upload_file">File:</label>
+               <input type="file" name="upload_file" />
+            </div>
+
+            <div class="labelled_input">
+               <label for="subdir">Sub-directory: </label>
+               <input type="text" name="subdir" id="subdir" />
+               <div id="subdir_autocomplete_choices" class="autocomplete"></div>
+                 <script type="text/javascript" language="javascript">
+                 // <![CDATA[
+                     new Ajax.Autocompleter("subdir","subdir_autocomplete_choices","/upload/autocomplete_subdir",{});
+                 // ]]>
+                 </script>
+               </div>
+
+            <br/><input type="submit" class="button" value="Upload"/><br/>
+        </fieldset>
+    </form>
+
+</div>
+
+
+
+[%INCLUDE 'upload/list.tt2'%]

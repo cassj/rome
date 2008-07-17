@@ -1,0 +1,16 @@
+<h4>Create a new factor and add it to the current experiment</h4>
+
+ [% Catalyst.prototype.link_to_remote( 'Create a Factor', {
+      update => 'factor_level_forms',
+      url    => "/metadata/factor/create_form",
+      evalScripts => 'true',
+    },{class="ajax_link"} )
+ %]
+
+ [% Catalyst.prototype.link_to_remote( 'Create a  Level of a factor', {
+      update => 'factor_level_forms',
+      url    => "/metadata/level/create_form",
+      evalScripts=>'true',
+    },{class=>"ajax_link"} )
+  %]
+<div id="factor_level_forms"></div>

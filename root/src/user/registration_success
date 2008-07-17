@@ -1,0 +1,6 @@
+[% META title = 'Registration Complete' %]
+
+<p class="subTitle">Thank you for testing these tools.</p>
+
+<p class="mainText">user <span class="highlight">[%user%]</span> may now <a href="[%Catalyst.uri_for('/user/login')%]">login</a>
+

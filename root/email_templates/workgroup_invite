@@ -1,0 +1,20 @@
+ROME user [%user.username%] has received an invitation to join the workgroup [%workgroup.name%]
+
+To accept the invitation go to:
+
+[% accept_link %]
+
+To deny the invitation, go to:
+
+[% deny_link %]
+
+(You will need to be logged in to ROME in order to do this)
+
+
+Many thanks,
+
+ROME
+
+
+----
+If you have been sent this mail in error, please contact the ROME administrator at [% Catalyst.admin_email%]

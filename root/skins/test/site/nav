@@ -1,0 +1,59 @@
+ <ul id="nav_list">
+
+  <li><a title="Start here" href="#" class="dropdown">Start Here</a>
+   <ul>
+    <li><a class="active"title="Login to ROME" href="/user/login">Login</li></a>
+    <li><a class="active"title="End your ROME session" href="/user/logout">Logout</li></a>
+    <li><a class="active"title="Create a ROME account" href="/user/register">Register</li></a>
+    <li><a class="active"title="Request a new password by email" href="/user/lost_password">Lost Password?</li></a>
+   </ul>
+  </li>
+
+  <li><a title="Update your account details" href="#" class="dropdown">My Account</a>
+   <ul>
+    <li><a class="active"title="Reset your password" href="/user/reset_password">Reset Password</li></a>
+    <li><a class="active"title="Account details." href="/user/account">My Details</li></a>
+    <li><a class="active"title="Manage your workgroups" href="/user/workgroups">My Workgroups</li></a>
+   </ul>
+  </li>
+
+  <li><a title="Session" href="#" class="dropdown">Session</a>
+   <ul>
+    <li><a class="active"title="Manage your experiments" href="/crud/experiment">Manage Experiments</li></a>
+    <li><a class="active"title="Describe experimental treatments" href="/metadata">Experimental Factors</li></a>
+    <li><a class="active"title="Upload data" href="/upload">Upload Data</li></a>
+    <li><a class="active"title="Parse raw data into an experiment" href="/parse">Parse Data</li></a>
+    <li><a class="active"title="Describe your experiment" href="">treatments</li></a>
+    <li><a class="active"title="Manage your datafiles" href="">datafiles</li></a>
+    <li><a class="active"title="Export datafiles" href="">Data Export</li></a>
+   </ul>
+  </li>
+
+[% IF Catalyst.user.check_roles('dev')%]
+  <li><a title="Developer tools" href="#" class="dropdown">Developer Tools</a>
+   <ul>
+    <li><a class="active"title="View the database schema" href="">Database Schema</li></a>
+    <li><a class="active"title="miRBASE dev component" href="">miRNA</li></a>
+   </ul>
+  </li>
+[% END %]
+
+[% IF Catalyst.user.check_roles('admin') or Catalyst.user.check_roles('dev')%]
+  <li><a title="Administration tools" href="#" class="dropdown">Admin Tools</a>
+   <ul>
+    <li><a class="active"title="Manage users" href="/crud/person">Manage Users</li></a>
+    <li><a class="active"title="Manage roles" href="/crud/role">Manage Roles</li></a>
+    <li><a class="active"title="Manage user roles" href="/crud/personrole">Manage User Roles</li></a>
+    <li><a class="active"title="Manage workgroups" href="/crud/workgroup">Manage Workgroups</li></a>
+    <li><a class="active"title="Add and delete members of workgroups" href="/crud/personworkgroup">Manage Workgroup Members</li></a>
+    <li><a class="active"title="Manage Factors" href="/crud/factor">Manage Factors</li></a>
+
+  <li><a title="" href="#" class="dropdown">Admin</a>
+   <ul>
+    <li><a class="active"title="Approve Registrations" href="">Approve Registrations</li></a>
+   </ul>
+  </li>
+   </ul>
+  </li>
+[% END %]
+ </ul>

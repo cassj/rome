@@ -1,0 +1,49 @@
+
+          <h4>Template</h4>
+         [% IF process.tmpl_file %]
+            <span class="process_template_file">[%process.tmpl_file%]</span>
+         [% ELSE %]
+            <span class="warning">No template defined</span>
+         [% END%]
+
+	 <!-- update template file. -->
+	 
+
+	 <div id="form">
+
+	 <div id="progress"></div>
+ 
+   	  <form id="process_template_upload_form" 
+	    action="[%Catalyst.uri_for('/devel/process/template/upload')%]"
+            method="post"
+            enctype="multipart/form-data">
+
+            <fieldset>
+              <legend>Update process template file...</legend>
+
+	      <div id="template_upload_results"></div>
+
+	      <p class="warning">This will overwrite any existing template for this process</p>
+
+	      <div class="labelled_input">
+                 <label for="template_file">File:</label>
+                 <input type="file" name="template_file" />
+              </div>
+
+	      <input type="hidden" name="process_name" value="[%process.name%]"/>
+	      <input type="hidden" name="process_component_name" value="[%process.component_name%]"/>
+	      <input type="hidden" name="process_component_version" value="[%process.component_version%]"/>
+
+              <br/><input type="submit" 
+	                  class="button" 
+                          value="Add template"
+	      		  onclick="upload_template();"
+
+	      /><br/>
+            </fieldset>
+          </form>
+
+         </div>
+
+
+

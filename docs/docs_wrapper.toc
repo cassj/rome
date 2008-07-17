@@ -1,0 +1,108 @@
+\contentsline {chapter}{\numberline {1}Background}{iii}
+\contentsline {section}{\numberline {1.1}Overview}{iii}
+\contentsline {paragraph}{}{iii}
+\contentsline {section}{\numberline {1.2}Design Decisions}{iii}
+\contentsline {paragraph}{}{iii}
+\contentsline {paragraph}{}{iii}
+\contentsline {paragraph}{}{iii}
+\contentsline {paragraph}{}{iii}
+\contentsline {paragraph}{}{iii}
+\contentsline {paragraph}{}{iv}
+\contentsline {paragraph}{}{iv}
+\contentsline {section}{\numberline {1.3}Catalyst}{iv}
+\contentsline {paragraph}{}{iv}
+\contentsline {paragraph}{}{v}
+\contentsline {paragraph}{}{v}
+\contentsline {paragraph}{}{v}
+\contentsline {paragraph}{}{v}
+\contentsline {paragraph}{}{v}
+\contentsline {paragraph}{}{v}
+\contentsline {subsection}{\numberline {1.3.1}Catalyst Controller Actions}{vi}
+\contentsline {paragraph}{}{vi}
+\contentsline {section}{\numberline {1.4}Sessions}{vi}
+\contentsline {paragraph}{}{vi}
+\contentsline {section}{\numberline {1.5}Error Handling}{vii}
+\contentsline {subsection}{\numberline {1.5.1}Internal Server Errors}{vii}
+\contentsline {paragraph}{}{vii}
+\contentsline {chapter}{\numberline {2}Installation}{ix}
+\contentsline {section}{\numberline {2.1}server}{ix}
+\contentsline {subsection}{\numberline {2.1.1}rome\_server.pl}{ix}
+\contentsline {subsection}{\numberline {2.1.2}Apache}{ix}
+\contentsline {section}{\numberline {2.2}Installation}{x}
+\contentsline {subsection}{\numberline {2.2.1}Database}{x}
+\contentsline {subsection}{\numberline {2.2.2}R/Bioconductor}{x}
+\contentsline {paragraph}{}{x}
+\contentsline {paragraph}{}{x}
+\contentsline {paragraph}{}{x}
+\contentsline {paragraph}{}{x}
+\contentsline {paragraph}{}{x}
+\contentsline {subsection}{\numberline {2.2.3}rome.yml}{x}
+\contentsline {paragraph}{}{xi}
+\contentsline {subsection}{\numberline {2.2.4}Perl, Catalyst}{xi}
+\contentsline {paragraph}{}{xi}
+\contentsline {paragraph}{}{xi}
+\contentsline {paragraph}{}{xi}
+\contentsline {section}{\numberline {2.3}Getting Started}{xii}
+\contentsline {paragraph}{}{xii}
+\contentsline {paragraph}{}{xii}
+\contentsline {paragraph}{}{xii}
+\contentsline {paragraph}{}{xii}
+\contentsline {paragraph}{}{xii}
+\contentsline {section}{\numberline {2.4}User.pm}{xiii}
+\contentsline {paragraph}{}{xiii}
+\contentsline {paragraph}{}{xiii}
+\contentsline {paragraph}{}{xiii}
+\contentsline {section}{\numberline {2.5}Experiment Management}{xiv}
+\contentsline {paragraph}{}{xiv}
+\contentsline {subsection}{\numberline {2.5.1}The database table: experiment}{xiv}
+\contentsline {paragraph}{}{xiv}
+\contentsline {paragraph}{}{xiv}
+\contentsline {paragraph}{}{xiv}
+\contentsline {paragraph}{}{xiv}
+\contentsline {subsection}{\numberline {2.5.2}Sharing Experiments}{xiv}
+\contentsline {paragraph}{}{xiv}
+\contentsline {paragraph}{}{xiv}
+\contentsline {section}{\numberline {2.6}The Perl class: ROME::Controller::CRUD::Experiment}{xiv}
+\contentsline {paragraph}{}{xiv}
+\contentsline {chapter}{\numberline {3}Datafile Management}{xvii}
+\contentsline {chapter}{\numberline {4}Data Parsers}{xviii}
+\contentsline {section}{\numberline {4.1}Parsing}{xviii}
+\contentsline {subsection}{\numberline {4.1.1}Creating your own parser}{xviii}
+\contentsline {chapter}{\numberline {5}Look and Feel}{xxi}
+\contentsline {paragraph}{}{xxi}
+\contentsline {section}{\numberline {5.1}config}{xxi}
+\contentsline {paragraph}{}{xxi}
+\contentsline {section}{\numberline {5.2}site}{xxi}
+\contentsline {subsection}{\numberline {5.2.1}wrapper}{xxi}
+\contentsline {paragraph}{}{xxi}
+\contentsline {paragraph}{}{xxi}
+\contentsline {subsection}{\numberline {5.2.2}html}{xxi}
+\contentsline {paragraph}{}{xxi}
+\contentsline {paragraph}{}{xxi}
+\contentsline {subsection}{\numberline {5.2.3}layout}{xxi}
+\contentsline {paragraph}{}{xxi}
+\contentsline {paragraph}{}{xxi}
+\contentsline {subsection}{\numberline {5.2.4}header}{xxii}
+\contentsline {paragraph}{}{xxii}
+\contentsline {subsection}{\numberline {5.2.5}nav}{xxii}
+\contentsline {paragraph}{}{xxii}
+\contentsline {paragraph}{}{xxii}
+\contentsline {paragraph}{}{xxii}
+\contentsline {subsection}{\numberline {5.2.6}status bar}{xxii}
+\contentsline {paragraph}{}{xxii}
+\contentsline {paragraph}{}{xxii}
+\contentsline {subsection}{\numberline {5.2.7}footer}{xxii}
+\contentsline {paragraph}{}{xxii}
+\contentsline {subsection}{\numberline {5.2.8}Making a new skin}{xxii}
+\contentsline {paragraph}{}{xxii}
+\contentsline {paragraph}{}{xxii}
+\contentsline {chapter}{\numberline {6}Quick Guide to Component Development}{xxiii}
+\contentsline {section}{\numberline {6.1}Your First Component}{xxiii}
+\contentsline {subsection}{\numberline {6.1.1}Debug mode}{xxiii}
+\contentsline {subsection}{\numberline {6.1.2}Getting started}{xxiii}
+\contentsline {subsection}{\numberline {6.1.3}My First Form}{xxvi}
+\contentsline {subsection}{\numberline {6.1.4}AJAX forms}{xxvii}
+\contentsline {subsection}{\numberline {6.1.5}Validating form parameters}{xxviii}
+\contentsline {section}{\numberline {6.2}Autocompletion of form fields}{xxx}
+\contentsline {section}{\numberline {6.3}Autocompletion of form fields}{xxxii}
+\contentsline {subsection}{\numberline {6.3.1}Getting data from ROME}{xxxiv}

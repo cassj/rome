@@ -1,0 +1,45 @@
+<div id="pending_joins">
+<ul>
+  [%FOREACH join IN pending_joins%]
+  <li>
+    [% join.person.username %] ([%join.person.forname%] [%join.person.surname%])
+    
+      <a class="ajax_link" 
+         href="/crud/workgroup/confirm_join/[% join.workgroup.name%]/[%join.person.username%]" 
+         onclick=" new Ajax.Updater( 'pending_join_res',  
+                                     '/crud/workgroup/confirm_join/[% workgroup.name %]/[%join.person.username%]', 
+                                     { asynchronous: 1,
+                                       onSuccess: function(){     
+                                                  setTimeout(
+                                                    function(){
+                                                      update_pending_joins('pending_joins','[%join.workgroup.name%]');
+                                                    }, 
+                                                    1000
+                                                  );
+                                                }
+				     } ) ; 
+                   return false"
+      >Confirm</a>
+
+      <a class="ajax_link" 
+         href="/crud/workgroup/deny_join/[% workgroup.name%]/[%join.person.username%]" 
+         onclick=" new Ajax.Updater( 'pending_join_res',  
+                                     '/crud/workgroup/deny_join/[% workgroup.name %]/[%join.person.username%]', 
+                                     { asynchronous: 1,
+                                       onSuccess: function(){     
+                                                  setTimeout(
+                                                    function(){
+                                                      update_pending_joins('pending_joins','[%join.workgroup.name%]');
+                                                    }, 
+                                                    1000
+                                                  );
+                                                }
+				     } ) ; 
+                   return false"
+      >Deny</a>
+
+  </li> 
+ 
+  [% END %]
+</ul>
+</div>

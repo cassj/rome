@@ -1,0 +1,51 @@
+\contentsline {chapter}{\numberline {1}Overview}{3}
+\contentsline {section}{\numberline {1.1}Design Decisions}{3}
+\contentsline {section}{\numberline {1.2}Catalyst}{4}
+\contentsline {subsection}{\numberline {1.2.1}Catalyst Controller Actions}{6}
+\contentsline {section}{\numberline {1.3}Sessions}{8}
+\contentsline {section}{\numberline {1.4}Error Handling}{8}
+\contentsline {subsection}{\numberline {1.4.1}Internal Server Errors}{8}
+\contentsline {subsection}{\numberline {1.4.2}User Errors}{8}
+\contentsline {subsection}{\numberline {1.4.3}Form Validation Errors}{8}
+\contentsline {chapter}{\numberline {2}Installation}{10}
+\contentsline {section}{\numberline {2.1}server}{10}
+\contentsline {subsection}{\numberline {2.1.1}rome\_server.pl}{10}
+\contentsline {subsection}{\numberline {2.1.2}Apache}{10}
+\contentsline {chapter}{\numberline {3}Quick Guide to Component Development}{11}
+\contentsline {section}{\numberline {3.1}Your First Component}{11}
+\contentsline {subsection}{\numberline {3.1.1}Debug mode}{11}
+\contentsline {subsection}{\numberline {3.1.2}Getting started}{11}
+\contentsline {subsection}{\numberline {3.1.3}My First Form}{15}
+\contentsline {subsection}{\numberline {3.1.4}AJAX forms}{16}
+\contentsline {subsection}{\numberline {3.1.5}Validating form parameters}{18}
+\contentsline {subsection}{\numberline {3.1.6}Getting data from ROME}{20}
+\contentsline {chapter}{\numberline {4}Data Model}{21}
+\contentsline {section}{\numberline {4.1}Experiment}{21}
+\contentsline {section}{\numberline {4.2}Autocompletion of form fields}{23}
+\contentsline {section}{\numberline {4.3}Upload}{26}
+\contentsline {section}{\numberline {4.4}Parsing}{26}
+\contentsline {subsection}{\numberline {4.4.1}Creating your own parser}{27}
+\contentsline {section}{\numberline {4.5}ROME::Processor::R}{29}
+\contentsline {subsection}{\numberline {4.5.1}ROME Datafiles}{29}
+\contentsline {section}{\numberline {4.6}The Catalyst::ROME plugin}{30}
+\contentsline {subsection}{\numberline {4.6.1}ROMEDB::Process}{30}
+\contentsline {chapter}{\numberline {5}Core Components}{33}
+\contentsline {section}{\numberline {5.1}Navigation}{33}
+\contentsline {section}{\numberline {5.2}Users}{35}
+\contentsline {subsection}{\numberline {5.2.1}User Directories}{37}
+\contentsline {chapter}{\numberline {6}Things that need to go somewhere}{39}
+\contentsline {section}{\numberline {6.1}Creation and deletion of user directories in model}{39}
+\contentsline {section}{\numberline {6.2}flash}{39}
+\contentsline {chapter}{\numberline {7}Styling}{40}
+\contentsline {chapter}{\numberline {8}Scripting}{41}
+\contentsline {section}{\numberline {8.1}ajax}{41}
+\contentsline {section}{\numberline {8.2}Wrapper}{41}
+\contentsline {chapter}{\numberline {9}Web-Services}{43}
+\contentsline {chapter}{\numberline {10}AJAX}{44}
+\contentsline {chapter}{\numberline {11}Testing}{45}
+\contentsline {section}{\numberline {11.1}Unit Testing}{45}
+\contentsline {chapter}{\numberline {12}Access Controls}{46}
+\contentsline {section}{\numberline {12.1}Roles}{46}
+\contentsline {section}{\numberline {12.2}Workgroups}{47}
+\contentsline {section}{\numberline {12.3}Datatypes}{47}
+\contentsline {section}{\numberline {12.4}Application Testing}{47}

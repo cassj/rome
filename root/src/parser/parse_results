@@ -1,0 +1,4 @@
+[%IF status_msg%]<p class="status_msg">[%status_msg%]</p>[%END%]
+[%IF error_msg%]<p class="error">[%error_msg%]</p>[%END%]
+
+

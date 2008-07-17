@@ -1,0 +1,115 @@
+---
+
+- Start Here:
+    title: Start here
+    dropdown:
+      - login:
+          display_name: Login
+          title: Login to ROME
+          href: /user/login
+          any_datatype: 1
+      - logout:
+          display_name: Logout
+          title: End your ROME session
+          href: /user/logout
+          any_datatype: 1
+      - register:
+          display_name: Register
+          title: Create a ROME account
+          href: /user/register
+          any_datatype: 1
+      - lost_password:
+          display_name: Lost Password?
+          title: Request a new password by email
+          href: /user/lost_password
+          any_datatype: 1
+
+- My Account:
+    title: Update your account details 
+    dropdown:
+      - password_reset:
+          display_name: Reset Password
+          title: Reset your password
+          any_datatype: 1
+          href: /user/reset_password
+      - user_account:
+          display_name: My Details
+          title: Account details.
+          any_datatype: 1
+          href: /user/account
+      - user_groups:
+          display_name: My Workgroups
+          title: Manage your workgroups
+          any_datatype: 1 
+          href: /workgroup
+
+- Session:
+    title: Session
+    dropdown:
+      - experiments:
+          title: Manage your experiments
+          display_name: Manage Experiments
+          href: /experiment
+          any_datatype: 1
+      - upload:
+         title: Upload data
+         any_datatype: 1
+         href: /upload
+         display_name: Upload Data
+      - parse:
+          title: Parse raw data into an experiment
+          any_datatype: 1
+          href: /parse
+          display_name: Parse Data
+      - metadata:
+          title: Describe your experimental variables
+          any_datatype: 1
+          href: /metadata
+          display_name: Metadata
+      - datafiles:
+          title: Manage your datafiles
+          any_datatype: 1
+          href: /datafile
+      - export:
+          display_name: Data Export
+          title: Export datafiles
+          any_datatype: 1
+           
+- Devel Tools:
+    title: Development tools
+    roles:
+      - dev
+    dropdown:
+      - component_devel:
+          display_name: Component Development
+          title: Create and Edit Components
+          any_datatype: 1
+          href: /devel/components
+      - package_component:
+          display_name: Package Component
+          title: Create Component Packages for Distribution
+          any_datatype: 1
+          href: /devel/make_component_distribution
+      - manage_datatypes:
+          display_name: Manage Datatypes
+          title: Manage Datatypes
+          any_datatype: 1
+          href: /devel/datatypes
+
+- Admin Tools:
+    title: Administration tools
+    roles: 
+      - admin
+    dropdown:
+      - managecomponents:
+          display_name: Manage Components
+          any_datatype: 1
+          title: Install and Uninstall ROME Components
+          href: /admin/components
+      - Admin:
+          title: 
+          dropdown:
+            - approve_reg:
+                display_name: Approve Registrations
+                title: Approve Registrations
+                any_datatype: 1

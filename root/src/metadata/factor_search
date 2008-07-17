@@ -1,0 +1,43 @@
+
+<form action="/metadata/factor/add_to_experiment" 
+      method="post" 
+      onsubmit=" new Ajax.Updater( 'search_messages',  
+      		     		   '/metadata/factor/add_to_experiment', 
+				   { 
+				     parameters: Form.serialize(this),
+				     asynchronous: 1,
+                                     onComplete: function(){
+                                                  setTimeout(
+                                                    function(){
+                                                      update_factor_list('factor_list');
+                                                    }, 
+                                                    1000
+                                                  );
+                                                }				     
+				     } ) ; return false"
+>
+
+  <fieldset>
+  <legend>Search for existing factors to add to this experiment</legend>
+   <div id="search_messages"></div>
+   
+    <div class="labelled_input">
+      <label for="factor_name">Factor Name</label>
+      <input type="text" name="factor_name" id="factor_search" />
+      <input type="hidden" name="factor_owner" id="factor_search_owner">
+      <div id="factor_search_autocomplete_choices" class="autocomplete"></div>
+        <script type="text/javascript" language="javascript">
+         // <![CDATA[
+             new Ajax.Autocompleter("factor_search",
+	                            "factor_search_autocomplete_choices",
+                                    "/metadata/factor/autocomplete",
+                                    {afterUpdateElement:function(e,s_e){$('factor_search_owner').value=s_e.childNodes.item(1).childNodes.item(3).innerHTML;}}
+             );
+         // ]]>
+        </script>
+    </div>
+
+
+    <input type="submit" name="submit" value="Add to Experiment" class="button"/>
+   </fieldset>
+</form>

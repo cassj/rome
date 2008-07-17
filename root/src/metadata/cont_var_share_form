@@ -1,0 +1,113 @@
+<form action="/metadata/cont_var/share_with_all" 
+      method="post" 
+      onsubmit=" new Ajax.Updater( 'cont_var_share_all_messages',  
+                                   '/metadata/cont_var/share_with_all', 
+                                   { 
+                                     parameters: Form.serialize(this),
+                                     asynchronous: 1, 
+                                     onComplete: function(){
+                                                  setTimeout(
+                                                    function(){
+                                                      update_cont_var_list('cont_var_list');
+                                                    }, 
+                                                    1000
+                                                  );
+                                                }
+                                   } 
+                                 ) ; return false"
+>
+
+  <fieldset>
+    <legend>Share a continous variable with everyone</legend>
+
+    <div id="cont_var_share_all_messages"></div>
+
+   <div class="labelled_input">
+      <label for="cont_var_name">Variable Name</label>
+      <input type="text" name="cont_var_name" id="cont_var_share_all" />
+      <input type="hidden" name="cont_var_owner" id="cont_var_share_all_owner">
+      <div id="cont_var_share_all_autocomplete_choices" class="autocomplete"></div>
+        <script type="text/javascript" language="javascript">
+         // <![CDATA[
+             new Ajax.Autocompleter("cont_var_share_all",
+	                            "cont_var_share_all_autocomplete_choices",
+                                    "/metadata/cont_var/autocomplete",
+                                    {afterUpdateElement:function(e,s_e){$('cont_var_share_all_owner').value=s_e.childNodes.item(1).childNodes.item(3).innerHTML;}}
+             );
+         // ]]>
+        </script>
+    </div>
+
+
+    <input type="submit" name="submit" value="Share" class="button"/>
+   
+  </fieldset>
+</form>
+
+
+
+
+
+
+<form action="/metadata/cont_var/share_with_workgroup" 
+      method="post" 
+      onsubmit=" new Ajax.Updater( 'cont_var_share_wg_messages',  
+                                   '/metadata/cont_var/share_with_workgroup', 
+                                   { 
+                                     parameters: Form.serialize(this),
+                                     asynchronous: 1, 
+                                     onComplete: function(){
+                                                  setTimeout(
+                                                    function(){
+                                                      update_cont_var_list('cont_var_list');
+                                                    }, 
+                                                    1000
+                                                  );
+                                                }
+                                   } 
+                                 ) ; return false"
+>
+
+  <fieldset>
+    <legend>Share a continuous variable with a workgroup</legend>
+
+    <div id="cont_var_share_wg_messages"></div>
+
+   <div class="labelled_input">
+      <label for="cont_var_name">Variable Name</label>
+      <input type="text" name="cont_var_name" id="cont_var_share_wg" />
+      <input type="hidden" name="cont_var_owner" id="cont_var_share_wg_owner">
+      <div id="cont_var_share_wg_autocomplete_choices" class="autocomplete"></div>
+        <script type="text/javascript" language="javascript">
+         // <![CDATA[
+             new Ajax.Autocompleter("cont_var_share_wg",
+	                            "cont_var_share_wg_autocomplete_choices",
+                                    "/metadata/cont_var/autocomplete",
+                                    {afterUpdateElement:function(e,s_e){$('cont_ver_share_wg_owner').value=s_e.childNodes.item(1).childNodes.item(3).innerHTML;}}
+             );
+         // ]]>
+        </script>
+    </div>
+
+
+   <div class="labelled_input">
+      <label for="workgroup_name">Workgroup Name</label>
+      <input type="text" name="workgroup_name" id="cont_var_workgroup" />
+      <div id="cont_var_workgroup_autocomplete_choices" class="autocomplete"></div>
+        <script type="text/javascript" language="javascript">
+         // <![CDATA[
+             new Ajax.Autocompleter("cont_var_workgroup",
+	                            "cont_var_workgroup_autocomplete_choices",
+                                    "/user/workgroup/autocomplete_member",
+                                    {}
+             );
+         // ]]>
+        </script>
+    </div>
+
+
+
+    <input type="submit" name="submit" value="Share" class="button"/>
+   
+  </fieldset>
+</form>

@@ -1,0 +1,16 @@
+Dear [% user.forename %] [% user.surname %],
+
+As requested, your ROME password has been reset. You can login as:
+
+Username: [% user.username %]
+Password: [% password %]
+
+at:
+
+[% link %]
+
+Please change this password when you first log in, by going to My Account > Password Reset from the ROME menu.
+
+If you have any further problems, please contact the ROME administrator at [% admin_email %]
+
+Thanks!

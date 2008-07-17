@@ -1,0 +1,25 @@
+[% META title = 'Datafiles' %]
+
+[% IF Catalyst.user.experiment %]
+
+<div id="selected_datafiles">
+[% INCLUDE 'datafile/selected_datafiles.tt2' %]
+</div>
+
+<div id="list_datafiles">
+<div id="datafile_links">
+[% Catalyst.prototype.link_to_remote( 'View All Datafiles', {
+        update => 'list_datafiles',
+        url    => '/datafile/graph',
+    }, {class=>'ajax_link'} )
+%]
+
+</div>
+</div>
+
+
+[%ELSE%]
+
+<span class="warning">No experiment selected. Go to the <a href="[%Catalyst.uri_for('/experiment')%]">experiments</a> page and select one</span>
+
+[%END%]

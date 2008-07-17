@@ -1,0 +1,12 @@
+Dear ROME administrator,
+
+Your ROME installation has received a registration request for the user [% user.username %]
+
+Name: [% user.forename %] [% user.surname %]
+Institution [% user.institution %]
+
+If you would like to confirm their registration, please open the following URL in a browser:
+
+[% link %]
+
+If you do not want to allow the user to register, you can simply do nothing. Their registration will time out. You may wish to contact the user on [% user.email %] to explain why their registration was disallowed.

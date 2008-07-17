@@ -1,0 +1,17 @@
+[%# This needs to list the various datafiles and the relationships between them %]
+
+<h1>Datafiles in experiment <span class="highlight">[% Catalyst.user.experiment.name %]</span></h1>
+
+[% html_imagemap %]
+
+[%# we need to avoid browser caching the image, otherwise it won't reflect any
+    changes to the selected datafiles, so generate a random number and stick it
+    on the end of the method call to datafile/png so it doesn't appear to be the
+    same image file to the browser.
+%]
+
+[% USE Math %]
+<img name="datafile_graph" src="[% Catalyst.uri_for('/datafile/png') %]?[% Math.rand(100) %]" USEMAP="#datafiles_img" border=0 />
+
+
+

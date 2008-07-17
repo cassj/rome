@@ -1,0 +1,54 @@
+ <ul id="nav_list">
+
+  <li><a title="Start here" href="#" class="dropdown">Start Here</a>
+   <ul>
+    <li><a class="active"title="Login to ROME" href="/user/login">Login</li></a>
+    <li><a class="active"title="End your ROME session" href="/user/logout">Logout</li></a>
+    <li><a class="active"title="Create a ROME account" href="/user/register">Register</li></a>
+    <li><a class="active"title="Request a new password by email" href="/user/lost_password">Lost Password?</li></a>
+   </ul>
+  </li>
+
+  <li><a title="Update your account details" href="#" class="dropdown">My Account</a>
+   <ul>
+    <li><a class="active"title="Reset your password" href="/user/reset_password">Reset Password</li></a>
+    <li><a class="active"title="Account details." href="/user/account">My Details</li></a>
+    <li><a class="active"title="Manage your workgroups" href="/workgroup">My Workgroups</li></a>
+   </ul>
+  </li>
+
+  <li><a title="Session" href="#" class="dropdown">Session</a>
+   <ul>
+    <li><a class="active"title="Manage your experiments" href="/experiment">Manage Experiments</li></a>
+    <li><a class="active"title="Upload data" href="/upload">Upload Data</li></a>
+    <li><a class="active"title="Parse raw data into an experiment" href="/parse">Parse Data</li></a>
+    <li><a class="active"title="Describe your experimental variables" href="/metadata">Metadata</li></a>
+    <li><a class="active"title="Manage your datafiles" href="/datafile">datafiles</li></a>
+    <li><a class="active"title="Export datafiles" href="">Data Export</li></a>
+   </ul>
+  </li>
+
+[% IF Catalyst.user.check_roles('dev')%]
+  <li><a title="Development tools" href="#" class="dropdown">Devel Tools</a>
+   <ul>
+    <li><a class="active"title="Create and Edit Components" href="/devel/components">Component Development</li></a>
+    <li><a class="active"title="Create Component Packages for Distribution" href="/devel/make_component_distribution">Package Component</li></a>
+    <li><a class="active"title="Manage Datatypes" href="/devel/datatypes">Manage Datatypes</li></a>
+   </ul>
+  </li>
+[% END %]
+
+[% IF Catalyst.user.check_roles('admin')%]
+  <li><a title="Administration tools" href="#" class="dropdown">Admin Tools</a>
+   <ul>
+    <li><a class="active"title="Install and Uninstall ROME Components" href="/admin/components">Manage Components</li></a>
+
+  <li><a title="" href="#" class="dropdown">Admin</a>
+   <ul>
+    <li><a class="active"title="Approve Registrations" href="">Approve Registrations</li></a>
+   </ul>
+  </li>
+   </ul>
+  </li>
+[% END %]
+ </ul>

@@ -1,0 +1,101 @@
+\subsubsection{Writing new Parsers}
+All parsers inherit from Parser::Base. They must be in the \texttt{ROME::Controller::Parser::*} namespace in order to be located by the \verb|/parse| action. 
+ 
+\paragraph*{}
+We create the controller with the catalyst helper script like:
+
+\begin{verbatim}
+script/rome_create.pl controller Parser::MyParser
+\end{verbatim}
+
+now open up the file lib/ROME/Controller/Parser/MyParser.pm. Delete the line:
+
+\begin{verbatim}
+use base 'Catalyst::Controller';
+\end{verbatim}
+
+and delete the index action, you don't need it. Now, add the lines:
+
+\begin{verbatim}
+use File::Find::Rule;
+use base 'ROME::Controller::Parser::Base';
+
+\end{verbatim}
+
+somewhere at the top of the file.
+ 
+\paragraph*{}
+The Parser::Base class defines a valid\_files action which uses a rule defined in the selected parser subclass to determine which files in the upload directory it is able to parse. We use File::Find::Rule to define this rule. A simple example, to locate all files which have a .CEL or .cel suffix might be: 
+ 
+\begin{verbatim}
+__PACKAGE__->file_rule(File::Find::Rule->file->name( qr/\.CEL/i ));
+\end{verbatim}
+
+You can test your rule by saving the file and restarting the ROME server. Go to the /parse page in the browser and your parser should appear in the select menu. If you select the parser, you should get a list of all the files in the current user's upload directory which meet the rule's criteria.
+
+
+
+\paragraph*{Setup}
+Your parser will require various pieces of information (as will any component you write). Store this information in a .yml file and use script/install\_component.pl and script/uninstall\_component.pl to manage it. 
+
+\paragraph*{}
+Use the script/rome\_component
+
+
+Create a directory for your components. This can be anywhere you like, I tend to use ROME/components. Now create a subdirectory for your parser in your components directory. In that directory, open a file config.yml. This is where we define everything your component will need to work. Start by defining something like:
+
+\begin{verbatim}
+#This is the setup file for ROME::Controller::Parser::AffymetrixExpression
+
+author: Cass Johnston
+
+version: 0.1
+
+process: 
+  name: ParseAffyExpression
+  tmpl_file: parse_affy_expression.tt2
+  description: This is a parser component for Affymetrix .CEL files.
+  accepts:
+  creates:
+    AffyBatch: 1    
+  
+\end{verbatim}
+
+\paragraph*{}
+The author and version fields should be self-explanatory. The process defines the R process required to actually parse the files. As this is a parser, it doesn't require any values in accepts. The process creates a single datafile of class AffyBatch. 
+
+
+\paragraph*{}
+The next step is to create the process which turns your raw datafiles into a .RData file which will serve as a root datafile for ROME. This is a template toolkit file which lives in root/R\_templates. To start with, just create a file myparser.tt2 that directory and enter:
+
+\begin{verbatim}
+[% INCLUDE rome.tt2 %]
+\end{verbatim}
+
+This will do some setup for you and will serve as a test file. Now you need to add this template as a process in the database. 
+
+\paragraph*{}
+While it is probably quicker to add the information into the database by hand, if you want to be able to package your component up so that other people can use it then you should create a .yml file which contains information that ROME uses to install components. It doesn't matter where you put this file, 
+
+Each controller (aside from the core ones) should have its own .yml file in the add\_ons directory. This 
+
+ as it makes things simpler when we come to packaging them up as ROME add-ons. Open up a file in the sql directory named for your controller (but all in lower case and with :: replaced with \- eg Parser::AffymetrixExpression \-> parser-affymetrixexpression.sql) and add a line something like:
+
+\begin{verbatim}
+insert into process (name, tmpl_file, description) values ("ParseAffyExpression", "parse_affy_expression.tt2", 'this is a parser component for .CEL files.');
+
+insert into parameter (name, process, description) values ('selected_files', 'ParseAffyExpression', "Reference to an array containing the paths (relative to the user's upload directory) to be parsed");
+
+insert into process_creates(process,creates,num) values ("ParseAffyExpression", "AffyBatch",1);
+\end{verbatim}
+
+Use this SQL to load that data into your ROME database. To explain, we have created a process called ParseAffyExpression, which uses the template file parse\_affy\_expression.tt2. It requires a parameter, 'selected\_files' 
+
+
+
+
+
+
+
+
+

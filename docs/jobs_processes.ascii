@@ -1,0 +1,55 @@
+
+                           +----------------+
+                           |                |                               +-------------------+
+                           |            +----------+                        | datatype_metadata |
+                   +---------------+    | datafile |                        +-------------------+
+                   |  in_datafile  |    +----------+                        | name (PK)         |
+		   +---------------+        |                               | datatype_name (PK)|
+                           |                |                            +--| description       |
+  +-------------+          |                |                            |  | optional          |
+  |    queue    |          |                |                            |  +-------------------+
+  +-------------+     +------------------------+                         |    
+  | jid (PK)    |-+   |          job           |                        +-------------+
+  | pid         | |   +------------------------+                        |  datatype   |
+  | status      | +---| jid (PK)               |     +------------+     +-------------+ 
+  | start_time  |     | owner (FK)             |-----|   person   |     | name (PK)   |-----------------------+
+  +-------------+     | experiment_name (FK)   |     +------------+     | description |                       |
+                      | experiment_owner (FK)  |                        +-------------+                       |
+                      | process (FK)           |--+                            |                              |
+              +-------| completed              |  |                            |                              |
+              |       | log                    |  |                            |                              |
+	      |	      +------------------------+  |                            |                              |
+              |                                   |                            |                              |
+              |                                   |                            |                              |
+    +------------------------+                    |                       +--------------------------------+  |
+    |         argument       |                    |                       |         process_accepts        |  |
+    +------------------------+           +-------------------------+      +--------------------------------+  |
+    | jid (PK)               |           |    process              |      | name (PK)                      |  |
+    | parameter_name (PK)    |           +-------------------------+  +---| process_name (PK)              |  |
+    | parameter_process (PK) |      +----| name (PK)               |  |   | process_component_name (PK)    |  |
+    | value                  |      |    | component_name (PK)     |  |   | process_component_version (PK) |  |  
+    +------------------------+      |    | component_version (PK)  |--+   | datatype_name (PK)             |  |
+      |                             |    | tmpl_file               |      +--------------------------------+  |
+      |                             |    | description             |                                          |
+      |                        +----+    | processor               |      +--------------------------------+  |
+      |                        |         | display_name            |--+   |       process_creates          |  |
+      |    +---------------+   |         +-------------------------+  |   +--------------------------------+  |
+      |    |   parameter   |   |                                 |    |   | name (PK)                      |  |
+      |    +---------------+   |                                 |    +---| process_name (PK)              |  |
+      +----| name (PK)     |   |    +------------------------+   |        | process_component_name (PK)    |--+
+           | process (PK)  |---+    |  parameter_constraint  |   |        | process_component_version (PK) |
+           | description   |        +------------------------+   |        | datatype_name (PK)             |
+           | optional      |--------| parameter_name (PK)    |   |        | suffix                         |
+           | default_value |        | parameter_process (PK) |   |        | is_image                       |
+           +---------------+        | constraint_name (PK)   |   |        | is_export                      |
+                                    | constraint_closure     |   |        | is_report                      |
+                                    | constraint_message     |   |        +--------------------------------+
+                                    +------------------------+   |
+                                                                 |
+                                                   +----------------+
+                                                   |  component     | 
+                                                   +----------------+
+                                                   | name (PK)      | 
+                                                   | version (PK)   |
+                                                   | always_active  |
+                                                   +----------------+

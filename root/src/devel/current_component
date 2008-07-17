@@ -1,0 +1,40 @@
+<h3>Currently selected component</h3>
+
+[% IF selected_component %]
+  
+  [%INCLUDE 'devel/component_update.tt2'%]
+
+   <div id="current_component_processes">
+     [% INCLUDE 'devel/current_component_processes.tt2' %]  
+   </div> 
+
+
+<!-- This is where any ajax forms should appear -->
+<div id="forms"></div>
+
+
+<!-- update any component_name or component_version fields appropriately-->
+
+<script type="text/javascript">
+
+    // <![CDATA[
+
+    var names = $$('.component_name');
+    var versions = $$('.component_version');
+
+    for(var i=0; i<names.length; i++){
+      names[i].value="[% selected_component.name %]"
+    }
+    for(var i=0; i<versions.length; i++){
+       versions[i].value="[% selected_component.version %]"
+    }
+    // ]]>
+
+
+</script>
+
+[% ELSE %]
+
+<p class="warning">No component currently selected</p>
+
+[% END %]

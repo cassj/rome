@@ -1,0 +1,94 @@
+<form action="/devel/process/add_creates" 
+      method="post" 
+      onsubmit=" new Ajax.Updater( 'process_add_creates_results',  
+                                   '[%Catalyst.uri_for('/devel/process/add_creates')%]', 
+                                   { parameters: Form.serialize(this), 
+                                     asynchronous: 1,
+				     onComplete: function(){update_current_component('current_component')}
+				   } ) ; 	
+                return false"
+>
+
+  <fieldset>
+   <legend>Register a datafile created by a process</legend>
+
+      <div id="process_add_creates_results"></div>
+
+      [% IF process %]
+
+      <input type="hidden" name="process_name" value="[%process.name%]"/>
+      <input type="hidden" name="process_component_name" value="[%process.component_name%]" />
+      <input type="hidden" name="process_component_version" value="[%process.component_version%]"/>
+      <span>Component: [%process.component_name%] ([%process.component_version%])</span>
+      <span>Process: [%process.name%]</span>
+
+      [% ELSE %]
+
+      <div class="labelled_input">
+        <label for="process_name">Process Name</label>
+        <input type="text" id="add_creates_process_name" name="process_name"/>
+	<div id="add_creates_process_autocomplete_choices" class="autocomplete"></div>
+        <script type="text/javascript" language="javascript">
+        // <![CDATA[
+             new Ajax.Autocompleter("add_creates_process_name",
+                                    "add_creates_process_autocomplete_choices",
+                                    "[%Catalyst.uri_for('/devel/process/autocomplete')%]",
+                                    {
+				      afterUpdateElement:function(e,s_e){
+                                         $('add_creates_component_name').value=s_e.childNodes.item(1).childNodes.item(1).innerHTML;
+                                         $('add_creates_component_version').value=s_e.childNodes.item(1).childNodes.item(3).innerHTML;
+					 } 
+				    });
+        // ]]>
+        </script>
+      </div>
+      <input type="text" name="process_component_name" id="add_creates_component_name">
+      <input type="text" name="process_component_version" id="add_creates_component_version"/>
+      [% END %]
+
+
+    <div class="labelled_input">
+      <label for="name">Name (by which file is referred in the script template)</label>
+      <input type="text" name="name" />
+    </div>
+
+    <div class="labelled_input">
+        <label for="datatype_name">Datatype Name</label>
+        <input type="text" id="add_creates_datatype_name" name="datatype_name"/>
+	<div id="add_creates_datatype_autocomplete_choices" class="autocomplete"></div>
+        <script type="text/javascript" language="javascript">
+        // <![CDATA[
+             new Ajax.Autocompleter("add_creates_datatype_name",
+                                    "add_creates_datatype_autocomplete_choices",
+                                    "[%Catalyst.uri_for('/devel/datatype/autocomplete')%]"
+                                    );
+        // ]]>
+        </script>
+      </div>
+
+      <div class="labelled_input">
+        <label for="suffix">File Suffix</label>
+        <input type="text" name="suffix" value="RData">
+      </div>
+
+      <div class="labelled_input">
+        <label for="is_image">Image File</label>
+        <input type="checkbox" name="is_image" />
+      </div>
+
+      <div class="labelled_input">
+        <label for="is_export">Export File</label>
+        <input type="checkbox" name="is_export" />
+      </div>
+
+      <div class="labelled_input">
+        <label for="is_report">Report File</label>
+        <input type="checkbox" name="is_report" />
+      </div>
+
+
+ <input type="submit" name="submit" value="Add created datafile" class="button"/>
+     
+</fieldset>   
+
+</form>

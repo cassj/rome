@@ -1,0 +1,23 @@
+Dear Group Leader
+
+ROME has received a request to join your workgroup [% jr.workgroup.name %] for the following user:
+
+Username:    [% jr.person.username %]
+Forename:    [% jr.person.forename %] 
+Surname:     [% jr.person.surname %]
+Institution: [% jr.person.institution %]
+
+If you would like to add this use to the group, please open the following URL in a browser:
+
+[% confirm_link %]
+
+Alternatively, you can deny their request with the following URL:
+
+[% deny_link %]
+
+Many thanks,
+
+ROME.
+
+
+Problems? Questions? Your ROME administrator can be contacted on [% admin_email %].

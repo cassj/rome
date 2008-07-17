@@ -1,0 +1,108 @@
+<form action="/experiment/share_with_all" 
+      method="post" 
+      onsubmit=" new Ajax.Updater( 'share_all_messages',  
+                                   '/experiment/share_with_all', 
+                                   { 
+                                     parameters: Form.serialize(this),
+                                     asynchronous: 1 
+                                   } 
+                                 ) ; return false"
+>
+
+  <fieldset>
+    <legend>Share an experiment with everyone</legend>
+
+    <div id="share_all_messages"></div>
+
+   [%# IF Catalyst.check_user_roles('admin') %]
+   <div class="labelled_input">
+      <label for="experiment_name">Experiment Name</label>
+      <input type="text" name="experiment_name" id="experiment_share_all" />
+      <input type="hidden" name="experiment_owner" id="share_all_owner">
+      <div id="share_all_autocomplete_choices" class="autocomplete"></div>
+        <script type="text/javascript" language="javascript">
+         // <![CDATA[
+             new Ajax.Autocompleter("experiment_share_all",
+	                            "share_all_autocomplete_choices",
+                                    "/experiment/autocomplete",
+                                    {afterUpdateElement:function(e,s_e){$('share_all_owner').value=s_e.childNodes.item(1).childNodes.item(3).innerHTML;}}
+             );
+         // ]]>
+        </script>
+    </div>
+    [%# END %]
+
+    <input type="submit" name="submit" value="Share" class="button"/>
+   
+  </fieldset>
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
+<!--form action="/experiment/share_with_workgroup" 
+      method="post" 
+      onsubmit=" new Ajax.Updater( 'share_wg_messages',  
+                                   '/experiment/share_with_workgroup', 
+                                   { 
+                                     parameters: Form.serialize(this),
+                                     asynchronous: 1, 
+                                     onSuccess: function(){setTimeout(function(){
+                                                    update_current_experiment('current');
+						    $('experiment_list').innerHTML='';}, 1000);
+                                      }
+                                 ) ; return false"
+>
+
+  <fieldset>
+    <legend>Share [%IF Catalyst.check_user_roles('admin')%]an[%ELSE%]current[%END%] experiment with a workgroup</legend>
+
+    <div id="share_wg_messages"></div>
+
+    [% IF Catalyst.check_user_roles('admin') %]
+   <div class="labelled_input">
+      <label for="experiment_name">Experiment Name</label>
+      <input type="text" name="experiment_name" id="share_wg" />
+      <input type="hidden" name="experiment_owner" id="share_wg_owner">
+      <div id="share_wg_autocomplete_choices" class="autocomplete"></div>
+        <script type="text/javascript" language="javascript">
+         // <![CDATA[
+             new Ajax.Autocompleter("share_wg",
+	                            "share_wg_autocomplete_choices",
+                                    "/experiment/autocomplete",
+                                    {afterUpdateElement:function(e,s_e){$('share_wg_owner').value=s_e.childNodes.item(1).childNodes.item(3).innerHTML;}}
+             );
+         // ]]>
+        </script>
+    </div>
+    [% END %]
+
+   <div class="labelled_input">
+      <label for="workgroup_name">Workgroup Name</label>
+      <input type="text" name="workgroup_name" id="experiment_workgroup" />
+      <div id="experiment_workgroup_autocomplete_choices" class="autocomplete"></div>
+        <script type="text/javascript" language="javascript">
+         // <![CDATA[
+             new Ajax.Autocompleter("experiment_workgroup",
+	                            "experiment_workgroup_autocomplete_choices",
+                                    "/user/workgroup/autocomplete_member",
+                                    {}
+             );
+         // ]]>
+        </script>
+    </div>
+
+
+
+    <input type="submit" name="submit" value="Share" class="button"/>
+   
+  </fieldset>
+</form-->

@@ -1,0 +1,55 @@
+<form action="/metadata/cont_var/add" 
+      method="post" 
+      onsubmit=" new Ajax.Updater( 'new_cont_var_messages',  
+                                   '/metadata/cont_var/add', 
+                                   { 
+                                     parameters: Form.serialize(this),
+                                     asynchronous: 1, 
+                                     onComplete: function(){
+                                                  setTimeout(
+                                                    function(){
+                                                      update_cont_var_list('cont_var_list');
+                                                    }, 
+                                                    1000
+                                                  );
+                                                }
+                                   } 
+                                 ) ; return false"
+>
+
+
+  <fieldset>
+    <legend>Add a new continuous variable</legend>
+
+    <div id="new_cont_var_messages"></div>
+
+      <div class="labelled_input">
+        <label for="cont_var_name">Name</label>
+        <input type="text" name="cont_var_name"/>
+      </div> 
+
+      <div class="labelled_input">
+        <label for="cont_var_description">Description</label>
+        <textarea name="cont_var_description"></textarea>
+      </div>
+
+      [%IF Catalyst.check_user_roles('admin')%]
+        <div class="labelled_input">
+          <label for="cont_var_owner">Owner</label>
+          <input type="text" name="cont_var_owner" id="cont_var_owner"/>
+          <div id="cont_var_owner_autocomplete_choices" class="autocomplete"></div>
+          <script type="text/javascript" language="javascript">
+          // <![CDATA[
+               new Ajax.Autocompleter("cont_var_owner","cont_var_owner_autocomplete_choices","/metadata/owner_autocomplete",{});
+          // ]]>
+          </script>
+        </div>
+      [%ELSE%]
+         <input type="hidden" name="cont_var_owner" id="cont_var_owner" value="[%Catalyst.user.username%]"/>
+      [%END%]
+
+      <br/><input type="submit" name="submit" value="add variable" class="button"/>
+     
+   
+  </fieldset>
+</form>

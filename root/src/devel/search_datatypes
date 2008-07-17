@@ -1,0 +1,59 @@
+<form action="/devel/datatype/select" 
+      method="post" 
+      onsubmit=" new Ajax.Updater( 'datatype_select_results',  
+                                   '[%Catalyst.uri_for('/devel/datatype/select')%]', 
+                                   { parameters: Form.serialize(this), 
+                                     asynchronous: 1,
+				     onComplete: function(){update_current_datatype('current_datatype'); return false;}
+				   } ) ; 	
+                return false"
+>
+
+  <fieldset>
+   <legend>Search for and select existing datatypes</legend>
+
+      <div id="datatype_select_results"></div>
+
+      <div class="labelled_input">
+        <label for="name">Datatype Name</label>
+        <input type="text" id="search_datatype_name" name="name"/>
+	<div id="search_datatype_name_autocomplete_choices" class="autocomplete"></div>
+        <script type="text/javascript" language="javascript">
+        // <![CDATA[
+             new Ajax.Autocompleter("search_datatype_name",
+                                    "search_datatype_name_autocomplete_choices",
+                                    "[%Catalyst.uri_for('/devel/datatype/autocomplete')%]",
+                                    {
+				      afterUpdateElement:function(e,s_e){
+                                         $('search_datatype_description').value=s_e.childNodes.item(1).childNodes.item(1).innerHTML;
+					 } 
+				    });
+        // ]]>
+        </script>
+      </div>
+
+
+      <div class="labelled_input">
+        <label for="description">Datatype Description</label>
+        <textarea id="search_datatype_description" name="description"></textarea>
+	<div id="search_datatype_description_autocomplete_choices" class="autocomplete"></div>
+        <script type="text/javascript" language="javascript">
+        // <![CDATA[
+             new Ajax.Autocompleter("search_datatype_description",
+                                    "search_datatype_description_autocomplete_choices",
+                                    "[%Catalyst.uri_for('/devel/datatype/description_autocomplete')%]",
+                                    {
+				      afterUpdateElement:function(e,s_e){
+                                         $('search_datatype_name').value=s_e.childNodes.item(1).childNodes.item(1).innerHTML;
+					 } 
+				    });
+        // ]]>
+        </script>
+      </div>
+
+
+ <input type="submit" name="submit" value="Select datatype" class="button"/>
+     
+</fieldset>   
+
+</form>

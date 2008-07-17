@@ -1,0 +1,12 @@
+[% VIEW dir_tree_view %]
+<dl class="dir_list">
+  [% BLOCK file %]
+    <dd>[% item.name %]</dd>
+  [% END %]
+    
+  [% BLOCK directory %]
+    <dt>[% item.name %]</dt>
+      [% item.content(myview) FILTER indent %]
+  [% END %]
+    </dl>
+[% END %]

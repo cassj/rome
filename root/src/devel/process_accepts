@@ -1,0 +1,32 @@
+	<h4>Datafiles this process accepts</h4>
+
+	<button 
+            onclick="new Ajax.Updater('forms',
+                                      '[%Catalyst.uri_for("/devel/process/accepts_form")%]?process_name=[%process.name%]',
+                                      { 
+				       asynchronous:1,
+				       evalScripts:1,
+ 				       onComplete: function(){new Effect.ScrollTo('forms'); return false;}
+				      }
+                                     ); 
+                     return false"
+        >Add a new datafile this process can accept</button>
+
+        [% FOREACH accepts IN process.process_accepts %]
+        <div class="accepts">
+          <span class="accepts_name">[% accepts.name %]</span>
+          <span class="accepts_datatype_name">of type[% accepts.datatype_name %]</span>
+	  <img src="[%Catalyst.uri_for("/delete.gif")%]" 
+               onclick="new Ajax.Updater('messages',
+                                         '[% Catalyst.uri_for('/devel/process/delete_accepts') %]?process_name=[%process.name%]&process_component_name=[%process.component_name%]&process_component_version=[%process.component_version%]&name=[%accepts.name%]&datatype_name=[% accepts.datatype_name %]',
+					 {
+					  asynchronous:1,
+					  evalScripts:1,
+					  onComplete: function(){update_current_component('current_component'); return false;}
+					 
+                                         }
+				       )"
+           />
+        </div> <!-- end process_accepts-->
+       [% END %]
+

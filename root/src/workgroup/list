@@ -1,0 +1,20 @@
+<ul>
+[%IF error_msg%]<p class="warning">[%error_msg%]</p>[%END%]
+<div id="join_request_result"></div>
+
+[%FOREACH workgroup IN workgroups%]
+
+  <li>[%workgroup.name%][%IF workgroup.description%] ([%workgroup.description%])[%END%] 
+  
+    <a class="ajax_link" 
+         href="/workgroup/join/[% workgroup.name%]" 
+         onclick=" new Ajax.Updater( 'join_request_result',  
+                                     '/workgroup/join/[% workgroup.name %]', 
+                                     { asynchronous: 1,
+				     } ) ; 
+                   return false"
+      >Request Membership</a>
+
+   </li>
+[% END %]
+</ul>

@@ -1,0 +1,9 @@
+<p>The following files are being parsed into experiment <span class="highlight">[% c.user.user.expt.name %]</span> with the <span class="highlight">[% parser %]</span> parser</p>. You can track the processing of your new datafile via the <a href="datafile">datafiles</a> page.
+
+<ul>
+[% FOREACH file IN file_list %]
+<li>[%file%]</li>
+[% END %]
+</ul>
+
+

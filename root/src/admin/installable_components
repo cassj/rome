@@ -1,0 +1,27 @@
+<form name="files_form"
+      method="post"
+      action="[%Catalyst.uri_for('/admin/install')%]"
+>
+<div id="install_results"></div>
+
+  <fieldset>
+    <legend>Select a component to install...</legend>
+
+
+        [%count=1%]
+	[% FOREACH file IN uploaded_file_list %]
+          <div class="labelled_input">
+	  <input type="radio" name="selected_files" value="[% file %]" />[% file %]<br/>
+          </div>
+        [% END %]
+
+       <div class="force_clear"/>
+
+       <input type="submit" 
+              class="button" 
+              value="Install" 
+              /> 
+  </fieldset>
+ </form>
+
+

@@ -1,0 +1,166 @@
+\subsection{User Management}
+
+\paragraph{}
+This section describes the concept of users in ROME and the way in which they interact with other ROME entities.
+
+% \subsubsection{The database table: person}
+% 
+% The definition of the person table, which stores the core information about a user, is as follows:
+% 
+% \begin{footnotesize}
+% \begin{verbatim} 
+% username CHAR(50) NOT NULL PRIMARY KEY,
+% forename CHAR(30),
+% surname CHAR(30),
+% institution CHAR(50),
+% address CHAR(100),
+% password VARCHAR(50) NOT NULL,
+% email VARCHAR(50) NOT NULL,
+% experiment_name VARCHAR(50) REFERENCES experiment(name),
+% experiment_owner CHAR(50)  REFERENCES experiment(owner),
+% datafile_name VARCHAR(50)  REFERENCES datafile(name),
+% created DATE,
+% data_dir VARCHAR(255),
+% upload_dir VARCHAR(255),
+% static_dir VARCHAR(255)
+% \end{verbatim}
+% \end{footnotesize}
+% 
+
+\subsubsection{User Authentication and Authorization}
+
+\paragraph{}
+Users are represented in the database in the \texttt{person} table. The primary key is the username. As well as self-explanatory fields like forename, surname, email, the \texttt{experiment\_name} and \texttt{experiment\_owner} fields are references to the \texttt{experiment} table and represent the user's currently active experiment. Similarly the datafile\_name (in conjunction with the username and experiment) uniquely identifies the user's currently selected datafile.
+
+\paragraph{}
+The User controller (\texttt{lib/ROME/Controller/User.pm}) is responsible for managing user registration, login and logout and account details. The controllers actions are:
+
+\begin{verbatim}
+user/login
+user/logout
+user/register
+user/reset_password
+user/lost_password
+user/account
+\end{verbatim}
+
+\paragraph{}
+The component also contains the logic for user and administrator confirmation of registration (sending emails to the relevant people, generating confirmation pages and so on). These can be switched on in the config file (rome.yml) by setting the values user\_confirm and admin\_confirm to 1 (0 will switch email confirmation off):
+
+\begin{verbatim}
+registration:
+    user_confirm: '1'
+    admin_confirm: '1'
+\end{verbatim}
+
+
+\paragraph{}
+Authentication (verifying that the user is indeed who they claim to be) is implemented using passwords. Authenticated users can change their own password at any time via the \texttt{reset\_password} page. The passwords are stored in the database using one-way (SHA1) encryption and as such, cannot be retrieved if lost. If a user has forgotten their password, they can request that a new one via the \texttt{lost\_password} page. This will cause a random password to be generated and email to the user, who may then login and change it.
+
+\paragraph{}
+Authorization (verifying that an authenticated user has access rights to a given part of the application) is implemented at two levels. Firstly, a role-based approach controls access to particular parts of the interface. Individual controller actions can check whether a user has a particular role (in the \texttt{role} table of the database) and to allow or deny access correspondingly. At the moment roles are limited to users and administrators. A second level of control is implemented to limit access to experiments and datafiles and is discussed further in relation to workgroups (section \ref{sec:workgroups}).
+
+\paragraph*{}
+Although the passwords are encrypted in the database, they are sent as plaintext between the client and server. To improve security, ROME uses the catalyst RequireSSL plugin. Both the login and registration methods have a call to the require\_ssl method which, in a production environment, would force redirect to a secure server (details of how to set this up can be found in the installation section (section \ref{sec:server_setup}). This behaviour is disabled in the Catalyst test server and can be enabled in the config file \texttt{rome.yml}.
+
+\paragraph{}
+Authenticated users can alter their account details via \texttt{user/account}.
+ 
+\subsubsection{User Directories}
+When a new user is registered, two directories are created: A data directory for their datafiles, which only need to be available to the server and a static directory for any downloadable data they generate - this includes images and export files. The location of the data directory is specified by the userdata entry in \texttt{rome.yml}. It must be specified as a full path and it must be readable and writeable by the user under which the ROME server is running. Users are given a directory under this location named with their username. A subdirectory called uploads is also created, into which they can upload raw data. This will be discussed in more detail in section \ref{sec:uploads}. The static directories are created under root/rome/static/user. If a user is deleted, their data directories are also deleted. This includes any content which may have been shared with a workgroup or made public, though users can hand ownership of such files over to another user before deleting their account if they wish.
+
+
+\paragraph{}
+Further details are available in the perldoc for the module \texttt{ROME::Controller::User}.
+
+
+
+
+% 
+% 
+% \subsection{Users}
+% 
+% R-OME requires that you have a user account. This section will look at how users are registered and logged in to the system, how their access to particular ROME components is controlled and how their user accounts are managed.
+% 
+% \paragraph*{}
+% The user component consists of the controller in lib/ROME/Controller/User.pm and the various template files in root/src/user/.
+% 
+% \subsection*{Authentication}
+% ROME uses the Catlyst plugin Authentication, which adds login and logout methods to the catalyst context object. 
+% 
+% \paragraph*{}
+% The Authentication plugin needs to be able to store and access information about the users. There are various options for doing this in Catalyst, but ROME uses the Authentication::Store::DBIC plugin. In the authentication section of the rome.yml config file we tell the Authentication plugins to use the ROMEDB::Person class and specifically the username and password fields for authentication. The ROMEDB::Person class was defined as part of the model, described in section \ref{sec:model}. 
+% 
+% \paragraph*{}
+% The Authentication plugin also needs the Authentication::Credential::Password plugin to provide the necessary logic for checking the username and password with those in the database. For security, the passwords are encrypted in the database using the SHA1 algorithm (which requires the Digest::SHA1 module from CPAN). New passwords are encrypted when the user registers (see section \ref{sec:registration}. The password\_type and password\_hash\_type settings under authentication in the rome.yml config file tell the Authentication plugins to use the appropriate encryption algorithm.
+% 
+% \paragraph*{}
+% In the controller module lib/ROME/Controller/User.pm, the index action simply hands over control to the login action, which means that the login page can be accessed through either /user or /user/login URLs.
+% 
+% \paragraph*{}
+% The login action checks for a submit parameter from the form data in the catalyst request object. If it doesn't find any, it sets the template to user/login.tt2 and returns (handing over control to the view). The client is therefore sent the login form.
+% 
+% \paragraph*{}
+% If the form has been submitted, the values of the form parameters are validated using the Data::FormValidator plugin.  user/login.tt2 includes dfv\_error.tt2 which checks whether there are any error messages from the form validation and if there are, displays them. If validation fails, the client will receive the login page with any validation errors listed at the top.
+% 
+% \paragraph*{}
+% Assuming the parameter validation is successful, the username and password parameters are handed over to the login method in the catalyst context object. The login method checks the username and password against those stored in the database and if they match stores the user object in the catalyst context. You can test if a user is logged in with \verb|$c->user_exists|.
+% 
+% \paragraph*{}
+% Although the passwords are encrypted in the database, they are sent as plaintext between the client and server. To improve security, ROME uses the catalyst RequireSSL plugin. Both the login and registration methods have a call to the require\_ssl method which, in a production environment, would force redirect to a secure server. This behaviour is disabled in the Catalyst test server script/rome\_server.pl. Configuration settings for the RequireSSL plugin are in rome.yml under require\_ssl.
+% 
+% \paragraph*{}
+% The Authentication plugin also adds a logout method to the catalyst context. This is called by the user/logout action.
+% 
+% 
+% \subsection*{Registration}\label{sec:registration}
+% 
+% \paragraph*{}
+% The registration action checks for a submit parameter from the form data in the catalyst request object. If it doesn't find any, it sets the template to user/register.tt2 and returns (handing over control to the view). The client is therefore sent the login form.
+% 
+% \paragraph*{}
+% If the form is being submitted, the registration action forwards to a private action which validates the parameters using the Data::FormValidator plugin. If validation fails, the form is returned. As the \verb|user/register.tt2| template includes the \verb|dfv_error.tt2| template, any errors arising from the validation will appear at the top of the form.
+% 
+% \paragraph*{}
+% Once the form parameters have been validated, the action forwards to another private action \verb|_process_registration|, which in turn forwards to \verb|_insert_user|. The \verb|_insert_user| method creates a person and an associated person\_pending entry in the database and stores the associated DBIC object in \verb|$self->user|
+% 
+% \paragraph*{}
+% Once the new user is in the database, the \verb|_process_registration| action checks the config file to see if we need to get confirmation from the user and/or the administrator in order to complete the registration process. If confirmation is not required, the admin\_approved and user\_approved fields in the new user (actually in the new person\_pending, but these are proxied to the person class) are set to 1. If confirmation is required, it forwards to the \verb|_user_email_confirmation| or  \verb|_admin_email_confirmation| actions to email requests for confirmation.
+% 
+% \paragraph*{}
+% Finally the \verb|_process_registration| action forwards to the \verb|_complete_registration| action. This action checks to see if the admin\_approved and user\_approved fields are both set to true. If they are, it deletes the person\_pending entry from the database, leaving a valid new person entry and setting a template which informs the user they can now login. If the approved fields are not true, it sets an appropriate template explaining what to do next. \verb|_complete_registration|
+% 
+% \paragraph*{}
+% If confirmation emails were sent, they will include a URL to the admin\_confirm or user\_confirm actions with the username and email\_id as parameters. The email\_id is just a randomly generated string. The email id in the database must match that in the URL, which acts as a check to ensure that the new user really owns that email address with which they have registered. The admin\_confirm and user\_confirm actions simply set admin\_approved and user\_approved to 1 for this user the forward to the \verb|_complete_registration| action.
+% 
+% \subsection{User Directories}
+% The \verb|_complete_registration| action also creates two directories for the new user: A data directory for their datafiles, which only need to be available to the server and a static directory for any downloadable data they generate - this includes images and export files. 
+% 
+% \paragraph*{}
+% The location of the data directory is specified by the userdata entry in rome.yml. It must be specified as a full path and it must be readable and writeable by the user under which the ROME server is running. Users are given a directory under this location named with their username. A subdirectory called uploads is also created, into which they can upload raw data. This will be discussed in more detail in section \ref{sec:uploads}
+% 
+% \paragraph*{}
+% The static directories are created under root/rome/static/user. Each user is given a directory named by their own username which is only accessible by them. It is also possible to create other static directories with different permissions, discussed further in section \ref{sec:authorization}
+% 
+% \subsection*{Authorization}\label{sec:authorization}
+% There are two main types of access control in ROME. One is the URL bases authorization methods provided by the Catalyst authorization plugins, \verb|Authorization::Groups| and \verb|Authorization::ACL|, which controls access to actions. The other is the user and workgroup controls implemented specifically for ROME to control access to datafiles.
+% 
+% \subsubsection*{Authorization::Roles}
+% This plugin allows you to limit access to a given action to those users with a given role using something like \verb|$c->check_user_roles('admin')|. The plugin uses the person and role tables in the database, via DBIx::Class, as defined in rome.yml under authorization.
+% 
+% \subsubsection*{Authorization::ACL}
+% There are some cases when you need a more complicated access definition, and for these we use the ACL plugin. The plugin provides Access Control List style path protection. The ACL plugin only operates on the Catalyst "private namespace", which basically means you can only use if for 'Local' actions, it won't work on Path, Regex or Global actions. ACL rules are defined in the \verb|lib/ROME.pm| file. Details of how to define the rules can be found in the Catalyst::Plugin::Authorization::ACL perldoc.
+% 
+% \subsubsection*{Access controls for data}
+% Datafiles can be publicly accessible, shared with members of a workgroup or private to their owner (the user who created them). Access can be set at the experiment or individual datafile level (with datafile access rules overriding the controls on the experiment to which they belong). This is dealt with in the model and is discussed in more detail in sections \ref{sec:experiments} and \ref{sec:datafiles}.
+% 
+% \subsection*{User Account}
+% Users can manage their accounts from the URL \verb|user/account|.
+% 
+% \subsection*{User Administration}
+% 
+% \chapter{Things that need to go somewhere}
+% \section{Creation and deletion of user directories in model}
+% \section{flash}
+% use for redirects, kept until accessed. status\_msg and error\_msg are \textit{always} accessed by layout. 
+% 

@@ -1,0 +1,9 @@
+<ul>
+[%WHILE (factor = factors.next)%]
+     <li>[%factor.name%]
+         <span class="informal">
+            (<span>[%factor.owner.username%]</span>)
+         </span>
+     </li>  
+[%END%]
+</ul>

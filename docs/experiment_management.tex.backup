@@ -1,0 +1,110 @@
+\section{Experiment Management}
+\label{experiment_management}
+
+\paragraph{}
+This section describes the manner in which experiments are managed in ROME and how experiments relate to other entities such as Users, Datafiles and Variables.
+
+\subsection{The database table: experiment}
+
+The database definition of the experiment table is as follows:
+
+\begin{footnotesize}
+\begin{verbatim}	
+name VARCHAR(50),
+owner CHAR(50) NOT NULL REFERENCES person(username),
+date_created DATE NOT NULL,
+pubmed_id CHAR(30),
+description TEXT,
+root_datafile INT NULL REFERENCES datafile(id),
+status ENUM('private','shared','public')
+\end{verbatim}
+\end{footnotesize}
+
+\paragraph{}
+The primary key is composed of the name and owner columns. This models the constraint that experiment names must be unique for a given user. Different users may have experiments with the same name.
+
+\paragraph{}
+\texttt{date\_created} stores the data on which this experiment was created and once set should never be changed. \texttt{pubmed\_id} allows the user to link this experiment with the paper in which it was first described and description allows the user to add a brief description of the experiment. The experiment's status determines who is able to view the experiment (see section \ref{sec:sharing}). 
+
+\paragraph{}
+The fields \texttt{pubmed\_id}, \texttt{description} and \texttt{status} may be updated via the ROME interface by selecting \texttt{Manage Experiments} from the menu, searching for the experiment in question and clicking on its update link. Only the owner of an experiment (or an administrator) may update these fields. The \texttt{Manage Experiments} interface is illustrated in figure \ref{fig:man_expt}
+
+\begin{figure}
+\centering
+\caption{ROME's Manage Experiments Page}\label{fig:man_expt}
+\includegraphics[scale=0.3]{images/man_expt}
+\end{figure}
+
+
+\paragraph{}
+The \texttt{root\_datafile} field stores the location of the first R datafile in this experiment, from which all others are derived. This is used internally and cannot be changed once set, even by an administrator. Obviously, many experiments produce data in the form of multiple files. These are parsed into a single R datastructure which becomes the \texttt{root\_datafile}. For example multiple Affymetrix \texttt{.cel} files are parsed into an AffyBatch object. For more details see sections \ref{sec:datafile_management} (datafile management) and \ref{sec:parsers} (ROME parsers).
+
+\subsection{Sharing Experiments}
+\label{sec:sharing}
+
+\paragraph{}
+An experiment can be private, shared or public. A private experiment is viewable only by its owner (the person who created it). A shared experiment is viewable by everyone in the workgroups with which that experiment is shared. A public experiment is viewable by anyone. Regardless of the status of an experiment, only the owner has permissions to alter it. This includes both changing its attributes in the database and running further analysis steps.
+
+\paragraph*{}
+ROME will grey-out links in the menu for analysis components when a user has selected an experiment which they do not own. It should be noted that this is merely a helpful aesthetic for the user and there is nothing stopping them attempting to call an analysis action by typing the appropriate URL into the browser by hand. Authors of analysis components are responsible for checking that the current user owns their selected experiment in the component's actions.
+
+\paragraph{}
+Users can share experiments by selecting the shared or public option in the update form of the experiment management page (figure \ref{fig:up_expt}). A public experiment becomes instantly visible to everyone. A shared experiment becomes available to the workgroup management page, from which the experiment owner can specify with whom the experiment is to be shared (see section \ref{sec:workgroup_management} for details).
+
+
+\begin{figure}
+\centering
+\caption{Updating Experiments}\label{fig:up_expt}
+\includegraphics[scale=0.5]{images/up_expt}
+\end{figure}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{The Experiment Controller}
+
+\paragraph{}
+The Controller \texttt{lib/ROME/Controller/CRUD/Experiment.pm} provides all the actions which allow create, update and delete of experiments, plus an assortment of other support actions. Full details of the available actions for developers can be found in the perldoc for the module, however this section will provide a brief overview of the actions and how they are used by the experiment management page. The view templates for the Experiment controller are located in the directory \texttt{root/src/crud/experiment}.
+
+
+\subsection{The Experiment Management Page}
+\paragraph{}
+The index action, which maps to the URL \texttt{.../crud/experiment/} just returns the main experiment management interface, which is defined in the template \texttt{root/src/crud/experiment/admin.tt2}. The returned page has 2 forms, one which allows the user to create a new experiment, one which allows them to search for existing experiments.
+
+\subsection{Creating New Experiments}
+
+\paragraph{}
+The create form submits (via an AJAX call) to the \texttt{add} action. The \texttt{add} action attempts to create a new entry in the experiment table in the database, taking the values of \texttt{pubmed\_id} and \texttt{description} from the post parameters. The value of \texttt{owner} is set to the current user by default, though an administrator may create experiments for other users by passing an appropriate value for \texttt{owner} in the post parameters. \texttt{data\_created} is automatically set to the current date and the \texttt{status} is set to private. The action returns messages (see section \ref{sec:messages}) which are inserted into the page at the top of the form. On completion, if an experiment list exists (see the following section) it is updated to reflect the change made to the database.
+
+
+\subsection{Finding Experiments}
+
+\paragraph{}
+The search form allows the user to look for any experiments to which they have access. They can choose to search in only their own experiments, or in all experiments they are permitted to view (public, or shared with workgroups of which they are a member). The form submits to the \texttt{search\_like} action. The result is a list of all experiments matching the pattern which the current user has permissions to view. User-owned experiments are listed first, followed by shared and finally public experiments.
+
+
+\subsection{Updating and Deleting Experiments}
+
+\paragraph{}
+The owner of an experiment can update the \texttt{description}, \texttt{pubmed\_id} and \texttt{status} fields via the \texttt{update} link next to the relevant experiment. Similarly, they can delete experiments via the appropriate \texttt{delete} link.
+
+\subsection{Selecting Experiments}
+The user can select any of the experiments in the list via the \texttt{Set As Active} link. As well as registering this experiment in the \texttt{experiment\_name} \texttt{experiment\_owner} fields of current user's entry in the \texttt{person} database table, this also triggers a reload of the navigation and status bars to reflect the change. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

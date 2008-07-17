@@ -1,0 +1,59 @@
+[% META title = 'Register' %]
+
+[%# INCLUDE 'dfv_error.tt2' %]
+
+<form method="post" action="[% Catalyst.uri_for('/user/register') %]">
+
+  <fieldset>
+
+    <legend>Register</legend> 
+      
+      <div class="labelled_input">
+        <label for="username">*Username</label>
+        <input type="text" name="username"/>
+      </div>
+
+      <div class="labelled_input">
+        <label for="password">*Password</label>
+        <input type="password" name="password"/>
+      </div>
+
+      <div class="labelled_input">
+      <label for="password2">*Re-enter Password</label>
+      <input type="password" name="password2"/>
+      </div>
+
+      <div class="labelled_input">
+      <label for="email">*Contact email</label>
+      <input type="text" name="email"/>
+      </div>
+
+      <div class="labelled_input">	
+      <label for="forename">Forename</label>
+      <input type="text" name="forename"/>
+      </div>
+
+      <div class="labelled_input">
+
+      <label for="surname">Surname</label>
+      <input type="text" name="surname"/>
+      </div>
+
+      <div class="labelled_input">
+      <label for="institution">Institution</label>
+      <input type="text" name="institution"/>
+      </div>
+
+      <div class="labelled_input">
+      <label for="address">Address</label>
+      <textarea name="address"></textarea>
+      </div>
+    
+      <br/><input type="submit" name="submit" value="register" class="button"/>
+
+  </fieldset>
+
+</form>
+
+<div class="force_clear"></div>
+

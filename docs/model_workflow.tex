@@ -1,0 +1,10 @@
+\subsubsection{Workflows}
+\label{sec:workflow}
+
+\paragraph{}
+Processes can be chained together, the output of one process becoming the input of another. In order to allow new components to be developed without prior knowledge of other components, and to keep ROME as easily extensible as possible, chaining of components is acheived by having the individual processes keep track of the classes of data they can accept and the classes they produce. This is modelled via the \texttt{process\_accepts} and \texttt{process\_creates} tables in the database. 
+
+\paragraph{}
+A specific chain of components can be saved as a \texttt{workflow} and run with different input data. 
+
+THIS STILL ISN'T WORKING, I MIGHT REMOVE IT BEFORE SUBMISSION IF I CAN'T GET IT SORTED.

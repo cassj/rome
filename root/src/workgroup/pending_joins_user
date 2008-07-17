@@ -1,0 +1,15 @@
+<div id="pending_joins">
+[%IF pending_joins%]
+<h3>Pending Requests to Join a Workgroup</h3>
+<ul>
+  [%FOREACH join IN pending_joins%]
+  <li>
+    [%join.workgroup.name%]
+  </li> 
+ 
+  [% END %]
+</ul>
+[%ELSE%]
+<h3>No pending requests to join workgroups</h3>
+[%END%]
+</div>

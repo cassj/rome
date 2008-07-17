@@ -1,0 +1,7 @@
+<ul>
+[%WHILE (cv = cont_vars.next)%]
+     <li>[%cv.name%]<span class="informal">
+        (<span>[%cv.owner.username%]</span>)
+     </span></li>  
+    [%END%]
+</ul>

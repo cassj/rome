@@ -1,0 +1,40 @@
+<html>
+<body>
+Dear Group Leader
+<p>
+ROME has received a request to join your workgroup <strong>[% jr.workgroup.name %]</strong> for the following user:
+</p>
+
+<table>
+<tr><th>Username:</th>    <td>[% jr.person.username %]</td></tr>
+<tr><th>Forename:</th>    <td>[% jr.person.forename %]</td></tr> 
+<tr><th>Surname:</th>     <td>[% jr.person.surname %]</td></tr>
+<tr><th>Institution:</th> <td>[% jr.person.institution %]</td></tr>
+</table>
+
+<p>
+If you would like to add this use to the group, follow the link below
+</p>
+
+<p>
+<a href="[% confirm_link %]">[% confirm_link %]</a>
+</p>
+
+<p>
+Alternatively, you can deny their request with the following URL:
+</p>
+
+<p>
+<a href="[% deny_link %]">[% deny_link %]</a>
+</p>
+
+<p>
+Many thanks,
+<br/>ROME.
+</p>
+
+<p>
+Problems? Questions? Your ROME administrator can be contacted on <a href="mailto:[% sysadmin_email %]">[% admin_email %]</a>.
+</p>
+</body>
+</html>

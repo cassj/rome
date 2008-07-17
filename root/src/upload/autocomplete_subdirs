@@ -1,0 +1,7 @@
+<ul>
+[%FOREACH subdir IN subdirs%]
+  <li>[%subdir%]</li>
+[%END%]
+</ul>
+
+

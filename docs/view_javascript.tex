@@ -1,0 +1,9 @@
+\subsubsection{AJAX and Javascript}
+\label{sec:view_javascript}
+
+\paragraph{}
+Prototype AJAX updater actions etc.
+
+\paragraph{}
+If a change is made to the current experiment, datafile or user without a page reload (ie. as the result of an AJAX call) then the navigation bar should also be updated. This is achieved via the javascript function \texttt{update\_nav} (defined in \texttt{rome.js}) which simply makes an AJAX call to the Catalyst action \texttt{common/nav}.  As with the navigation bar, the \texttt{status\_bar} is context dependant and can be updated following an AJAX-based change in the user, experiment or datafile via a call to the javascript \texttt{update\_status\_bar} function which makes an AJAX call to the \texttt{common/status\_bar} action.
+

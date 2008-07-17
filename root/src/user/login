@@ -1,0 +1,34 @@
+[% META title = 'Login' %]
+
+<p>
+[% IF Catalyst.user_exists %]
+    Please Note: You are already logged in as '[% Catalyst.user.username %]'.
+    <br/>You can <a href="[% Catalyst.uri_for('/user/logout') %]">logout</a> here.
+[% ELSE %]
+Please login to use [%Catalyst.config.name%]. 
+<br/>If you don't have a user account you can <a href="[%Catalyst.uri_for('/user/register')%]">register here</a>
+<br/>If you have forgotten your password, you can <a href="[%Catalyst.uri_for('/user/lost_password')%]">request a new one</a>
+[% END %]
+</p>
+
+[%# INCLUDE 'dfv_error.tt2' %]
+<form method="post" action="[% Catalyst.uri_for('/user/login') %]">
+  <fieldset>
+    <legend>login</legend> 
+      
+      <div class="labelled_input">
+        <label for="username">Username</label>
+        <input type="text" name="username"/>
+      </div> 
+
+      <div class="labelled_input">
+        <label for="password">Password</label>
+        <input type="password" name="password"/>
+      </div>
+
+      <br/><input type="submit" name="submit" value="login" class="button"/>
+
+  </fieldset>
+</form>
+</div>
+

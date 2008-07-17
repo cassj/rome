@@ -1,0 +1,23 @@
+\subsubsection{Overview}
+\label{sec:model_overview}
+
+\paragraph{}
+The ROME model is implemented as a MySQL database with DBIx::Class object-relational mapping. The main base DBIx::Class schema class is ROMEDB.pm, which is decoupled from Catalyst and can be used by other applications to access the database.  Each table in the database has a corresponding class in \texttt{lib/ROMEDB/} which defines how to generate a perl DBIx::Class object from elements of that table. The ROMEDB schema is made available to Catalyst via ROME::Model::ROMEDB, a subclass of Catalyst::Model::DBIC::Schema. The configuration options: which schemas to use, connection details and so on, are picked up from the \texttt{rome.yml} config file. The schema can therefore be accessed via the Catalyst context object within controller actions and view templates. 
+
+\paragraph{}
+The easiest way to get an overview of the model structure is to consider the main entities involved and the conceptual relationships between them. In brief, there are \texttt{Users}, who have \texttt{Experiments}, which are composed of \texttt{Jobs}. \texttt{Jobs} accept \texttt{Datafiles} as input and generate \texttt{Datafiles} as output. Entries in the \texttt{Process} table describe \texttt{Processes} which can be run as \texttt{Jobs}. A \texttt{Process} has associated \texttt{Parameters}. A \texttt{Process} also defines the \texttt{Datatype} of the \texttt{Datafiles} it can \texttt{Accept} and \texttt{Create}. A \texttt{Job} can be considered a specific instance of a \texttt{Process}, so where a \texttt{Process} has a description of the \texttt{Datatypes} it accepts and creates, a \texttt{Job} has actual \texttt{Input Datafiles} and \texttt{Output Datafiles} of the appropriate \texttt{Datatype}. Where a \texttt{Process} has associated \texttt{Parameters} a \texttt{Job} has \texttt{Arguments}, the actual \texttt{Parameter} values used for the \texttt{Job}. A \texttt{Process} also defines a \texttt{Processor} which is capable of running \texttt{Jobs} generated from that \texttt{Process}. Currently the only available \texttt{Processor} is \texttt{ROME::Processor::R}. \texttt{Jobs} are entered in the \texttt{Queue} to be run. A seperate job scheduler is responsible for checking the contents of the queue and running the jobs. \texttt{Processes} belong to \texttt{Components}. A \texttt{Component} can be thought of as a ROME add-on package and comprises model,view and controller elements.
+
+% \paragraph{}
+% \texttt{Workflows} can be defined as a series of \texttt{Processes} which can be chained together by the \texttt{Datafiles} they accept and create. As a \texttt{Workflow} is a chained set of \texttt{Processes} and their associated \texttt{Parameters}, a \texttt{Career} is a chained set of \texttt{Jobs} and their associated \texttt{Arguments}.
+
+\paragraph{}
+Figure \ref{fig:modover} provides an overview of the entire model and the SQL definition can be found in appendix \ref{ch:rome_schema}. The following sections describe the model in more detail.
+
+
+\begin{figure}
+\centering
+\caption{ROME Data Model}\label{fig:modover}
+\includegraphics[scale=0.32, angle=90]{images/modover}
+\end{figure}
+
+\clearpage

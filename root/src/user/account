@@ -1,0 +1,56 @@
+[% META title = 'My Account' %]
+
+[% IF Catalyst.user.roles %]
+<p>Your account has the following rights:</p>
+<ul>  
+  [% FOREACH role IN Catalyst.user.roles %]
+    <li>[%role%]</li>   
+  [% END %]
+</ul>
+[% END %]
+
+<!-- Update form. does an ajax submit to /user/account/update -->
+[%Catalyst.prototype.form_remote_tag({
+     update => 'messages_update_form',
+     url    => "/user/account/update"
+   } )
+%]
+<fieldset>
+
+<!-- div for ajax responses from this form -->
+<div id="messages_update_form"></div>
+
+<legend>Account details for user: <span class="warning">[%Catalyst.user.username%]</span></legend>
+       
+      <input type="hidden" name="username" id="username" value="[%Catalyst.user.username%]"/>
+
+      <div class="labelled_input">
+      <label for="email">*Contact email</label>
+      <input type="text" name="email" value="[%Catalyst.user.email%]"/>
+      </div>
+
+      <div class="labelled_input">	
+      <label for="forename">Forename</label>
+      <input type="text" name="forename" value="[%Catalyst.user.forename%]"/>
+      </div>
+
+      <div class="labelled_input">
+
+      <label for="surname">Surname</label>
+      <input type="text" name="surname" value="[%Catalyst.user.surname%]"/>
+      </div>
+
+      <div class="labelled_input">
+      <label for="institution">Institution</label>
+      <input type="text" name="institution" value="[%Catalyst.user.institution%]"/>
+      </div>
+
+      <div class="labelled_input">
+      <label for="address">Address</label>
+      <textarea name="address">[%Catalyst.user.address%]</textarea>
+      </div>
+    
+      <br/><input type="submit" name="submit" value="update" class="submit_button"/>
+
+</fieldset>
+</form>    

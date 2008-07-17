@@ -1,0 +1,10 @@
+[% META title = 'Server Error' %]
+    
+<p>Sorry, something has gone awry with your request.</p>
+
+<p>This is not your fault, it may be a bug, or it may be a temporary glitch.</p>
+
+<p>Please try again later</p>
+
+<p>If you continue to have problems, please <a href="/sysadmin/contact">contact your system administrator</a> to report the problem</p>
+

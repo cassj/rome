@@ -1,0 +1,13 @@
+[% META title="Manage Datatypes" %]
+
+<div id="current_datatype">
+[% INCLUDE 'devel/current_datatype.tt2' %]
+</div>
+
+<div id="search_datatypes">
+[% INCLUDE 'devel/search_datatypes.tt2'%]
+</div>
+
+<div id="create_datatype">
+[% INCLUDE 'devel/new_datatype_form.tt2' %]
+</div>

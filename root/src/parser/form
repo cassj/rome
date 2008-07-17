@@ -1,0 +1,52 @@
+[% META title = 'Parse Data' %]
+
+[%IF Catalyst.user.experiment%]
+
+[% IF Catalyst.user.experiment.root_datafile %]
+
+   <p class="warning">You have already created a root datafile for this experiment.</p>
+
+   <p>Delete root datafile?</p>
+
+[% ELSE %]
+
+<div id="select_parser">
+
+  <form action="/set_parser" 
+         name="parser_form" 
+         method="post" onsubmit=" new Ajax.Updater( 'select_files',  
+                                                  'set_parser', 
+                                                 { parameters: Form.serialize(this),asynchronous: 1,evalScripts: 1 } ) ;  return false">
+    <fieldset>
+
+      <legend>Choose a parser</legend>
+
+      <div class="labelled_input">
+        <label for="selected_parser">Parser: </label>
+        <select id="selected_parser" name="selected_parser">
+           <option value="0" selected/>
+           [% FOREACH parser IN parser_list %]
+             <option value="[% parser %]">[% parser %]</option>
+           [% END %]
+        </select>
+      </div> 
+
+      <br/><input type="submit" value="Use this parser" class="button"/> 
+
+   </fieldset>
+ </form>
+
+</div>
+  
+<!-- div for select_files.tt -->
+<div id="select_files"></div>
+ 
+[% END %]
+
+[%ELSE%]
+  <p class="warning">No Experiment Selected</p>
+  <p>You must have an experiment selected in order to parse your raw datafiles into a root datafile.</p>
+  <p>Return to <a href="/crud/experiment">Manage Experiments</a></p>
+[%END%]
+
+

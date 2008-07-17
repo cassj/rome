@@ -1,0 +1,174 @@
+<form action="/devel/process/parameter/create" 
+      method="post" 
+      onsubmit=" new Ajax.Updater( 'parameter_create_results',  
+                                   '/devel/process/parameter/create', 
+                                   { parameters: Form.serialize(this), 
+                                     asynchronous: 1
+				   } ) ; 	
+                return false"
+>
+
+
+  <fieldset>
+   <legend>Add a parameter to process [% selected_process.display_name %]</legend>
+
+    <fieldset>
+      <legend> Define the Parameter </legend>
+
+        <div class="labelled_input">
+          <label for="parameter_name">Parameter Name <span class="details">(database key)</span></label>
+	  <input type="text" name="parameter_name" />
+        </div>
+
+        <div class="labelled_input">
+          <label for="parameter_display_name">Parameter Display name <span class="details">(visible to users, defaults to parameter name)</span></label>
+	  <input type="text" name="parameter_display_name" />
+        </div>
+      
+        <div class="labelled_input">
+          <label for="parameter_description">Parameter Description <span class="details">(optional, but useful to users)</span></label>
+	  <textarea name="parameter_description"></textarea>
+        </div>
+
+        <div class="labelled_input">
+          <label for="parameter_optional">Parameter Optional?</label>
+	  <input type="checkbox" name="parameter_optional" value="1"/>
+	<p class="details">Note: The user doesn't have to provide a value for optionals parameter. You will get the chance to define defaults once the parameter has been created</p>
+        </div>
+
+
+
+        [%# If we don't have a selected process there should be 
+           an autocomplete field for process that lists all the processes
+	   in the currently selected component, or all available to the user
+	   if a component is not selected and automagically updates the 
+	   process_component_name and process_component_version fields.
+	   But I haven't got time now
+        %]
+
+        <!-- hidden inputs to identify process -->
+        <input type="hidden" name="process_name" value="[% selected_process.name %]" />
+        <input type="hidden" name="process_component_name" value="[% selected_process.component_name %]" />
+        <input type="hidden" name="process_component_version" value="[% selected_process.component_version %]" />
+
+        <div class="force_clear"></div>
+
+
+    </fieldset>
+
+    <fieldset>
+      <legend>Define the form input element for your new parameter</legend>
+
+        <div class="force_clear"></div>
+
+	<p>The name of your form input field will be the display name of your parameter and the parameter dscription will be displayed if defined</p>
+
+	<div class="labelled_input">
+	  <label for="form_element_type">Type of form element to use</label>
+	  <div class="radio_list">
+
+	  <input type="radio" name="form_element_type" value="text"
+	         onclick="$('form_element_values').style.display='none';
+                          $('form_element_constraints').style.display='block';
+			  $('element_is_multiple').checked=false;
+			  $('element_is_multiple_div').style.display='none'" >Small Text Box</input>
+
+	  <input type="radio" name="form_element_type" value="textarea"
+                 onclick="$('form_element_values').style.display='none';
+                          $('form_element_constraints').style.display='block';
+			  $('element_is_multiple').checked=false;
+			  $('element_is_multiple_div').style.display='none'" >Large Text Box</input>
+
+	  <input type="radio" name="form_element_type" value="checkbox"
+                  onclick="$('form_element_values').style.display='none';
+                           $('form_element_constraints').style.display='none';
+			  $('element_is_multiple').checked=false;
+			  $('element_is_multiple_div').style.display='none'" >Checkbox</input>
+
+	  <input type="radio" name="form_element_type" value="checkbox_group" 
+                 onclick="$('form_element_values').style.display='block';
+                          $('form_element_constraints').style.display='none';
+			  $('element_is_multiple').checked=true;
+			  $('element_is_multiple_div').style.display='none'">Checkbox Group</input>
+
+	  <input type="radio" name="form_element_type" value="radio"
+         	 onclick="$('form_element_values').style.display='block';
+                          $('form_element_constraints').style.display='none';
+			  $('element_is_multiple').checked=false;
+			  $('element_is_multiple_div').style.display='none'">Radio Button Group</input>
+
+	  <input type="radio" name="form_element_type" value="select"
+                 onclick="$('form_element_values').style.display='block';
+                          $('form_element_constraints').style.display='none';
+			  $('element_is_multiple').checked=false;
+			  $('element_is_multiple_div').style.display='block'" >Drop-down Select Box</input>
+
+	  </div>
+	</div>
+
+        <div class="labelled_input" id="form_element_values" style="display:none">
+	  <label for="form_element_values">Possible values of parameter 
+                                           <span class="details">Separate values by commas. 
+					   Group values into sets with forward slashes, eg blue1, blue2 / red1, red2 / yellow</span>
+          </label>
+	  <input type="text" name="form_element_values" />
+	</div>	
+
+        <div class="labelled_input" id="element_is_multiple_div" style="display:none">
+	  <label for="element_is_multiple">Multiple selections allowed </label>
+	  <input type="checkbox" value="1" name="element_is_multiple" id="element_is_multiple"/>
+	</div>
+
+    </fieldset>
+
+    <fieldset id="form_element_constraints" style="display:none">
+        <legend>Define constraints on your parameter values</legend>
+        
+        <p class="warning">Values passed by users will be handed to R scripts and run. Care must be taken to prevent users inserting malicious code in R.</p> 
+
+        <p> If at all possible use checkboxes, radio buttons or dropdown menus as these have pre-defined possible values (against which user data will be checked by ROME). If you <span class="highlight">must</span> use a free text input, it is <span class="highlight">vital</span> that you define constraints on the values it can take.</p>
+
+        <p> If you need more complex constraints than those on offer here, go ahead and create the parameter and then edit the [ROME_home_dir]/lib/ROME/Controller/[ComponentName]pm _validate_[process_name]_params action by hand.</p>
+	
+
+         <div class="labelled_input">
+           <label for="element_value_is">Value is:</label>
+	   <input type="radio" name="element_value_is" value="numeric"
+	          onclick="$('numeric_constraints').style.display='block';">Numeric</input>
+	   <input type="radio" name="element_value_is" value="text"
+                  onclick="$('numeric_constraints').style.display='none';">Text 
+                  <span class="details"> (alphanumeric, no spaces, no punctuation except '_') </span></input>
+	 </div>
+	 
+	 <div id="numeric_constraints" style="display:none">
+
+	   <div class="labelled_input">
+	      <label for="element_value_numtype">Number is:</label>
+	      <div class="radio_list">
+	        <input type="radio" name="element_value_numtype" value="int">Integer</input>
+	        <input type="radio" name="element_value_numtype" value="real">Real</input>
+	      </div>
+           </div>
+
+	   <div class="labelled_input">
+	     <label for="element_value_min">Minimum Value <span class="details">(optional)</span> </label>
+	     <input type="text" name="element_value_min" />
+	   </div>
+
+	   <div class="labelled_input">
+	     <label for="element_value_max">Maximum Value <span class="details">(optional)</span> </label>
+	     <input type="text" name="element_value_max" />
+	   </div>	   
+
+	 </div>
+
+    </fieldset>
+
+    <div id="parameter_create_results"></div>
+
+    <input type="submit" name="submit" value="Add Parameter" class="button"/>
+
+  </fieldset>   
+
+</form>
+

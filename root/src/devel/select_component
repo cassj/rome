@@ -1,0 +1,42 @@
+<form action="/devel/component/select" 
+      method="post" 
+      onsubmit=" new Ajax.Updater( 'component_select_results',  
+                                   '/devel/component/select', 
+                                   { parameters: Form.serialize(this), 
+                                     asynchronous: 1,
+				     onComplete: function(){update_current_component('current_component');}
+				   } ) ; 	
+                return false"
+>
+
+
+  <fieldset>
+   <legend>Select an existing component</legend>
+
+      <div id="component_select_results"></div>
+
+     <div class="labelled_input">
+        <label for="component_name">Component Name</label>
+        <input type="text" id="select_component_name" name="component_name" />
+	<div id="select_component_autocomplete_choices" class="autocomplete"></div>
+        <script type="text/javascript" language="javascript">
+        // <![CDATA[
+             new Ajax.Autocompleter("select_component_name",
+                                    "select_component_autocomplete_choices",
+                                    "/devel/component/autocomplete",
+                                    {afterUpdateElement:function(e,s_e){$('select_component_version').value=s_e.childNodes.item(1).childNodes.item(1).innerHTML;}});
+        // ]]>
+        </script>
+      </div>
+
+      <input type="hidden" name="component_version" id="select_component_version"/>
+
+      <div class="force_clear"></div>
+
+ <input type="submit" name="submit" value="Select Component" class="button"/>
+     
+</fieldset>   
+
+</form>
+
+

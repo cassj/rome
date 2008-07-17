@@ -1,0 +1,10 @@
+\paragraph{}
+Catalyst provides the basis for the controller tier. The application base class ROME.pm inherits from Catalyst.pm, which, as discussed in section \ref{sec:catalyst} deals with many generic tasks such as parsing the request into a perl object, mapping the URL to the appropriate controller action and so on. Various Catalyst plugins are pulled in by ROME.pm to handle other
+
+There are a number of core controllers in ROME which provide the server-side actions for the core functionality. Each additional component also has its own controller to provide the actions it requires. All of the controllers inherit from the base controller ROME::Controller::Root
+
+
+\subsubsection{Sessions and State}
+\paragraph{}
+HTTP is a stateless protocol: as far as the web server is concerned every client request is unique and unrelated. Clearly for a web-application it is important to be able to keep track of users. The relationship between client and server is made to persist across multiple requests using the concept of sessions. User-specific data can be stored on the server and linked to a session key. The session key is also stored client-side, typically in a cookie. The client then sends the session key data along with each request and any data associated with that session key is restored to the session hash. Catalyst provides a Session plugin, which oversees the management of sessions and requires two further plugins to deal with the mechanics of storing data on the server and maintaining the session state on the client. There are a number of options in Catalyst, but ROME uses cookies on the client-side, as implemented in Catalyst::Plugin::Session::State::Cookie and a memory-mapped file as a shared interprocess cache on the server-side, as implemented by Catalyst::Plugin::Session::Store::FastMmap.
+

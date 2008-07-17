@@ -1,0 +1,21 @@
+<h1>Selected Experiment</h1>
+<h2>[%Catalyst.user.experiment.name %]</h2>
+
+[% IF Catalyst.user.experiment %]
+<table>
+<tr><td>Owner: </td><td>[%Catalyst.user.experiment.owner.username%]</td></tr>
+<tr><td>Description:</td><td>[%Catalyst.user.experiment.description%]</td></tr>
+<tr><td>Status</td><td>[% Catalyst.user.experiment.status %]</td></tr>
+
+<tr>
+<td>Workgroups</td>
+[%IF Catalyst.user.experiment.workgroups%]
+  [%FOREACH wg IN Catalyst.user.experiment.workgroups%]
+   <td>[%wg.name%] ([%wg.leader.username%])</td>
+  [%END%]
+[%ELSE%]<td>none</td>
+[%END%]
+</tr>
+</table>
+
+[% END %]

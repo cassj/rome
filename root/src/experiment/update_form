@@ -1,0 +1,53 @@
+<form action="/experiment/update" 
+      method="post" 
+      onsubmit=" new Ajax.Updater( 'update_results',  
+                                   '/experiment/update', 
+                                   { parameters: Form.serialize(this),
+                                     asynchronous: 1,
+                                     onSuccess: function(){setTimeout(function(){
+                                                 update_experiment_list(
+                                                                'search_results',
+                                                                '[%which%]',
+                                                                '[%pattern%]'
+                                                 ); update_current_experiment('current')}, 1000);
+                                      },
+                                   }
+                 ) ; 
+                  return false"
+>
+
+  <fieldset>
+  <legend>Update experiment [%experiment.name%]</legend>
+
+     <div id="update_results"></div>
+
+     <input type="hidden" name="name" value="[%experiment.name%]"/>
+     <input type="hidden" name="owner" value="[%experiment.owner.username%]">
+
+    <div class="labelled_input">
+      <label for="description">Description</label>
+      <input type="text" name="description" value="[%experiment.description%]"/>
+    </div>
+
+    <div class="labelled_input">
+      <label for="pubmed_id">Pubmed ID</label>
+      <input type="text" name="pubmed_id" value="[%experiment.pubmed_id%]"/>
+    </div>
+
+    <div class="labelled_input">
+      <label for="status">Status</label>
+      <input type="radio" name="status" value="private"
+       [%IF experiment.status == 'private'%]CHECKED[%END%]
+      >private</input>
+      <input type="radio" name="status" value="shared"
+       [%IF experiment.status == 'shared'%]CHECKED[%END%]
+      >shared</input>
+      <input type="radio" name="status" value="public"
+       [%IF experiment.status == 'public'%]CHECKED[%END%]
+      >public</input>
+    </div>
+    
+
+      <input type="submit" name="submit" value="Update" class="button"/>
+   </fieldset>
+</form>

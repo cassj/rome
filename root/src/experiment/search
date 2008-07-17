@@ -1,0 +1,30 @@
+
+[%Catalyst.prototype.form_remote_tag({
+     update => 'search_results',
+     url    => "/experiment/search_like"
+   } )
+%]
+  <fieldset>
+  <legend>Search for experiments</legend>
+
+    <p><span class="big_text">*</span> can be used as a wildcard, at either end of your search pattern,  eg *foo*</p>
+
+    <div class="labelled_input">
+      <label for="pattern">Search by name:</label>
+      <input type="text" name="pattern" />
+    </div>
+
+    <div class="labelled_input">
+      <label for="which">Search </label>
+      <div class="radio_list">
+        <input type="radio" name="which" value="mine" CHECKED/><span>My experiments</span><br/> 
+        <input type="radio" name="which" value="all"/>  <span>All experiments<span>
+      </div>
+    </div>
+   
+    <input type="submit" name="submit" value="Search" class="button"/>
+
+   </fieldset>
+</form>
+
+<div id="search_results"></div>

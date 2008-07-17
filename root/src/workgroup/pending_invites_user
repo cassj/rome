@@ -1,0 +1,52 @@
+<div id="pending_invites">
+[%IF pending_invites%]
+<h3>Pending Workgroup Invitations</h3>
+
+<div id="pending_invite_res"></div>
+<ul>
+  [%FOREACH invite IN pending_invites%]
+  <li>
+     [%invite.workgroup.name%]
+      <a class="ajax_link" 
+         href="/workgroup/confirm_invite/[% invite.workgroup.name%]/[%invite.person.username%]" 
+         onclick=" new Ajax.Updater( 'pending_invite_res',  
+                                     '/workgroup/confirm_invite/[% invite.workgroup.name %]/[%invite.person.username%]', 
+                                     { asynchronous: 1,
+                                       onSuccess: function(){     
+                                                  setTimeout(
+                                                    function(){
+                                                      update_pending_invites('pending_invites','[%invite.person.username%]');
+                                                    }, 
+                                                    1000
+                                                  );
+                                                }
+				     } ) ; 
+                   return false"
+      >Confirm</a>
+
+      <a class="ajax_link" 
+         href="/workgroup/deny_invite/[% invite.workgroup.name%]/[%invite.person.username%]" 
+         onclick=" new Ajax.Updater( 'pending_invite_res',  
+                                     '/workgroup/deny_invite/[% invite.workgroup.name %]/[%invite.person.username%]', 
+                                     { asynchronous: 1,
+                                       onSuccess: function(){     
+                                                  setTimeout(
+                                                    function(){
+                                                      update_pending_invites('pending_invites','[%invite.person.name%]');
+                                                    }, 
+                                                    1000
+                                                  );
+                                                }
+				     } ) ; 
+                   return false"
+      >Deny</a>
+
+  </li> 
+ 
+  [% END %]
+</ul>
+[%ELSE%]
+<h3>No pending workgroup invitations</h3>
+[%END%]
+</div>
+

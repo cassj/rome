@@ -1,0 +1,67 @@
+<form action="/devel/process/create" 
+      method="post" 
+      onsubmit=" new Ajax.Updater( 'process_create_results',  
+                                   '/devel/process/create', 
+                                   { parameters: Form.serialize(this), 
+                                     asynchronous: 1
+				   } ) ; 	
+                return false"
+>
+
+
+  <fieldset>
+   <legend>Add a process</legend>
+
+      <div id="process_create_results"></div>
+
+     [% IF selected_component %]
+        <div>
+          <span>Component Name: [% selected_component.name %]</span>
+	  <span>Component Version: [% selected_component.version %]</span>
+        </div>
+        <input type="hidden" name="process_component_name" value="[% selected_component.name%]"/>
+	<input type="hidden" name="process_component_version" value="[% selected_component.version%]"/>
+      [% ELSE %]
+      <div class="labelled_input">
+        <label for="process_component_name">Component Name</label>
+        <input type="text" id="process_component_name" name="process_component_name" class="component_name" value="[%selected_component.name%]"/>
+	<div id="process_component_autocomplete_choices" class="autocomplete"></div>
+        <script type="text/javascript" language="javascript">
+        // <![CDATA[
+             new Ajax.Autocompleter("process_component_name",
+                                    "process_component_autocomplete_choices",
+                                    "/devel/component/autocomplete",
+                                    {afterUpdateElement:function(e,s_e){$('process_component_version').value=s_e.childNodes.item(1).childNodes.item(1).innerHTML;}});
+        // ]]>
+        </script>
+      </div>
+
+      <input type="hidden" name="process_component_version" id="process_component_version" class="component_version" value="[%selected_component.version%]"/>
+
+       [% END %]
+
+      <div class="labelled_input">
+        <label for="process_name">Process Name</label>
+        <input type="text" name="process_name"/>
+      </div> 
+
+     <div class="labelled_input">
+        <label for="process_display_name">Process Display Name</label>
+        <input type="text" name="process_display_name"/>
+      </div> 
+
+
+      <div class="labelled_input">
+        <label for="process_description">Description</label>
+        <textarea name="process_description"></textarea>
+      </div>
+
+
+      <div class="force_clear"></div>
+
+ <input type="submit" name="submit" value="Create Process" class="button"/>
+     
+</fieldset>   
+
+</form>
+

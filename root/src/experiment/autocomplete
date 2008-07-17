@@ -1,0 +1,9 @@
+<ul>
+[%WHILE (experiment = experiments.next)%]
+     <li>[%experiment.name%]<span class="informal">
+        (<span>[%experiment.owner.username%]</span>)
+         [%IF experiment.description%]<span>[%experiment.description%]</span>[%experiment.description%][%END%]
+     </span>
+     </li>  
+[%END%]
+</ul>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="1"
+   name=""
+   committed-date="2006-08-16T18:47:55.966075Z"
+   url="http://svn.devjavu.com/rome/trunk/lib/WebR/Processor"
+   last-author="johnston@biochem.ucl.ac.uk"
+   kind="dir"
+   uuid="83768876-261b-0410-be1e-834bb1c77278"
+   revision="4"/>
+<entry
+   committed-rev="9"
+   name="R.pm"
+   text-time="2006-08-17T17:37:03.000000Z"
+   committed-date="2006-08-18T00:41:57.110425Z"
+   checksum="81f7e0c784c824e32a42cb63a5034053"
+   last-author="johnston@biochem.ucl.ac.uk"
+   kind="file"
+   prop-time="2006-08-16T12:30:57.000000Z"
+   revision="9"/>
+</wc-entries>

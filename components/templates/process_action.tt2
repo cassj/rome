@@ -1,0 +1,94 @@
+### START PROCESS [%process_name%] ###
+
+=item [% process_name %]
+
+  passes the template for the [% process_name %] process to the view
+
+=cut
+sub [% process_name %] :Local{
+
+  my (\$self, \$c) = @_;
+  \$c->stash->{template} = '[% component_name %]/[% process_name %].tt2';
+
+}
+
+#parameter validation for [%process_name%]_queue
+sub _validate_[%process_name%] :Private{
+  my (\$self, \$c) = @_;
+  my \$dfv_profile = {
+		      required => [qw()],	
+		      optional => [qw()],	
+		      dependencies =>{},
+		      msgs => {
+			       format => '%s',
+			       constraints => {
+					       'is_single'          => 'Multiple values not allowed',
+					       'is_number'          => 'Not a real number',
+					       'is_integer'         => 'Not an integer',
+					       'is_boolean'         => 'Value can only be 1 or 0',
+					       'is_more_than'       => 'Value is less than the minimum allowed',
+					       'is_less_than'       => 'Value is more than the maximum allowed',
+					       'is_one_of'          => 'Value is not one of the defined options',
+					       'allowed_chars'      => 'Invalid charcters used',
+					       'allowed_chars_plus' => 'Invalid characters used',
+					      },
+			      },
+		      filters => ['trim'],
+		      missing_optional_valid => 1,    
+		      constraint_methods => {
+					    },
+		     };
+ 
+ \$c->form(\$dfv_profile);
+}
+
+=item [%process_name%]_queue
+
+  Ajax action to which the [%component_name%]/[%process_name%] 
+  form submits
+
+=cut
+
+sub [%process_name%]_queue :Path('[%process_name%]/queue'){
+    my (\$self, \$c) = @_;
+
+    \$c->stash->{template} = 'site/messages';
+    \$c->stash->{ajax} = 1;
+
+     #check your form parameters
+     if (\$c->forward('_validate_[%process_name%]')){
+    
+       # get your process 
+       my \$process = \$c->model('ROMEDB::Process')->find({
+              name => "[% process_name %]",
+              component_name => "[% component_name %]",
+              component_version =>"[% component_version %]"
+       });
+       die "process [%process_display_name%] not found" unless \$process;
+
+       # get an appropriate processor
+       my \$processor = ROME::Processor->new(\$process->processor);
+  
+       # set your process in the processor
+       \$processor->process(\$process);
+  
+       # give the processor the current context
+       \$processor->context(\$c);
+
+       # set the arguments for the process
+       # the processor enforces all the constraints defined
+       # for the process parameters when queue is called 
+       # so you can just pass the form values straight through
+       \$processor->arguments(\$c->request->params);
+
+       # create a job and put it in the job queue to be run
+       \$processor->queue();
+
+       \$c->stash->{status_msg} = "Process queued";
+     }
+     #any dfv errors are automatically inserted into the 
+     #stash error_msg by the template
+     return;
+}
+
+### END PROCESS [%process_name%] ###

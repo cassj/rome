@@ -1,0 +1,12 @@
+[% META title = 'Delete a user' %]
+
+<ul> 
+  [% people = Catalyst.model('ROMEDB::Person').all %]
+  [%FOREACH user IN people%]
+   <li><span class="highlight">[%user.username%]</span> 
+   [%IF user.forename%] [%user.forename%][%END%]
+   [%IF user.surname%] [%user.surname%][%END%] 
+   <a class="delete" href="[%Catalyst.uri_for('/user/delete/')%][%user.username%]">delete this user</a>
+   </li>
+  [%END%]
+</ul>

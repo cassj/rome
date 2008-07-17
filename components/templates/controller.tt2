@@ -1,0 +1,46 @@
+[%# This is a TT template used to generate ROME controllers %]
+package ROME::Controller::[%pkg_name%];
+
+use strict;
+use warnings;
+use base 'Catalyst::Controller';
+use ROME::Processor;
+use ROME::Constraints;
+
+=head1 NAME
+
+[%pkg_name%] - ROME Component Controller
+
+=head1 DESCRIPTION
+
+This is a Catalyst controller for a ROME component.
+
+=head1 METHODS
+
+=over2
+
+=cut
+
+
+our \$VERSION = "[% version %]";
+
+### PROCESS METHODS ### 
+
+
+
+
+
+=back
+
+=head1 AUTHOR
+
+[%author%]
+
+=head1 LICENSE
+
+This library is free software, you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut
+
+1;

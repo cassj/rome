@@ -1,0 +1,648 @@
+This is pdfeTeX, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=latex 2007.6.14)  8 OCT 2007 12:20
+entering extended mode
+**dev_guide.tex
+(./dev_guide.tex
+LaTeX2e <2003/12/01>
+Babel <v3.8d> and hyphenation patterns for american, french, german, ngerman, b
+ahasa, basque, bulgarian, catalan, croatian, czech, danish, dutch, esperanto, e
+stonian, finnish, greek, icelandic, irish, italian, latin, magyar, norsk, polis
+h, portuges, romanian, russian, serbian, slovak, slovene, spanish, swedish, tur
+kish, ukrainian, nohyphenation, loaded.
+(/usr/share/texmf-tetex/tex/latex/base/report.cls
+Document Class: report 2004/02/16 v1.4f Standard LaTeX document class
+(/usr/share/texmf-tetex/tex/latex/base/size10.clo
+File: size10.clo 2004/02/16 v1.4f Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/usr/share/texmf-tetex/tex/latex/natbib/natbib.sty
+Package: natbib 2003/06/06 7.1 (PWD)
+\bibhang=\skip43
+\bibsep=\skip44
+LaTeX Info: Redefining \cite on input line 518.
+\c@NAT@ctr=\count88
+)
+(/usr/share/texmf-tetex/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf-tetex/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+(/usr/share/texmf-tetex/tex/latex/graphics/graphics.sty
+Package: graphics 2001/07/07 v1.0n Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf-tetex/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/usr/share/texmf-tetex/tex/latex/graphics/graphics.cfg
+File: graphics.cfg 2005/02/03 v1.3 graphics configuration of teTeX/TeXLive
+)
+Package graphics Info: Driver file: dvips.def on input line 80.
+
+(/usr/share/texmf-tetex/tex/latex/graphics/dvips.def
+File: dvips.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
+))
+\Gin@req@height=\dimen103
+\Gin@req@width=\dimen104
+) (./dev_guide.aux)
+\openout1 = `dev_guide.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 14.
+LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 14.
+LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 14.
+LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 14.
+LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 14.
+LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 14.
+LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 15.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 15.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 15.
+
+[1
+
+] [1] (./dev_guide.toc
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 2.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 2.
+ [1
+
+])
+\tf@toc=\write3
+\openout3 = `dev_guide.toc'.
+
+ [2]
+Chapter 1.
+[3
+
+] [4]
+File: images/mvc.eps Graphic file (type eps)
+ <images/mvc.eps> [5] [6]
+Overfull \hbox (13.51212pt too wide) in paragraph at lines 98--99
+ \OT1/cmr/bx/n/10 Regex []\OT1/cmtt/m/n/10 sub foo : Regex(^item(\d+)/order(\d+
+)$) \OT1/cmr/m/n/10 which match any URL
+ []
+
+File: images/catalyst-flow.eps Graphic file (type eps)
+<images/catalyst-flow.eps>
+Overfull \hbox (4.15207pt too wide) in paragraph at lines 119--120
+ [][] 
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[7]
+Overfull \hbox (14.00064pt too wide) in paragraph at lines 141--142
+\OT1/cmr/m/n/10 This tem-plate will for-mat the er-ror mes-sages from the Data:
+:FormValidator::Results
+ []
+
+[8] [9]
+Chapter 2.
+[10
+
+]
+Chapter 3.
+[11
+
+]
+Overfull \hbox (53.99652pt too wide) in paragraph at lines 221--221
+[]    \OT1/cmtt/m/n/10 $c->response->body('Matched ROME::Controller::AnExample 
+in AnExample.');[] 
+ []
+
+
+Overfull \hbox (11.99689pt too wide) in paragraph at lines 221--221
+[]\OT1/cmtt/m/n/10 This library is free software, you can redistribute it and/o
+r modify[] 
+ []
+
+
+Package natbib Warning: Citation `camel' on page 12 undefined on input line 224
+.
+
+[12]
+Overfull \hbox (48.74657pt too wide) in paragraph at lines 237--237
+[]   \OT1/cmtt/m/n/10 $c->response->body('Matched ROME::Controller::AnExample i
+n AnExample.');[] 
+ []
+
+[13]
+
+LaTeX Warning: Reference `sec:installation' on page 14 undefined on input line 
+285.
+
+
+Overfull \hbox (8.334pt too wide) in paragraph at lines 285--286
+\OT1/cmr/m/n/10 tion (sec-tion []) and then point your browser at http://localh
+ost:3000/anexample.
+ []
+
+[14]
+Overfull \hbox (48.74657pt too wide) in paragraph at lines 337--337
+[]\OT1/cmtt/m/n/10 <form method="post" action="[% Catalyst.uri_for('/anexample/
+do_stuff') %]">[] 
+ []
+
+
+Overfull \hbox (53.99652pt too wide) in paragraph at lines 337--337
+[]     \OT1/cmtt/m/n/10 <br/><input type="submit" name="submit" value="submit" 
+class="button"/>[] 
+ []
+
+
+Overfull \hbox (114.60924pt too wide) in paragraph at lines 339--340
+\OT1/cmr/m/n/10 parsed by Tem-plate Toolkit to some-thing like: []\OT1/cmtt/m/n
+/10 action="http://localhost:3000/anexample/do_stuff"\OT1/cmr/m/n/10 . 
+ []
+
+[15]
+Overfull \hbox (49.87854pt too wide) in paragraph at lines 375--376
+ \OT1/cmr/m/n/10 We'd bet-ter de-fine that tem-plate. Open a new file []\OT1/cm
+tt/m/n/10 root/src/anexample/did_stuff.tt2\OT1/cmr/m/n/10 ,
+ []
+
+[16]
+Overfull \hbox (53.99652pt too wide) in paragraph at lines 445--445
+[]     \OT1/cmtt/m/n/10 <br/><input type="submit" name="submit" value="submit" 
+class="button"/>[] 
+ []
+
+[17]
+Overfull \hbox (190.49533pt too wide) in paragraph at lines 505--505
+[]    \OT1/cmtt/m/n/10 "Disallowed characters were used. Letters, numbers, hyph
+ens, and underscores and space are okay.",[] 
+ []
+
+[18]
+Overfull \hbox (11.99689pt too wide) in paragraph at lines 505--505
+[]                     \OT1/cmtt/m/n/10 my $val = $dfv->get_current_constraint_
+value();[] 
+ []
+
+[19] [20]
+Chapter 4.
+
+Overfull \hbox (127.75081pt too wide) in paragraph at lines 572--573
+\OT1/cmr/m/n/10 This is a core com-po-nent de-fined by ROME. It's con-troller i
+s in lib/ROME/Controller/CRUD/Experiment.pm
+ []
+
+
+Overfull \hbox (14.99028pt too wide) in paragraph at lines 572--573
+\OT1/cmr/m/n/10 and its view tem-plates are in root/src/crud/experiment. The UR
+L crud/experiment
+ []
+
+
+Overfull \hbox (112.89713pt too wide) in paragraph at lines 575--576
+\OT1/cmr/m/n/10 per-i-ments. This is im-ple-mented by the search[]like ac-tion 
+in lib/ROME/Controller/CRUD/Experiment.pm
+ []
+
+[21
+
+]
+Overfull \hbox (89.686pt too wide) in paragraph at lines 578--579
+\OT1/cmr/m/n/10 delete link. This is an ajax link to the delete ac-tion in lib/
+ROME/Controller/CRUD/Experiment.pm.
+ []
+
+
+Overfull \hbox (45.57304pt too wide) in paragraph at lines 584--585
+\OT1/cmr/m/n/10 is an ajax link to the up-date[]form ac-tion in lib/ROME/Contro
+ller/CRUD/Experiment.pm,
+ []
+
+
+Overfull \hbox (82.2693pt too wide) in paragraph at lines 593--594
+\OT1/cmr/m/n/10 can add new ex-per-i-ments. This is dealt with by the lib/ROME/
+Controller/CRUD/Experiment/add
+ []
+
+[22]
+Overfull \hbox (12.9173pt too wide) in paragraph at lines 614--615
+[]\OT1/cmr/m/n/10 Controller/CRUD/Factor.pm and Con-troller/CRUD/Level.pm have 
+ajax meth-
+ []
+
+
+Overfull \hbox (38.24666pt too wide) in paragraph at lines 640--640
+[]  \OT1/cmtt/m/n/10 <div id="factor_owner_autocomplete_choices" class="autocom
+plete"></div>[] 
+ []
+
+[23]
+Overfull \hbox (80.24629pt too wide) in paragraph at lines 670--670
+[]     \OT1/cmtt/m/n/10 $people =$c->model('ROMEDB::Person')->search_like({user
+name=>'%'.$val.'%'});[] 
+ []
+
+
+Overfull \hbox (27.74675pt too wide) in paragraph at lines 670--670
+[]    \OT1/cmtt/m/n/10 $c->stash->{error_msg} = "You don't have permission to l
+ist users";[] 
+ []
+
+[24]
+Overfull \hbox (17.24684pt too wide) in paragraph at lines 718--718
+[]  \OT1/cmtt/m/n/10 <input type="text" name="level_factor_name" id="level_fact
+or_name">[] 
+ []
+
+
+Overfull \hbox (64.49643pt too wide) in paragraph at lines 718--718
+[]  \OT1/cmtt/m/n/10 <div id="level_factor_name_autocomplete_choices" class="au
+tocomplete"></div>[] 
+ []
+
+
+Overfull \hbox (27.74675pt too wide) in paragraph at lines 718--718
+[]                    \OT1/cmtt/m/n/10 Ajax.Autocompleter.set_linked_value('fac
+tor_owner',[] 
+ []
+
+
+Overfull \hbox (69.74638pt too wide) in paragraph at lines 718--718
+[]                                                        \OT1/cmtt/m/n/10 'fac
+tor_owner_update');[] 
+ []
+
+
+Overfull \hbox (31.36736pt too wide) in paragraph at lines 720--721
+\OT1/cmr/m/n/10 com-pleter has been se-lected (the ac-tual func-tion - Ajax.Aut
+ocompleter.set[]linked[]values
+ []
+
+
+Overfull \hbox (21.33032pt too wide) in paragraph at lines 720--721
+\OT1/cmr/m/n/10 - is de-fined in rome.js). This adds the in-for-ma-tion in the 
+hid-den 'fac-tor[]owner[]update'
+ []
+
+[25]
+Overfull \hbox (48.74657pt too wide) in paragraph at lines 736--736
+[]\OT1/cmtt/m/n/10 [%IF Catalyst.check_user_roles('admin')%]-[%factor.owner.use
+rname%]-[%END%][] 
+ []
+
+
+Overfull \hbox (164.24556pt too wide) in paragraph at lines 736--736
+[]        \OT1/cmtt/m/n/10 <span style="display: none;" id="factor_description_
+update">[%factor.description%]</span>[] 
+ []
+
+
+Overfull \hbox (148.4957pt too wide) in paragraph at lines 736--736
+[]        \OT1/cmtt/m/n/10 <span style="display: none;" id="factor_owner_update
+">[%factor.owner.username%]</span>[] 
+ []
+
+
+Overfull \hbox (5.72289pt too wide) in paragraph at lines 757--758
+ \OT1/cmr/m/n/10 The javascript shiny is all taken care of by the Cat-a-lyst::P
+lugin::UploadProgress
+ []
+
+
+Overfull \hbox (51.16736pt too wide) in paragraph at lines 772--773
+ \OT1/cmr/m/n/10 The core con-troller re-spon-si-ble for pars-ing data is lib/R
+OME/Controller/Parser/Base.pm.
+ []
+
+[26]
+Overfull \hbox (7.23943pt too wide) in paragraph at lines 775--776
+ \OT1/cmr/m/n/10 The se-lect parser form sub-mits via ajax to the list[]files a
+c-tion in the Parser::Base
+ []
+
+
+Overfull \hbox (29.54692pt too wide) in paragraph at lines 785--786
+\OT1/cmr/m/n/10 All parsers in-herit from Parser::Base. They must be in the ROM
+E::Controller::Parser::*
+ []
+
+
+Overfull \hbox (6.74693pt too wide) in paragraph at lines 815--815
+[]\OT1/cmtt/m/n/10 __PACKAGE__->file_rule(File::Find::Rule->file->name( qr/\.CE
+L/i ));[] 
+ []
+
+[27]
+Overfull \hbox (43.49661pt too wide) in paragraph at lines 845--845
+[]\OT1/cmtt/m/n/10 #This is the setup file for ROME::Controller::Parser::Affyme
+trixExpression[] 
+ []
+
+
+Overfull \hbox (11.99689pt too wide) in paragraph at lines 845--845
+[]  \OT1/cmtt/m/n/10 description: This is a parser component for Affymetrix .CE
+L files.[] 
+ []
+
+[28]
+Overfull \hbox (479.24281pt too wide) in paragraph at lines 873--873
+[]\OT1/cmtt/m/n/10 insert into process (name, tmpl_file, description) values ("
+ParseAffyExpression", "parse_affy_expression.tt2", 'this is a parser component 
+for .CEL files.');[] 
+ []
+
+
+Overfull \hbox (710.2408pt too wide) in paragraph at lines 873--873
+[]\OT1/cmtt/m/n/10 insert into parameter (name, process, description) values ('
+selected_files', 'ParseAffyExpression', "Reference to an array containing the p
+aths (relative to the user's upload directory) to be parsed");[] 
+ []
+
+
+Overfull \hbox (153.74565pt too wide) in paragraph at lines 873--873
+[]\OT1/cmtt/m/n/10 insert into process_creates(process,creates,num) values ("Pa
+rseAffyExpression", "AffyBatch",1);[] 
+ []
+
+
+LaTeX Warning: Reference `sec:processes' on page 29 undefined on input line 906
+.
+
+
+LaTeX Warning: Reference `sec:datatypes' on page 29 undefined on input line 912
+.
+
+
+Overfull \hbox (11.5458pt too wide) in paragraph at lines 921--922
+\OT1/cmr/m/n/10 The R pro-ces-sor class is de-fined in lib/ROME/R.pm. The Cat-a
+-lyst::Plugin::ROME
+ []
+
+[29]
+Overfull \hbox (33.19283pt too wide) in paragraph at lines 933--934
+\OT1/cmr/m/n/10 A ROME parser is just a reg-u-lar con-troller in the names-pace
+ ROME::Controller::Parser::
+ []
+
+
+Overfull \hbox (6.74693pt too wide) in paragraph at lines 957--957
+[]\OT1/cmtt/m/n/10 __PACKAGE__->file_rule(File::Find::Rule->file->name( qr/\.CE
+L/i ));[] 
+ []
+
+[30]
+Overfull \hbox (479.24281pt too wide) in paragraph at lines 983--983
+[]\OT1/cmtt/m/n/10 insert into process (name, tmpl_file, description) values ("
+ParseAffyExpression", "parse_affy_expression.tt2", 'this is a parser component 
+for .CEL files.');[] 
+ []
+
+
+Overfull \hbox (710.2408pt too wide) in paragraph at lines 983--983
+[]\OT1/cmtt/m/n/10 insert into parameter (name, process, description) values ('
+selected_files', 'ParseAffyExpression', "Reference to an array containing the p
+aths (relative to the user's upload directory) to be parsed");[] 
+ []
+
+
+Overfull \hbox (153.74565pt too wide) in paragraph at lines 983--983
+[]\OT1/cmtt/m/n/10 insert into process_creates(process,creates,num) values ("Pa
+rseAffyExpression", "AffyBatch",1);[] 
+ []
+
+
+Overfull \hbox (53.99652pt too wide) in paragraph at lines 1008--1008
+[]    \OT1/cmtt/m/n/10 my $process = $c->model('ROMEDB::Process')->find('ParseA
+ffyExpression');[] 
+ []
+
+
+Overfull \hbox (22.4968pt too wide) in paragraph at lines 1008--1008
+[]    \OT1/cmtt/m/n/10 die "ParseAffyExpression process not found in DB" unless
+ $process;[] 
+ []
+
+[31] [32]
+Chapter 5.
+
+Overfull \hbox (32.9967pt too wide) in paragraph at lines 1055--1055
+[]\OT1/cmtt/m/n/10 - Start Here:           # top level menu title, can be anyth
+ing you like[] 
+ []
+
+
+Overfull \hbox (1.49698pt too wide) in paragraph at lines 1055--1055
+[]    \OT1/cmtt/m/n/10 title: Start here   # html 'title' field, appears on mou
+seover[] 
+ []
+
+
+Overfull \hbox (59.24648pt too wide) in paragraph at lines 1055--1055
+[]      \OT1/cmtt/m/n/10 - login:                    #a page link. Must be a RO
+ME component name[] 
+ []
+
+
+Overfull \hbox (1.49698pt too wide) in paragraph at lines 1055--1055
+[]          \OT1/cmtt/m/n/10 href: /user/login       #url, relative to your ROM
+E base[] 
+ []
+
+[33
+
+] [34]
+Overfull \hbox (8.5006pt too wide) in paragraph at lines 1099--1100
+ \OT1/cmr/m/n/10 The user com-po-nent con-sists of the con-troller in lib/ROME/
+Controller/User.pm
+ []
+
+
+Overfull \hbox (5.69508pt too wide) in paragraph at lines 1108--1109
+ \OT1/cmr/m/n/10 The Au-then-ti-ca-tion plu-gin also needs the Au-then-ti-ca-ti
+on::Credential::Password
+ []
+
+
+Overfull \hbox (3.00818pt too wide) in paragraph at lines 1117--1118
+\OT1/cmr/m/n/10 dated us-ing the Data::FormValidator plu-gin. user/login.tt2 in
+-cludes dfv[]error.tt2
+ []
+
+[35]
+Overfull \hbox (7.52658pt too wide) in paragraph at lines 1138--1139
+\OT1/cmr/m/n/10 pri-vate ac-tion []\OT1/cmtt/m/n/10 _process_registration\OT1/c
+mr/m/n/10 , which in turn for-wards to []\OT1/cmtt/m/n/10 _insert_user\OT1/cmr/
+m/n/10 .
+ []
+
+
+Overfull \hbox (10.32335pt too wide) in paragraph at lines 1141--1142
+\OT1/cmr/m/n/10 set to 1. If con-fir-ma-tion is re-quired, it for-wards to the 
+[]\OT1/cmtt/m/n/10 _user_email_confirmation
+ []
+
+
+Overfull \hbox (37.66498pt too wide) in paragraph at lines 1144--1145
+ \OT1/cmr/m/n/10 Fi-nally the []\OT1/cmtt/m/n/10 _process_registration \OT1/cmr
+/m/n/10 ac-tion for-wards to the []\OT1/cmtt/m/n/10 _complete_registration
+ []
+
+[36]
+
+LaTeX Warning: Reference `sec:uploads' on page 37 undefined on input line 1153.
+
+
+
+Overfull \hbox (6.69507pt too wide) in paragraph at lines 1153--1154
+ \OT1/cmr/m/n/10 The lo-ca-tion of the data di-rec-tory is spec-i-fied by the u
+ser-data en-try in rome.yml.
+ []
+
+
+Overfull \hbox (59.6108pt too wide) in paragraph at lines 1159--1160
+\OT1/cmr/m/n/10 tho-riza-tion meth-ods pro-vided by the Cat-a-lyst au-tho-riza-
+tion plu-g-ins, []\OT1/cmtt/m/n/10 Authorization::Groups
+ []
+
+[37]
+
+LaTeX Warning: Reference `sec:experiments' on page 38 undefined on input line 1
+168.
+
+[38]
+Chapter 6.
+[39
+
+]
+Chapter 7.
+[40
+
+]
+Chapter 8.
+
+Overfull \hbox (27.74675pt too wide) in paragraph at lines 1225--1225
+[]       \OT1/cmtt/m/n/10 debug("Applying HTML page layout wrappers to $templat
+e.name\n");[] 
+ []
+
+[41
+
+] [42]
+Chapter 9.
+
+Overfull \hbox (37.83183pt too wide) in paragraph at lines 1231--1232
+\OT1/cmr/m/n/10 Are im-ple-mented in ROME us-ing XML-RPC with the Cat-a-lyst::P
+lugin::Server::XMLRPC
+ []
+
+
+Overfull \hbox (8.35959pt too wide) in paragraph at lines 1240--1241
+ \OT1/cmr/m/n/10 Cat-a-lyst::Plugin::Server::XMLRPC uses the con-tents of []\OT
+1/cmtt/m/n/10 $c->stash->{xmlrpc}\OT1/cmr/m/n/10 ,
+ []
+
+[43
+
+]
+Chapter 10.
+
+Overfull \hbox (51.46378pt too wide) in paragraph at lines 1250--1251
+\OT1/cmr/m/n/10 We're us-ing the pro-to-type and scrip-tac-u-lous li-braries. W
+ith the Cat-a-lyst::Plugin::Prototype. 
+ []
+
+
+Overfull \hbox (113.21835pt too wide) in paragraph at lines 1253--1255
+ \OT1/cmr/m/n/10 Test for AJAX calls with: []\OT1/cmtt/m/n/10 if($c->request->h
+eader->{X-Requested-With} eq 'XMLHttpRequest){} 
+ []
+
+[44
+
+]
+Chapter 11.
+[45
+
+]
+Chapter 12.
+
+Overfull \hbox (31.44131pt too wide) in paragraph at lines 1271--1274
+[][]\OT1/cmtt/m/n/10 $c->assert_user_roles() []$c->check_user_roles() []$c->use
+r->check_roles() 
+ []
+
+
+Overfull \hbox (69.74638pt too wide) in paragraph at lines 1300--1300
+[]  \OT1/cmtt/m/n/10 <li><a title="Administration tools" href="#" class="dropdo
+wn">Admin Tools</a>[] 
+ []
+
+
+Overfull \hbox (111.74602pt too wide) in paragraph at lines 1300--1300
+[]    \OT1/cmtt/m/n/10 <li><a class="active"title="Manage roles" href="/admin/r
+oles">Manage Roles</li></a>[] 
+ []
+
+
+Overfull \hbox (111.74602pt too wide) in paragraph at lines 1300--1300
+[]    \OT1/cmtt/m/n/10 <li><a class="active"title="Manage users" href="/admin/u
+sers">Manage Users</li></a>[] 
+ []
+
+
+Overfull \hbox (206.2452pt too wide) in paragraph at lines 1300--1300
+[]      \OT1/cmtt/m/n/10 <li><a class="active"title="Approve Registrations" hre
+f="/admin/reg">Approve Registrations</li></a>[] 
+ []
+
+[46
+
+] (./dev_guide.bbl [47]
+Underfull \hbox (badness 5637) in paragraph at lines 25--30
+[]\OT1/cmr/m/n/10 Eric Ray-mond.  The cathe-dral and the bazaar.  2006.  URL
+ []
+
+
+Overfull \hbox (24.77469pt too wide) in paragraph at lines 25--30
+\OT1/cmtt/m/n/10 http://www.catb.org/ esr/writings/cathedral-bazaar/cathedral-b
+azaar/\OT1/cmr/m/n/10 . 
+ []
+
+)
+
+Package natbib Warning: There were undefined citations.
+
+[48
+
+] (./dev_guide.aux)
+
+LaTeX Warning: There were undefined references.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 839 strings out of 94501
+ 9794 string characters out of 1175811
+ 61057 words of memory out of 1000000
+ 4048 multiletter control sequences out of 10000+50000
+ 9621 words of font info for 34 fonts, out of 500000 for 2000
+ 580 hyphenation exceptions out of 8191
+ 25i,6n,28p,1364b,253s stack positions out of 1500i,500n,5000p,200000b,5000s
+
+Output written on dev_guide.dvi (50 pages, 121404 bytes).

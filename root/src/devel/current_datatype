@@ -1,0 +1,44 @@
+<h3>Currently Selected Datatype</h3>
+[% IF datatype %]
+  <span class="datatype_name">[%datatype.name%]</span> 
+  <img src="[%Catalyst.uri_for('/delete.gif')%]"
+       onclick="new Ajax.Updater('messages',
+                                 '[%Catalyst.uri_for('/devel/datatype/delete')%]?name=[%datatype.name%]',
+                                 {
+                                   asynchronous:1,
+			           evalScripts:1,
+			           onComplete: function(){update_current_datatype('current_datatype'); return false;}
+                                 }
+                                )"
+   />
+
+    <form action="/devel/datatype/update" 
+      method="post" 
+      onsubmit=" new Ajax.Updater( 'datatype_update_results',  
+                                   '[%Catalyst.uri_for('/devel/datatype/update')%]', 
+                                   { parameters: Form.serialize(this), 
+                                     asynchronous: 1,
+				     onComplete: function(){update_current_datatype('current_datatype'); return false;}
+				   } ) ; 	
+                return false"
+     >
+
+     <fieldset>
+        <legend>Update datatype details</legend>
+	<div id="datatype_update_results"></div>
+        <input type="hidden" name="name" value="[%datatype.name%]"/>
+ 
+        <div class="labelled_input">
+          <label for="description">Description</label>
+          <textarea name="description">[%datatype.description%]</textarea>
+        </div>
+
+        <input type="submit" name="submit" value="update datatype" class="button"/>
+
+     </fieldset>
+    </form>
+[% ELSE %]
+<span class="warning">No datatype currently selected</span>
+[% END %]
+
+

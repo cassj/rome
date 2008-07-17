@@ -1,0 +1,7 @@
+[%META head="TEST!"%]
+
+<ul>
+[%FOREACH thing IN foo%]
+<li>[%thing%]</li>
+[%END%]
+</ul>

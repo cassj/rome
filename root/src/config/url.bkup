@@ -1,0 +1,7 @@
+[% base = Catalyst.req.base;
+
+   site.url = {
+     base    = base
+     home    = "${base}login"
+   }
+-%]

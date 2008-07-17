@@ -1,0 +1,34 @@
+\subsection{Upload}
+\label{sec:upload}
+
+\paragraph{}
+Data can be uploaded to ROME via the upload component. The controller for this component is \texttt{lib/ROME/Controller/Upload.pm}. Each user has their own upload directory, with a limited amount of space. The upload directory is a temporary storage space and files in this directory are parsed into ROME datafiles, after which they can optionally be deleted from the Upload directory. As many of the files required for \-omics analysis are large, the upload module allows the used to upload a tarball or zip file and have it unpacked into their user directory (non-compressed files can also be uploaded). The contents of the user's upload directory are also listed on this page and individual files can be deleted.
+
+
+
+
+
+
+
+We use the Catalyst UploadProgress plugin to generate an ajax upload progress bar for our files.
+
+The uploadprogress plugin requires two concurent connections, one for the upload and another for the progress tracker, so we need to start the server with 
+
+\begin{verbatim}
+  script/rome_server.pl -f 
+\end{verbatim}
+
+Which allows the server to fork. <NEED TO FIGURE OUT HOW THIS WORKS WITH APACHE>
+
+\paragraph*{}
+The javascript shiny is all taken care of by the Catalyst::Plugin::UploadProgress module. The lib/ROME/Controller/Upload.pm module deals with the file as a normal http upload. It's index action (mapping to /upload) just forwards to the upload action, which either processes the uploaded file, or returns the upload form (defined in root/src/upload/upload.tt2). Processing the uploaded file just involves saving it to the user's upload directory. The only complication being that if it is a .tar, .gzip, .bzip or .zip file it is unpacked by the \_unpack method (also in the Upload.pm controller) and the original file is deleted. Only administators may upload data for users other than themselves.
+
+\paragraph*{}
+The upload does not link the new files to any other piece of information. They can be deleted at will.
+
+
+
+
+
+
+

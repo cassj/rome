@@ -1,0 +1,62 @@
+
+
+ 
+                                   +------------------------------------------------------------+
+                                   |1                                                           |
+                 +---------------------+                                                        |
+                 |     experiment      |----------------------------------------------+         |
+                1+---------------------+1                                             |         |
+ +---------------| name (PK)           |      +--------------------------------+      |         |
+ |               | owner (PK)          |      |  datafile_outcome              |      |         |
+ |               +---------------------+      +--------------------------------+      |         |
+ |                         |1                n| outcome_name (PK)              |      |         |
+ |                         |        +---------| outcome_experiment_name (PK)   |      |         |
+ |                         |        |         | outcome_experiment_owner (PK)  |      |         |
+ |                         |n       |1        | datafile_name (PK)             |      |         |
+ |              +-----------------------+     | datafile_experiment_name (PK)  |      |         |
+ |              |       outcome         |     | datafile_expeirment_owner (PK) |      |         | 
+ |              +-----------------------+     +--------------------------------+      |         |
+ |             1| name (PK)             |1                             |n             |         |
+ |       +------| experiment_name (PK)  |-------+                      |              |         |
+ |       |      | experiment_owner (PK) |       |                      |1             |n        |
+ |       |      | display_name          |       |                  +-----------------------+    |
+ |       |      | description           |       |                  |    datafile           |    |
+ |       |      +-----------------------+       |                  +-----------------------+    |
+ |       |                                      |                  | name (PK)             |    |
+ |       |n                                    n|                  | experiment_name (PK)  |    |
+ |  +----------------------+          +-----------------------+    | experiment_owner (PK) |    |
+ |  |    level_outcome     |          |   cont_var_value      |    +-----------------------+    |
+ |  +----------------------+          +-----------------------+                                 |
+ |  | level_name (PK)      |          | cont_var_id (PK)      |                                 |
+ |  | level_factor_id (PK) |          | outcome_id (PK)       |                                 |
+ |  | outcome_id (PK)      |          | value                 |                                 |
+ |  +----------------------+          +-----------------------+                                 |
+ |       |n                                     |n                                              |
+ |       |                                      |                                               |
+ |       |                                      |                                               |
+ |       |1                                     |1                                              |
+ |   +----------------+               +------------------+       +-----------------------+      |
+ |   |    level       |               |    cont_var      |       |  cont_var_experiment  |      |
+ |   +----------------+               +------------------+       +-----------------------+      |
+ |   | name (PK)      |               | name (PK)        |1     n| cont_var_name (PK)    |n     |
+ |   | factor_id (PK) |               | owner (PK)       |-------| cont_var_owner (PK)   |------+
+ |   | description    |               | description      |       | experiment_name (PK)  |
+ |   +----------------+               | status           |       | experiment_owner (PK) |
+ |       |n                           +------------------+       +-----------------------+
+ |       |
+ |       |
+ |       |1
+ |   +----------------+
+ |   |    factor      |
+ |   +----------------+
+ |   | name (PK)      |      +-------------------------+
+ |   | owner (PK)     |      |    factor_experiment    |
+ |   | description    |1    n+-------------------------+
+ |   | tech_rep       |------| factor_name (PK)        |
+ |   | status         |      | factor_owner (PK)       |
+ |   +----------------+      | experiment_name (PK)    |
+ |                           | experiment_owner (PK)   |
+ |                           +-------------------------+
+ |                              n|
+ |                               |
+ +-------------------------------+

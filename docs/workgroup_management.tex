@@ -1,0 +1,9 @@
+\subsection{workgroups}
+\label{sec:workgroups}
+
+\paragraph{}
+Workgroups are collections of users with single designated group leader. Entire experiments or single datafiles can be shared between workgroups. This section describes how workgroups can be managed. Details of sharing data with a workgroup are provided in the sections on Experiment and Datafile management.
+
+\subsubsection{My Workgroups}
+\paragraph{}
+The \texttt{crud/workgroup} url (by default, this is linked in the menu as My Account > My Workgroups) provides a page which lists the workgroups the current user owns and those of which they are a member. New workgroups can be created on the same page and any user can create a workgroup. Users can also search for existing workgroups and request membership (which must be confirmed by the workgroup's owner). For workgroups owned by the current user, a link is provided to delete that workgroup and another links to a management page. On the management page the owner of a workgroup can approve pending membership requests, remove existing members and invite new members to join the group.  The fields in these forms will automatically provide lists of usernames matching whatever has been typed into the field. The controller which manages the workgroup processing is lib/ROME/Controller/CRUD/Workgroup. 

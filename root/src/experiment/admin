@@ -1,0 +1,25 @@
+[% META title = 'Experiments' %]
+
+<div id="current">
+[% INCLUDE 'experiment/current.tt2' %]
+</div>
+
+<div id="share">
+[% INCLUDE 'experiment/share.tt2' %]
+</div>
+
+<div id="search">
+[% INCLUDE 'experiment/search.tt2' %]
+</div>
+
+
+<div id="add">
+[% INCLUDE 'experiment/add.tt2' %]
+</div>
+
+
+
+
+
+
+

@@ -1,0 +1,53 @@
+<form action="/workgroup/update" 
+      method="post" 
+      onsubmit=" new Ajax.Updater( 'update_form_messages',  
+                                   '/workgroup/update', 
+                                   { parameters: Form.serialize(this), 
+                                     asynchronous: 1,
+				     onComplete: function(){
+                                                  setTimeout(
+                                                    function(){
+                                                      update_workgroup_list('workgroup_list');
+                                                    }, 
+                                                    1000
+                                                  );
+                                                }
+				   } ) ; 	
+                return false"
+>
+
+  <fieldset>
+  <legend>Update [%workgroup.name%]</legend>
+    
+
+     <div id="update_form_messages"></div>
+
+     <input type="hidden" name="name" id="name" value="[%workgroup.name%]" />
+
+     <div class="labelled_input">
+      <label for="leader">Leader</label>
+      <input type="text" name="leader" id="leader" value="[%workgroup.leader.username%]"/>
+      <div id="leader_autocomplete_choices" class="autocomplete" style="display:none" ></div>
+     </div> 
+  
+     <script type="text/javascript" language="javascript">
+        // <![CDATA[
+             new Ajax.Autocompleter('leader',
+				    "leader_autocomplete_choices",
+			            "/workgroup/autocomplete_leader",
+	                            {}          
+                                   );
+
+        // ]]>
+ 
+	</script>
+
+     <div class="labelled_input">
+      <label for="description">Description</label>
+      <textarea name="description">[%workgroup.description%]</textarea>
+    </div>
+
+      <input type="submit" name="submit" value="Update" class="button"/>
+   </fieldset>
+</form>
+

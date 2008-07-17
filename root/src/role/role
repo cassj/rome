@@ -1,0 +1,33 @@
+[% META title = 'ROME Roles' %]
+
+<div>
+<h3>Existing Roles</h3>
+<ul>
+[%FOREACH role IN Catalyst.model('ROMEDB::Role').all%]
+  <li>[%role.name%][%IF role.description%] ([%role.description%])[%END%] 
+      <a href="[%Catalyst.uri_for('/role/delete')%]/[%role.name%]" class="delete">delete</a></li>
+[% END %]
+</ul>
+</div>
+
+[%INCLUDE dfv_error.tt2%]
+<form method="post" action="[%Catalyst.uri_for('/role/add')%]">
+  <fieldset>
+    <legend>Add a new role</legend>
+
+      <div class="labelled_input">
+        <label for="name">Name</label>
+        <input type="text" name="name"/>
+      </div> 
+
+      <div class="labelled_input">
+        <label for="description">Description</label>
+        <textarea name="description"></textarea>
+      </div>
+
+      <br/><input type="submit" name="submit" value="add role" class="submit_button"/>
+     
+   
+  </fieldset>
+</form>
+

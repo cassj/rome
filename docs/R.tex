@@ -1,0 +1,89 @@
+% \subsubsection{CatalystX::R}
+% 
+% Variables in R are actually symbols bound to a  value. The value can be thought of as a SEXP (pointer) or the structure it points to, a SEXPREC. There are also vector pointers and structures: VECSXP and VECTOR_SEXPREC. SEXPRECs and VECTOR_SEXPRECs are commonly referred to as 'nodes'.
+% 
+% SEXPTYPES:
+% 
+% no 	SEXPTYPE	Description
+% 0 	NILSXP 		NULL
+% 1 	SYMSXP 		symbols
+% 2 	LISTSXP 	pairlists
+% 3 	CLOSXP 		closures
+% 4 	ENVSXP 		environments
+% 5 	PROMSXP 	promises
+% 6 	LANGSXP 	language objects
+% 7 	SPECIALSXP 	special functions
+% 8 	BUILTINSXP 	builtin functions
+% 9 	CHARSXP 	internal character strings
+% 10 	LGLSXP 		logical vectors
+% 13 	INTSXP 		integer vectors
+% 14 	REALSXP 	numeric vectors
+% 15 	CPLXSXP 	complex vectors
+% 16 	STRSXP 		character vectors
+% 17 	DOTSXP 		dot-dot-dot object
+% 18 	ANYSXP 		make “any” args work
+% 19 	VECSXP 		list (generic vector)
+% 20 	EXPRSXP 	expression vector
+% 21 	BCODESXP 	byte code
+% 22 	EXTPTRSXP 	external pointer
+% 23 	WEAKREFSXP 	weak reference
+% 24 	RAWSXP 		raw vector
+% 25 	S4SXP 		S4 classes not of simple type 
+% 
+% 
+% 
+% \paragraph{}
+% I want to be able to inspect a saved RData file and get attributes/classes for each saved object. This really ought to be possible.
+% 
+% \paragraph{}
+% There are two distinct elements to the Catalyst R plugin, written for ROME. Firstly, it initialises an R session to which the user can pass commands via \$c->R. This is just a wrapper around the Omegahat RSPerl interface (\url{http://www.omegahat.org/RSPerl/}) which allows bi-directional communication between R and Perl. Secondly, it provides a job queue, based on the perl module TheSchwartz (\url{http://search.cpan.org/dist/TheSchwartz/lib/TheSchwartz.pm}) onto which the user can place R processes, about which more later. Typically, the plugin R session can be used to load and query 
+% 
+% \paragraph{}
+% Access to R is provided by the ROME::R class. Catalyst::Plugin::ROME instanciates an object of this class and makes it accessible from the Catalyst context as \verb|$c->R|. Currently ROME::Processor::R, is the only implementation of the ROME::Processor interface, but in principle Processor wrappers around other software could be added. In fact, combined with appropriate export methods there is no reason why workflows could not be composed of multiple processor types.
+% 
+% \paragraph{}
+% The Processor interface defines various methods 
+% 
+% context 
+% process 
+% confirm_by_email 
+% datafile_ids 
+%                               class 
+%                               user 
+%                               script 
+%                               tmpl 
+%                               _suffix 
+%                               tmpl_values 
+%                               config 
+%                               out
+% 
+% \paragraph{}
+% Processor.pm
+% Takes the catalyst context as its first arg and uses it to set user and config.
+% cmd method: implemented by subclass
+% db\_obj: implemented by subclass to return the DBI object associated with this processor - is this automatable?
+% queue: actually implemented in the base class, just sticks the process to be run in the process queue and sets it as pending
+% 
+% parse\_template: implemented by the base class: parse the contents of \$self->tmpl, with the contents of \$tmpl\_values
+% into a tmp file, with suffix \$self->suffix. put the resulting files into \$self->scripts
+% 
+% send\_email\_confirmation: implemented in the base class. Does what it says on the tin. Assuming the config says to.
+% send\_admin\_alert: implemented in the base class. as above
+% 
+% 
+% process\_script:  This has to be implemented by the subclass.
+% 
+% 
+% \paragraph{}
+% Subclass of Processor.pm: ROME::Processor::R
+% sets suffix for scripts to .R. cmd to run R is just the R binary from the config --slave --vanilla. the first makes R run as quietly as possible and the second combines various other settings such that the session is not saved, or restored and has no site-file, no init-file and no-environ.
+% The appropriate DB object is retrieved.
+% 
+% process\_script takes template and file arguments and basically runs the script in R piping the output to a file handle. It parses the lines of the file and anything whic is of the format varname?value is stuck in the \$out hash as a key value pair. It should be noted that this is really only for messaging between R and Perl and actual data should stay in R.
+% 
+% \paragraph{}
+% The processor also needs to be able to get quick access to R objects in a continually running environment. The loadup of the files might be a bit of a bitch in terms of the time spent waiting and the amount it hammers the mem though. not sure we really want to have to load up a whole datafiel just to chekc the channesl and factors and that. but the alternative is havign that info held twice
+% 
+% this is going to have to be done using RSperl, there isn't another way afaik. I can't be starting R every time a call is made. This is really going to limit the number of clients we can cope with, but then I'm not expecting high throughoput.
+
+

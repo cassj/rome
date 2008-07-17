@@ -1,0 +1,41 @@
+<form action="/devel/component/create" 
+      method="post" 
+      onsubmit=" new Ajax.Updater( 'component_create_results',  
+                                   '/devel/component/create', 
+                                   { parameters: Form.serialize(this), 
+                                     asynchronous: 1
+				   }
+				 ) ; 	
+                return false;"
+>
+
+
+  <fieldset>
+   <legend>Create a new component</legend>
+
+      <div id="component_create_results"></div>
+
+      <div class="labelled_input">
+        <label for="component_name">Name</label>
+        <input type="text" name="component_name"/>
+      </div> 
+
+      <div class="labelled_input">
+        <label for="component_version">Version</label>
+	<input type="text" name="component_version" />
+      </div>
+
+      <div class="labelled_input">
+        <label for="component_description">Description</label>
+        <textarea name="component_description"></textarea>
+      </div>
+
+      <div class="force_clear"></div>
+
+ <input type="submit" name="submit" value="Create Component" class="button"/>
+     
+</fieldset>   
+
+</form>
+
+

@@ -1,0 +1,13 @@
+\subsubsection{The Job Scheduler}
+\label{sec:job_scheduling}
+\paragraph{}
+Job processing is decoupled from the rest of ROME. The current job scheduler daemon (\texttt{scripts/rome\_job\_scheduler.pl}) simply browses through the queue, checking each queued job to see if the input datafiles it requires are ready and, if they are, sets the queued job status to PROCESSING and calls R to run the job, sending its output to the job's specified log file. On successful completion, the job is removed from the queue and it's completed flag is set to true. Generated datafiles have their pending flag removed. If the job fails, it's status flag is set to HALTED and an email is sent to the system administrator so that they can check the relevant log file.
+
+\paragraph{}
+Clearly having all the jobs running on the server is not a scalable approach. One of the main reasons for having a seperate job scheduler was to make it easy to swap in a scheduler which could interact with a compute cluster. This has not been developed during this project as there was no cluster available on which to test it. It is, however, an obvious target for further development.
+
+\paragraph{}
+NOTE: Have almost got a Condor scheduler working, might add details here if time.
+
+
+%  The job scheduler is smart enough to check whether the input datafiles for a job are ready yet and to delay processing if they aren't.

@@ -1,0 +1,23 @@
+<h4>Parameters this process requires</h4>
+
+	<button 
+            onclick="new Ajax.Updater('forms',
+                                      '[%Catalyst.uri_for("/devel/process/parameters_form")%]?process_name=[% process.name %]&process_component_name=[% process.component_name %]&process_component_version=[% process.component_version %]',
+                                      { 
+				       asynchronous:1,
+				       evalScripts:1,
+ 				       onComplete: function(){new Effect.ScrollTo('forms'); return false;}
+				      }
+                                     ); 
+                     return false"
+        >Add a new parameter to this process</button>
+
+
+       [% FOREACH param IN process.parameters %]
+          <div class="param">
+             <span class="param_name">[% param.name %]</span>
+	     <span class="param_description">[% param.description %]</span>
+	     <span class="param_optional">[%IF param.optional%]optional[%ELSE%]required[%END%]</span>
+	     [%IF param.default_value%]<span class="param_default_value">(default: [%param.default_value%])</span>[%END%]
+          </div> <!-- end param-->
+        [% END %]

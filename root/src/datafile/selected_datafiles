@@ -1,0 +1,33 @@
+[%IF Catalyst.user.datafiles %]  
+
+<h1>Currently Selected Datafiles</h1>
+
+    [%FOREACH datafile IN Catalyst.user.datafiles%]
+     <table>
+       <tr><th class="datafile_name">[%datafile.name%]</th></tr>
+       <tr><th>Job ID:</th><td>[% datafile.job.id %]</td></tr>
+       <tr><th>Job Status: </th>
+           [% IF datafile.job.completed==1 %]
+                 <td>Completed</td></tr>
+           [% ELSE %]
+                 <td>[% datafile.job.queued.status %]</td>
+       [% END %]
+       </tr>
+       <tr><th>Process:</th><td>[% datafile.job.process.display_name OR datafile.job.process.name%]</td></tr>
+       <tr><th>Process description:</th><td>[% datafile.job.process.description %]</td></tr>
+       <tr><th>Experiment:</th><td>[% datafile.experiment_name %]</td></tr>
+       <tr><th>Experiment Owner:</th><td>[% datafile.experiment_owner %]</td></tr>
+       <tr><th>Datatype:</th><td>[% datafile.datatype.name %]
+              [% IF datafile.datatype.description %] ([% datafile.datatype.description %])[% END %]</td></tr>
+       <tr><th>Status:</th><td>[%datafile.status%]</td></tr>
+       <tr><th>Shared with workgroups</th><td>
+       [% IF datafile.workgroups %]
+          [% FOREACH workgroup IN datafile.workgroups %][% workgroup.name %] [% END %]
+       [%ELSE%]None
+       [%END%] </td></tr>
+     </table>
+     
+    [%END%]
+[%ELSE%]
+ <span class="warning">No datafiles selected</span>
+[%END%]

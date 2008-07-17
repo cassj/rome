@@ -1,0 +1,31 @@
+<!-- status and error messages -->
+<div id="rome_messages[%msg_num%]">
+  <span class="message">[% status_msg or Catalyst.flash.status_msg %]</span>
+  <span class="error">[% error_msg or Catalyst.flash.error_msg%]</span>
+  <!-- Form parameter validation errors -->
+  <div id="dfv_error">
+    [% FOREACH thing IN Catalyst.form.msgs %]
+      <div class="name">[% thing.key %]:</div> <div>[% thing.value %]</div>
+    [% END %]
+    <p/>
+  </div>
+</div>
+
+
+[%# This just flashes the messages div to draw attention to it
+     You need to have evalScripts set to true in whatever AJAX
+     call is returning a message for this to have an effect
+%]
+[% IF ajax %]
+<script type="text/javascript">
+
+    // <![CDATA[
+      
+      new Effect.ScrollTo('rome_messages[%msg_num%]');
+
+    // ]]>
+
+// new Effect.Highlight('rome_messages[%msg_num%]');
+
+</script>
+[% END %]

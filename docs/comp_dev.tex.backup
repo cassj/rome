@@ -1,0 +1,649 @@
+\chapter{Quick Guide to Component Development}
+\label{sec:comp_dev}
+
+% \subsection{Parsers}
+% \label{sec:parsers}
+% \subsection{Analysis Components}
+% \label{sec:analysis_comps}
+% \subsection{Component Testing}
+% \label{sec:comp_test}
+% 
+
+This section provides a tutorial for generating a simple component. To do anything more complicated than generate a page with a form that submits an R job to the queue, requires a more in-depth reading of the documentation, but this provides an illustrative introduction.
+
+\section{Your First Component}
+
+\subsection{Debug mode}
+Before you do anything, open up the file \verb|lib/ROME.pm| and scroll down till you see something like:
+
+\begin{verbatim}
+use Catalyst qw/-Debug 
+                ConfigLoader 
+                StackTrace
+                Static::Simple ...
+\end{verbatim}
+
+Make sure that the list includes the -Debug flag. It switches on lots of helpful error messages and gives you a handy debug screen in the browser when things go wrong.
+
+\subsection{Getting started}
+First, use the helper script to generate a controller. Decide on a name for your controller - we'll use "AnExample" for now - then from your ROME directory, do:
+
+\begin{verbatim}
+$ script/rome_create.pl controller AnExample
+\end{verbatim}
+
+This will create a file in \verb|lib/ROME/Controller/AnExample.pm|. This is you controller, which takes information sent from the browser, does some processing, then hands it over to your view template to generate the page the user gets back. It will look like:
+
+\begin{verbatim}
+package ROME::Controller::AnExample;
+
+use strict;
+use warnings;
+use base 'Catalyst::Controller';
+
+=head1 NAME
+
+ROME::Controller::AnExample - Catalyst Controller
+
+=head1 DESCRIPTION
+
+Catalyst Controller.
+
+=head1 METHODS
+
+=cut
+
+
+=head2 index 
+
+=cut
+
+sub index : Private {
+    my ( $self, $c ) = @_;
+
+    $c->response->body('Matched ROME::Controller::AnExample in AnExample.');
+}
+
+
+=head1 AUTHOR
+
+Cass Johnston
+
+=head1 LICENSE
+
+This library is free software, you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut
+
+1;
+
+\end{verbatim}
+
+\paragraph*{}
+I'm assuming you're reasonably familiar with Perl. Nothing in this section is too complicated, but if you want to do anything more adventurous I recommend the O'Reilly Perl book \citep{camel}. It's a surprisingly easy read for a text book.
+
+\paragraph*{}
+The first thing to do is to alter the AUTHOR in the perldoc from my name to yours, otherwise I'll get the credit (blame?!) for your code.
+
+\paragraph*{}
+You'll notice that you've got an index method defined for you. In Catalyst-speak, this is an "Action". You can differentiate actions from regular methods by the existance of a special attribute, in this case ':Private'. The way in which Catalyst maps between actions and URLs is discussed in the overview (section \ref{sec:overview}). For now, you just need to know that the index method is automatically set up to map to http://<your rome server>/anexample.
+
+\paragraph*{}
+Actions respond to calls from the server. To start with, let's just get the index action to hand back a webpage. Replace the line:
+
+\begin{verbatim}
+   $c->response->body('Matched ROME::Controller::AnExample in AnExample.');
+\end{verbatim}
+
+with 
+
+\begin{verbatim}
+    $c->stash->{template} = 'anexample/form.tt2';
+\end{verbatim}
+
+\verb|$c| is the Catalyst context object. It contains lots of useful things, including a method called 'stash' which provides access to a hash into which you can put anything bits of information you want to pass to the View (the bit which processes your template and sends the resulting webpage back to the client). All you're doing in this line of code is setting the 'template' key in that hash to the value 'anexample/form.tt2'. This tells the view what template you want to use. 
+
+\paragraph*{}
+Okay, that's all you have to do in the controller for now. Next, you need to create the template you just told the view to use. Create a directory for this component:
+
+\begin{verbatim}
+mkdir root/src/anexample
+\end{verbatim}
+
+then open up a new file \verb|root/src/anexample/form.tt2|.
+
+\paragraph*{}
+All view templates live in \verb|root/src/|. Technically, you can set the template value in the stash to any path relative to this src directory, but if you put your templates in a subdirectory for your component, it keeps things tidy and it makes life easier if you want to package up your component as a ROME add-on component for other users.
+
+\paragraph*{}
+Add the following to your form.tt2 file:
+
+\begin{verbatim}
+[% META title = 'An Example' %]
+
+<h1>Hello World!</h1>
+\end{verbatim}
+
+ROME will automatically wrap your page in a pre-defined header and footer, so you don't need to worry about all the <html><head><body> bit. The first line is telling ROME to use the text 'An Example' as the page title when it does this wrapping. After that you're free to add whatever HTML you like. In this case, just a simple hello world message.
+
+\paragraph*{}
+Okay, save your form.tt2 file and start (or restart) the rome test server with:
+
+\begin{verbatim}
+  script/rome_server.pl
+\end{verbatim}
+
+It can take a few seconds to load up the application, and in debug mode it'll list a lot of information. If all goes well, you should eventually see:
+
+\begin{verbatim}
+[info] ROME powered by Catalyst 5.7003
+You can connect to your server at http://localhost:3000
+\end{verbatim}
+
+\paragraph*{}
+Now, open a browser and point it at http://localhost:3000. You should see the ROME login page. Login as the admin user you created in the installation section (section \ref{sec:installation}) and then point your browser at http://localhost:3000/anexample. You should see your page (which will look very much like any other ROME page, but with the title An Example at the top).
+
+\paragraph*{}
+Presumably you want people to be able to find your new page, so you probably want to add it to the menu. Open the file \verb|nav.yml|. This file defines the structure of your ROME menu. Hopefully it should be fairly self-explanatory. The only thing to note is that indentation is significant in YAML. At the bottom of the file, add the following:
+
+\begin{verbatim}
+- TopLevelExample:
+    title: Top Level
+    dropdown:
+      - anexample:
+          display_name: An Example
+          title: An example component
+          href: /anexample
+          any_datatype: 1
+\end{verbatim}
+
+This defines a new top\-level menu and a sub menu below it containing a link to your component. Define the link location (relative to your rome server) in href. You can add a helpful title, which appears when the user mouses over this menu element if you want to. The name after the \- should be the name of your component (all in lowercase). This will be used as the name of your menu element, unless you set display\_name to something else. Setting any\_datatype to 1 just disables ROME's datatype checking and allows access to this component regardless of the user's currently selected datafile.
+
+\paragraph*{}
+Now, generate your new menu:
+
+\begin{verbatim}
+script/rome_makenav.pl
+\end{verbatim}
+
+And reload your page in the browser. You should see your new menu in the navigation section at the top of the page. Mouse over it and you should see a dropdown menu containing your An Example element. Try going to the login page again, then using the link to get back to your example page. 
+
+The rome\_makenav.pl script will automatically make a backup of your current menu in root/lib/site/nav.bkup, so if it all goes wrong you can always revert to this file as shown below. Note that this backup file will be overwritten the next time you run makenav, so it might be more sensible to make a copy of the working configuration, nav.yml, before you start messing about with it.
+
+\begin{verbatim}
+mv root/lib/site/nav.bkup root/lib/site/nav
+\end{verbatim}
+
+
+\subsection{My First Form}
+Most ROME components need to get some information from the user before they can run. They do this using forms. We'll start by asking the user for their name and favourite colour. Admittedly, this isn't the sort of information your component is likely to need, but it'll serve as an example for now. 
+
+\paragraph*{}
+Open up your form.tt2 file again and add the following:
+
+\begin{verbatim}
+<form method="post" action="[% Catalyst.uri_for('/anexample/do_stuff') %]">
+  <fieldset>
+    <legend>My first form</legend>
+    
+     <div class="labelled_input">
+       <label for="name">Name</label>
+       <input type="text" name="name"/>
+     </div>  
+
+     <div class="labelled_input">
+       <label for="colour">Colour</label>
+       <input type="colour" name="colour"/>
+     </div>
+
+     <br/><input type="submit" name="submit" value="submit" class="button"/> 
+
+  </fieldset>
+</form>
+\end{verbatim}
+
+Now reload the page in your browser and you should see your form. The action tells the form where to post its data to when the user hits the submit button. The bit between verb|[\% \%]|tags is processed by Template Toolkit. In templates, you can access the catalyst context object via the variable 'Catalyst'. Here, we're using its uri\_for method to generate a full URL to anexample/do\_stuff. If you look at the source code of your html page, you'll see that it is parsed by Template Toolkit to something like: \verb|action="http://localhost:3000/anexample/do_stuff"|.
+
+\paragraph*{}
+So, we now have a form that will post its contents to anexample/do\_stuff. We need to define anexample/do\_stuff as an action in our controller. Open up \verb|lib/ROME/Controller/AnExample.pm| again and add the following:
+
+\begin{verbatim}
+=head2 do_stuff
+
+  An action to do something with the data from the form.
+
+=cut
+
+sub do_stuff :Local{
+
+  my ($self, $c) = @_;
+  
+  $c->stash->{name} = $c->request->params->{name};
+  $c->stash->{colour} = $c->request->params->{colour}; 
+  
+  $c->stash->{template} = 'anexample/did_stuff.tt2';
+
+}
+\end{verbatim}
+
+This doesn't do anything very complicated. @\_ is perl\-speak for the array of arguments passed to a function, so the first line just takes the 2 arguments that all actions are handed by default and sets them to the variables \$self and \$c. 
+
+\paragraph*{}
+\$self is the current instance of this class (If you're used to a language which didn't have it's object-orientedness attached with gaffer-tape as an afterthought, it might seem a bit clunky to have to set it manually. Try to view it as one of Perl's endearing foibles). 
+
+\paragraph*{}
+\$c is the catalyst context object. 
+
+\paragraph*{}
+The next two lines grab the values from the name and colour elements in the form from the params hash in the request object in the catalyst context object and stick them in the stash, with keys 'name' and 'colour'. The final line sets the template. 
+
+\paragraph*{}
+We'd better define that template. Open a new file \verb|root/src/anexample/did_stuff.tt2|, enter the following and save it:
+
+\begin{verbatim}
+[% META title = 'An Example' %]
+
+<p>Hello [%name%]. Your favourite colour is [%colour%]</p>
+\end{verbatim}
+
+\paragraph*{}
+Kill your server with ctrl-c if it's still running and restart it:
+
+\begin{verbatim}
+script/rome_server.pl
+\end{verbatim}
+
+Then go back to your anexample page in the browser, fill some values in the form and hit submit. You should get a page back with your values filled in in place of [\%name\%] and [\%colour\%].
+
+\subsection{AJAX forms}
+This is okay, but wouldn't it be nice if you didn't have to go to a different page when you submitted the form? This is actually dead easy, you can just set your form action to be 'anexample' and have the form.tt2 template fill in submitted values if they exist, but that would still mean reloading the whole page. We can make it a bit shinier by using a bit of javascript. ROME uses the scriptaculous.js library, which is built on prototype.js. These libraries define lots of useful functions for building web-intefaces. We'll use one of those to get your form to submit and use the results it gets back to update a bit of the page, rather than reloading the whole thing.
+
+\paragraph*{}
+Open your \verb|lib/ROME/Controller/AnExample.pm| file again. Add the line:
+
+\begin{verbatim}
+  $c->stash->{ajax} = 1;
+\end{verbatim}
+
+All this does is tell ROME not to wrap the template in a header and footer. It's an ajax call, so we only want a bit of html, not a whole page. 
+
+\paragraph*{}
+Back in your \verb|root/src/anexample/did_stuff.tt2| template, remove the line:
+
+\begin{verbatim}
+[% META title = 'An Example' %]
+\end{verbatim}
+
+We're not returning a whole page, so we don't need to set the title.
+
+\paragraph*{}
+Finally, we need to tell the form to make an AJAX request, rather than a regular HTTP one. Alter  \verb|root/src/anexample/form.tt2| to look like this:
+
+\begin{verbatim}
+[% META title = 'An Example' %]
+
+[%action_url = Catalyst.uri_for('/anexample/do_stuff') %]
+[%Catalyst.prototype.form_remote_tag({
+     update => 'results',
+     url    => "$action_url"
+   } )
+%]
+
+  <fieldset>
+    <legend>My first form</legend>
+
+     <div id="results"></div>
+    
+     <div class="labelled_input">
+       <label for="name">Name</label>
+       <input type="text" name="name"/>
+     </div>  
+
+     <div class="labelled_input">
+       <label for="colour">Colour</label>
+       <input type="colour" name="colour"/>
+     </div>
+
+     <br/><input type="submit" name="submit" value="submit" class="button"/> 
+
+  </fieldset>
+</form>
+\end{verbatim}
+
+We've replaced the \verb|<form>| tag with a call to the catalyst object's prototype plugin 'form\_remote\_tag' method. This generates an appropriate AJAX\-ified form tag. The url argument defines the action for the form (as it was before) and we've stuck it in a template variable 'action\_url' which we then refer to in the form\_remote\_tag call. The update argument should contain the id of a div into which you want to insert the results. In this case we've called it 'results' and we've put it at the top of the form.
+
+\paragraph*{}
+restart your server and reload your anexample page. The form should look no different (though if you look at the HTML source you'll see that the form tag is more complicated. Now, try filling in your form and submitting it. If all goes to plan, the results should appear above your form.
+
+\subsection{Validating form parameters}
+Just getting your results back isn't all that useful. But what if the user entered something that doesn't make sense? You could return an error message telling them how to fix it. There's a good argument for checking that the entered values are valid using client-side javascript before the user even submits the form and we'll look at how to do that later. For a lot of ROME forms, you won't know if the value is valid without some server-side processing, for example checking if something exists in the database, so we'll have a look at how to do that first.
+
+\paragraph*{}
+Go back to your \verb|lib/ROME/Controller/AnExample.pm|. Add the following:
+
+\begin{verbatim}
+sub _check_params :Private{
+  my ($self, $c) = @_;
+  my $dfv_profile = {
+	required => [qw(name colour)],
+	msgs => {
+  	  format => '%s',
+	  constraints => {
+	  'disallowed_chars' => 
+	    "Disallowed characters were used. Letters, numbers, hyphens, and underscores and space are okay.",
+	  'bad_colour' => 
+	      "sorry. I don't like that colour",
+	  },
+	 },
+	filters => ['trim'],  
+	constraint_methods => {
+	    colour => [
+		     {
+		      constraint => sub {
+			my $dfv = shift;
+			my $val = $dfv->get_current_constraint_value();
+			$dfv->name_this('disallowed_chars');
+			return $val =~/^[\d\w\s]+$/ ? 1 : 0;
+		      },
+		     },
+		     {
+		      constraint => sub {
+			my $dfv = shift;
+			my $val = $dfv->get_current_constraint_value();
+			$dfv->name_this('bad_colour');
+			return $val =~/[Bb][Ll][Uu][Ee]/ ? 1:0;
+		      },
+		     },
+		    ],	
+		   name => sub {
+		     my $dfv = shift;
+                     my $val = $dfv->get_current_constraint_value();
+		     $dfv->name_this('disallowed_chars');
+		     return $val =~/^[\d\w\s]+$/ ? 1 : 0;
+		   }
+		  },
+       };
+  
+  $c->form($dfv_profile);
+  
+}
+
+\end{verbatim}
+
+Okay, so this looks a bit daunting. It's really not that bad though. It uses the Data::FormValidator module (have a look at its perldoc if you want to know more). All we're doing is defining a Data::FormValidator profile, which we then use (in the last line) to check the form values in the catalyst context form object. 
+
+\paragraph*{}
+The 'required' part defines which of the fields in our form are required. In this case, both of them. We then define some error messages to return if any of our custom validation constraints fail. The trim filter just lops off whitespace from either end of the form values. We then define the methods to check our two values. These should return 1 on sucess and 0 on failure. It should be fairly obvious what they're doing. If you're not familiar with Perl's ternary operator a?b:c, it just returns b if a is true and c if a is false. You could equally well use an if else, but this is less verbose (which, given that DFV makes Charles Dickens look terse, has to be a good thing).
+
+\paragraph*{}
+The syntax for using more than one constraint check on a single field is a bit unwieldy, as you have to define an array of hashes of hashes. I strongly recommend just copying an existing version and changing it to suit, otherwise you'll spend ten minutes of your life trying to figure out which bracket you've missed.
+
+\paragraph*{}
+If you're panicking and hitting your head off the keyboard at this point, you'll be pleased to know that ROME has a lot of pre\-defined constraint methods in ROME::Constraints that you can use, so most of the time your dfv\_profiles will be a whole lot more succinct than this one. Unfortunately, they don't include a check to see if the value is blue.
+
+\paragraph*{}
+The results of our form validation are kept in the catalyst object. Back in our 'do\_stuff' action we can check whether or not the validation was successful with \verb| if ($c->forward('_check_params'))|. If it failed, we can then get access to the error messages in our template. 
+
+\paragraph*{}
+Alter \verb|root/src/anexample/did_stuff.tt2| like this:
+
+\begin{verbatim}
+[%IF Catalyst.form.success%]
+  <p>Hello [%name%]. Your favourite colour is [%colour%]</p>
+[%ELSE%]
+  [%INCLUDE dfv_error.tt2%]
+[%END%]
+\end{verbatim}
+
+If our form validation succeeded, we output the result. If it didn't, we include the dfv\_error.tt2 template (from \verb|src/root/dfv_error.tt2|). This template is included with ROME and parses DFV error results into pretty output for you. You're welcome to write your own version if you want to display them in a different way.
+
+\paragraph*{}
+Restart your server, reload your page and try submitting your form with no entries, and with colours other than blue. Finally check that you can submit with a valid name and the colour blue.
+
+
+
+
+
+\section{Autocompletion of form fields}
+Each (non-mapping) table has a root/src/crud/ directory in which there is an autocomplete.tt2 method. You can hand this a results set of the appropriate types of objects and it will generate the appropriate response for an autocomplete field. For example, in the factor form, we have a field called owner. This needs to be a valid person's username, so we use an autocompleter to ensure that it is. We define the field in the form like:
+
+\begin{verbatim}
+<div class="labelled_input">
+  <label for="factor_owner">Owner</label>
+  <input type="text" name="factor_owner" id="factor_owner"/>
+  <div id="factor_owner_autocomplete_choices" class="autocomplete"></div>
+    <script type="text/javascript" language="javascript">
+    // <![CDATA[
+         new Ajax.Autocompleter("factor_owner",
+	                        "factor_owner_autocomplete_choices","
+				 /crud/factor/owner_autocomplete",{});
+    // ]]>
+   </script>
+\end{verbatim}
+
+Note that this field is actually wrapped in a check that the current user is an admin. If not, the factor\_owner defaults to the current user.
+
+\paragraph*{}
+So, we have an input field with a div underneath it of class 'autocomplete' and id 'factor\_owner\_autocomplete\_choices'. We then have a bit of javascript which hooks an Ajax.Autocompleter (a bit of script.aculo.us magic) onto the input field 'factor\_owner', which will call the crud/factor/owner\_autocomplete action on the server and put the results in div 'factor\_owner\_autocomplete\_choices' 
+
+\paragraph*{}
+The owner\_autocomplete action is defined as follows:
+
+\begin{verbatim}
+sub owner_autocomplete :Local {
+  my ($self, $c) = @_;
+  
+  my $val = $c->request->params->{factor_owner};
+  $val=~s/\*/%/;
+  $c->stash->{ajax} = 1;
+
+  my $people;
+  if ($c->check_user_roles('admin')){
+     $people =$c->model('ROMEDB::Person')->search_like({username=>'%'.$val.'%'});
+  }
+  else{
+    $c->stash->{error_msg} = "You don't have permission to list users";
+  }
+
+  $c->stash->{template}='crud/person/autocomplete.tt2';
+  $c->stash->{people}=$people;
+}
+
+\end{verbatim}
+
+
+This takes the value typed into the input field, replaces a * with \%, which allows users to use the * character to get the entire list back, sets the ajax flag to avoid wrapping the results in header and footer, enforces admin-only access controls, creates a resultset of entries in the person table with matching usernames and finally passes them on to the crud/person/autocomplete.tt2 template which knows how to process person objects into the appropriate format for the autocomplete\_choices div.
+
+\paragraph*{}
+The template looks like:
+
+\begin{verbatim}
+<ul>
+[%WHILE (person = people.next)%]
+     <li>[%person.username%]<span class="informal">
+        ([%person.forename%][%person.surname%])
+     </span></li>  
+    [%END%]
+</ul>
+\end{verbatim}
+
+
+
+\subsubsection*{Autocompleters with multiple fields}
+The above works fine for a table with a single column primary key. Things are more complicated in the level creation form where we want to select the related factor. The factor table has a two column primary key, so to choose a factor, we need to know both the factor name and the factor owner. 
+
+\paragraph*{}
+We want to select based on the factor name, so we define our input field as:
+
+\begin{verbatim}
+<div class="labelled_input">
+  <label for="level_factor_name">Factor Name</label>
+  <input type="text" name="level_factor_name" id="level_factor_name">
+  <div id="level_factor_name_autocomplete_choices" class="autocomplete"></div>
+</div>
+<input type="hidden" name="factor_owner" id="factor_owner"/>
+
+<script type="text/javascript" language="javascript">
+// <![CDATA[
+     new Ajax.Autocompleter("level_factor_name",
+	    "level_factor_name_autocomplete_choices",
+            "/crud/level/factor_name_autocomplete",
+            {           
+               afterUpdateElement :  function () {                                   
+                    Ajax.Autocompleter.set_linked_value('factor_owner',
+                                                        'factor_owner_update');
+               } 
+            });
+        // ]]>
+        </script>
+
+\end{verbatim}
+
+Again, we've got an input field with an autocomplete div underneath and a script to create the Ajax.Autocompleter for that field but this time we've also got a hidden field for the factor\_owner. In the script, we define a function to update the factor\_owner field appropriately when an element from the factor\_name autocompleter has been selected (the actual function - Ajax.Autocompleter.set\_linked\_values - is defined in rome.js). This adds the information in the hidden 'factor\_owner\_update' span to the 'factor\_owner' div. 
+
+\paragraph*{}
+At this point, you may have notices that we don't actually have a factor\_owner\_update div in our form and be wondering where this method gets its information from. The answer lies in the root/src/crd/factor/autocomplete.tt2 file:
+
+\begin{verbatim}
+<ul>
+[%WHILE (factor = factors.next)%]
+     <li>[%factor.name%]<span class="informal">
+	[%IF Catalyst.check_user_roles('admin')%]-[%factor.owner.username%]-[%END%]
+        [%IF factor.description%][%factor.description%][%END%]
+        <span style="display: none;" id="factor_description_update">[%factor.description%]</span>
+        <span style="display: none;" id="factor_owner_update">[%factor.owner.username%]</span>
+     </span></li>  
+    [%END%]
+</ul>
+\end{verbatim}
+ 
+This provides extra information about the factor in named spans in the invisible 'informal' section of the autocomplete results. We can use these to update other fields in the form via the set\_linked\_values method. 
+
+
+
+
+
+\section{Autocompletion of form fields}
+Each (non-mapping) table has a root/src/crud/ directory in which there is an autocomplete.tt2 method. You can hand this a results set of the appropriate types of objects and it will generate the appropriate response for an autocomplete field. For example, in the factor form, we have a field called owner. This needs to be a valid person's username, so we use an autocompleter to ensure that it is. We define the field in the form like:
+
+\begin{verbatim}
+<div class="labelled_input">
+  <label for="factor_owner">Owner</label>
+  <input type="text" name="factor_owner" id="factor_owner"/>
+  <div id="factor_owner_autocomplete_choices" class="autocomplete"></div>
+    <script type="text/javascript" language="javascript">
+    // <![CDATA[
+         new Ajax.Autocompleter("factor_owner",
+	                        "factor_owner_autocomplete_choices","
+				 /crud/factor/owner_autocomplete",{});
+    // ]]>
+   </script>
+\end{verbatim}
+
+Note that this field is actually wrapped in a check that the current user is an admin. If not, the factor\_owner defaults to the current user.
+
+\paragraph*{}
+So, we have an input field with a div underneath it of class 'autocomplete' and id 'factor\_owner\_autocomplete\_choices'. We then have a bit of javascript which hooks an Ajax.Autocompleter (a bit of script.aculo.us magic) onto the input field 'factor\_owner', which will call the crud/factor/owner\_autocomplete action on the server and put the results in div 'factor\_owner\_autocomplete\_choices' 
+
+\paragraph*{}
+The owner\_autocomplete action is defined as follows:
+
+\begin{verbatim}
+sub owner_autocomplete :Local {
+  my ($self, $c) = @_;
+  
+  my $val = $c->request->params->{factor_owner};
+  $val=~s/\*/%/;
+  $c->stash->{ajax} = 1;
+
+  my $people;
+  if ($c->check_user_roles('admin')){
+     $people =$c->model('ROMEDB::Person')->search_like({username=>'%'.$val.'%'});
+  }
+  else{
+    $c->stash->{error_msg} = "You don't have permission to list users";
+  }
+
+  $c->stash->{template}='crud/person/autocomplete.tt2';
+  $c->stash->{people}=$people;
+}
+
+\end{verbatim}
+
+
+This takes the value typed into the input field, replaces a * with \%, which allows users to use the * character to get the entire list back, sets the ajax flag to avoid wrapping the results in header and footer, enforces admin-only access controls, creates a resultset of entries in the person table with matching usernames and finally passes them on to the crud/person/autocomplete.tt2 template which knows how to process person objects into the appropriate format for the autocomplete\_choices div.
+
+\paragraph*{}
+The template looks like:
+
+\begin{verbatim}
+<ul>
+[%WHILE (person = people.next)%]
+     <li>[%person.username%]<span class="informal">
+        ([%person.forename%][%person.surname%])
+     </span></li>  
+    [%END%]
+</ul>
+\end{verbatim}
+
+
+
+\subsubsection*{Autocompleters with multiple fields}
+The above works fine for a table with a single column primary key. Things are more complicated in the level creation form where we want to select the related factor. The factor table has a two column primary key, so to choose a factor, we need to know both the factor name and the factor owner. 
+
+\paragraph*{}
+We want to select based on the factor name, so we define our input field as:
+
+\begin{verbatim}
+<div class="labelled_input">
+  <label for="level_factor_name">Factor Name</label>
+  <input type="text" name="level_factor_name" id="level_factor_name">
+  <div id="level_factor_name_autocomplete_choices" class="autocomplete"></div>
+</div>
+<input type="hidden" name="factor_owner" id="factor_owner"/>
+
+<script type="text/javascript" language="javascript">
+// <![CDATA[
+     new Ajax.Autocompleter("level_factor_name",
+	    "level_factor_name_autocomplete_choices",
+            "/crud/level/factor_name_autocomplete",
+            {           
+               afterUpdateElement :  function () {                                   
+                    Ajax.Autocompleter.set_linked_value('factor_owner',
+                                                        'factor_owner_update');
+               } 
+            });
+        // ]]>
+        </script>
+
+\end{verbatim}
+
+Again, we've got an input field with an autocomplete div underneath and a script to create the Ajax.Autocompleter for that field but this time we've also got a hidden field for the factor\_owner. In the script, we define a function to update the factor\_owner field appropriately when an element from the factor\_name autocompleter has been selected (the actual function - Ajax.Autocompleter.set\_linked\_values - is defined in rome.js). This adds the information in the hidden 'factor\_owner\_update' span to the 'factor\_owner' div. 
+
+\paragraph*{}
+At this point, you may have notices that we don't actually have a factor\_owner\_update div in our form and be wondering where this method gets its information from. The answer lies in the root/src/crd/factor/autocomplete.tt2 file:
+
+\begin{verbatim}
+<ul>
+[%WHILE (factor = factors.next)%]
+     <li>[%factor.name%]<span class="informal">
+	[%IF Catalyst.check_user_roles('admin')%]-[%factor.owner.username%]-[%END%]
+        [%IF factor.description%][%factor.description%][%END%]
+        <span style="display: none;" id="factor_description_update">[%factor.description%]</span>
+        <span style="display: none;" id="factor_owner_update">[%factor.owner.username%]</span>
+     </span></li>  
+    [%END%]
+</ul>
+\end{verbatim}
+ 
+This provides extra information about the factor in named spans in the invisible 'informal' section of the autocomplete results. We can use these to update other fields in the form via the set\_linked\_values method. 
+
+
+
+
+
+
+
+
+\subsection{Getting data from ROME}

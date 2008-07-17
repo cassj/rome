@@ -1,0 +1,7 @@
+<ul>
+[%WHILE (person = people.next)%]
+     <li>[%person.username%]<span class="informal">
+        ([%person.forename%][%person.surname%])
+     </span></li>  
+    [%END%]
+</ul>

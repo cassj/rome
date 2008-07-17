@@ -1,0 +1,83 @@
+<h4> Workgroups of which you are Leader: </h4>
+
+<div id="wg_led_res"></div>
+
+<ul id="workgroups_led">
+
+[%FOREACH workgroup IN workgroups_led%]
+  <li>[%workgroup.name%][%IF workgroup.description%] ([%workgroup.description%])[%END%] 
+      <a class="ajax_link" 
+         href="/workgroup/update_form?workgroup=[% workgroup.name %]" 
+	 onclick=" new Ajax.Updater( 'wg_update_form',  
+	 	       		     '/workgroup/update_form?workgroup=[% workgroup.name %]',
+				      { asynchronous: 1,
+				        evalScripts: 'true',
+				       } ) ; 
+                   return false"
+      >Update</a>
+
+      <a class="ajax_link" 
+         href="/workgroup/manage/[% workgroup.name %]" 
+      >Manage</a>
+
+
+      [%# Catalyst.prototype.link_to_remote( 'Update', {
+        update => 'wg_update_form',
+        url    => "/workgroup/update_form?workgroup=$workgroup.name",
+       },{class="ajax_link"} )
+      %]	
+
+      <a class="ajax_link delete_check" 
+         href="/workgroup/delete?name=[% workgroup.name%]" 
+         onclick=" new Ajax.Updater( 'wg_led_res',  
+                                     '/workgroup/delete?name=[% workgroup.name %]', 
+                                     { asynchronous: 1,
+                                    onSuccess: function(){
+                                                  setTimeout(
+                                                    function(){
+                                                      update_workgroup_list('workgroup_list');
+                                                    }, 
+                                                    1000
+                                                  );
+                                                }
+                                      } ) ; 
+                   return false"
+      >Delete</a>
+   </li>
+[% END %]
+</ul>
+
+<div id="wg_update_form"></div>
+
+<h4>Workgroups of which you are a Member: </h4>
+
+<div id="wg_member_res"></div>
+
+<ul id="workgroups_member">
+[% FOREACH workgroup IN workgroups_member %]
+  <li>
+     [% workgroup.name %]
+     [% IF workgroup.description %] ([% workgroup.description %]) [% END %]
+ 
+     <a class="ajax_link" 
+         href="/workgroup/leave?workgroup=[% workgroup.name%]" 
+         onclick=" new Ajax.Updater( 'wg_member_res',  
+                                     '/workgroup/leave?workgroup=[% workgroup.name %]', 
+                                     { asynchronous: 1,
+                                    onSuccess: function(){
+                                                  setTimeout(
+                                                    function(){
+                                                      update_workgroup_list('workgroup_list');
+                                                    }, 
+                                                    2500
+                                                  );
+                                                }
+                                      } ) ; 
+                   return false"
+      >Leave</a>
+
+  </li>
+[% END %]
+
+</ul>
+
