@@ -1,5 +1,5 @@
 [%# This is a TT template used to generate ROME controllers %]
-package ROME::Controller::[%pkg_name%];
+package ROME::Controller::Component::[%pkg_name%];
 
 use strict;
 use warnings;
@@ -9,7 +9,7 @@ use ROME::Constraints;
 
 =head1 NAME
 
-[%pkg_name%] - ROME Component Controller
+ROME::Controller::Component::[%pkg_name%] - ROME Component Controller
 
 =head1 DESCRIPTION
 

@@ -8,7 +8,7 @@
 sub [% process_name %] :Local{
 
   my (\$self, \$c) = @_;
-  \$c->stash->{template} = '[% component_name %]/[% process_name %].tt2';
+  \$c->stash->{template} = 'component/[% component_name %]/[% process_name %]';
 
 }
 
@@ -44,7 +44,7 @@ sub _validate_[%process_name%] :Private{
 
 =item [%process_name%]_queue
 
-  Ajax action to which the [%component_name%]/[%process_name%] 
+  Ajax action to which the component/[%component_name%]/[%process_name%] 
   form submits
 
 =cut

@@ -182,7 +182,7 @@ sub create_component :Path('component/create'){
     #ensures the only difference is version, so package it up into
     #root/components: 
     my $version;
-    if (-e  $c->path_to('lib','ROME','Controller',$cc_component_name.'.pm')){
+    if (-e  $c->path_to('lib','ROME','Controller','Component',$cc_component_name.'.pm')){
       $version = $c->controller($cc_component_name)->VERSION;
       $c->forward('make_component_distribution');
 
@@ -196,7 +196,7 @@ sub create_component :Path('component/create'){
 		  INCLUDE_PATH => $c->path_to('components','templates'),
 		  INTERPOLATE  => 1,
 		  POST_CHOMP   => 1,
-		  OUTPUT_PATH  => $c->path_to('lib','ROME','Controller'),
+		  OUTPUT_PATH  => $c->path_to('lib','ROME','Controller','Component'),
 		 };
     my $template = Template->new($config);
     my $vars = {
@@ -209,7 +209,7 @@ sub create_component :Path('component/create'){
 
 
     #and a directory for views.
-    my $dir = $c->path_to('root','src',$c->request->params->{component_name});
+    my $dir = $c->path_to('root','src','component',$c->request->params->{component_name});
 
     #create new dir, overwriting old one if required
     rmtree( $dir, {} ) if (-e $dir);
@@ -541,7 +541,7 @@ sub create_process :Path('process/create'){
 
 
     #Create the process page template file
-    my $template_file = $c->path_to('root','src',$process->component_name,$process->name).'';
+    my $template_file = $c->path_to('root','src','component',$process->component_name,$process->name).'';
 
     my $config = {
 		  INCLUDE_PATH => $c->path_to('components','templates'),
@@ -589,8 +589,7 @@ sub create_process :Path('process/create'){
       || die $template->error();
 
     #and insert it into the controller, saving the previous version in component_name.pm.bak
-    my $component_file = $c->path_to('lib','ROME','Controller', $cc_component_name.'.pm');
-    warn $component_file;
+    my $component_file = $c->path_to('lib','ROME','Controller','Component', $cc_component_name.'.pm');
     {
       local $^I = '.bak';
       local @ARGV = ($component_file);
@@ -2149,7 +2148,7 @@ sub process_param_create :Path('process/parameter/create'){
 		 $param->process_component_name));
  
     #insert constraints into the controller, saving the previous version in component_name.pm.bak
-    my $component_file = $c->path_to('lib','ROME','Controller', $cc_component_name.'.pm');
+    my $component_file = $c->path_to('lib','ROME','Controller', 'Component',$cc_component_name.'.pm');
     {
       local $^I = '.bak';
       local @ARGV = ($component_file);
@@ -2335,7 +2334,7 @@ sub process_template_upload :Path('process/template/upload'){
     $c->stash->{error_msg} = "You don't have permission to update process templates.";
     return;
   }
-  
+ 
   #check param constraints
   return unless $c->forward('_validate_process_template_upload');
   
