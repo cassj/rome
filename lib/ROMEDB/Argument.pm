@@ -22,8 +22,8 @@ __PACKAGE__->load_components(qw/Core/);
 __PACKAGE__->table('argument');
 
 
-__PACKAGE__->add_columns(qw/jid parameter_name parameter_process value /);
-__PACKAGE__->set_primary_key(qw/jid parameter_name parameter_process/);
+__PACKAGE__->add_columns(qw/jid parameter_name parameter_process_name parameter_process_component_name parameter_process_component_version value /);
+__PACKAGE__->set_primary_key(qw/jid parameter_name parameter_process_name parameter_process_component_name parameter_process_component_version/);
 
 
 
@@ -66,7 +66,9 @@ __PACKAGE__->set_primary_key(qw/jid parameter_name parameter_process/);
 
 __PACKAGE__->belongs_to(parameter=>'ROMEDB::Parameter', {
                                           'foreign.name' => 'self.parameter_name',
-					  'foreign.process'=>'self.parameter_process',
+					  'foreign.process_name'=>'self.parameter_process_name',
+					  'foreign.process_component_name' => 'self.parameter_process_component_name',
+					  'foreign.proces_component_version' => 'self.paramter_process_component_version',
 			                                });
 
 __PACKAGE__->belongs_to(job=>'ROMEDB::Job','jid');

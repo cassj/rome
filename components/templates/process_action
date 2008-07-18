@@ -79,7 +79,7 @@ sub [%process_name%]_queue :Path('[%process_name%]/queue'){
        # the processor enforces all the constraints defined
        # for the process parameters when queue is called 
        # so you can just pass the form values straight through
-       \$processor->arguments(\$c->request->params);
+       \$processor->arguments({map {\$_ => \$c->request->params->{\$_}} \$c->form->valid});
 
        # create a job and put it in the job queue to be run
        \$processor->queue();

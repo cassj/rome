@@ -46,8 +46,7 @@ __PACKAGE__->mk_accessors (qw|context
                               class 
                               user 
                               script 
-                              tmpl 
-                              _suffix 
+                               _suffix 
                               arguments 
                               config 
                               out
@@ -103,7 +102,7 @@ sub cmd_params{
     that path will be used (note processor name is all in uppper case). 
     Failing that File::Which is used to locate the executable 
     in the path.
-    
+
 =cut
 
 sub cmd {
@@ -127,8 +126,6 @@ sub cmd {
 
   Expects to be given a single string as an argument which can be used
   as a prefix to the generated file names.
-
-
 
 =cut
 
@@ -181,62 +178,11 @@ sub queue{
     return 0;
   }
 
+
+  # constraint checks should have been done by the controller which 
+  # uses the processor
+
   ###
-
-
-  #This is not the place for constraint checks. They should be done in the
-  #interface. By the time they get to here they should be untainted and 
-  #ready to go.
-
-  # Check appropriate arguments are provided for the process parameters
-  
-  #build a dfv profile from the constraints
-#  my @parameters = $self->process->parameters;
-#
-#  my @constraints = $self->context->model('ROMEDB::ParameterConstraint')->search({
-#						 parameter_process => $self->process->name});
-#  my $dfv_profile;
-#
-#  #generic dfv profile settings:
-#  $dfv_profile->{msgs}->{format} = '%s';
-#  $dfv_profile->{filters}= ['trim'];
-#  $dfv_profile->{missing_optional_valid}=1;
-#  $dfv_profile->{required} = ['file_prefix'];
-#  $dfv_profile->{msgs}->{constraints}->{has_file_prefix} = 'No prefix given for filenames. Probably a bug: contact the the developer of this component';
-#  $dfv_profile->{constraint_methods}->{file_prefix} = sub {
-#                            my $dfv = shift;
-#			    $dfv->name_this('has_file_prefix');
-#			    my $val = $dfv->get_current_constraint_value();
-#			    return $val =~/^[\w\d]+$/;
-#			  };
-#  
-#  #fill the rest in from the DB
-#  $Storable::Eval=1; #allows us to serialize code refs. 
-#  foreach (@constraints){
-#    $dfv_profile->{msgs}->{constraints}->{$_->constraint_name} = $_->constraint_error_msg;
-#    push @{$dfv_profile->{constraint_methods}->{$_->parameter_name}}, thaw ($_->constraint_sub);
-#    if ($_->parameter->optional){
-#      push @{$dfv_profile->{optional}}, $_->parameter_name;
-#    }
-#    else{
-#      push @{$dfv_profile->{required}}, $_->parameter_name;
-#    }
-#    
-#  }
-#
-#  #check the contents of arguments against the profile
-#  #NOTE: the messages template is part of the wrapper, even for an ajax call
-#  #so the result will always be able to display the dfv_profile
-#  my $check = Data::FormValidator->check($self->arguments, $dfv_profile);
-#  if ($check->has_invalid or $check->has_missing){
-#    # borrow the catalyst DFV plugin:
-#    $self->context->{form}=$check;
-#    # full pages have message in the wrapper, ajax calls don't, so:
-#    $self->context->stash->{template} = 'messages' if $self->context->stash->{ajax};
-#    return 0;
-#  }
-
-
   #create a job (can't get duplicate entries - auto increment ID)
   my $job = $self->context->model('ROMEDB::Job')->create(
 		   {
@@ -289,16 +235,20 @@ sub queue{
   $job->is_root($is_root);
   $job->update;
 
+
   ###
-  # Add the arguments to the job (we've already checked they're valid above)
+  # Add the arguments to the job 
   foreach (keys %{$self->arguments}){
-    my $val = $self->arguments->{$_};
+    my $val = $self->arguments->{$_};    
+    
     my $arg = $self->context->model('ROMEDB::Argument')->create(
 		    {
 		     jid => $job->id,
 		     parameter_name => $_,
-                     parameter_process => $self->process->name,
-                     value => ref($val) ? freeze $val : $val,
+                     parameter_process_name => $self->process->name,
+		     parameter_process_component_name => $self->process->component_name,
+		     parameter_process_component_version => $self->process->component_version,
+                     value => $val,
 		    });
   }
 
@@ -399,7 +349,7 @@ sub parse_template {
 
   my $self = shift;
 
-  die "Set tmpl before parsing" unless $self->process->tmpl_file;
+  die "Set process before parsing" unless $self->process->tmpl_file;
   die "Set arguments before parsing" unless $self->arguments;
   die "No suffix defined for this processor" unless $self->_suffix;
 

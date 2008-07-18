@@ -60,7 +60,7 @@ process_templates: 'process_templates'
 ###
 # Location to store generated job files until they have been successfully run. 
 ###
-tmp_job_files: '/home/cassj/work/ROME/tmp_job_files'
+tmp_job_files: '/home/cassj/work/rome/tmp_job_files'
 
 ###
 # User registration settings. 

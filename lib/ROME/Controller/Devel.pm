@@ -2341,12 +2341,23 @@ sub process_template_upload :Path('process/template/upload'){
   #get upload file
   my $upload = $c->request->uploads->{template_file};
 
-  my $filename = $c->config->{process_templates}
-    .'/'.$c->request->params->{process_component_name}
+  my $pt_dir =  $c->config->{process_templates};
+  my $filename = $c->request->params->{process_component_name}
       .'/'.$c->request->params->{process_name};
   
   #store the file, overwriting any existing
-  $upload->copy_to($filename);
+  $upload->copy_to("$pt_dir/$filename");
+
+  #get the process 
+  my $process = $c->model('ROMEDB::Process')->find
+    ({
+      name => $c->request->params->{process_name},
+      component_name => $c->request->params->{process_component_name},
+      component_version => $c->request->params->{process_component_version},
+     });
+  $process->tmpl_file($filename);
+  $process->update;
+
   
   #success!
   $c->stash->{status_msg} = "Template successfully updated.";
