@@ -2354,7 +2354,7 @@ sub process_template_upload :Path('process/template/upload'){
   warn $filename;
 
   #success!
-  $c->stash->{status_msg} = "Tempalte successfully updated.";
+  $c->stash->{status_msg} = "Template successfully updated.";
 }
 
 =back

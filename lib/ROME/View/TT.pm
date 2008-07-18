@@ -7,7 +7,7 @@ use base 'Catalyst::View::TT';
 __PACKAGE__->config({
     CATALYST_VAR => 'Catalyst',
     INCLUDE_PATH => [
-        ROME->path_to( 'root', 'skins', ROME->config->{skin} ),
+        ROME->path_to( 'root', 'skins', ROME->config->{skin},'src' ),
         ROME->path_to( 'root', 'src' ),
     ],
     PRE_PROCESS  => 'config/main',

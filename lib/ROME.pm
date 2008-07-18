@@ -157,12 +157,32 @@ unless (__PACKAGE__->config->{userdata}=~/\/.+/){
   __PACKAGE__->config->{userdata}= __PACKAGE__->config->{root}.'/'.__PACKAGE__->config->{userdata};
 }
 
-# static::simple include paths
-__PACKAGE__->config->{static}->{include_path} = [
-						 __PACKAGE__->config->{root}.'/static',
-						 __PACKAGE__->config->{root}.'/static/images',
-					];
+
+### static directory definitions ###
+my @statics;
+
+# skin static dirs if we're using a skin
+if (my $skin = __PACKAGE__->config->{skin}){
+  push @statics,
+    __PACKAGE__->path_to('root', 'skins', $skin,'static'),
+    __PACKAGE__->path_to('root', 'skins', $skin, 'static', 'images');
+}
+
+# default static dirs
+push @statics, 
+  __PACKAGE__->path_to('root','static'),
+  __PACKAGE__->path_to('root','static','images');
+
+#stringify path names
+@statics = map {"$_"} @statics;
+
+# tell static simple about them
+__PACKAGE__->config->{static}->{include_path} = \@statics;
 __PACKAGE__->config->{static}->{logging} = 1;
+
+
+
+
 
 
 =head1 SEE ALSO

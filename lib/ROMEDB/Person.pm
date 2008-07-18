@@ -305,6 +305,11 @@ __PACKAGE__->has_many(experiments=>'ROMEDB::Experiment', 'owner');
 =back
 
 
+#### TO DO
+# the user directory creation should be in the controller, not the model
+# once it's moved we can take the root: definition out of the config file.
+
+
 =head2 new
 
   Overrides new to make user directories.

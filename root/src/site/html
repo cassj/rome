@@ -5,7 +5,7 @@
    <head>
     <title>[% template.title or site.title %]</title>
     <style type="text/css">
-  [% PROCESS css/rome.css %]
+  [% PROCESS rome.css %]
     </style>
 
    <!-- PROTOTYPE / SCRIPTACULOUS -->

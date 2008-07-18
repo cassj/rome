@@ -4,7 +4,7 @@
 ###
 
 name: ROME
-root: /home/cassj/work/ROME/root
+#root: /home/cassj/work/rome/root
 
 
 ###
@@ -24,7 +24,7 @@ Model::ROMEDB:
 # The skin determines the look and feel of ROME. 
 ###
 
-skin: 'default'
+skin: 'test'
 
 ###
 #System admin email address
