@@ -5,7 +5,7 @@
 #
 #    script/rome_makenav.pl 
 
-# ickickick. rewrite this with the TT Views stuff? 
+#there has to be a nicer way of doing this...
 
 use strict;
 use lib 'lib/';
