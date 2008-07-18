@@ -10,7 +10,7 @@ function startPopupProgressBar(form, options) {
 
     var width  = options.width  || '480';
     var height = options.height || '150';
-    window.open ('/progress?progress_id='+id,'Apache2-UploadProgress','location=0,status=0,width='+width+',height='+height); return true;
+    window.open ('progress?progress_id='+id,'Apache2-UploadProgress','location=0,status=0,width='+width+',height='+height); return true;
 
 
 }
@@ -81,7 +81,7 @@ function updateProgressBar(progress) {
 
 function reportUploadProgress() {
     
-    url = '/progress?progress_id=' + progress.id;
+    url = 'progress?progress_id=' + progress.id;
 
     var req = new XMLHttpRequest();
     req.open('GET', url, Boolean(handleUploadProgressResults));
@@ -118,7 +118,7 @@ function handleUploadProgressResults(results) {
         progress.size         = state.size;
         progress.received     = state.received;
 
-        if ( progress.received != progress.size ) {
+        if ( progress.received != progress.size && !state.aborted ) {
             window.setTimeout( reportUploadProgress, 1000 );
         }
 

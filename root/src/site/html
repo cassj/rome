@@ -6,21 +6,35 @@
     <title>[% template.title or site.title %]</title>
 
    <LINK href="/css/rome.css" rel="stylesheet" type="text/css" />
- 
-   <!-- PROTOTYPE / SCRIPTACULOUS -->
-   <script src="/js/prototype.js" type="text/javascript"></script>
-   <!--script src="/js/scriptaculous.js" type="text/javascript"></script-->
-   <!--script src="/js/builder.js" type="text/javascript"></script-->
-   <script src="/js/effects.js" type="text/javascript"></script>
-   <script src="/js/controls.js" type="text/javascript"></script>
 
-   <!-- UPLOAD FORM 
-   <script src="/js/progress.js" type="text/javascript"></script>
-   <script src="/js/progress.jmpl.js" type="text/javascript"></script>
-   -->
+   <!-- URL SPECIFIC CSS-->
+   [% TRY %]
+   [% USE FILE(Catalyst.path_to('root','static','css/',Catalyst.request.path)_'.css')%]
+     <LINK href="/css/[%Catalyst.request.path%].css" rel="stylesheet" type="text/css" />
+   [% CATCH File%]
+   [% END %]
+
+  
+    <!-- PROTOTYPE / SCRIPTACULOUS -->
+   <script src="/js/prototype.js" type="text/javascript"></script>
+   <script src="/js/scriptaculous.js" type="text/javascript"></script>
 
    <!-- GENERIC ROME js -->
    <script src="/js/rome.js" type="text/javascript"></script>
+
+
+   <!-- URL SPECIFIC JS-->
+   [% TRY %]
+   [% USE FILE(Catalyst.path_to('root','static','js/',Catalyst.request.path)_'.js')%]
+     <script src="/js/[%Catalyst.request.path%].js" type="text/javascript"></script>
+   [% CATCH File%]
+   [% END %]
+
+  
+
+   <!--script src="/js/progress.js" type="text/javascript"></script>
+   <script src="/js/progress.jmpl.js" type="text/javascript"></script-->
+
 
    </head>
    <body>

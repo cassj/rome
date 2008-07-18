@@ -271,6 +271,7 @@ function update_current_datatype(divid){
 
 /****** dir_listing stuff **********/
 
+/* MOVED TO js/upload.js
 toggle_sublist = function(element){
    var kids = element.getChildren;
    //this will break really easily tho,
@@ -292,6 +293,7 @@ set_toggles = function(){
   }
 }
  
+*/
 
 /* 
    //find those which have dir_list class
@@ -312,7 +314,7 @@ set_toggles = function(){
 
 */
 
-
+/*
 if (window.attachEvent) {
   window.attachEvent("onload", set_toggles);
 }
@@ -320,7 +322,7 @@ if (window.attachEvent) {
    window.addEventListener("load", set_toggles, false);  
  }
 
-
+*/
 
 
 
