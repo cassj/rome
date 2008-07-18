@@ -9,14 +9,17 @@
 	 <!-- update template file. -->
 	 
 
-	 <div id="form">
-
+	<div id="form">
+	 
 	 <div id="progress"></div>
  
    	  <form id="process_template_upload_form" 
 	    action="[%Catalyst.uri_for('/devel/process/template/upload')%]"
             method="post"
-            enctype="multipart/form-data">
+            enctype="multipart/form-data"
+	    target="upload_target"
+	    onsubmit="start_upload('template_upload_results')"
+	    >
 
             <fieldset>
               <legend>Update process template file...</legend>
@@ -34,16 +37,15 @@
 	      <input type="hidden" name="process_component_name" value="[%process.component_name%]"/>
 	      <input type="hidden" name="process_component_version" value="[%process.component_version%]"/>
 
-              <br/><input type="submit" 
-	                  class="button" 
-                          value="Add template"
-	      		  onclick="upload_template();"
+              <br/><input type="submit" class="button" value="Add template" />
+	      		  
 
-	      /><br/>
+	      <br/>
             </fieldset>
           </form>
 
          </div>
 
 
-
+	 <!-- invisible iframe for file upload -->
+         <iframe id="upload_target" name="upload_target" src="#" style="width:0;height:0;border:0ps solid #fff;"></iframe>

@@ -2327,7 +2327,7 @@ sub _validate_process_template_upload :Private{
 sub process_template_upload :Path('process/template/upload'){
   my ( $self, $c ) = @_;
 
-  $c->stash->{template} = 'site/messages';
+  $c->stash->{template} = 'devel/upload_iframe';
   $c->stash->{ajax} = 1;
   
   #check permissions.
@@ -2340,19 +2340,15 @@ sub process_template_upload :Path('process/template/upload'){
   return unless $c->forward('_validate_process_template_upload');
   
   #get upload file
-  my $upload = $c->request->uploads;
-  use Data::Dumper;
-  warn Dumper $upload;
- 
-  
+  my $upload = $c->request->uploads->{template_file};
+
   my $filename = $c->config->{process_templates}
-    .'/'.$c->request->params->{component_name}
-      .'/'.$c->request->params->{process_name}.'tt2';
+    .'/'.$c->request->params->{process_component_name}
+      .'/'.$c->request->params->{process_name};
   
   #store the file, overwriting any existing
-  #$upload->copy_to($filename);
-  warn $filename;
-
+  $upload->copy_to($filename);
+  
   #success!
   $c->stash->{status_msg} = "Template successfully updated.";
 }

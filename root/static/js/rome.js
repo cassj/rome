@@ -90,9 +90,23 @@ Ajax.Autocompleter.set_linked_value =
 */
 
 
-/***** ROME Stuff  *****/
+/***** ROME Stuff. *****/
 
    
+/* tesco value cream cleaner uploader */
+
+// set as your form's onsubmit callback:
+function start_upload(div_id){
+    $(div_id).innerHTML = '<span class="message">Please wait, uploading file...</span>';
+}
+
+//called by the results from the iframe defined in site/iframe_upload
+function stop_upload(div_id, message){
+    $(div_id).innerHTML = message;
+
+}
+
+
 function update_nav (){
   var nav_url = '/nav';
   var navAjax = new Ajax.Updater( 'nav', nav_url);
@@ -266,65 +280,6 @@ function update_current_datatype(divid){
       var cd_url = '/devel/datatype/current';
       var cdAjax = new Ajax.Updater(divid, cd_url, {evalScripts:true});}, 1000);
 }
-
-
-
-/****** dir_listing stuff **********/
-
-/* MOVED TO js/upload.js
-toggle_sublist = function(element){
-   var kids = element.getChildren;
-   //this will break really easily tho,
-   Element.toggle(element.nextSibling.nextSibling);
-}
-
-
-set_toggles = function(){
-
-  var LIs = document.getElementsByTagName('LI');
-  for (var i=0; i<LIs.length; i++) { 
-      if (LIs[i].className=="toggle"){
-        LIs[i].onclick=function(){
-	  Element.toggle(this.nextSibling.nextSibling);
-	}
-        Element.hide(LIs[i].nextSibling.nextSibling);
-      
-      } 
-  }
-}
- 
-*/
-
-/* 
-   //find those which have dir_list class
-   for (var i=0; i<DLs.length; i++) { 
-     if (ULs[i].className=="dir_list"){
-        //grab any titles
-        var titles = LIs[i].getElementsByTagName('LI');
-           for (var j=0; j<titles.length; j++) { 
-             //set them to dropdown on click
-             titles[i].onclick=function() {
-                  alert("Hello there!");
-                  return false;
-                 }
-           }		 
-     }
-   }
-}
-
-*/
-
-/*
-if (window.attachEvent) {
-  window.attachEvent("onload", set_toggles);
-}
- else{
-   window.addEventListener("load", set_toggles, false);  
- }
-
-*/
-
-
 
 
 /******* DEBUG *************/
