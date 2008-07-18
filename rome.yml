@@ -36,7 +36,7 @@ admin_email: 'cassj@localhost'
 #full path to your userdata file
 ###
 
-userdata: '/home/cassj/work/ROME/userdata'
+userdata: '/home/cassj/work/rome/userdata'
 
 ###
 #Location of external binaries ROME requires

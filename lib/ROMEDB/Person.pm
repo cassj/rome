@@ -344,18 +344,18 @@ sub new{
 
   #create the static user dir
   die "ROME can't write to the static directory"
-    unless (-w $config->{root}.'/static');
+    unless (-w $config->{root}.'/static/user');
   die "static data directory for user $username already exists."
-    if (-e $config->{root}.'/static/'.$username);
+    if (-e $config->{root}.'/static/user/'.$username);
   
   #and make the directory
-  mkdir $config->{root}.'/static/'.$username
+  mkdir $config->{root}.'/static/user/'.$username
     or die "Failed to make static directory for $username";
-  mkdir $config->{root}.'/static/'.$username.'/logs'
+  mkdir $config->{root}.'/static/user/'.$username.'/logs'
       or die "Failed to make log directory for $username";
 
   #store the location in the database
-  $attrs->{static_dir} = $config->{root}.'/static/'.$username;
+  $attrs->{static_dir} = $config->{root}.'/static/user/'.$username;
   
   #okay, let dbic create the person.
   $class->next::method($attrs);
