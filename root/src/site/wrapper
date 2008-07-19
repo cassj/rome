@@ -1,6 +1,5 @@
 [% IF template.name.match('\.(css|js|txt)');
      debug("Passing page through as text: $template.name");
-     content;
    ELSE;
      IF ajax;
        debug("AJAX response");

@@ -242,6 +242,24 @@ __PACKAGE__->many_to_many(outcomes=>'outcome_datafiles','outcome');
 
 
 
+
+=head1 PROXY ACCESSORS
+
+    Subclasses of Datafile have belongs_to relationships defined which create 
+    proxy accessors in the Datafile class for the subclass columns. 
+
+=over 2
+
+=item mime_type
+
+    The mime type of the file. This only applies to image, export
+    and report files and is not guaranteed to be set.
+
+=cut
+
+
+
+
 ## A ResultSource based on the Job class which only
 ## returns Root jobs
 
@@ -265,23 +283,10 @@ ROMEDB->register_source( 'ROMEDB::RootDatafile' => $new_source );
 
 
 
-=head1 PROXY ACCESSORS
 
-    Subclasses of Datafile have belongs_to relationships defined which create 
-    proxy accessors in the Datafile class for the subclass columns. 
 
-=over 2
 
-=item href
 
-    From ROMEDB::ExportFile. 
-    The location of the static exported file available for download,
-
-=item export_method
-
-    From ROMEDB::ExportFile
-    The method used to export the file.
-    Expands to an object of class ROMEDB::ExportMethod
 
 =back
 

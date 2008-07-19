@@ -102,12 +102,14 @@ ROME - Catalyst based application
 
 =cut
 
+#                Static::Simple
+
 
 use Catalyst qw/
                 -Debug 
                 ConfigLoader 
-                Static::Simple
                 StackTrace
+                Static::Simple
                 Cache::FastMmap
 
                 Authentication
@@ -165,13 +167,17 @@ my @statics;
 if (my $skin = __PACKAGE__->config->{skin}){
   push @statics,
     __PACKAGE__->path_to('root', 'skins', $skin,'static'),
-    __PACKAGE__->path_to('root', 'skins', $skin, 'static', 'images');
+    __PACKAGE__->path_to('root', 'skins', $skin, 'static', 'images'),
+    __PACKAGE__->path_to('root', 'skins', $skin, 'static', 'css'),
+    __PACKAGE__->path_to('root', 'skins', $skin, 'static', 'js');
 }
 
 # default static dirs
 push @statics, 
   __PACKAGE__->path_to('root','static'),
-  __PACKAGE__->path_to('root','static','images');
+  __PACKAGE__->path_to('root','static','images'),
+  __PACKAGE__->path_to('root','static','css'),
+  __PACKAGE__->path_to('root','static','js');
 
 #stringify path names
 @statics = map {"$_"} @statics;
@@ -179,9 +185,6 @@ push @statics,
 # tell static simple about them
 __PACKAGE__->config->{static}->{include_path} = \@statics;
 __PACKAGE__->config->{static}->{logging} = 1;
-
-
-
 
 
 

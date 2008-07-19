@@ -455,7 +455,7 @@
  	path VARCHAR(100) NOT NULL,
  	height FLOAT,
  	width FLOAT,
-	is_png BOOLEAN DEFAULT 1,
+        mime_type VARCHAR(100),
 	PRIMARY KEY (datafile_name, datafile_experiment_name, datafile_experiment_owner),
 	FOREIGN KEY (datafile_name, datafile_experiment_name, datafile_experiment_owner)
 	   REFERENCES datafile(name, experiment_name, experiment_owner)
@@ -471,6 +471,7 @@
 	datafile_name VARCHAR(50),
  	datafile_experiment_name VARCHAR(50),
  	datafile_experiment_owner CHAR(50),
+	mime_type VARCHAR(100),
 	PRIMARY KEY (datafile_name,datafile_experiment_name, datafile_experiment_owner),
 	FOREIGN KEY (datafile_name, datafile_experiment_name, datafile_experiment_owner)
            REFERENCES datafile(name, experiment_name, experiment_owner)

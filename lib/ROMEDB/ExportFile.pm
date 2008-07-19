@@ -5,7 +5,7 @@ use base qw/DBIx::Class/;
 #Table Definition
 __PACKAGE__->load_components(qw/PK::Auto Core/);
 __PACKAGE__->table('export_file');
-__PACKAGE__->add_columns(qw/id export_method/);
+__PACKAGE__->add_columns(qw/id datafile_name datafile_experiment_name datafile_experiment_owner mime_type/);
 __PACKAGE__->set_primary_key(qw/id/);
 
 #Relationships
@@ -13,10 +13,8 @@ __PACKAGE__->belongs_to(id => 'ROMEDB::Datafile',
 			{'foreign.name' => 'self.datafile_name',
 			 'foreign.experiment_name' => 'self.datafile_experiment_name',
 			 'foreign.exeriment_owner' => 'self.datafile_experiment_owner'}, 
-			{ proxy => [ qw/ 
-					 export_method/ ] });
-__PACKAGE__->belongs_to(export_method => 'ROMEDB::ExportMethod','export_method');    
-
+			{ proxy => [ qw/ mime_type
+				       / ] });
 
 =head1 NAME
     
@@ -58,10 +56,10 @@ __PACKAGE__->belongs_to(export_method => 'ROMEDB::ExportMethod','export_method')
 
 =over 2
 
-=item export_method 
+=item mime_type
 
-    The method used to generate this exported file
-    Expands to an object of class ROMEDB::ExportMethod
+   The mime type of this file.
+   Not guaranteed to be set
 
 =back
     
