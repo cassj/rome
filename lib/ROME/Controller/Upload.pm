@@ -8,7 +8,7 @@ use Data::Dumper;
 use Cwd;
 use File::Find::Rule;
 use File::MMagic;
-
+use Path::Class;
 
 
 #what the hell is the point of this?
@@ -49,40 +49,37 @@ sub upload : Local {
       }
       $user = $c->request->params->{person};
     }
-    
+ 
+   
     my $subdir = $c->request->params->{subdir};
     $subdir =~s/[^\w\d]//g;
-
-    my $path = $user->upload_dir.'/';
+    
+    
+    my $upload_dir = dir($c->config->{userdata},$c->user->username,'uploads');
     
     if($subdir){
-      mkdir("$path/$subdir");
-      $path = "$path/$subdir/";
+	$upload_dir = dir($upload_dir,$subdir);
+	$upload_dir->mkpath;
     }
-    
-    #check it doesn't already exist
-    if (-e $path.$upload->filename){
-      $c->stash->{error_msg} = 'Sorry, that file already exists.';
-      return;
-    }
+
+#    #check it doesn't already exist
+#    if (-e $path.$upload->filename){
+#      $c->stash->{error_msg} = 'Sorry, that file already exists.';
+#      return;
+#    }
+
+    my $file = file($upload_dir,$upload->filename);
 
     #store the file,
-    $upload->copy_to($path.$upload->filename);
+    $upload->copy_to("$file");
 
     #unpack it ?
-    $self->_unpack($path.$upload->filename);
-#    my @new_files = @{$self->_unpack($path.$upload->filename)};
-#    @new_files = map {/^.*\/(.+)$/} @new_files;
+    $self->_unpack("$file");
 
     my $msg = 'File '. $upload->{filename}.' successfully uploaded and unpacked.';
 
-
-#      if (scalar(@new_files)>1){
-#	$msg.= '<br/>Unpacked files: ';
-#	$msg.= join (', ', @new_files);
-#      }
-
     #success!
+    $c->stash->{template} = 'upload/upload_iframe';
     $c->stash->{status_msg} = $msg;
 }
 
@@ -201,9 +198,11 @@ sub autocomplete_subdir : Local{
     $user = $c->user;
   }
 
-  opendir DIR, $user->upload_dir;
+  my $upload_dir = dir($c->config->{userdata},$c->user->userdata);
+
+  opendir DIR, "$upload_dir";
   my @subdirs = grep {/.*$val.*/}
-                  grep {!/^\.+$/ && -d $user->upload_dir.'/'.$_} 
+                  grep {!/^\.+$/ && -d $upload_dir.'/'.$_} 
 		    readdir(DIR);
   closedir DIR;
   
@@ -238,6 +237,8 @@ sub delete :Local{
   my ($self, $c, $subdir, $file) = @_;
   $c->stash->{ajax} = 1;
   $c->stash->{template} = 'upload/list';
+  
+  #erm... param checking?
  
   $subdir = $c->request->params->{subdir} unless $subdir;
   $file = $c->request->params->{file} unless $file;
@@ -264,28 +265,31 @@ sub delete :Local{
   }
 
   #does this dir / file exist in the user's upload dir? 
-  my $path = $c->user->upload_dir;
-  $path .= "/$subdir" if $subdir;
-  $path .= "/$file" if $file;
-
-  unless (-e $path){
-    $c->stash->{error_msg} = "The file you are trying to delete isn't found.";
-    return;
+  my $upload_dir = dir($c->config->{userdata},$c->user->username,'uploads');
+  my $upload_subdir = dir($upload_dir,$subdir) if $subdir;
+  my $upload_file;
+  if ($file){
+      if ($subdir){
+	  $upload_file =  file($upload_dir,$subdir,$file);
+      }
+      else{
+	  $upload_file =  file($upload_dir,$file);
+      }
   }
 
-  #how dangerous is this? the path is from the DB and is not created by the user.
-  system("rm -Rf $path");
 
-  #ditch the directory if it's empty
-  if ($subdir){
-    rmdir $c->user->upload_dir."/$subdir";
+
+  #delete the file 
+  $upload_file->remove or warn "Failed to unlink file $upload_file";
+  
+  while ($upload_subdir && ("$upload_dir" ne "$upload_subdir")){
+      last unless $upload_subdir->remove;
+      $upload_subdir = $upload_subdir->parent;
   }
+  
 
-  my $msg = "deleted: ";
-  $msg .= "$subdir/" if $subdir;
-  $msg .= $file if $file;
+  my $msg = "deleted";
   $c->stash->{status_msg} = $msg;
-
 }
 
 1;

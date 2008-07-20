@@ -3,17 +3,21 @@
 <div id="form">
 
 <div id="progress"></div>
- 
-<div id="upload_messages"></div>
 
+<!-- hidden iframe for targetting the form -->
+<iframe id="upload_target" name="upload_target" src="#" style="width:0;height:0; border:0px solid #fff;" ></iframe>
 
-    <form action="/upload"
-          method="post"
-          enctype="multipart/form-data"
-          onsubmit="return startEmbeddedProgressBar(this)" >
+  <form id="process_template_upload_form" 
+        action="[%Catalyst.uri_for('/upload')%]" 
+        method="post" 
+        enctype="multipart/form-data" 
+        target="upload_target" 
+        onsubmit="start_upload('upload_messages');">
 
         <fieldset>
             <legend>Select a file to upload...</legend>
+
+            <div id="upload_messages"></div>
 
 	    <p>If you have many files, you can upload a zipped file or a tarball (optionally gzipped)
             <br/>It will be unpacked for you at the other end.
@@ -43,5 +47,6 @@
 </div>
 
 
-
+<div id="upload_list">
 [%INCLUDE 'upload/list'%]
+</div>

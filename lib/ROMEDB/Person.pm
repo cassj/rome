@@ -63,7 +63,7 @@ __PACKAGE__->table('person');
 
 =cut
 
-__PACKAGE__->add_columns(qw/username forename surname institution address password email experiment_name experiment_owner created active data_dir upload_dir static_dir/);
+__PACKAGE__->add_columns(qw/username forename surname institution address password email experiment_name experiment_owner created active/);
 __PACKAGE__->set_primary_key(qw/username/);
 
 
@@ -304,12 +304,15 @@ __PACKAGE__->has_many(experiments=>'ROMEDB::Experiment', 'owner');
 
 =back
 
+=cut
 
 #### TO DO
 # the user directory creation should be in the controller, not the model
 # once it's moved we can take the root: definition out of the config file.
 
 # should also be using Class::Path, else won't work under windows.
+
+use Path::Class;
 
 =head2 new
 
@@ -322,42 +325,37 @@ sub new{
   my $username = $attrs->{username};  
   my $config = YAML::LoadFile('rome.yml');
 
-  #create the user directories
+  #get the location of the userdata dir
   my $userdata = $config->{userdata} or die "no userdata directory defined in config.";
 
-  #do some checks
+  #and create a Class::Path from it
+  $userdata = dir($userdata);
+  
+  #check it's valid
   die  'The userdata directory specified in rome.yml does not exist.'
-    unless (-e $config->{userdata});
+    unless (-e "$userdata");
   die "ROME can't write to the userdata directory specified in rome.yml."
-    unless (-w $config->{userdata});
+    unless (-w "$userdata");
+
+  #append the username to the path
+  $userdata = dir($userdata,$username);
   die "userdata directory for user $username already exists."
-    if (-e $config->{userdata}.'/'.$username);
+    if (-e "$userdata");
   
   #and make the directory
-  mkdir $config->{userdata}.'/'.$username
-    or die "Failed to make userdata directory: $username";
-  mkdir $config->{userdata}.'/'.$username.'/uploads'
-    or die "Failed to make upload directory for user ".$username;
-  
-  #and store their location in the database
-  $attrs->{data_dir} = $config->{userdata}.'/'.$username;
-  $attrs->{upload_dir} = $config->{userdata}.'/'.$username.'/uploads';
+  $userdata->mkpath
+    or die "Failed to make userdata directory";
 
-  #create the static user dir
-  die "ROME can't write to the static directory"
-    unless (-w $config->{userdata}.'/static');
-  die "static data directory for user $username already exists."
-    if (-e $config->{userdata}.'/static/'.$username);
-  
-  #and make the directory
-  mkdir $config->{userdata}.'/static/'.$username
-    or die "Failed to make static directory for $username";
-  mkdir $config->{userdata}.'/static/'.$username.'/logs'
-      or die "Failed to make log directory for $username";
+  #and a subdir for logs
+  my $logdir = dir($userdata,'logs');
+  $logdir->mkpath
+      or die "Failed to make log directory";
 
-  #store the location in the database
-  $attrs->{static_dir} = $config->{userdata}.'/static/'.$username;
-  
+  #and a subdir for uploads
+  my $uploaddir = dir($userdata,'uploads');
+  $uploaddir->mkpath
+    or die "Failed to make upload directory";
+ 
   #okay, let dbic create the person.
   $class->next::method($attrs);
   
@@ -371,27 +369,15 @@ sub new{
 sub delete {
   my $self = shift;
 
-  #grab the directory names before deletion
-  my $upload_dir = $self->upload_dir;
-  my $data_dir   = $self->data_dir;
-  my $static_dir = $self->static_dir;
+  my $config = YAML::LoadFile('rome.yml');
+  my $username = $self->username;
 
   #let DBIC do the database bit
   $self->next::method( @_ );
 
-  #and remove the associated directories.
-  if (-e $upload_dir){
-    rmdir $upload_dir
-      or warn "Couldn't delete upload directory: $upload_dir. Please delete manually.";
-  }
-  if(-e $data_dir){
-    rmdir $data_dir
-      or warn "Couldn't delete data directory $data_dir. Please delete manually";
-  }
-  if (-e $static_dir){
-    rmdir $static_dir
-      or warn "Couldn't delete static directory $static_dir. Please delete manually";
-  }
+  my $userdata = dir($config->{userdata});
+  $userdata->rmtree or die "Couldn't delete userdata dir $userdata";
+
     
 }
 

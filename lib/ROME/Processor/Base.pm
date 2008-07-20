@@ -195,7 +195,7 @@ sub queue{
 		   });
 
   #and now we've got a job ID, create a log file.
-  my $log_file = $self->context->user->static_dir.'/logs/job_'.$job->id;
+  my $log_file = $self->context->user->data_dir.'/logs/job_'.$job->id;
   my $fh = new FileHandle;
   open ($fh, "> $log_file") or die "Can't open logfile $log_file";
   print $fh 'Created job with ID '.$job->id;

@@ -25,7 +25,6 @@
         active INT,
         data_dir VARCHAR(255),
         upload_dir VARCHAR(255),
-        static_dir VARCHAR(255),
 	PRIMARY KEY (username),
 	FOREIGN KEY (experiment_name, experiment_owner)
             REFERENCES experiment(name, owner)
