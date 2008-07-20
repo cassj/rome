@@ -5,6 +5,7 @@ use warnings;
 use base 'ROME::Controller::Base';
 use ROME::Constraints;
 use File::Find::Rule;
+use Path::Class;
 
 =head1 NAME
 
@@ -52,7 +53,8 @@ sub installable_components  :Local{
   my ($self, $c) = @_;
 
   my $rule = File::Find::Rule->file->name( qr/\.rome/i );
-  my $files = [$rule->relative->in($c->user->upload_dir)];
+  my $upload_dir = dir($c->config->{userdata}, $c->user->username, 'uploads');
+  my $files = [$rule->relative->in("$upload_dir")];
 
   unless ($files){
     $self->stash->{error_msg} = "There are no rome packages in your upload directory.";

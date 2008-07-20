@@ -1,0 +1,52 @@
+[% site.rgb = {
+     black  = '#000000'
+     white  = '#ffffff'
+     grey1  = '#46494c'
+     grey2  = '#c6c9cc'
+     grey3  = '#ebebeb'
+     red    = '#CC4444'
+     green  = '#66AA66'
+     blue   = '#89b8df'
+     blue2  = '#2E496A'
+     blue3  = '#95A3B5'
+     orange = '#f08900'
+   };
+
+   site.col = {
+      page            = site.rgb.white
+      text            = site.rgb.grey1
+      head            = site.rgb.grey3
+      line            = site.rgb.red
+      message         = site.rgb.green
+      error           = site.rgb.red
+      warning         = site.rgb.red
+      highlight       = site.rgb.blue2
+      lowlight        = site.rgb.grey2
+      results         = site.rgb.grey2
+ 
+      nav             = site.rgb.grey3
+      nav_dropdown    = site.rgb.white
+      nav_text        = site.rgb.grey1
+      nav_inactive    = site.rgb.grey2
+      nav_over        = site.rgb.grey3
+      nav_border      = site.rgb.grey2
+      nav_over_border = site.rgb.grey1
+      
+      form_border     = site.rgb.grey2
+      form_divider    = site.rgb.grey3
+      form_legend     = site.rgb.grey1
+      form_label      = site.rgb.grey1
+      button          = site.rgb.grey1
+      button_text     = site.rgb.white
+      button_border   = site.rgb.black
+  
+      autocomplete_bg      = site.rgb.white
+      autocomplete_border  = site.rgb.grey1
+      autocomplete_select  = site.rgb.grey3
+
+      floating_panel_bg = site.rgb.grey1
+  
+
+    };
+
+%]

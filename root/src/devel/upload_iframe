@@ -1,0 +1,7 @@
+<script type="text/javascript">
+    //<![CDATA[
+         window.top.window.stop_upload('template_upload_results','[% IF status_msg %]<span class="message">[%status_msg%]</span>[% END %][% IF error_msg %]<span class="error">[%error_msg%]</span>[% END %]');
+        window.top.window.update_current_component('current_component');
+    //]]>
+</script>
+

@@ -34,6 +34,7 @@ use Data::FormValidator;
 use FileHandle;
 use DateTime;
 use File::Which;
+use Path::Class;
 
 use Storable qw/freeze thaw/;
 
@@ -195,9 +196,9 @@ sub queue{
 		   });
 
   #and now we've got a job ID, create a log file.
-  my $log_file = $self->context->user->data_dir.'/logs/job_'.$job->id;
-  my $fh = new FileHandle;
-  open ($fh, "> $log_file") or die "Can't open logfile $log_file";
+  my $log_file = file($self->context->config->{userdata},$self->context->user->username,'logs',("job_".$job->id));
+
+  my $fh = $log_file->openw or die "Can't open logfile $log_file";
   print $fh 'Created job with ID '.$job->id;
   undef $fh;
   $job->log($log_file);
@@ -259,22 +260,15 @@ sub queue{
   #creates which is the many-to-many straight through to the datatype.
   #we 
 
+  my $dir = dir($self->context->config->{userdata}, $self->context->user->username);
+
   my $datafiles = {};
   foreach ($self->process->process_creates){
 
     my $name = $self->arguments->{file_prefix}.'_'.$_->name;
     $name.= '.'.$_->suffix if $_->suffix;
-    
-    #need to check whether this file is an img or export?
-    my $dir;
-    if ($_->is_image or $_->is_export or $_->is_report){
-	$dir = $self->context->user->static_dir;
-    }
-    else{
-	$dir = $self->context->user->data_dir unless $dir;
-    }
 
-    my $path = $dir.'/'.$name;
+    my $path = file($dir,$name);
 
     #check we haven't already got stuff with that name
     my $datafile = $self->context->model('ROMEDB::Datafile')->find(
@@ -282,7 +276,6 @@ sub queue{
 	      name => $name,
 	      experiment_name => $expt_name,
 	      experiment_owner => $expt_owner->username,
-	      path=> $path,
 	     });
     my $datafile_pending = $self->context->model('ROMEDB::DatafilePending')->find(
 	      {
@@ -314,7 +307,7 @@ sub queue{
 	  status => 'private',
 	  job_id => $job->id,
 	  is_root => $is_root,
-
+	  path => $path,
 	 });
 
 

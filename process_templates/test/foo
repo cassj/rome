@@ -1,0 +1,25 @@
+[% INCLUDE 'setup/R'%]
+
+
+[%# ROME Variables, defined by setup/R:
+   con 
+   rome.data.dir
+   rome.upload.dir
+   rome.static.dir
+   rome.username  
+   rome.experiment_name 
+
+%]
+
+[%# Arguments from Processor
+    rome_datafiles_out
+    rome_datafiles_in
+%]
+
+[%# Arguments from controller 
+  filenames : an array reference
+
+%]
+
+cat([% a %] + [% b %], "\n")
+

@@ -7,6 +7,7 @@ use base 'ROME::Controller::Base';
 use Class::Data::Inheritable;
 use File::Find::Rule;
 use Module::Find;
+use Path::Class;
 
 =head1 NAME
 
@@ -36,7 +37,8 @@ Base class for ROME data parsers.
 sub valid_files : Local {
     my ($self, $c) = @_;
     my $rule = $self->file_rule;
-    my @files = $rule->relative->in($c->user->upload_dir);
+    my $upload_dir = dir($c->config->{userdata},$c->user->username,'uploads')
+    my @files = $rule->relative->in("$upload_dir");
     return \@files;
 }
 
@@ -131,11 +133,14 @@ sub parse_files : Local {
     #if a single file is selected, this is a scalar, not arrayref
     my @files = ref($files) ? @$files : ($files);
 
+
     #quick sanity check on the specified files.
     foreach (@files){
       $c->stash->{error_msg} = "Disallowed filename: $_, please change and resubmit" unless /^[\w\/]+\.?[\w]*$/;
-      $c->stash->{error_msg} = "File $_ doesn't exist" unless (-e $c->user->upload_dir."/$_");
-      $c->stash->{error_msg} = "File $_ is not readable" unless (-r $c->user->upload_dir."/$_");
+
+      my $file = file($c->config->{userdata},$c->user->username, 'uploads',$_);
+      $c->stash->{error_msg} = "File $_ doesn't exist" unless (-e "$file");
+      $c->stash->{error_msg} = "File $_ is not readable" unless (-r "$file");
       return if $c->stash->{error_msg};
     }
 
@@ -150,12 +155,14 @@ sub parse_files : Local {
 sub _validate_params : Local{
   my ($self, $c) = @_;
   
+  my $upload_dir = dir($c->config->{userdata},$c->user->username,'uploads');
+
      my $dfv_profile = {
  	msgs => {
 	    constraints => {
 		  'disallowed_chars' => "Disallowed characters in filename. Please check.",
-                  'nonexistant' => "File does not exist",
-                  'notwritable' => "Can't read file", 
+                  'nonexistent' => "File does not exist",
+                  'notreadable' => "Can't read file", 
 	    },
 	    format => '%s',
 	},
@@ -168,11 +175,11 @@ sub _validate_params : Local{
 						  constraint => sub {
 						    my $dfv = shift;
 						    my $files = $dfv->get_current_constraint_value();
-						    my $upload_dir = $c->user->upload_dir;
-                                                    use Data::Dumper;
-						    die Dumper($files);
-						    $dfv->name_this('nonexistant');
-						    foreach (@$files){return (-e "$upload_dir/$_")};
+						    $dfv->name_this('nonexistent');
+						    foreach (@$files){
+						      my $file = file($upload_dir,$_);
+						      return (-e "$upload_dir/$_");
+						    };
 						  },
 						 },
 						 {
@@ -180,8 +187,11 @@ sub _validate_params : Local{
 						    my $dfv = shift;
 						    my $files = $dfv->get_current_constraint_value();
 						    my $upload_dir = $c->user->upload_dir;
-						    $dfv->name_this('notwritable');
-						    foreach (@$files){return (-r "$upload_dir/$_")};
+						    $dfv->name_this('notreadable');
+						    foreach (@$files){
+						      my $file = file($upload_dir,$_);
+						      return (-r "$upload_dir/$_");
+						    };
 						  },
 						 },
 						 {
