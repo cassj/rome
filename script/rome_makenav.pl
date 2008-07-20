@@ -12,11 +12,13 @@ use lib 'lib/';
 
 use YAML;
 use File::Copy;
+use Path::Class;
 
 my $nav = YAML::LoadFile('nav.yml');
 my $config = YAML::LoadFile('rome.yml');
 
-my $nav_tt_file = 'root/skins/'.$config->{skin}.'/site/nav';
+# this should only occur in root
+my $nav_tt_file = file('root','src','site','nav');
 
 copy($nav_tt_file, "$nav_tt_file.bkup") or die "couldn't copy $nav_tt_file";
 
@@ -45,7 +47,7 @@ sub make_tt{
 	if ($element->{$key}->{roles}){
           print FILE '[% IF '; 
           print FILE  join (' or ', 
-			    map {qq|Catalyst.user.check_roles('$_')|}
+			    map {qq|Catalyst.check_user_roles('$_')|}
 			    @{$element->{$key}->{roles}}
 			     );
           print FILE "%]\n";

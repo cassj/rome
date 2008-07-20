@@ -93,26 +93,28 @@ require_ssl:
 # Don't change them once there are users in the database.
 ###
 
-authentication:
-    dbic:
-        user_class: 'ROMEDB::Person'
-        user_field: 'username'
-        password_field: 'password'
-        password_type: 'hashed'
-        password_hash_type: 'SHA-1'
-        password_pre_salt: 'gibbon' 
-        password_post_salt: ''
+#put these in Rome.pm
 
-
+#authentication:
+#    dbic:
+#        user_class: 'ROMEDB::Person'
+#        user_field: 'username'
+#        password_field: 'password'
+#        password_type: 'hashed'
+#        password_hash_type: 'SHA-1'
+#        password_pre_salt: 'gibbon' 
+#        password_post_salt: ''
+#
+#
 ###
 # Authorization settings.
 # You shouldn't need to change these.
 ###
-authorization:
-    dbic:
-        role_class: ROMEDB::Role
-        role_field: name
-        role_rel: map_person_role
-        user_role_user_field: person
-
+#authorization:
+#    dbic:
+#        role_class: ROMEDB::Role
+#        role_field: name
+#        role_rel: map_person_role
+#        user_role_user_field: person
+#
 

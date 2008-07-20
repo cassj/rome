@@ -16,7 +16,7 @@
    };
 
    # load up any other configuration items 
-   PROCESS config/col;
+   #PROCESS config/col;
 
    # set defaults for variables, etc.
    #DEFAULT 

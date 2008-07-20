@@ -17,7 +17,7 @@
     <div class="labelled_input">
       <label for="which">Search </label>
       <div class="radio_list">
-        <input type="radio" name="which" value="mine" CHECKED/><span>My experiments</span><br/> 
+        <input type="radio" name="which" value="mine" CHECKED/><span>My experiments</span>
         <input type="radio" name="which" value="all"/>  <span>All experiments<span>
       </div>
     </div>

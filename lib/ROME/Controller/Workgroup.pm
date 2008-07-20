@@ -693,8 +693,8 @@ sub join :Local {
 	   From => 'no-reply',
 	   To => $wg->leader->email,
 	   Subject => 'ROME: join request for workgroup '.$jr->workgroup->name,
-	   Template => {text =>'workgroup_join_request.tt',
-			html => 'workgroup_join_request.html.tt'
+	   Template => {text =>'workgroup_join_request',
+			html => 'workgroup_join_request.html'
 	   },
 	   TmplParams => {jr => $jr,
 			  confirm_link => $confirm_link,
@@ -764,8 +764,8 @@ sub confirm_join:Local{
 	    From => 'no-reply',
 	    To => $user->email,
 	    Subject => 'ROME Workgroup Membership',
-		Template => {text =>'workgroup_membership.tt',
-			     html => 'workgroup_membership.html.tt'
+		Template => {text =>'workgroup_membership',
+			     html => 'workgroup_membership.html'
 	    },
 	    TmplParams => {user          => $user,
 			   workgroup     => $workgroup,
@@ -780,8 +780,8 @@ sub confirm_join:Local{
 	    From => 'no-reply',
 	    To => $workgroup->leader->email,
 	    Subject => 'ROME Workgroup Membership',
-	    Template => {text =>'workgroup_membership.tt',
-			 html => 'workgroup_membership.html.tt'
+	    Template => {text =>'workgroup_membership',
+			 html => 'workgroup_membership.html'
 	},
 	    TmplParams => {user          => $user,
 			   workgroup     => $workgroup,
@@ -872,8 +872,8 @@ sub deny_join :Local{
 	    From => 'no-reply',
 	    To => $user->email,
 	    Subject => 'ROME Workgroup Membership',
-	    Template => {text =>'workgroup_deny_membership.tt',
-			 html => 'workgroup_deny_membership.html.tt'
+	    Template => {text =>'workgroup_deny_membership',
+			 html => 'workgroup_deny_membership.html'
 	    },
 	    TmplParams => {user          => $user,
 			   workgroup     => $workgroup,
@@ -888,8 +888,8 @@ sub deny_join :Local{
 	    From => 'no-reply',
 	    To => $workgroup->leader->email,
 	    Subject => 'ROME Workgroup Membership',
-	    Template => {text =>'workgroup_deny_membership.tt',
-			 html => 'workgroup_deny_membership.html.tt'
+	    Template => {text =>'workgroup_deny_membership',
+			 html => 'workgroup_deny_membership.html'
 	},
 	    TmplParams => {user          => $user,
 			   workgroup     => $workgroup,
@@ -987,8 +987,8 @@ sub invite :Local{
 	    From => 'no-reply',
 	    To => $user->email,
 	    Subject => 'ROME Workgroup Invitation',
-		Template => {text =>'workgroup_invite.tt',
-			     html => 'workgroup_invite.html.tt'
+		Template => {text =>'workgroup_invite',
+			     html => 'workgroup_invite.html'
 	    },
 	    TmplParams => {user          => $user,
 			   workgroup     => $workgroup,
@@ -1051,8 +1051,8 @@ sub confirm_invite: Local{
 	    From => 'no-reply',
 	    To => $user->email,
 	    Subject => 'ROME Workgroup Membership',
-		Template => {text =>'workgroup_membership.tt',
-			     html => 'workgroup_membership.html.tt'
+		Template => {text =>'workgroup_membership',
+			     html => 'workgroup_membership.html'
 	    },
 	    TmplParams => {user          => $user,
 			   workgroup     => $workgroup,
@@ -1067,8 +1067,8 @@ sub confirm_invite: Local{
 	    From => 'no-reply',
 	    To => $workgroup->leader->email,
 	    Subject => 'ROME Workgroup Membership',
-	    Template => {text =>'workgroup_membership.tt',
-			 html => 'workgroup_membership.html.tt'
+	    Template => {text =>'workgroup_membership',
+			 html => 'workgroup_membership.html'
 	},
 	    TmplParams => {user          => $user,
 			   workgroup     => $workgroup,
@@ -1162,8 +1162,8 @@ sub deny_invite:Local{
 	    From => 'no-reply',
 	    To => $user->email,
 	    Subject => 'ROME Workgroup Membership',
-	    Template => {text =>'workgroup_deny_membership.tt',
-			 html => 'workgroup_deny_membership.html.tt'
+	    Template => {text =>'workgroup_deny_membership',
+			 html => 'workgroup_deny_membership.html'
 	    },
 	    TmplParams => {user          => $user,
 			   workgroup     => $workgroup,
@@ -1178,8 +1178,8 @@ sub deny_invite:Local{
 	    From => 'no-reply',
 	    To => $workgroup->leader->email,
 	    Subject => 'ROME Workgroup Membership',
-	    Template => {text =>'workgroup_deny_membership.tt',
-			 html => 'workgroup_deny_membership.html.tt'
+	    Template => {text =>'workgroup_deny_membership',
+			 html => 'workgroup_deny_membership.html'
 	},
 	    TmplParams => {user          => $user,
 			   workgroup     => $workgroup,
@@ -1417,7 +1417,7 @@ sub members_autocomplete :Local{
 
 sub users_autocomplete : Local {
   my ($self, $c) = @_;
-  my $val = $c->request->params->{person2};
+  my $val = $c->request->params->{person};
   my %complete_list =  map {$_->username=>$_->forename.' '.$_->surname} 
                          $c->model('ROMEDB::Person')->search_like({username=>'%'.$val.'%'});
   

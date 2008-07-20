@@ -5,6 +5,7 @@ use warnings;
 
 use Catalyst::Runtime '5.70';
 use Module::Find;
+use Path::Class;
 
 =head1 NAME
 
@@ -102,25 +103,21 @@ ROME - Catalyst based application
 
 =cut
 
-#                Static::Simple
-
-
 use Catalyst qw/
                 -Debug 
+
                 ConfigLoader 
                 StackTrace
                 Static::Simple
                 Cache::FastMmap
 
                 Authentication
-                Authentication::Store::DBIC
-                Authentication::Credential::Password
-                Authorization::Roles
- 
-                Session
+		Authorization::Roles
+
+		Session
                 Session::Store::FastMmap
                 Session::State::Cookie
-           
+
                 RequireSSL
 
                 FormValidator
@@ -152,7 +149,37 @@ our $VERSION = '0.01';
 
 __PACKAGE__->config( name => 'ROME' );
 
+# Authentication configuration. 
+__PACKAGE__->config->{'Plugin::Authentication'} =
+  {
+   default_realm => 'users',
+   use_session   => 1,
+   realms => {
+	      users => {
+			credential => {
+				       class              => 'Password',
+				       password_field     => 'password',
+				       password_type      => 'hashed',
+				       password_hash_type => 'SHA-1',
+				       password_pre_salt  => 'gibbon',
+				       password_post_salt => '',
+				      },
+			store => {
+				  class         => 'DBIx::Class',
+				  user_class    => 'ROMEDB::Person',
+				  id_field      => 'username',
+				  role_relation => 'map_person_role',
+				  role_field    => 'role',
+				 }
+		       },
+	     },
+  };
+
+
+
+
 __PACKAGE__->setup;
+
 
 #if we've got a relative path to user data, make it a full one, relative to root
 unless (__PACKAGE__->config->{userdata}=~/\/.+/){
@@ -185,6 +212,13 @@ push @statics,
 # tell static simple about them
 __PACKAGE__->config->{static}->{include_path} = \@statics;
 __PACKAGE__->config->{static}->{logging} = 1;
+
+
+#and tell static peruser about the userdir
+__PACKAGE__->config->{static}->{user_include_path} = file (__PACKAGE__->config->{userdata});
+
+
+
 
 
 

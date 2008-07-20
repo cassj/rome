@@ -51,7 +51,7 @@ Controller to provide user-related actions:
 
 sub login : Local {
   my ($self, $c) = @_;
-
+  
   #ssl if we're supposed to
   if ($c->config->{require_ssl}->{enable}) {
     $c->require_ssl;
@@ -60,15 +60,24 @@ sub login : Local {
   #have we got submitted params?
   if ($c->request->params->{submit}) {
 
+      
     #check they're valid
     if ($c->forward('_validate_login_params')){
- 
+
+      
       # Attempt to log the user in
       my $username = $c->request->params->{username} || "";
       my $password = $c->request->params->{password} || "";
-      if ($c->login($username, $password)) {
+      if ($c->authenticate({
+			    username => $username, 
+			    password => $password})
+	 ) {
+
 	# If successful, then let them use the application
   	$c->stash->{template} = 'user/login_successful';
+
+	#ok, at this point we're fine and the user is in the session,
+	#however on the next call the user is no longer in the session
 	return 1;
       } else {
 	# Set an error message
@@ -275,9 +284,9 @@ sub _insert_user_into_db : Private
 			      address      => $c->req->param('address')                        || '',
 			      username     => $c->req->param('username'),
 			      email        => $c->req->param('email'),
-			      password     => sha1($c->config->{authentication}->{dbic}->{password_pre_salt}
+			      password     => sha1($c->config->{'Plugin::Authentication'}->{realms}->{users}->{credential}->{password_pre_salt}
 						   .$c->req->param('password')
-						   .$c->config->{authentication}->{dbic}->{password_post_salt}), 
+						   .$c->config->{'Plugin::Authentication'}->{realms}->{users}->{credential}->{password_post_salt}), 
 			      created      => "$year-$month-$day",      
 			  } );
 
@@ -320,8 +329,8 @@ sub _user_email_confirmation : Private
 		From => 'no-reply',
 		To => $self->user->email,
 		Subject => 'Confirmation of Registration',
-		Template => {text =>'user_email_confirm.tt',
-			     html => 'user_email_confirm.html.tt'
+		Template => {text =>'user_email_confirm',
+			     html => 'user_email_confirm.html'
 			    },
 		TmplParams => {user => $self->user,
 			       link => $link
@@ -408,8 +417,8 @@ sub _admin_email_confirmation : Private
 		From => 'no-reply',
 		To => $c->config->{admin_email},
 		Subject => 'Confirmation of Registration',
-		Template => {text =>'admin_email_confirm.tt',
-			     html => 'admin_email_confirm.html.tt'
+		Template => {text =>'admin_email_confirm',
+			     html => 'admin_email_confirm.html'
 			    },
 		TmplParams => {user  => $self->user,
 			       link => $link
@@ -521,8 +530,8 @@ sub _email_completion{
 		From => 'no-reply',
 		To => $self->user->email,
 		Subject => 'Confirmation of Registration',
-		Template => {text =>'welcome.tt',
-			     html => 'welcome.html.tt'
+		Template => {text =>'welcome',
+			     html => 'welcome.html'
 			    },
 		TmplParams => {user  => $self->user,
 			       admin_email => $c->config->{admin_email},
@@ -639,9 +648,9 @@ sub reset_password : Local{
     if ($c->forward('_validate_password_params')){
 
       #make the new password
-      my $newpw =  sha1($c->config->{authentication}->{dbic}->{password_pre_salt}
+      my $newpw =  sha1($c->config->{'Plugin::Authentication'}->{realms}->{users}->{credential}->{password_pre_salt}
 			.$c->req->param('password')
-			.$c->config->{authentication}->{dbic}->{password_post_salt});
+			.$c->config->{'Plugin::Authentication'}->{realms}->{users}->{credential}->{password_post_salt});
       
       #logout the user
       $c->logout;
@@ -654,7 +663,7 @@ sub reset_password : Local{
       #log them back in again.
       my $username = $c->request->params->{username} || "";
       my $password = $c->request->params->{password} || "";
-      if ($c->login($username, $password)) {      
+      if ($c->authenticate({username=>$username, password=>$password})) {      
 	$c->stash->{ajax} = 1;
 	$c->stash->{template} = 'site/messages';  
 	$c->stash->{status_msg} = 'Your password has been reset.';
@@ -728,9 +737,9 @@ sub lost_password : Local{
        my @chars = ( "A" .. "Z", "a" .. "z", 0 .. 9 );
        my $pw = join("", @chars[ map { rand @chars } ( 1 .. 8 ) ]);
 
-       my $encpw =  sha1($c->config->{authentication}->{dbic}->{password_pre_salt}
+       my $encpw =  sha1($c->config->{'Plugin::Authentication'}->{realms}->{users}->{credential}->{password_pre_salt}
 			 .$pw
-			 .$c->config->{authentication}->{dbic}->{password_post_salt});
+			 .$c->config->{'Plugin::Authentication'}->{realms}->{users}->{crential}->{password_post_salt});
        
        #get the user and set the pw
        my $user = $c->model('ROMEDB::Person')->find($c->request->params->{username});
@@ -742,8 +751,8 @@ sub lost_password : Local{
 		From => 'no-reply',
 		To => $user->email,
 		Subject => 'ROME password',
-		Template => {text =>'new_pass.tt',
-			     html => 'new_pass.html.tt'
+		Template => {text =>'new_pass',
+			     html => 'new_pass.html'
 			    },
 		TmplParams => {user        => $user,
 			       password    => $pw,

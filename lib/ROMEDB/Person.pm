@@ -309,6 +309,7 @@ __PACKAGE__->has_many(experiments=>'ROMEDB::Experiment', 'owner');
 # the user directory creation should be in the controller, not the model
 # once it's moved we can take the root: definition out of the config file.
 
+# should also be using Class::Path, else won't work under windows.
 
 =head2 new
 
@@ -344,18 +345,18 @@ sub new{
 
   #create the static user dir
   die "ROME can't write to the static directory"
-    unless (-w $config->{root}.'/static/user');
+    unless (-w $config->{userdata}.'/static');
   die "static data directory for user $username already exists."
-    if (-e $config->{root}.'/static/user/'.$username);
+    if (-e $config->{userdata}.'/static/'.$username);
   
   #and make the directory
-  mkdir $config->{root}.'/static/user/'.$username
+  mkdir $config->{userdata}.'/static/'.$username
     or die "Failed to make static directory for $username";
-  mkdir $config->{root}.'/static/user/'.$username.'/logs'
+  mkdir $config->{userdata}.'/static/'.$username.'/logs'
       or die "Failed to make log directory for $username";
 
   #store the location in the database
-  $attrs->{static_dir} = $config->{root}.'/static/user/'.$username;
+  $attrs->{static_dir} = $config->{userdata}.'/static/'.$username;
   
   #okay, let dbic create the person.
   $class->next::method($attrs);

@@ -28,7 +28,7 @@
    </ul>
   </li>
 
-[% IF Catalyst.user.check_roles('dev')%]
+[% IF Catalyst.check_user_roles('dev')%]
   <li><a title="Development tools" href="#" class="dropdown">Devel Tools</a>
    <ul>
     <li><a class="active"title="Create and Edit Components" href="/devel/components">Component Development</li></a>
@@ -38,7 +38,7 @@
   </li>
 [% END %]
 
-[% IF Catalyst.user.check_roles('admin')%]
+[% IF Catalyst.check_user_roles('admin')%]
   <li><a title="Administration tools" href="#" class="dropdown">Admin Tools</a>
    <ul>
     <li><a class="active"title="Install and Uninstall ROME Components" href="/admin/components">Manage Components</li></a>
