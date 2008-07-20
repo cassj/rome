@@ -2,6 +2,8 @@ package ROME::Controller::Parser;
 
 use strict;
 use warnings;
+
+#is this really necessary?
 use base 'ROME::Controller::Base';
 
 use Class::Data::Inheritable;
@@ -37,7 +39,7 @@ Base class for ROME data parsers.
 sub valid_files : Local {
     my ($self, $c) = @_;
     my $rule = $self->file_rule;
-    my $upload_dir = dir($c->config->{userdata},$c->user->username,'uploads')
+    my $upload_dir = dir($c->config->{userdata},$c->user->username,'uploads');
     my @files = $rule->relative->in("$upload_dir");
     return \@files;
 }
