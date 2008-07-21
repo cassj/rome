@@ -5,6 +5,7 @@ use warnings;
 use base 'ROME::Controller::Base';
 use ROME::Constraints;
 use Date::Calc;
+use Path::Class;
 
 =head1 NAME
 
@@ -139,6 +140,14 @@ sub add : Local{
 							   status       => 'private',
 							  });
 
+    #and create a directory in which to store the files belonging to this expeirment
+    my $dir = dir($c->config->{userdata},$c->user->username,$experiment->name);
+    unless($dir->mkpath){
+	$c->stash->{error_msg} = "Failed to create directory for this experiment. Contact your system administator";
+	$c->debug("Failed to make experiment dir $dir");
+	return;
+    } 
+    
     $c->stash->{status_msg} = "Experiment ".$experiment->name." was created for user ".$experiment->owner->username;
     return;
   }
