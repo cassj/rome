@@ -43,9 +43,7 @@ rome.con <- dbConnect(dbDriver("MySQL"), dbname = rome.dbname, user=rome.dbuser,
 ##################################################################################
 # Setup some common values.
 ###################################################################################
-rome.data.dir         <- "[% Catalyst.user.data_dir %]"
-rome.upload.dir       <- "[% Catalyst.user.upload_dir %]";
-rome.static.dir       <- "[% Catalyst.user.static_dir %]"
+rome.userdir          <-"[% Catalyst.config.userdata _ '/' _ Catalyst.user.username%]"
 rome.username         <- "[%Catalyst.user.username%]";
 rome.experiment_name  <- "[% Catalyst.user.experiment.name %]";
 

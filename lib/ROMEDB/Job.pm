@@ -115,6 +115,21 @@ __PACKAGE__->many_to_many(in_datafiles => 'job_in_datafiles', 'datafile');
 
 
 
+
+=item arguments
+
+  has_many relationship to the argument table
+
+=cut
+
+
+
+__PACKAGE__->has_many(arguments => 'ROMEDB::Argument', {
+                          'foreign.jid' => 'self.jid',
+		      });
+
+
+
 #really? do i need this? 
 
 ## A ResultSource based on the Job class which only

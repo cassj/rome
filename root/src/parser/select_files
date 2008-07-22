@@ -18,14 +18,6 @@
 <div id="parse_results"></div>
 
   <fieldset>
-  <legend>Define a prefix for the names of generated files...</legend>
-      <div class="labelled_input">
-        <label for="file_prefix">Prefix</label>
-        <input type="text" name="file_prefix"/>
-      </div> 
-  </fieldset>
-
-  <fieldset>
     <legend>Select the files you wish to use...</legend>
 
 

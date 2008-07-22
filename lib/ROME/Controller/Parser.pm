@@ -1,10 +1,11 @@
 package ROME::Controller::Parser;
 
+
 use strict;
 use warnings;
 
-#is this really necessary?
 use base 'ROME::Controller::Base';
+
 
 use Class::Data::Inheritable;
 use File::Find::Rule;

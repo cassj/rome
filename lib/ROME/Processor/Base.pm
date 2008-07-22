@@ -141,7 +141,7 @@ sub queue{
 
   die "Can't queue a job with no context" unless $self->context;
   die "Can't queue a job with no process" unless $self->process;
-  die "Can't queue a job with no arguments" unless $self->arguments; #you need at least file_prefix
+  warn "Queuing job with no arguments" unless $self->arguments; 
 
   ###
   # Check user has write permissions on this experiment
@@ -179,6 +179,26 @@ sub queue{
     return 0;
   }
 
+
+  ###
+  # check that the contents of $self->arguments match up to those defined for 
+  # this process in the database.
+  my %params;
+  $params{$_->name}++
+    for $self->process->parameters;
+  
+  
+  foreach (keys %{$self->arguments}){
+    unless (defined $params{$_}){
+      $self->context->stash->{error_msg} = "Invalid argument: $_";
+      # validity checks on the params are performed by the controller
+      # which calls the process and also by the R script to which they
+      # are passed
+      return;
+    }
+  }
+
+ 
 
   # constraint checks should have been done by the controller which 
   # uses the processor
@@ -240,9 +260,13 @@ sub queue{
   ###
   # Add the arguments to the job 
   foreach (keys %{$self->arguments}){
-    my $val = $self->arguments->{$_};    
+
+    my $vals = $self->arguments->{$_};
+    $vals = ref($vals) eq 'ARRAY' ? $vals : [$vals];
     
-    my $arg = $self->context->model('ROMEDB::Argument')->create(
+    foreach my $val (@$vals){
+
+      my $arg = $self->context->model('ROMEDB::Argument')->create(
 		    {
 		     jid => $job->id,
 		     parameter_name => $_,
@@ -251,6 +275,9 @@ sub queue{
 		     parameter_process_component_version => $self->process->component_version,
                      value => $val,
 		    });
+
+    
+    }
   }
 
 
@@ -258,14 +285,14 @@ sub queue{
   #create placeholder datafiles for everything this process will create.
   #note that we use process_creates,to get the mapping table, rather than 
   #creates which is the many-to-many straight through to the datatype.
-  #we 
+
 
   my $dir = dir($self->context->config->{userdata}, $self->context->user->username);
 
   my $datafiles = {};
   foreach ($self->process->process_creates){
 
-    my $name = $self->arguments->{file_prefix}.'_'.$_->name;
+    my $name = $_->name.'_'.$job->id;
     $name.= '.'.$_->suffix if $_->suffix;
 
     my $path = file($dir,$name);
@@ -350,14 +377,15 @@ sub parse_template {
   my $dir = $self->context->config->{tmp_job_files};
 
   my $script = new File::Temp( SUFFIX => '.'.$self->_suffix, UNLINK=>0, DIR=>$dir);
-  warn $script;
+
+  my $tmpl_dir = dir($self->context->config->{process_templates});
 
   # should this stuff be in the yaml file? 
   my $tt_config = {
-      INCLUDE_PATH => $self->context->config->{process_templates},  # or list ref
-      INTERPOLATE  => 1,               # expand "$var" in plain text
-      POST_CHOMP   => 1,               # cleanup whitespace 
-      EVAL_PERL    => 1,               # evaluate Perl code blocks
+      INCLUDE_PATH => "$tmpl_dir",
+      INTERPOLATE  => 1,
+      POST_CHOMP   => 1,
+      EVAL_PERL    => 1,
   };
 
   # create Template object
@@ -369,10 +397,10 @@ sub parse_template {
   #add database connection details (TT chokes on Model::ROMEDB as a hash key)
   $self->arguments->{ROMEDB} = $self->context->config->{'Model::ROMEDB'};
 
-  #TODO: NEED TO ADD ANY ARGUMENTS HERE FROM THE DATABASE.
-
+  my $file = file($self->process->component_name,$self->process->tmpl_file);
+   
   #generate the script
-  $template->process($self->process->tmpl_file, $self->arguments, $script)
+  $template->process("$file", $self->arguments, $script)
     || die $template->error();
 
   #store result

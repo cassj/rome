@@ -23,7 +23,7 @@ __PACKAGE__->table('argument');
 
 
 __PACKAGE__->add_columns(qw/jid parameter_name parameter_process_name parameter_process_component_name parameter_process_component_version value /);
-__PACKAGE__->set_primary_key(qw/jid parameter_name parameter_process_name parameter_process_component_name parameter_process_component_version/);
+__PACKAGE__->set_primary_key(qw/jid parameter_name parameter_process_name parameter_process_component_name parameter_process_component_version value/);
 
 
 

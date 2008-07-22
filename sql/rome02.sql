@@ -290,11 +290,14 @@
 	parameter_process_name VARCHAR(50) NOT NULL,
 	parameter_process_component_name VARCHAR(50) NOT NULL,
 	parameter_process_component_version VARCHAR (20) NOT NULL,
-	value TEXT,
-	PRIMARY KEY (jid, parameter_name, parameter_process_name, parameter_process_component_name, parameter_process_component_version),
+	value VARCHAR(255),
+	PRIMARY KEY (jid, parameter_name, parameter_process_name, parameter_process_component_name, parameter_process_component_version, value),
 	FOREIGN KEY (parameter_name, parameter_process_name, parameter_process_component_name, parameter_process_component_version)
            REFERENCES parameter(name, process_name, process_component_name, process_component_version)
-           ON DELETE CASCADE
+           ON DELETE CASCADE,
+	FOREIGN key (jid)
+	   REFERENCES job(id)
+	   ON DELETE CASCADE
 	) ENGINE=INNODB;
 
 
