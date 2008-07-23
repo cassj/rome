@@ -59,7 +59,6 @@ sub process {
       my $fill_colour = 'GhostWhite';
       $fill_colour = 'Gray' if $datafile->pending;
       $fill_colour = 'LemonChiffon' if $is_selected;
-      warn $fill_colour; #this is printing out the right cols, but not in the png.
       my $font_colour = $datafile->pending ? 'Red' : 'Black';
       $g->add_node(name => $name,
 		   URL =>  $c->uri_for('/crud/datafile/select')."?experiment_name=$expt_name&experiment_owner=$expt_owner&datafile_name=$name",
@@ -95,7 +94,7 @@ sub datafile_edges{
     
     #if this file is an input to any jobs, link it to 
     #the output 
-    my @jobs = $datafile->input_to_jobs;
+    my @jobs = $datafile->input_to;
     foreach my $job (@jobs){
 	my @out_datafiles = $job->out_datafiles;
 	foreach my $out_datafile (@out_datafiles){

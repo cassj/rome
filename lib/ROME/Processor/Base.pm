@@ -356,7 +356,9 @@ sub queue{
   $self->parse_template;
 
   $self->context->stash->{status_msg} = 'Your job has been queued for processing.' 
-                                        .'You can monitor its progress on the <a href="jobs">jobs</a> page.'
+                                        .'You can monitor its progress on the <a href="'
+					  .$self->context->uri_for('/job')
+					    .'">jobs</a> page.'
 					  . 'It has Job ID: '. $job->id;
 }
 

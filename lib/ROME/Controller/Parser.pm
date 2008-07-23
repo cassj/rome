@@ -189,7 +189,6 @@ sub _validate_params : Local{
 						  constraint => sub {
 						    my $dfv = shift;
 						    my $files = $dfv->get_current_constraint_value();
-						    my $upload_dir = $c->user->upload_dir;
 						    $dfv->name_this('notreadable');
 						    foreach (@$files){
 						      my $file = file($upload_dir,$_);

@@ -127,6 +127,37 @@ sub delete : Local{
   }
 }
 
+
+=item script
+ 
+  ajax call job/script
+
+  returns the script associated with this job.
+
+  parameters:
+  jid: Job ID
+
+=cut
+sub script :Local {
+    my ($self,$c) = @_;
+      
+  $c->stash->{ajax} = 1;
+  $c->stash->{template} = 'site/messages';
+  
+  #just reuse the delete validation, just need jid
+  if ($c->forward('_validate_delete')){
+    #retrieve the job
+    my $job = $c->model('ROMEDB::Job')->find($c->request->params->{jid});
+    die "job $job not found" unless $job;
+
+    #get the script
+    my $script = $job->script;
+    $c->serve_static_file($script);
+    
+  }
+
+}
+
 sub _delete_job{
   my $job = shift;
   
@@ -140,6 +171,8 @@ sub _delete_job{
   $job->delete;
   return 1;
 }
+
+
 
 =back
 

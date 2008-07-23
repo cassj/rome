@@ -65,7 +65,7 @@ sub _parse_files : Local {
     #the processor will do param checking on these, you don't have
     #to worry about it.
     my $filenames = $c->request->params->{selected_files};
-    my @filenames = map {''.file($c->config->{userdata},$c->user->username, $_)}
+    my @filenames = map {''.file($c->config->{userdata},$c->user->username, 'uploads',$_)}
       ref($filenames) ? @{$filenames} : ($filenames);
 
     #These must have the same names as the arguments in the database for this process

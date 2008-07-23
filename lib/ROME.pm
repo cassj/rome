@@ -108,6 +108,7 @@ use Catalyst qw/
 
                 ConfigLoader 
                 StackTrace
+                Static
                 Static::Simple
                 Cache::FastMmap
 

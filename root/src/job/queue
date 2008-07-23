@@ -9,7 +9,7 @@
 [% FOREACH q IN Catalyst.user.queued %]
 <img class="delete_img"
      alt="delete job" 
-     src="delete.gif" 
+     src="[%Catalyst.uri_for('/delete.gif')%]" 
      onclick="new Ajax.Updater('queue_messages',
                                '[%Catalyst.uri_for('/job/delete')%]?jid=[%q.jid%]',
                                {
@@ -23,6 +23,9 @@
 <tr><th>Status</th><td>[%q.status%]</td></tr>
 <tr><th>Experiment</th><td>[%q.job.experiment.name%]</td></tr>
 <tr><th>Process</th><td>[%q.job.process.name%] ([%q.job.process.component.name%] [%q.job.process.component.version%])</td></tr>
+
+<tr><th>Script</th><td><a href="[%Catalyst.uri_for('/job/script')%]?jid=[%q.job.id%]">download script</a></td></tr>
+
 <tr><th>Input Datafiles</th><td>
 [%FOREACH df IN q.job.in_datafiles%][%df.name%] ([%df.datatype.name%]) [%END%]
 </td></tr>
