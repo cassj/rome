@@ -3,18 +3,18 @@
 [% IF Catalyst.user.experiment %]
 
 <div id="selected_datafiles">
-[% INCLUDE 'datafile/selected_datafiles' %]
+  [% INCLUDE 'datafile/selected_datafiles' %]
 </div>
 
 <div id="list_datafiles">
-<div id="datafile_links">
-[% Catalyst.prototype.link_to_remote( 'View All Datafiles', {
-        update => 'list_datafiles',
-        url    => '/datafile/graph',
-    }, {class=>'ajax_link'} )
-%]
-
-</div>
+  <div id="datafile_links">
+    [% Catalyst.prototype.link_to_remote( 'View All Datafiles', {
+            update => 'list_datafiles',
+            url    => '/datafile/graph',
+        }, {class=>'ajax_link'} )
+    %]
+  
+  </div>
 </div>
 
 

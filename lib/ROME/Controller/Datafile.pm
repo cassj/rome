@@ -67,10 +67,10 @@ sub graph : Local {
   #javascript for datafile_updater in rome.js. I kinda feel I should be able to do onclick=function(){myfuxnhere}
   #but it doesn't work and google is failing me.
   $c->stash->{html_imagemap} =~ s/href=\"(.+?)\"/href=\"$1\" onclick=\"return datafile_updater(\'$1\')\"/g;
-  
+
+
   #Reset content type
   $c->response->content_type("text/html");
-
 
   #and send to the view
   $c->stash->{template} = 'datafile/list_datafiles';

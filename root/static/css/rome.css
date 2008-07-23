@@ -21,6 +21,12 @@ body {
   padding-left: 10px;
 }
 
+#current_user, #current_experiment, #current_datafile{
+   color: #2E496A;
+   font-family: arial,helvetia,sans-serif;
+   margin-right: 20px;
+}
+
 #footer {
     background-color: #ebebeb;
     text-align: center;

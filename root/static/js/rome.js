@@ -133,12 +133,12 @@ function update_current_experiment(divid){
 
 
 function update_selected_datafiles(divid){
-     var ul_url = '/crud/datafile/selected';
+     var ul_url = '/datafile/selected';
     var ulAjax = new Ajax.Updater(divid, ul_url, { evalScripts:true});
 }
 
 function update_datafile_list(divid){
-    var dl_url = '/crud/datafile/graph';
+    var dl_url = '/datafile/graph';
     var dlAjax = new Ajax.Updater(divid, dl_url, {evalScripts:true});
 }
 
@@ -147,7 +147,13 @@ function datafile_updater (url){
     new Ajax.Updater ('messages', 
 		      url, 
 		      { asynchronous: 1,
-			      onComplete: function(){update_nav(); update_status_bar(); update_datafile_list('list_datafiles'); update_selected_datafiles('selected_datafiles');  return false;},
+			      onComplete: function(){
+                                update_nav(); 
+                                update_status_bar(); 
+                                update_datafile_list('list_datafiles'); 
+                                update_selected_datafiles('selected_datafiles'); 
+                                return false;
+                              },
 			      evalScripts: true,
 		      });
    

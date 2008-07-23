@@ -36,7 +36,6 @@ sub process {
     
     die "object should be a ROMEDB::Experiment not ".ref($expt) unless ref($expt) eq 'ROME::Model::ROMEDB::Experiment';
 
-
     my $expt_name = $c->user->experiment->name or die 'missing expt_name in cat context';
     my $expt_owner = $c->user->experiment->owner->username or die 'missing expt_owner in cat context';
     my $username = $c->user->username or die 'missing username in cat context';
@@ -61,7 +60,7 @@ sub process {
       $fill_colour = 'LemonChiffon' if $is_selected;
       my $font_colour = $datafile->pending ? 'Red' : 'Black';
       $g->add_node(name => $name,
-		   URL =>  $c->uri_for('/crud/datafile/select')."?experiment_name=$expt_name&experiment_owner=$expt_owner&datafile_name=$name",
+		   URL =>  $c->uri_for('/datafile/select')."?experiment_name=$expt_name&experiment_owner=$expt_owner&datafile_name=$name",
 		   shape => 'box',
 		   fillcolor => $fill_colour,
 		   style=>'filled',
