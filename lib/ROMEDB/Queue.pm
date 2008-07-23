@@ -49,14 +49,14 @@ __PACKAGE__->table('queue');
 =cut
 
 
-__PACKAGE__->add_columns(qw/jid pid status/);
+__PACKAGE__->add_columns(qw/jid pid status owner/);
 __PACKAGE__->add_columns( start_time => { data_type => 'datetime' } );
 
 
 __PACKAGE__->set_primary_key(qw/jid/);
 
-__PACKAGE__->belongs_to(jid => 'ROMEDB::Job', 'jid');
-
+__PACKAGE__->belongs_to(job => 'ROMEDB::Job', 'jid');
+__PACKAGE__->belongs_to(owner => 'ROMEDB::Person','owner');
 
 =back
 =cut

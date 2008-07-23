@@ -25,6 +25,7 @@
     <li><a class="active"title="Describe your experimental variables" href="/metadata">Metadata</li></a>
     <li><a class="active"title="Manage your datafiles" href="/datafile">datafiles</li></a>
     <li><a class="active"title="Export datafiles" href="">Data Export</li></a>
+    <li><a class="active"title="Monitor jobs and the job queue" href="/job">Jobs</li></a>
    </ul>
   </li>
 

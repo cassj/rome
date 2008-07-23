@@ -373,8 +373,9 @@ sub parse_template {
   die "Set arguments before parsing" unless $self->arguments;
   die "No suffix defined for this processor" unless $self->_suffix;
 
-  #store scripts in the ROME scripts file
-  my $dir = $self->context->config->{tmp_job_files};
+  #store scripts in the userdir
+  #my $dir = $self->context->config->{tmp_job_files};
+  my $dir = dir($self->context->config->{userdata}, $self->context->user->username,'scripts');
 
   my $script = new File::Temp( SUFFIX => '.'.$self->_suffix, UNLINK=>0, DIR=>$dir);
 
@@ -418,6 +419,7 @@ sub parse_template {
 		jid => $self->job->id,
 		status => 'QUEUED',
 		start_time => $dt,
+		owner => $self->context->user->username,
 	       });
 
 }

@@ -276,6 +276,10 @@ $new_source->name( \<<SQL );
 SQL
 
 
+#hacky fix to sort out DBIC's lookup tables.
+@ROMEDB::RootDatafile::ISA = ('ROMEDB::Datafile');
+$new_source->result_class('ROMEDB::RootDatafile');
+
 # Finally, register your new ResultSource with your Schema
 ROMEDB->register_source( 'ROMEDB::RootDatafile' => $new_source );
 

@@ -1,0 +1,11 @@
+[% META title="Jobs"%]
+
+<div id="job_details"></div>
+
+<div id="queue">
+  [% INCLUDE "job/queue" %]
+</div>
+
+<div id="job_search">
+ [% INCLUDE "job/search" %]
+</div>

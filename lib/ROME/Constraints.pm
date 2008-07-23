@@ -2344,6 +2344,36 @@ sub not_parameter_exists{
 
 
 
+=head2 (not_)job_exists
+
+    call on the jid field
+    expects parameters:
+    1: Cat context
+
+=cut
+sub job_exists{
+    my $c = shift;
+
+    return sub{
+	my $dfv = shift;
+	$dfv->name_this('job_exists');
+	my $val = $dfv->get_current_constraint_value();
+	my $exists = $c->model('ROMEDB::Job')->find($val);
+	return $exists ? 1:0;
+  }
+}
+
+sub not_job_exists{
+    my $c = shift;
+
+    return sub{
+	my $dfv = shift;
+	$dfv->name_this('not_job_exists');
+	my $val = $dfv->get_current_constraint_value();
+	my $exists = $c->model('ROMEDB::Job')->find($val);
+	return $exists ? 0:1;
+  }
+}
 
 
 ####

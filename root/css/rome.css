@@ -483,76 +483,14 @@ label {
 
 
 
+/********* Jobs page ***************/
 
-/*
-.textinput{ 
-  border: none;
-  border-bottom: 1px dashed black;
-  margin-bottom: 2px;
-  width: 100%;
- }
+.queued_job {
+  margin-bottom: 20px;
+}
 
-.dropbox_box { 
-  font-family: sans-serif;
-  font-size: 75%;
-  font-style: italic;
+.queued_job th{
   text-align: left;
-  color: red; 
-  border: 1px solid blue;
-  width: 100px;
-  height: 100px;
-  padding: 2px;
-} 
-
-.droppedtext{ 
- color: black;
- }
-
-
- .closebox{
- float: right;
- color: red;
- background-color: white;
- margin: 0;
- padding: 0;
- font-size: 75%;
- } 
- .clear_button{ 
-   width: 106px;
-  }
-
-div#levels { 
- position: relative; 
+  padding-right: 20px;
 }
 
-#treatment_levels{ padding-top: 10px; padding-bottom: 10px;} 
-
-#clear_chips{ 
-  text-align: right;
- }
-
-#new_factor_list{ clear:both; }
-.factor { padding: 20px; padding-bottom: 30px; border-top: 1px dashed #2E496A; }
-.levels { padding: 20px; padding-left: 50px;  }
-
-#start_again_button { margin-bottom:10px; }
-
-.level_button {
-  margin-top: 2em; 
-  background-color: #95A3B5; 
-  color: #ffffff; 
-  border-bottom: 2px solid  #2E496A ; border-right: 2px solid  #2E496A;
-  border-top: 2px solid white; border-left: 2px solid white;  
-  font-weight:bold;
-  margin-bottom:10px;
-  clear: both;
-  cursor: pointer !important;
-}
-
-.level_button:hover{
-  background-color: #ffffff;
-  color: #2E496A;
-  border-top: 2px solid  #2E496A; border-left: 2px solid  #2E496A;
-  border-bottom: 2px solid white; border-right: 2px solid white;
-}
-*/

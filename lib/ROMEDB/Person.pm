@@ -276,7 +276,6 @@ __PACKAGE__->has_many(workgroup_invites=>'ROMEDB::WorkgroupInvite', 'person');
 
 
 
-
 =item pending_processes
 
     has_many relationship 
@@ -302,9 +301,48 @@ __PACKAGE__->has_many(workgroup_invites=>'ROMEDB::WorkgroupInvite', 'person');
 __PACKAGE__->has_many(experiments=>'ROMEDB::Experiment', 'owner');
 
 
+
+=item jobs
+
+    has_many relationship
+
+    returns a resultset or an array of ROMEDB::Job objects representing
+    all the jobs belonging to this person
+
+=cut
+
+__PACKAGE__->has_many(jobs=>'ROMEDB::Job', 'owner');
+
+
 =back
 
 =cut
+
+
+
+=item queued
+
+    has_many relationship
+
+    returns a resultset or an array of ROMEDB::Queue objects representing
+    all the entries in the queue which belong to this person.
+
+=cut
+
+__PACKAGE__->has_many(queued=>'ROMEDB::Queue', 'owner');
+
+
+=back
+
+=cut
+
+
+
+
+
+
+
+
 
 #### TO DO
 # the user directory creation should be in the controller, not the model
@@ -355,6 +393,11 @@ sub new{
   my $uploaddir = dir($userdata,'uploads');
   $uploaddir->mkpath
     or die "Failed to make upload directory";
+
+  #and one for generated scripts
+  my $scriptdir = dir($userdata, 'scripts');
+  $scriptdir->mkpath
+      or die "Failed to make script directory";
  
   #okay, let dbic create the person.
   $class->next::method($attrs);

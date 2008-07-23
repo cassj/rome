@@ -440,11 +440,15 @@
 	jid INT NOT NULL,
 	pid INT,
 	status ENUM ('QUEUED','PROCESSING','HALTED'),
+	owner char(50),
 	start_time DATETIME,
 	PRIMARY KEY(jid),
 	FOREIGN KEY (jid) 
            REFERENCES job(id)
-           ON DELETE CASCADE
+           ON DELETE CASCADE,
+	FOREIGN KEY (owner)
+	   REFERENCES person(username)
+	   ON DELETE CASCADE
 	) ENGINE=INNODB;
 
  	/* an extension of the datafile table for image files 

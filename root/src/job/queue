@@ -1,0 +1,34 @@
+<h2>Currently queued jobs</h2>
+
+<div id="queue_messages"></div>
+
+<p>Jobs you have created which are currently pending in the queue</p>
+
+
+<div id="queued_jobs">
+[% FOREACH q IN Catalyst.user.queued %]
+<img class="delete_img"
+     alt="delete job" 
+     src="delete.gif" 
+     onclick="new Ajax.Updater('queue_messages',
+                               '[%Catalyst.uri_for('/job/delete')%]?jid=[%q.jid%]',
+                               {
+			       asynchronous: 1,
+			       onComplete: function(){setTimeout(function(){update_queued_jobs('queue')}, 1000);}
+			       })" /> 
+<table class="queued_job">
+<tr><th>Job ID</th><td>[%q.jid%]</td></tr>
+<tr><th>Process ID</th><td>[%q.pid OR "Not yet assigned"%]</td></tr>
+<tr><th>Start time</th><td>[%q.start_time%]</td></tr>
+<tr><th>Status</th><td>[%q.status%]</td></tr>
+<tr><th>Experiment</th><td>[%q.job.experiment.name%]</td></tr>
+<tr><th>Process</th><td>[%q.job.process.name%] ([%q.job.process.component.name%] [%q.job.process.component.version%])</td></tr>
+<tr><th>Input Datafiles</th><td>
+[%FOREACH df IN q.job.in_datafiles%][%df.name%] ([%df.datatype.name%]) [%END%]
+</td></tr>
+<tr><th>Output Datafiles</th><td>
+[%FOREACH df IN q.job.out_datafiles%][%df.name%] ([%df.datatype.name%]) [%END%]
+</td></tr>
+</table>
+[% END %]
+</div>

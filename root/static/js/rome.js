@@ -173,6 +173,13 @@ function update_pending_invites(divid){
 }
 
 
+//update the list of queued jobs
+function update_queued_jobs(divid){
+    var qj_url = '/job/queue';
+    var qjAjax = new Ajax.Updater(divid, qj_url, {});
+}
+
+
 //update the metadata factor list
 function update_factor_list(divid){
   var f_url = '/metadata/factor/list';
@@ -192,6 +199,7 @@ function update_outcome_list(divid){
   var o_url = '/metadata/outcome/list';
   var oAjax = new Ajax.Updater(divid, o_url, {evalScripts:true}); 
 }
+
 
 
 //make the outcome drop boxes for the metadata controller

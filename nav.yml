@@ -74,6 +74,11 @@
           display_name: Data Export
           title: Export datafiles
           any_datatype: 1
+      - jobs:
+          display_name: Jobs
+          title: Monitor jobs and the job queue
+          any_datatype: 1
+          href: /job
            
 - Devel Tools:
     title: Development tools

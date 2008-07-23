@@ -2,14 +2,6 @@
 
 [%IF Catalyst.user.experiment%]
 
-[% IF Catalyst.user.experiment.root_datafile %]
-
-   <p class="warning">You have already created a root datafile for this experiment.</p>
-
-   <p>Delete root datafile?</p>
-
-[% ELSE %]
-
 <div id="select_parser">
 
   <form action="/set_parser" 
@@ -41,7 +33,6 @@
 <!-- div for select_files.tt -->
 <div id="select_files"></div>
  
-[% END %]
 
 [%ELSE%]
   <p class="warning">No Experiment Selected</p>

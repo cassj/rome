@@ -106,12 +106,20 @@ __PACKAGE__->might_have(queued=>'ROMEDB::Queue', {'foreign.jid'=>'self.id'});
 
 
 __PACKAGE__->has_many(job_in_datafiles => 'ROMEDB::InDatafile', {
-                          'foreign.jid' => 'self.jid',
+                          'foreign.jid' => 'self.id',
 		      });
 
 __PACKAGE__->many_to_many(in_datafiles => 'job_in_datafiles', 'datafile');
 
 
+=item out_datafiles
+
+  has_many to the datafile table. 
+  Datafiles this job creates
+
+=cut
+
+__PACKAGE__->has_many(out_datafiles=>'ROMEDB::Datafile', {'foreign.job_id' => 'self.id'});
 
 
 
@@ -125,7 +133,7 @@ __PACKAGE__->many_to_many(in_datafiles => 'job_in_datafiles', 'datafile');
 
 
 __PACKAGE__->has_many(arguments => 'ROMEDB::Argument', {
-                          'foreign.jid' => 'self.jid',
+                          'foreign.jid' => 'self.id',
 		      });
 
 
@@ -146,7 +154,6 @@ $new_source->name( \<<SQL );
 ( SELECT j.* FROM job j 
   WHERE j.is_root = 1 )
 SQL
-
 
 
 #hacky fix to sort out DBIC's lookup tables.
