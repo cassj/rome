@@ -29,6 +29,12 @@
    </ul>
   </li>
 
+  <li><a title="Normalisation of Affymetrix Expression Data" href="#" class="dropdown">Affy Normalisation</a>
+   <ul>
+    <li><a class= [% IF Catalyst.check_datafile_type %]"active"[% ELSE %]"inactive"[% END %] title="Robust Multi-Array Average Normalisation" href="/component/rma/rma">RMA</li></a>
+   </ul>
+  </li>
+
 [% IF Catalyst.check_user_roles('dev')%]
   <li><a title="Development tools" href="#" class="dropdown">Devel Tools</a>
    <ul>

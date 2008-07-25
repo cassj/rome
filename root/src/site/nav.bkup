@@ -32,7 +32,7 @@
 [% IF Catalyst.check_user_roles('dev')%]
   <li><a title="Development tools" href="#" class="dropdown">Devel Tools</a>
    <ul>
-    <li><a class="active"title="Create and Edit Components" href="/devel/component/create">Component Development</li></a>
+    <li><a class="active"title="Create and Edit Components" href="/devel/components">Component Development</li></a>
     <li><a class="active"title="Create Component Packages for Distribution" href="/devel/make_component_distribution">Package Component</li></a>
     <li><a class="active"title="Manage Datatypes" href="/devel/datatypes">Manage Datatypes</li></a>
    </ul>

@@ -10,7 +10,7 @@
     <span class="dropbox_text">[%outcome.display_name%]</span>
     <div class="dropbox_box" id="outcome-[%outcome.name%]">   
       [%IF outcome.levels %] 
-        <div id="outcome_factors">
+        <div class="outcome_factors">
            <h4>Factors</h4>
            [% FOREACH level IN outcome.levels %]
              <div class="fac_level">
@@ -23,7 +23,7 @@
 
 
       [% IF outcome.values %]
-      <div id="outcome_contvars">
+      <div class="outcome_contvars">
         <h4>Continuous Variables</h4>
            [% FOREACH val IN outcome.values %]
              <div class="cont_var_val">

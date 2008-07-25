@@ -79,7 +79,16 @@
           title: Monitor jobs and the job queue
           any_datatype: 1
           href: /job
-           
+
+
+- Affy Normalisation:
+   title: Normalisation of Affymetrix Expression Data 
+   dropdown:
+      - rma:
+          display_name: RMA
+          title: Robust Multi-Array Average Normalisation
+          href: /component/rma/rma
+        
 - Devel Tools:
     title: Development tools
     roles:

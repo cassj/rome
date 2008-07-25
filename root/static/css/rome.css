@@ -461,10 +461,6 @@ dl.factor p, dl.cont_var p, #outcome_wrapper p{
   margin-bottom: 3px;
 }
 
-#outcome_wrapper.h4 {
-  padding-bottom: 5px;
-}
-
 dl.factor, dl.cont_var{
   margin-bottom: 5px;
 }
@@ -531,6 +527,11 @@ dl.factor dl{
 #outcome_list{
   width: 49%;
   float:left;
+}
+
+.outcome_factors h4{
+  margin:0;
+  
 }
 
 /********* Jobs page ***************/
