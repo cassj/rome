@@ -1,0 +1,6 @@
+\subsubsection{Skins}
+\label{sec:view_skins}
+
+\paragraph{}
+The way in which data in ROME is presented to the user can be altered using skins. Multiple skins may be stored in \texttt{root/skins} and the selected skin is specified in the main config file. The view is set up to search for templates in the skin before searching for the default templates in root. This means that within a skin, any of the templates can be overriden. Similarly, the Static::Simple Catalyst plugin is setup to search the skin directories before root, so any static files, including css and javascript, can be overriden in the skin. A skin should echo the directory structure the main ROME \texttt{root} directory, though there is no need to create subdirectories unless the the files they contain are to be overriden. 
+

@@ -1,0 +1,14 @@
+\subsection{workgroups}
+\label{sec:workgroups}
+
+\paragraph{}
+Workgroups are collections of users with single designated group leader. Entire experiments or single datafiles can be shared between workgroups. This section describes how workgroups can be managed. Details of sharing data with a workgroup are provided in the sections on Experiment and Datafile management.
+
+\subsubsection{Creating, Updating and Deleting Workgroups}
+Any authenticated user can create a workgroup via the \texttt{crud/workgroup} url (by default, this is linked in the menu as My Account > My Workgroups). This page will also list the workgroups of which the user is a member and those they have created. A new workgroup requires only a unique name and an optional description. 
+
+\subsubsection{Workgroup Membership}
+
+\subsubsection{Workgroup Leadership}
+
+ 

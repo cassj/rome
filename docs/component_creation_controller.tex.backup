@@ -1,0 +1,5 @@
+\subsubsection{component_creation_controller}
+\ref{sec:component_creation_controller}
+
+\paragraph{}
+The component creation controller is a developer tool and is only accessible to users with the 'devel' role. It provides functionality for automatically generating simple ROME components from uploaded R script templates (in template toolkit format). 

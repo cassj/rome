@@ -17,7 +17,7 @@
 
         <div class="labelled_input">
           <label for="parameter_name">Parameter Name <span class="details">(database key)</span></label>
-	  <input type="text" name="parameter_name" />
+	  <input type="text" name="parameter_name" id="parameter_name"/>
         </div>
 
         <div class="labelled_input">
@@ -64,47 +64,70 @@
 	<p>The name of your form input field will be the display name of your parameter and the parameter dscription will be displayed if defined</p>
 
 	<div class="labelled_input">
+
 	  <label for="form_element_type">Type of form element to use</label>
 	  <div class="radio_list">
-
-	  <input type="radio" name="form_element_type" value="text"
+         
+	  <label for="form_element_text">
+	  <input type="radio" name="form_element_type" value="text" id="form_element_text"
 	         onclick="$('form_element_values').style.display='none';
                           $('form_element_constraints').style.display='block';
 			  $('element_is_multiple').checked=false;
-			  $('element_is_multiple_div').style.display='none'" >Small Text Box</input>
+			  $('element_is_multiple_div').style.display='none'" />
+          Small Text Box</label>
 
-	  <input type="radio" name="form_element_type" value="textarea"
+          <label for="form_element_textarea">
+	  <input type="radio" name="form_element_type" value="textarea" id="form_element_textarea"
                  onclick="$('form_element_values').style.display='none';
                           $('form_element_constraints').style.display='block';
 			  $('element_is_multiple').checked=false;
-			  $('element_is_multiple_div').style.display='none'" >Large Text Box</input>
+			  $('element_is_multiple_div').style.display='none'" />
+          Large Text Box</label>
 
-	  <input type="radio" name="form_element_type" value="checkbox"
+	  <label for="form_element_checkbox">
+	  <input type="radio" name="form_element_type" value="checkbox" id="form_element_checkbox"
                   onclick="$('form_element_values').style.display='none';
                            $('form_element_constraints').style.display='none';
 			  $('element_is_multiple').checked=false;
-			  $('element_is_multiple_div').style.display='none'" >Checkbox</input>
-
-	  <input type="radio" name="form_element_type" value="checkbox_group" 
+			  $('element_is_multiple_div').style.display='none'" />
+          Checkbox</label>
+	  
+	  <label for="form_element_checkbox_group">
+	  <input type="radio" name="form_element_type" value="checkbox_group" id="form_element_checkbox_group"
                  onclick="$('form_element_values').style.display='block';
                           $('form_element_constraints').style.display='none';
 			  $('element_is_multiple').checked=true;
-			  $('element_is_multiple_div').style.display='none'">Checkbox Group</input>
+			  $('element_is_multiple_div').style.display='none'"/>
+          Checkbox Group</label>
 
-	  <input type="radio" name="form_element_type" value="radio"
+  	  <label for="form_element_radio">
+	  <input type="radio" name="form_element_type" value="radio" id="form_element_radio"
          	 onclick="$('form_element_values').style.display='block';
                           $('form_element_constraints').style.display='none';
 			  $('element_is_multiple').checked=false;
-			  $('element_is_multiple_div').style.display='none'">Radio Button Group</input>
+			  $('element_is_multiple_div').style.display='none'" />
+          Radio Button Group</label>
 
-	  <input type="radio" name="form_element_type" value="select"
+          <label for="form_element_select"> 
+	  <input type="radio" name="form_element_type" value="select" id="form_element_select"
                  onclick="$('form_element_values').style.display='block';
                           $('form_element_constraints').style.display='none';
 			  $('element_is_multiple').checked=false;
-			  $('element_is_multiple_div').style.display='block'" >Drop-down Select Box</input>
+			  $('element_is_multiple_div').style.display='block'" />
+          Drop-down Select Box</label>
 
-	  </div>
-	</div>
+          <label for="form_element_outcome_list">
+	  <input type="radio" name="form_element_type" value="outcome_list" id="form_element_outcome_list"
+                 onclick="$('form_element_values').style.display='none';
+                          $('form_element_constraints').style.display='none';
+			  $('element_is_multiple').checked=true;
+			  $('element_is_multiple_div').style.display='block';
+                          $('parameter_name').value='selected_outcomes'; " />
+          Experimental Outcome Select List</label>
+          
+ 	  <div class="force_clear"></div>
+	  </div> <!--end radio list -->
+	</div><!-- end labelled_input -->
 
         <div class="labelled_input" id="form_element_values" style="display:none">
 	  <label for="form_element_values">Possible values of parameter 

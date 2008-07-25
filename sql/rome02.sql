@@ -256,10 +256,11 @@
 	process_component_version VARCHAR (20) NOT NULL,
  	description VARCHAR(100),
 	optional BOOLEAN NOT NULL DEFAULT 0,
-	form_element_type ENUM('text','textarea','checkbox','checkbox_group','select') NOT NULL,
+	form_element_type ENUM('text','textarea','checkbox','checkbox_group','select', 'outcome_list') NOT NULL,
 	min_value NUMERIC,
 	max_value NUMERIC,
 	default_value VARCHAR(255),
+	is_multiple BOOLEAN NOT NULL DEFAULT 0;
 	PRIMARY KEY (name, process_name, process_component_name, process_component_version),
 	FOREIGN KEY (process_name, process_component_name, process_component_version) 
            REFERENCES process(name, component_name, component_version) 

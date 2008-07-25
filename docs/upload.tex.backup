@@ -1,0 +1,13 @@
+\subsection{Upload}
+\label{sec:upload}
+
+\paragraph{}
+Data can be uploaded to ROME via the upload component. The controller for this component is \texttt{lib/ROME/Controller/Upload.pm}. Each user has their own upload directory, with a limited amount of space. The upload directory is a temporary storage space and files in this directory are parsed into ROME datafiles, after which they can optionally be deleted from the Upload directory. As many of the files required for \-omics analysis are large, the upload module allows the used to upload a tarball or zip file and have it unpacked into their user directory (non-compressed files can also be uploaded). The contents of the user's upload directory are also listed on this page and individual files can be deleted.
+
+
+
+
+
+
+
+

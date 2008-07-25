@@ -1,4 +1,4 @@
-package ROME::Controller::Component::Test;
+package ROME::Controller::Component::Rma;
 
 use strict;
 use warnings;
@@ -8,7 +8,7 @@ use ROME::Constraints;
 
 =head1 NAME
 
-ROME::Controller::Component::Test - ROME Component Controller
+ROME::Controller::Component::Rma - ROME Component Controller
 
 =head1 DESCRIPTION
 
@@ -25,24 +25,24 @@ our $VERSION = "0.0.1";
 
 ### PROCESS METHODS ###
 
-### START PROCESS foo ###
+### START PROCESS rma ###
 
-=item foo
-  passes the template for the foo process to the view
+=item rma
+  passes the template for the rma process to the view
 
 =cut
-sub foo :Local{
+sub rma :Local{
 
   my ($self, $c) = @_;
-  $c->stash->{template} = 'component/test/foo.tt2';
+  $c->stash->{template} = 'component/rma/rma';
 
 }
 
-#parameter validation for foo_queue
-sub _validate_foo :Private{
+#parameter validation for rma_queue
+sub _validate_rma :Private{
   my ($self, $c) = @_;
   my $dfv_profile = {
-		      required => [qw(a )],	
+		      required => [qw()],	
 		      optional => [qw()],	
 		      dependencies =>{},
 		      msgs => {
@@ -57,45 +57,40 @@ sub _validate_foo :Private{
 					       'is_one_of'          => 'Value is not one of the defined options',
 					       'allowed_chars'      => 'Invalid charcters used',
 					       'allowed_chars_plus' => 'Invalid characters used',
+					       'outcome_exists'     => 'Outcome not found',
 					      },
 			      },
 		      filters => ['trim'],
 		      missing_optional_valid => 1,    
 		      constraint_methods => {
-		        a => [
-		           ROME::Constraints::is_single,
-		           ROME::Constraints::allowed_chars_plus,
-		           ROME::Constraints::is_integer,
-		           ROME::Constraints::is_less_than(11)
-		        ],
 					    },
 		     };
  
  $c->form($dfv_profile);
 }
 
-=item foo_queue
+=item rma_queue
 
-  Ajax action to which the component/test/foo  form submits
+  Ajax action to which the component/rma/rma  form submits
 
 =cut
 
-sub foo_queue :Path('component/foo/queue'){
+sub rma_queue :Path('rma/queue'){
     my ($self, $c) = @_;
 
     $c->stash->{template} = 'site/messages';
     $c->stash->{ajax} = 1;
 
      #check your form parameters
-     if ($c->forward('_validate_foo')){
+     if ($c->forward('_validate_rma')){
     
        # get your process 
        my $process = $c->model('ROMEDB::Process')->find({
-              name => "foo",
-              component_name => "test",
+              name => "rma",
+              component_name => "rma",
               component_version =>"0.0.1"
        });
-       die "process Foo not found" unless $process;
+       die "process RMA not found" unless $process;
 
        # get an appropriate processor
        my $processor = ROME::Processor->new($process->processor);
@@ -110,7 +105,7 @@ sub foo_queue :Path('component/foo/queue'){
        # the processor enforces all the constraints defined
        # for the process parameters when queue is called 
        # so you can just pass the form values straight through
-       $processor->arguments($c->request->params);
+       $processor->arguments({map {$_ => $c->request->params->{$_}} $c->form->valid});
 
        # create a job and put it in the job queue to be run
        $processor->queue();
@@ -122,7 +117,7 @@ sub foo_queue :Path('component/foo/queue'){
      return;
 }
 
-### END PROCESS foo ###
+### END PROCESS rma ###
 
 
  

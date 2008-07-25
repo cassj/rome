@@ -31,6 +31,7 @@ sub _validate_[%process_name%] :Private{
 					       'is_one_of'          => 'Value is not one of the defined options',
 					       'allowed_chars'      => 'Invalid charcters used',
 					       'allowed_chars_plus' => 'Invalid characters used',
+					       'outcome_exists'     => 'Outcome not found',
 					      },
 			      },
 		      filters => ['trim'],

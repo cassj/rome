@@ -393,8 +393,6 @@ sub not_experiment_has_cont_var{
 
 
 
-
-
 =head (not_)outcome_exists
 
   Checks if the given outcome exists
@@ -406,6 +404,8 @@ Needs arguments:
 3: the name of the form field containing the username of the owner of the
    experiment to which this outcome belongs
 
+Experiment defaults to the currently selected one
+
 =cut
 
 sub outcome_exists{
@@ -416,7 +416,9 @@ sub outcome_exists{
     $dfv->name_this('outcome_exists');
     my $val = $dfv->get_current_constraint_value();
     my $data = $dfv->get_filtered_data;
-    my $exists = $c->model('ROMEDB::Outcome')->find($val, $data->{$expt_name_field}, $data->{$expt_owner_field});
+    my $expt_name = $data->{$expt_name_field} || $c->user->experiment->name;
+    my $expt_owner = $data->{$expt_owner_field} || $c->user->experiment->owner->username;
+    my $exists = $c->model('ROMEDB::Outcome')->find($val, $expt_name, $expt_owner);
     return $exists ? 1:0;
   }
 
@@ -431,7 +433,9 @@ sub not_outcome_exists{
     $dfv->name_this('not_outcome_exists');
     my $val = $dfv->get_current_constraint_value();
     my $data = $dfv->get_filtered_data;
-    my $exists = $c->model('ROMEDB::Outcome')->find($val, $data->{$expt_name_field}, $data->{$expt_owner_field});
+    my $expt_name = $data->{$expt_name_field} || $c->user->experiment->name;
+    my $expt_owner = $data->{$expt_owner_field} || $c->user->experiment->owner->username;
+    my $exists = $c->model('ROMEDB::Outcome')->find($val, $expt_name, $expt_owner);
     return $exists ? 0:1;
   }
 

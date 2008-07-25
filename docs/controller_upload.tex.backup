@@ -1,0 +1,23 @@
+\subsubsection{Upload}
+\label{sec:controller_upload}
+
+\paragraph{}
+The upload controller provides support for uploading datafiles into the user's upload directory. It also provides the required actions for managing the upload directory including listing its contents and deleting files or subdirectories. It's public actions are:
+
+\begin{verbatim}
+upload
+upload/autocomplete_subdir
+upload/list
+upload/delete
+\end{verbatim}
+
+
+\paragraph{}
+As many of the files required for \-omics analysis are large, the upload module allows the used to upload a tarball or zip file and have it unpacked into their user directory (non-compressed files can also be uploaded). 
+
+\paragraph{}
+The UploadProgress Catalyst Plugin provides the AJAX upload-status bar functionality. In order to work this requires a forking server. Under the test server this can be acheived with:
+
+\begin{verbatim}
+  script/rome_server.pl -fork 
+\end{verbatim}

@@ -1,0 +1,55 @@
+[% INCLUDE 'setup/R' %]
+
+#load the affy library
+library(affy)
+
+[%# ROME Variables, defined by setup/R:
+   con 
+   rome.userdir
+   rome.username  
+   rome.experiment_name 
+
+%]
+
+[%# Arguments from Processor
+    rome_datafiles_out
+    rome_datafiles_in
+%]
+
+[%# Arguments from controller 
+  selected_outcomes : an array reference
+%]
+
+outcomes<-c("[%selected_outcomes.join('", "')%]");
+
+
+#trouble is, this isn't portable.
+ab<-load("[% rome_datafiles_in.AB.path %]")
+
+eset<-rma(ab[,outcomes]);
+
+cwd<-setwd(rome.userdir)
+
+filename <- "[% rome_datafiles_out.ESet.name %]"
+save(eset, file=filename);
+
+for (name in outcomes ){
+
+    #make a new outcome and link it to the datafile.
+    rome.new.outcome(outcome.name  = name, 
+                     outcome.experiment.name = rome.experiment_name,
+                     outcome.experiment.owner = rome.username,
+                     datafile.name = "[%rome_datafiles_out.AB.name%]", 
+                     datafile.experiment.name = "[%rome_datafiles_out.AB.experiment_name%]",
+		     datafile.experiment.owner = "[%rome_datafiles_out.AB.experiment_owner%]")
+		     
+}
+
+#change back to where you were 
+setwd(cwd);
+
+
+
+
+
+

@@ -1,0 +1,9 @@
+\subsubsection{User}
+\label{sec:view_user}
+
+\paragraph{}
+The templates belonging to the user view provide user interfaces to the functionality of the user controller. This includes logging in and out, registering new users, resetting passwords, managing user details, joining, leaving and managing workgroups
+
+
+account                  awaiting_user_approval  list   login_successful  register              reset_password
+awaiting_admin_approval  delete                  login  lost_password     registration_success  workgroups

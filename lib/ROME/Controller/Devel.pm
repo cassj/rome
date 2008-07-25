@@ -33,6 +33,7 @@ Catalyst Controller.
 
 sub components :Local{
     my ($self, $c) = @_;
+
     unless ($c->check_user_roles('dev')){
       $c->stash->{template} = 'site/messages';
       $c->stash->{error_msg} = 'Sorry, you do not have permission to view this page.';
@@ -1985,7 +1986,8 @@ sub _validate_process_param_create :Local{
 										|| $val eq 'checkbox' 
 										|| $val eq 'checkbox_group'
 									        || $val eq 'radio'
-									        || $val eq 'select');
+									        || $val eq 'select'
+									        || $val eq 'outcome_list');
 								   return;
 								 }, 
 								],
@@ -2103,7 +2105,23 @@ sub _validate_process_param_create :Local{
      Optional boolean value determining whether this parameter is 
      optional (1) or not (0). Defaults to 0 if unspecified 
      (ie. process parameters are required by default)
-
+  form_element_type: 
+     Type of form element to be generated. One of
+     text, textarea, checkbox, checkbox_group,
+     radio, select, outcome_list
+  form_element_values:
+     Applicable to multiple valued elements like checkbox_group and radio
+     A comma seperated list of values to select from.
+  element_value_is: 
+     Only applicable for text boxes. Either numeric or text.
+  element_value_numtype:
+     Only applicable for numeric text boxes. int or real.
+  element_value_min:
+     Only applicable for numeric text boxes. Minimum value
+  element_value_max:
+     Only applicable for numeric text boxes. Minimum value
+  element_is_multiple:
+     Only applicable for select elements. Boolean
 
 =cut
 sub process_param_create :Path('process/parameter/create'){
@@ -2136,7 +2154,8 @@ sub process_param_create :Path('process/parameter/create'){
 	optional   => $c->request->params->{parameter_optional} || '',
 	form_element_type => $c->request->params->{form_element_type},
 	min_value => $c->request->params->{element_value_min},
-	max_value => $c->request->params->{element_value_max}
+	max_value => $c->request->params->{element_value_max},
+	is_multiple => $c->request->params->{element_is_multiple} || '0',
        });
  
 
@@ -2186,25 +2205,30 @@ sub process_param_create :Path('process/parameter/create'){
 	if ($c->request->params->{form_element_type} =~/^checkbox$/){
 	  push @constraints,'ROME::Constraints::is_boolean';
 	}
-	else{
-	  #type is one of checkbox_group, radio or select
-	  #add is_one_of(list of options) constraint.
-	  my @allowed_values = split /,|\//, $c->request->params->{'form_element_values'};
-	  s/\s//g foreach @allowed_values;
-	  push @constraints, 'ROME::Constraints::is_one_of(qw/'.(join ' ',@allowed_values).'/)';
+	else {
+	  if ($c->request->params->{form_element_type} =~/^outcome_list/){
+	    push @constraints, 'ROME::Constraints::outcome_exists($c)';
+	  }	  
+	  else{
+	    #type is one of checkbox_group, radio or select
+	    #add is_one_of(list of options) constraint.
+	    my @allowed_values = split /,|\//, $c->request->params->{'form_element_values'};
+	    s/\s//g foreach @allowed_values;
+	    push @constraints, 'ROME::Constraints::is_one_of(qw/'.(join ' ',@allowed_values).'/)';
+	    
+	    #and, while we're at it add the constraint values to the database
+	    $c->model('ROMEDB::ParameterAllowedValue')->create
+	      ({
+		parameter_name                      => $param->name,
+		parameter_process_name              => $param->process_name,
+		parameter_process_component_name    => $param->process_component_name,
+		parameter_process_component_version => $param->process_component_version,
+		value                               => $_,
+	       }) foreach @allowed_values;
+	  }
+	} #isn't text
+      }
 
-	  #and, while we're at it add the constraint values to the database
-	  $c->model('ROMEDB::ParameterAllowedValue')->create
-	    ({
-	      parameter_name                      => $param->name,
-	      parameter_process_name              => $param->process_name,
-	      parameter_process_component_name    => $param->process_component_name,
-	      parameter_process_component_version => $param->process_component_version,
-	      value                               => $_,
-	     }) foreach @allowed_values;
-	}
-      } #isn't text
-	  
       #element_is_multiple?
       unless ($c->request->params->{element_is_multiple}){
 	unshift @constraints, 'ROME::Constraints::is_single';

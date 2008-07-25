@@ -38,7 +38,7 @@ __PACKAGE__->table('parameter');
 =cut
 
 
-__PACKAGE__->add_columns(qw/name display_name process_name process_component_name process_component_version description optional default_value form_element_type min_value max_value/);
+__PACKAGE__->add_columns(qw/name display_name process_name process_component_name process_component_version description optional default_value form_element_type min_value max_value is_multiple/);
 __PACKAGE__->set_primary_key(qw/name process_name process_component_name process_component_version/);
 
  

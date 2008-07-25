@@ -1,0 +1,6 @@
+\subsubsection{Root}
+\label{sec:controller_root}
+
+\paragraph{}
+The Root controller, ROME::Controller::Root, provides some generic functions for all ROME Controllers. Catalyst automatically uses 
+The Root default action is called when no other matching action has been found in the by Catalyst's URL mapping process. It is defined to return an HTML 404 Not Found error page, the template for which is 'site/404'. The Root index action matches the base URL (for example http://localhost:3000/ under the test server) and forwards to the user's account page, or the login page if there is no current user. There is also an \texttt{auto} action defined in the root controller which is run for every request and redirects the user to the login page if they are not currently logged in, unless the URL is one of the few pages to which the user can have access without logging in (registration pages and similar). The Root \texttt{end} action deals with forwarding to the view to display the results of a given request to the user. A couple of global actions are also defined in the Root controller to return the HTML of the navigation bar and the status bar. 

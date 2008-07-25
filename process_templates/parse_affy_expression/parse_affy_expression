@@ -1,0 +1,72 @@
+[% INCLUDE 'setup/R' %]
+
+#load the affy library
+library(affy)
+
+[%# ROME Variables, defined by setup/R:
+   con 
+   rome.userdir
+   rome.username  
+   rome.experiment_name 
+
+%]
+
+[%# Arguments from Processor
+    rome_datafiles_out
+    rome_datafiles_in
+%]
+
+[%# Arguments from controller 
+  filenames : an array reference
+%]
+
+
+
+###
+# change into the user's upload dir
+
+cwd<-getwd()
+setwd(paste(rome.userdir,'/uploads',sep=""));
+
+###
+# create affybatch
+AB<-ReadAffy(filenames=c("[% filenames.join('", "')%]"));
+
+###
+# change into the user's data directory
+
+setwd(rome.userdir)
+
+[%#
+   get the (unique, at least for this user) name of the 
+   actual datafile we are calling the RawAffy file
+%]
+
+###
+# set the filename, add an appropriate extension
+
+filename <- "[% rome_datafiles_out.AB.name %]"
+save(AB, file=filename);
+
+
+###
+# This datafile corresponds to a number of outcomes.
+# Add them to the database.
+
+for (name in colnames(exprs(AB))){
+
+    #make a new outcome and link it to the datafile.
+    rome.new.outcome(outcome.name  = name, 
+                     outcome.experiment.name = rome.experiment_name,
+                     outcome.experiment.owner = rome.username,
+                     datafile.name = "[%rome_datafiles_out.AB.name%]", 
+                     datafile.experiment.name = "[%rome_datafiles_out.AB.experiment_name%]",
+		     datafile.experiment.owner = "[%rome_datafiles_out.AB.experiment_owner%]")
+		     
+}
+
+
+
+
+#change back to where you were 
+setwd(cwd);

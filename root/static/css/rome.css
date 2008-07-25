@@ -124,12 +124,13 @@ label {
   font-size: 80%;
 }
 
+
 .radio_list{
-  margin-left: 10em;
+  margin-left:20em;
 }
 
 .checkbox_list{
-  margin-left: 10em;
+  margin-left: 20em;
 }
 
 .button {

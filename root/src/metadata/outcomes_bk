@@ -1,0 +1,49 @@
+<h4>Experimental Outcomes</h4>
+
+<div id="outcome_wrapper">
+
+[% FOREACH outcome IN Catalyst.user.experiment.outcomes %]
+
+  <div class="dropbox">
+    <span class="dropbox_text">[%outcome.display_name%]</span>
+    <div class="dropbox_box" id="outcome-[%outcome.name%]">   
+      [%IF outcome.levels %] 
+        <div id="outcome_factors">
+           <h4>Factors</h4>
+           [% FOREACH level IN outcome.levels %]
+             <div class="fac_level">
+	     <span>[% level.factor.name %] : [% level.name %]</span>
+             <img src="images/delete.gif" onClick=delete_level('[%level.factor.name%]','[%level.factor.owner.username%]','[%level.name%]','[%outcome.name%]') />
+	     </div>
+           [% END %]
+        </div>
+      [%END%]
+
+
+      [% IF outcome.values %]
+      <div id="outcome_contvars">
+        <h4>Continuous Variables</h4>
+           [% FOREACH val IN outcome.values %]
+             <div class="cont_var_val">
+	     <span>[%val.cont_var_name%][%val.value%]</span>
+	     <img src="images/delete.gif"  onClick=delete_cont_var('[%val.cont_var_name%]','[%val.cont_var.owner.username%]','[%outcome.name%]')  />
+	     </div>
+           [% END %]
+      </div>
+      [% END %]  
+
+    </div>
+  </div>
+
+  <!-- Make boxes dropable -->
+   <script type="text/javascript">
+   <!--    
+    make_dropable_outcome("outcome-[% outcome.name %]"); 
+   //-->
+   </script>
+
+
+[% END %]
+
+</div>
+<div class="force_clear"></div>

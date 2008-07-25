@@ -1,0 +1,9 @@
+  <div class="radio_list">
+  [% FOREACH outcome IN Catalyst.user.experiment.outcomes %]
+     <label for="outcome_[%outcome.name%]"
+    <input name="selected_outcomes" class="outcome_option" type="radio" id="outcome_[%outcome.name%]"  value="[%outcome.name%]"/>
+     [%outcome.display_name%]</label>
+  [% END %]
+  </div>
+
+  <div class="force_clear"></div>

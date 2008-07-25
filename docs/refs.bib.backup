@@ -1,0 +1,1826 @@
+@BOOK{wall:99,
+	AUTHOR = {Wall,P},
+	TITLE = {Pain, The Science of Suffering},
+	PUBLISHER = {Orion Publishing Group Ltd.},
+	YEAR = {1999},
+	ADDRESS = {London}
+}
+
+@BOOK{melzandwall,
+	AUTHOR={Melzack,R and Wall,L.},
+	TITLE = {Textbook of Pain},
+	PUBLISHER = {Harcourt Publishers Ltd},
+	YEAR = {2000},
+	ADDRESS={Edinburgh}
+}
+
+@BOOK{Beecher:59,
+	AUTHOR = {Knowles Beecher, H},
+	TITLE = {Measurement of Subjective Responses: Quantitative Effects of Drugs},
+	PUBLISHER = {Oxford Univeristy Press},
+	YEAR = {1959},
+	ADDRESS = {New York}
+}
+
+@BOOK{Alberts4,
+	AUTHOR = {Alberts, B et al},
+	TITLE = {Molecular Biology of the Cell 4th Edition},
+	PUBLISHER = {Garland Science},
+	YEAR = {2002},
+	ADDRESS = {New York}
+}
+
+
+@BOOK{Lodish,
+	AUTHOR = {Lodish, H. et al},
+	TITLE = {Molecular Cell Biology},
+	PUBLISHER = {W.H. Freeman and Company},
+	YEAR = {2000},
+	ADDRESS = {New York}
+}
+
+@BOOK{Mitchel,
+	AUTHOR = {Mitchel, N.A. et al},
+	TITLE = {Biology Concept and Connections},
+	PUBLISHER = {Benjamin Cummings},
+	ADDRESS = {California},
+	YEAR = {1997}
+}
+
+@BOOK{GOF,
+	AUTHOR = {Erich Gamma and Richard Helm and Ralph Johnson and John Vlissides },
+	TITLE = {Design Patterns: Elements of Reusable Object-Oriented Software},
+	PUBLISHER = {Addison-Wesley Professional Computing Series},
+	YEAR = {1994}
+}
+
+@ARTICLE{Makalowska:05,
+	AUTHOR = {Makalowska, I. and Lin, C-F. and Makalowski, W.},
+	TITLE = {Overlapping genes in vertebrate genomes},
+	JOURNAL = {Computational and Biological Chemistry},
+	VOLUME = {29},
+	PAGES = {1-12},
+	YEAR = {2005}
+}
+
+@ARTICLE{bradshaw:98,
+	AUTHOR = {Bradshaw, R.A. and Brickey, W.W. and Walker, K.W},
+	TITLE = {N-Terminal processing: the methionine aminopeptidase and Nsmall alpha, Greek-acetyl transferase families},
+	JOURNAL = {Trends in Biochemical Sciences},
+	VOLUME = {23},
+	NUMBER = {7},
+	YEAR = {1998}
+}
+
+@ARTICLE{prescott:02,
+	AUTHOR = {Prescott, E.M. and Proudfoot, M.J.},
+	TITLE = {Transcriptional collision between convergent genes in budding yeast.},
+	JOURNAL = {Proceedings of the National Academy of Science, USA},
+	VOLUME = {99},
+	NUMBER = {13},
+	PAGES = {8796-8801},
+	YEAR = {2002}
+}
+
+@ARTICLE{chu:02,
+	AUTHOR = {Chu, J. and Dolnick, B.J.},
+	TITLE = {Natural antisense (rTSalpha) RNA induces site-specific cleavage of thymidylate synthase mRNA.},
+	JOURNAL = {Biochim Biophys Acta},
+	YEAR = {2002},
+	VOLUME = {1587},
+	NUMBER = {2-3},
+	PAGES = {183-93} 
+}
+
+@ARTICLE{edgar:03,
+	AUTHOR = {Edgar, A.J.},
+	TITLE = {The gene structure and expression of human ABHD1: overlapping polyadenylation signal sequence with Sec12.},
+	JOURNAL = {BMC Genomics}, 
+	YEAR = {2003},
+	VOLUME = {4},
+	NUMBER = {1},
+	PAGES = {18}
+}
+
+@ARTICLE{mihalich:03,
+	AUTHOR = {Mihalich, A. and Reina, M. and Mangioni, S. and  Ponti, E. and Alberti, L. and Vigano, P. and Vignali, M. and Di Blasio, A.M.},
+	TITLE = {Different basic fibroblast growth factor and fibroblast growth factor-antisense expression in eutopic endometrial stromal cells derived from women with and without endometriosis.},
+	JOURNAL = {Journal of Clinical Endocrinolology Metabolism},
+	YEAR = {2003},
+	VOLUME = {88},
+	NUMBER = {6},
+	PAGES = {2853-9} 
+}
+
+@ARTICLE{brennecke:05,
+	AUTHOR  = {Brennecke, J. and Stark, A. and Russell, R.B. and Cohen, S.M.},
+	TITLE = {Principles of MicroRNA-Target Recognition},
+	JOURNAL = {PLoS Biology},
+	YEAR = {2005},
+	VOLUME = {3},
+	NUMBER = {3},
+	PAGES = {0404-0417}
+}
+
+
+@ARTICLE{bartel:04,
+	AUTHOR = {Bartel, D.P.},
+	TITLE = {MicroRNAs: Genomics, Biogenesis, Mechanism and Function},
+	JOURNAL = {Cell},
+	VOLUME = {116},
+	PAGES = {281-297},
+	YEAR = {2004}
+}
+
+@ARTICLE{lee:93,
+	AUTHOR = {Lee, R.C. and Feinbaum, R.L. and  Ambros, V.},
+	TITLE = {The C. elegans heterochronic gene lin-4 encodes small RNAs with antisense complementarity to lin-14.},
+	VOLUME = {75},
+	NUMBER  = {5},
+	PAGES = {843-54},
+	JOURNAL = {Cell},
+	YEAR = {1993}
+}
+
+@ARTICLE{meister:04,
+	AUTHOR = {Meister, G. and Tuschl, T.},
+	TITLE = {Mechanisms of gene silencing by double-stranded RNA},
+	JOURNAL  = {Nature},
+	VOLUME = {431},
+	PAGES = {343-349},
+	YEAR = {2004}
+}
+
+@ARTICLE{khochbin:89,
+	AUTHOR = {Khochbin, S. and Lawrence, J.J.},
+	TITLE = {An antisense RNA involved in p53 mRNA maturation in murine erythroleukemia cells induced to differentiate.},
+	JOURNAL = {EMBO Journal},
+	YEAR = {1989},
+	VOLUME = {8},
+	NUMBER = {13},
+	PAGES = {4107-4114}
+}
+
+@ARTICLE{kimelman:89,
+	AUTHOR = {Kimelman, D. and Kirschner, M.W.},
+	TITLE = {An antisense mRNA directs the covalent modification of the transcript encoding fibroblast growth factor in Xenopus oocytes.},
+	JOURNAL = {Cell},
+	YEAR = {1989},
+	VOLUME = {59},
+	NUMBER = {4},
+	PAGES = {687-96} 
+}
+
+@ARTICLE{noguchi:94,
+	AUTHOR = {Noguchi, M. and Miyamoto, S. and Silverman, T.A. and  Safer, B.},
+	TITLE = {Characterization of an antisense Inr element in the eIF-2 alpha gene.},
+	JOURNAL = {Journal of Biological Chemistry},
+	YEAR = {1994},
+	VOLUME = {269},
+	NUMBER = {46},
+	PAGES = {29161-29167}
+}
+
+
+
+
+@ARTICLE{chen:04,
+	AUTHOR = {Chen, J. and Sun, M. and Kent, J. and Huang, X. and Xie, H. and Wang, W. and Zou, G. and Shi, R. Z. and Rowley, J.D.},
+	TITLE = {Over 20\% of human transcripts might form sense-antisense pairs},
+	JOURNAL = {Nucleic Acids Research},
+	VOLUME = {32},
+	NUMBER = {16},
+	PAGES = {4812-4820}
+}
+
+
+@ARTICLE{dahary:05,
+	AUTHOR = {Dahary, D. and Elroy-Stein, O. and Sorek, R.},
+	TITLE = {Naturally occuring antisense: Transcriptional leakage or real overlap},
+	JOURNAL = {Genome Research},
+	VOLUME = {15},
+	PAGES = {364-368},
+	YEAR = {2005}
+}
+
+@ARTICLE{haig:04,
+	AUTHOR = {Haig, H. and Kazazian, Jr.},
+	TITLE = {Mobile Elements: Drivers of Genome Evolution},
+	JOURNAL = {Science},
+	VOLUME = {303},
+	YEAR = {2004},
+	PAGES = {1626-1632}
+}
+
+@ARTICLE{shine:75,
+	AUTHOR = {Shine, J. and Dalgarno, L.},
+	JOURNAL = {Nature},
+	TITLE = {Determinant of cistron specificity in bacterial ribosomes},
+	VOLUME = {254},
+	NUMBER = {5495},
+	PAGES = {34-38},
+	YEAR = {1975}
+}
+
+@ARTICLE{kozak:99,
+	AUTHOR = {Kozak, M.},
+	TITLE = {Initiation of translation in prokaryotes and eukaryotes},
+	JOURNAL = {Gene},
+	VOLUME = {234}, 
+	NUMBER = {2}, 
+	YEAR = {1999},
+	PAGES =  {187-208}
+}
+
+@ARTICLE{weiner:02,
+	AUTHOR = {Weiner, A.},
+	JOURNAL = {Current Opinion in Cell Biology},
+	TITLE = {SINEs and LINEs: the art of biting the hand that feeds you},
+	VOLUME = {14},
+	PAGES = {343-350},
+	YEAR = {2002}
+}
+
+@ARTICLE{kozak:03,
+	AUTHOR = {Kozak, M.},
+	TITLE = {Alternative ways to think about mRNA sequences and proteins that appear to promote internal initiation of translation},
+	JOURNAL = {Gene},
+	VOLUME = {318},
+	PAGES = {1-23},
+	YEAR = {2003}
+}
+
+@ARTICLE{yano:04,
+	AUTHOR = {Yano, Y. and Saito, R. and Noriyuki, Y. and Yoshiki, A. and Wynshaw-Boris, A. and Tomita, M. and Hirotsune, S.},
+	TITLE = {A new role for expressed pseudogenes as ncRNA: regulation of mRNA stability of its homolgous coding gene},
+	JOURNAL = {Journal of Molecular Medicine},
+	VOLUME = {82},
+	PAGES = {414-422},
+	YEAR = {2004}
+}
+
+@ARTICLE{morey:04,
+	AUTHOR = {Morey, C. and Avner, P},
+	TITLE = {Employment opportunities for non-coding RNAs},
+	JOURNAL = {FEBS Letters},
+	VOLUME = {567},
+	PAGES = {27-34},
+	YEAR = {2004}
+}
+
+@ARTICLE{Melzack:65,
+	AUTHOR = {Melzack, R and Wall, P},
+	TITLE = {Pain Mechanisms: A New Theory},
+	JOURNAL = {Science},
+	YEAR = {1965},
+	VOLUME = {150},
+	PAGES = {971}
+}
+
+@ARTICLE{wilson:03,
+	AUTHOR = {Wilson, D.N. and Nierhaus, K.H.},
+	TITLE = {The Ribosome through the Looking Glass},
+	JOURNAL = {Angewandte Chemie Int. Ed.},
+	VOLUME = {42},
+	PAGES = {3464-3485},
+	YEAR = {2003}
+}	
+
+@ARTICLE{iwamoto:03,
+	AUTHOR = {Iwamoto, K. and Kato, T.},
+	TITLE = {RNA editing of Serotonin 2C receptor in human post-mortem brains of major mental disorders},
+	JOURNAL = {Neuroscience Letters},
+	YEAR = {2003},
+	VOLUME = {346},
+	NUMBER = {3},
+	PAGES = {169-172}
+}
+
+@ARTICLE{yang:03,
+	AUTHOR = {Yang, J.H. and Luo, X. and Nie, Y. and Su, Y. and Zhao, Q. and Kabir, K. and Zhang, D. and Rabinovici, R.},
+	TITLE = {Widespread inosine-containing mRNA in lymphocytes regulated by ADAR1 in response to inflammation},
+	JOURNAL = {Immunology},
+	VOLUME = {109},
+	NUMBER = {1},
+	PAGES = {15-23},
+	YEAR = {2003}
+}
+
+@ARTICLE{eisenberg:05,
+	AUTHOR = {Eisenberg, E. and Nemzer, S. and Kinar, Y. and Sorek, R. and Rechavi, G. and Levanon, E.Y.},
+	TITLE = {Is abundant A-to-I editing primate-specific?},
+	JOURNAL = {Trends in Genetics},
+	VOLUME = {21},
+	NUMBER = {2},
+	PAGES = {77-81},
+	YEAR = {2005} 
+}
+
+@ARTICLE{kapp:04,
+	AUTHOR = {Kapp, L.D. and Lorsch, J.R.},
+	TITLE = {The Molecular Mechanics of Eukaryotic Translation},
+	JOURNAL = {Annual Review of Biochemistry},
+	VOLUME = {73},
+	PAGES = {657-704},
+	YEAR = {2004}
+}
+
+@ARTICLE{lev:78,
+	AUTHOR = {Levine, J.D. and Gordon, N.C. and Fields, H.L.},
+	TITLE = {The mechanism of placebo analgesia},
+	JOURNAL = {Lancet},
+	VOLUME = {Sept 23},
+	PAGES = {654-657},
+	YEAR = {1978}
+}
+
+@ARTICLE{caterina:97,
+	AUTHOR = {Caterina, M.J. and Schumacher, M. and Tominaga, M. and Rosen, T.A. and Levine, J.D. and Julius, D.},
+	TITLE = {The capsaicin receptor, a heat-activated ion channel in the pain pathway},
+	JOURNAL = {Nature},
+	VOLUME = {389},
+	PAGES = {816-824},
+	YEAR = {1997}
+}
+
+@ARTICLE{thanbichler:05,
+	AUTHOR = {Thanbichler,M. and Viollier, P.H.and Shapiro,L.},
+	TITLE = {The structure and function of the bacterial chromosome},
+	JOURNAL = {Current Opinion in Genes and Development},
+	VOLUME = {15},
+	NUMBER = {2},
+	PAGES = {153-162},
+	YEAR = {2005}
+}
+
+@ARTICLE{sagi:04,
+	AUTHOR = {Sagi, D. and Friedman, N. and Vorgias, C. and Oppenheim, A. and Stavans, J.},
+	TITLE = {Modulation of DNA conformations through the formation of alternative higher-order HU-DNA complexes},
+	JOURNAL = {Journal of Molecular Biology},
+	VOLUME = {341},
+	PAGES = {419-428},
+	YEAR = {2004}	
+}
+
+@ARTICLE{nat:chip,
+	AUTHOR = {The Chipping Forecast},
+	TITLE = {The Chipping Forecast},
+	JOURNAL = {Nature Genetics},
+	VOLUME = {21},
+	YEAR = {1999},
+	PAGES = {Supplement}
+}
+
+@ARTICLE{bendich:00,
+	AUTHOR = {Bendich, A.J. and Drlica, K.},
+	TITLE = {Prokaryitic and eukaryotic chromosomes: what's the difference},
+	JOURNAL = {BioEssays},
+	VOLUME = {22},
+	YEAR = {2000},
+	PAGES = {481-486}
+}
+
+@ARTICLE{kitano:2002,
+	AUTHOR = {Kitano, H.},
+	TITLE = {Systems Biology: A Brief Overview},
+	JOURNAL = {Science},
+	VOLUME = {295},
+	PAGES = {662-664},
+	YEAR = {2002}
+}
+
+@ARTICLE{bednar:98,
+	AUTHOR = {Bednar,J. and Horowitz,R.A. and Grigoryev,S.A. and Carruthers,L.M. and Hansen,J.C.and Koster,A.J. and Woodcock, C.L.},
+	TITLE = {Nucleosomes,linker DNA, and linker histone form a unique structural motif that directs the higher order folding and compaction of chromatin},
+	JOURNAL = {Proceedings of the National Academy of Science, USA},
+	VOLUME = {95},
+	PAGES = {14173-14178},
+	YEAR = {1998}
+}
+
+@ARTICLE{turelli:05,
+ 	AUTHOR = {Turelli,P. and Trono, D.},
+	TITLE = {Editing at the Crossroad of Innate and Adaptive Immunity},
+	JOURNAL = {Science}, 
+	VOLUME = {307},
+	NUMBER = {5712},
+	PAGES = {1061-1065},
+	YEAR = {2005}
+}
+
+@ARTICLE{Yuen:02,
+	AUTHOR = {Yuen, T and Wurmbach, E. and Pfeffer, R.L. and Ebersole, B.J. and Sealfon, S.C.},
+	TITLE = {Accuracy and calibration of commercial oligonucleotide and custome cDNA microarrays},
+	JOURNAL = {Nucleic Acids Research},
+	VOLUME = {30},
+	NUMBER = {10},
+	PAGES = {e48},
+	YEAR = {2002}
+}
+
+@ARTICLE{irizzary:03,
+	AUTHOR = {Irizzary, R.A. and Bolstad, B.M. and Collin, F. and Cope, L.M. and Hobbs, B and Speed, T.P.},
+	TITLE = {Summaries of Affymetrix GeneChip Probe Level Data},
+	JOURNAL = {Nucleic Acids Research},
+	VOLUME = {31},
+	NUMBER = {4},
+	PAGES = {e15},
+	YEAR = {2003}
+}
+
+@ARTICLE{liwong:01,
+	AUTHOR = {Li, C. and Wong, W.},
+	TITLE = {Model-based analysis of oligonucleotide arrays: Expression index computation and outlier detection},
+	JOURNAL = {PNAS USA},
+	VOLUME = {98},
+	PAGES = {31-36},
+	YEAR = {2001}
+}
+
+@TECHREPORT{dudoit:00,
+	AUTHOR = {Dudoit, S. and Yang, Y. H. and Callow, M. and Speed, T.},
+	TITLE = {Statistical methods for identifying differentially expressed genes in replicated c{DNA} microarray experiments},
+	INSTITUTION = {Stanford University School of Medicine},
+	YEAR = {2000},
+	NUMBER = {578}
+}
+
+@TECHREPORT{irizarry:04,
+        AUTHOR = {Irizarry, R et al},
+        TITLE  = {Multiple Lab Comparison of Microarray Platforms},
+        INSTITUTION = {Johns Hopkins University Dept of Biostatistics},
+        YEAR = {2004},
+        NUMBER = {71}
+}
+
+@ARTICLE{bolstad:03,
+	AUTHOR = {Bolstad, B.M. and Irizarry, R.A. and Astrand, M. and Speed, T.P.},
+	TITLE = {A comparison of normalization methods for high density oligonucleotide array data based on bias and variance.},
+	JOURNAL = {Bioinformatics},
+	VOLUME = {19},
+	NUMBER = {2},
+	PAGES = {185-193},
+	YEAR = {2003}
+}
+
+@ARTICLE{quack:02,
+	AUTHOR = {Quackenbush, J.},
+	TITLE = {Microarray data normalisation and transformation},
+	JOURNAL = {Nature Genetics},
+	VOLUME = {32},
+	PAGES = {496-501},
+	YEAR = {2002}
+}
+
+@BOOK{westyoung,
+	AUTHOR = {Westfall, P.H. and Young, S.S.},
+	TITLE = {Resampling-Based Multiple Testing: Examples and Methods for p-values Adjustments},
+	PUBLISHER = {John Wiley and Sons},
+	SERIES = {Wiley series in probability and mathemetical statistics},
+	ADDRESS = {New york},
+	YEAR = {1992}
+}
+
+@ARTICLE{chung:92,
+	AUTHOR = {Kim,S.H. and Chung, J.M.},
+	TITLE = {An experimental model for peripheral neuropathy produced by segmental spinal nerve ligation in the rat},
+	JOURNAL = {Pain},
+	VOLUME = {50},
+	PAGES = {355-363},
+	YEAR = {1992}
+}
+
+@ARTICLE{Alon:99,
+	AUTHOR = {Alon,U. and Notterman, D.A. and Gish,K. and Ybarra, S. and Mack, D. and Levine, A.J},
+	TITLE = {Broad patterns of gene expression revealed by clustering analysis of tumour and normal colon tissues probed by oligonucleotide arrays},
+	JOURNAL = {PNAS, USA},
+	VOLUME = {96},
+	PAGES = {6745-6750},
+	YEAR = {1999}
+}
+
+@ARTICLE{wilusz:04,
+	AUTHOR = {Wilusz, C.J. and Wilusz, J},
+	TITLE = {Bringing the role of mRNA decay in the control of gene expression into focus},
+	JOURNAL = {Trends in Genetics},
+	VOLUME = {20},
+	NUMBER = {10},
+	PAGES = {491-497},
+	YEAR = {2004}
+}
+
+@MISC{holder:01,
+	AUTHOR = {Holder,D. and Raubertas,R.F. and Pikounis,B. and Svetnik,V. and Soper,K.},
+	TITLE = {Statistical Analysis of High Density Oligonucleotide Arrays: A SAFER Approach},
+	YEAR = {2001},
+	HOWPUBLISHED = { GeneLogic Workshop on Low Level Analysis of Affymetrix GeneChip Data}
+}
+
+@MISC{huber:bioC,
+	AUTHOR = {Huber,W},
+	TITLE = {Robust Calibration and Variance Stabilization with VSN},
+	HOWPUBLISHED = {Bioconductor Vignette},
+	YEAR = {2003}
+}
+
+@ARTICLE{margueron:05,
+	TITLE = {The key to development: interpreting the histone code?},
+	AUTHOR = {Margueron, R. and  Trojer, P. and Reinberg, D},
+	JOURNAL = {Current Opinion in Genetics and Development},
+	VOLUME = {15},
+	NUMBER = {2},
+	YEAR = {2005}, 
+	PAGES = {163-176}
+} 
+
+@ARTICLE{kamakaka:05,
+	AUTHOR = {Kamakaka,R.T. and Biggins, S.},
+	TITLE = {Histone variants: deviants?},
+	JOURNAL = {Genes and Development},
+	VOLUME = {19},
+	PAGES = {295-310},
+	YEAR = {2005}
+}
+
+@ARTICLE{Rocke:01,
+	AUTHOR = {Rocke, D. and Durbin, B.},
+	TITLE = {A Model for Measurement Error for Gene Expression Arrays},
+	JOURNAL = {Journal of Computational Biology},
+	VOLUME = {8},
+	PAGES = {557-569},
+	YEAR = {2001}
+}
+
+@ARTICLE{benhoch:95,
+	AUTHOR = {Benjamini, Y. and Hochberg, Y.},
+	TITLE = {Controlling the false discovery rate: A practical and powerful approach to multiple testing},
+	JOURNAL = {Journal of the Royal Statistical Society, Series B},
+	VOLUME = {85},
+	PAGES = {289-300},
+	YEAR = {1995}
+}
+
+@ARTICLE{storey:02,
+	AUTHOR = {Storey,J},
+	TITLE = {A Direct Approach to False Discovery Rates},
+	JOURNAL = {Journal of the Royal Statistical Society B},
+	VOLUME = {64},
+	NUMBER = {Part 3},
+	PAGES = {479-498},
+	YEAR = {2002}
+}
+
+@BOOK{longstaff,
+	AUTHOR = {Longstaff, A},
+	TITLE = {Neuroscience},
+	PUBLISHER = {BIOS Scientific Publishers},
+	SERIES = {Instant Notes},
+	ADDRESS = {Oxford},
+	YEAR = {2000}
+}
+
+@ARTICLE{huber:03,
+	AUTHOR = {Huber,W and Von Heydebreck, A and Sueltmann, H and Poustke, A and Vingron, M},
+	TITLE = {Parameter Estimation for the Calibration and Variance Stabilization of Microarray Data},
+	JOURNAL = {Statistical Applications in Genetics and Molecular Biology},
+	VOLUME = {2},
+	NUMBER = {1},
+	PAGES = {Article 3},
+	YEAR = {2003}
+}
+
+@ARTICLE{wernisch:02,
+	AUTHOR = {Wernisch,L and Kendall,S and Soneji,S and Wietzorrek,A and
+	Parish,T and Hinds,J and Butcher,P D and Stoker,N G},
+	TITLE = {Analysis of whole-genome microarray replicates using mixed
+	models},
+	JOURNAL = {Bioinformatics},
+	VOLUME ={19},
+	NUMBER = {1},
+	PAGES = {53-61},
+	YEAR = {2002}
+}
+
+@ARTICLE{hogan:02,
+	AUTHOR = {Hogan, Q},
+	TITLE = {Animal Pain Models},
+	JOURNAL = {Regional Anesthesia and Pain Medicine},
+	VOLUME = {27},
+	NUMBER = {4},
+	PAGES = {384-401},
+	YEAR = {2002}
+}
+
+@ARTICLE{workman:02,
+	AUTHOR = {Workman,C and Jensen, L.J. and Jarmer, H and Berka, R and
+	Gautier, L and Nielsen H.B. and Saxild, H and Nielsen, C and Brunak, S
+	and Knudsen, S},
+	TITLE = {A new non-linear normalisation method for reducing variability
+	in DNA microarray experiments},
+	JOURNAL = {Genome Biology},
+	VOLUME = {3},
+	NUMBER ={9},
+	PAGES = {research0048.1-0048.16},
+	YEAR = {2002}
+} 
+
+@ARTICLE{wollerton:01,
+	AUTHOR = {Wollerton, M.C. and Gooding, C. and Robinson, F. and Brown, E.C. and Jackson, R.J. and Smith, ,C.W.J.},
+	TITLE = {Differential alternative splicing activity or isoforms of polypyrimidine tract binding protein (PTB)},
+	JOURNAL = {RNA},
+	VOLUME = {7},
+	PAGES = {819-832},
+	YEAR = {2001},
+}
+
+@ARTICLE{phillips:01,
+	AUTHOR = {Phillips,C. and Jung, S. and Gunderson, S.I.},
+	JOURNAL = {EMBO Journal},
+	TITLE = {Regulation of nuclear poly(A) addition controls the expression of immunoglobulin M secretory mRNA},
+	VOLUME = {20},
+	PAGES = {6443–6452},
+	YEAR = {2001}
+}
+
+@ARTICLE{kuersten:03,
+	AUTHOR = {Kuersten, S. and Goodwin, E.B},
+	TITLE = {The Power of the 3$\prime$ UTR: Translational Control and Development},
+	JOURNAL = {Nature Reviews Genetics},
+	VOLUME = {4},
+	PAGES = {626-637},
+	YEAR = {2003}
+}
+
+@ARTICLE{yan:05,
+	AUTHOR = {Yan,J. and Marr, T.G.},
+	JOURNAL = {Genome Research},
+	TITLE = {Computational Analysis of 3$\prime$-ends of ESTs shows four classes of alternative polyadenylation in human, mouse and rat.},
+	VOLUME = {15},
+	PAGES = {369-375},
+	YEAR = {2005}
+}
+
+@ARTICLE{dillon:02,
+	AUTHOR = {Dillon, N. and Festenstein, R.},
+	TITLE = {Unravelling heterochromatin: competition between positive and negative factors regulates accessibility},
+	JOURNAL = {Trends in Genetics},
+	VOLUME = {18},
+	NUMBER = {5},
+	PAGES = {252-258},
+	YEAR = {2002}
+}
+
+@ARTICLE{tian:05,
+	AUTHOR = {Tian, B. and Hu, J. and Zhang, H. and Lutz,C.S.},
+	JOURNAL = {Nucleic Acids Research},
+	YEAR = {2005},
+	VOLUME = {33},
+	NUMBER = {1},
+	PAGES = {201-212} 
+}
+
+@ARTICLE{muller:30,
+	AUTHOR = {Muller, H.},
+	TITLE = {Types of visible variations induced by X-rays in drosophila},
+	JOURNAL = {Drosophila Journal of Genetics},
+	VOLUME = {22},
+	PAGES = {299-334},
+	YEAR = {1930}
+}
+
+@ARTICLE{gruber:03,
+	AUTHOR = {Gruber, T.M. and Gross, C.A.},
+	TITLE = {Multiple Sigma Subunits and the Partitioning of Bacterial Transcription Space},
+	JOURNAL ={Annual Review of Microbiology},
+	VOLUME = {57},
+	PAGES = {441-446},
+	YEAR = {2003}
+}
+
+@ARTICLE{levine:03,
+	AUTHOR = {Levine, M. and Tjian,R.},
+	TITLE = {Transcription regulation and animal diversity},
+	JOURNAL = {Nature},
+	VOLUME = {424},
+	PAGES = {147-151},
+	YEAR = {2003}
+}
+
+@ARTICLE{tusher:01,
+	AUTHOR = {Tusher,V.G and Tibshirani, R. and Chu,G.},
+	TITLE = {Significance Analysis of Microarrays Applied to the Ionizing
+	Radiation Response},
+	JOURNAL = {PNAS},
+	VOLUME = {98},
+	NUMBER = {9},
+	PAGES = {5116-5121},
+	YEAR = {2001}
+}
+
+@ARTICLE{wang:02,
+	AUTHOR = {Wang,H. and Sun,H. and Della Penna,R.J. and Benz,J. and Xu,D.L. and Gerhold,D.J. and Holder,D.J. and Koblan,K.S},
+	TITLE = {Chronic neuropathic pain is accompanied by global changes in gene expression and shares pathobiology with neurodegenerative diseases},
+	JOURNAL = {Neuroscience},
+	VOLUME = {114},
+	NUMBER = {3},
+	PAGES = {529-546},
+	YEAR = {2002}
+}
+
+@ARTICLE{woolf:02,
+	AUTHOR = {Costigan,M. and Befort,K. and Karchewski,L. and Griffin,R.S. and Da'Urso,D. and Allchorne,A. and Sitarski,J. and Mannion,J.W. and Pratt,R.E. and Woolf,C.J.},
+	TITLE = {Replicate high-density rat genome oligonucleotide microarrays reveal hundreds of regulated genes in the dorsal root ganglion after peripheral nerve injury},
+	JOURNAL = {BMC Neuroscience},
+	VOLUME = {3},
+	NUMBER = {16},
+	PAGES = {},
+	YEAR = {2002}
+}
+
+@ARTICLE{hunt:01,
+	AUTHOR = {Hunt,S.P. and Mantyh,P.W.},
+	TITLE = {The Molecular Dynamics of Pain Control},
+	JOURNAL = {Nature Reviews: Neuroscience},
+	VOLUME = {2},
+	PAGES = {83-91},
+	YEAR ={2001}
+}
+
+@ARTICLE{fuk:02,
+	AUTHOR = {Fukuoka,T. and Kondo,E. and Hashimoto,N and Noguchi,K},
+	TITLE = {Brain-Derived Neurotrophic Factor Increases in the Uninjured Dorsal Root Ganglion Neurons in Selective Spinal Nerve Ligation Model},
+	JOURNAL = {The Journal of Neuroscience},
+	VOLUME = {21},
+	NUMBER = {3},
+	PAGES = {4891-4900},
+	YEAR={2001}
+}
+
+@ARTICLE{watsonandcrick:53,
+	AUTHOR = {Watson,J. and Crick,F.},
+	TITLE = {Molecular Structure of Nucleic Acids},
+	JOURNAL = {Nature},
+	VOLUME = {171},
+	PAGES = {737-738},
+	YEAR={1953}
+}
+
+@ARTICLE{oudet:75,
+	AUTHOR = {Oudet,P. and Gross-Bellard, M. and Chambon, P.},
+	TITLE = {Electron Microscopic and Biochemical Evidence that Chromatin Structure Is a Repeating Structure},
+	JOURNAL = {Cell},
+	VOLUME = {4},
+	PAGES = {281-300},
+	YEAR ={1975}
+}
+
+@ARTICLE{singh-gasson:99,
+	AUTHOR = {Singh-Gasson,S. and Green, R.D. and Yue,Y. and Nelson, C. and Blattner, F. and Sussman, M.R. and Cerrina, F.},
+	TITLE = {Maskless fabrication of light-detected oligonucleotide microarrays using aa digital micromirror array},
+	JOURNAL = {Nature Biotechnology},
+	VOLUME = {17},
+	PAGES = {974-978},
+	YEAR = {1999}
+}
+
+
+@ARTICLE{woychik:02,
+	AUTHOR = {Woychick, N. and Hampsey, M.},
+	TITLE = {The RNA Polymerase II Machiney: Structure Illuminates Function},
+	JOURNAL = {Cell},
+	VOLUME = {108},
+	PAGES = {453-463},
+	YEAR ={2002}
+}
+
+@ARTICLE{myers:00,
+         AUTHOR = {Myers, L.C. and Kornberg, R.D.},
+         TITLE  = {Mediator of Transcriptional Rregulation},
+         JOURNAL = {Annual Review of Biochemistry},
+         VOLUME = {69},
+         PAGES = {729-749},
+         YEAR   = {2000}
+} 
+
+@ARTICLE{boeger:04,
+         AUTHOR = {Boeger, H. and Griesenbeck, J. and Strattan, J.S. and Kornberg, R.D.},
+        TITLE = {Removal of promoter nucleosomes by disassembly rather than sliding in vivo},
+        JOURNAL = {Molecular Cell},
+        VOLUME = {14},
+        NUMBER = {5},
+        PAGES  = {667-673},
+        YEAR ={2004}
+}
+
+@ARTICLE{boeger:03,
+        AUTHOR = {Boeger,H. and Griesenbeck,J.and Strattan, J.S. and Kornberg, R.D.},
+        TITLE = {Nucleosomes unfold completely at a transcriptionally active promoter},
+        JOURNAL = {Molecular Cell},
+        VOLUME = {11},
+        NUMBER = {6},
+        PAGES = {1587-1598},
+        YEAR   = {2003} 
+}
+
+@ARTICLE{agalioti:02,
+       AUTHOR = {Agalioti, T. and Chen, G. and Thanos, D.},
+       TITLE = {Deciphering the transcriptional histone acetylation code for a human gene},
+       JOURNAL ={Cell},
+       VOLUME = {111},
+       PAGES = {381-392},
+       YEAR = {2002}
+}
+
+@ARTICLE{turner:02,
+       AUTHOR = {Turner, B.M.},
+       TITLE = {Cellular Memory and the Histone Code},
+       JOURNAL = {Cell},
+       VOLUME = {111},
+       PAGES = {285-291},
+       YEAR = {2002}
+}
+
+@ARTICLE{valadkhan:01,
+       AUTHOR = {Valadkhan, S. and Manley, J.L.},
+       TITLE = {Splicing-related catalysis by protein-free snRNAs},
+       JOURNAL = {Nature},
+       VOLUME = {413},
+       PAGES = {701-706},
+       YEAR = {2001}
+}
+
+@ARTICLE{tange:04,
+       AUTHOR = {Tange, T.O. and  Nott, A. and Moore, M.J},
+       TITLE = {The ever-increasing complexities of the exon junction complex},
+       JOURNAL = {Current Opinion in Cell Biology},
+       VOLUME = {16},
+       PAGES = {279-284},
+       YEAR  = {2004}
+}
+
+@ARTICLE{noe:03,
+       AUTHOR = {Noe, V. and MacKenzie, S. and Ciudad, C.J},
+       TITLE = {An intron is required for dihydrofolate reductase protein stability},
+       JOURNAL = {Journal of Biological Chemistry},
+       VOLUME = {278},
+       PAGES = {38292-38300},
+       YEAR = {2003}
+}
+
+@ARTICLE{nott:04,
+       AUTHOR = {Nott, A. and Le Hir, H. and Moore, M.J.},
+       TITLE = {Splicing enhances translation in mammalian cells: an additional function of the exon junction complex},
+       JOURNAL = {Genes and Development},
+       VOLUME = {18},
+       PAGES = {210-222},
+       YEAR = {2004}
+}
+
+@ARTICLE{gonzales:01,
+       AUTHOR = {Gonzales, C.I. and Bhattacharya, A. and Wang, W. and Peltz, S. W.},
+       TITLE = {Nonsense-mediated mRNA decay in Saccharomyces cerevisiae},
+       JOURNAL = {Gene},
+       VOLUME = {274},
+       PAGES = {15-25},
+       YEAR = {2001}
+}
+
+@ARTICLE{hillman:04,
+       AUTHOR = {Hillman, R.T. and Green, R.E. and Brenner, S.E.},
+       TITLE = {An unappreciated role for RNA surveillance},
+       JOURNAL = {Genome Biology},
+       VOLUME = {5},
+       PAGES = {R8},
+       YEAR = {2004}
+}
+
+@ARTICLE{stoilov:04,
+      AUTHOR = {Stoilov, P. and Daoud, R. and Nayler, O. and Stamm, S.},
+      TITLE = {Human tra2-beta1 autoregulates its protein concentration by influencing alternative splicing of its pre-mRNA},
+      JOURNAL = {Human Molecular Genetics},
+      VOLUME = {13},
+      NUMBER = {5},
+      PAGES = {509-525},
+      YEAR = {2004}
+}
+
+@ARTICLE{stamm:02,
+      AUTHOR = {Stamm, S.},
+      TITLE  = {Signals and their transduction pathways regulating alternative splicing: a new dimension of the human genome},
+      JOURNAL = {Human Molecular Genetics},
+      VOLUME = {11},
+      NUMBER = {20},
+      PAGES = {2409-2416},
+      YEAR = {2002}
+}
+
+@ARTICLE{stamm:04,
+     AUTHOR = {Stamm,S. and Ben-Ari, S. and Rafalska,I. and Tang, Y. and Zhang, Z. and Toiber, D. and Thanaraj, T.A. and Soreq,H.},
+     TITLE = {Function of Alternative Splicing},
+     JOURNAL = {Gene},
+     VOLUME = {344},
+     PAGES = {1-20},
+     YEAR = {2004}
+}
+
+@ARTICLE{wollerton:04,
+    AUTHOR = {Wollerton,M.C. and Gooding,C. and Wagner, E.J. and Garcia-Blanco, M.A. and Smith, C.W.J.},
+    TITLE = {Autoregulation of Polypyrimidine Tract Binding Protein by Alternative Splicing Leading to Nonsense Mediated Decay},
+    JOURNAL = {Molecular Cell},
+    VOLUME = {13},
+    PAGES = {91-100},
+    YEAR = {2004}
+}
+      
+      
+@ARTICLE{amara:82,
+    AUTHOR = {Amara, S.G. and Jonas, V. and Rosenfeld, M.D. and Ong, E.S. and Evans, R.M.},
+    TITLE = {Alternative RNA processing in calcitonin gene expression generates mRNAs encoding different polypeptide products},
+    JOURNAL = {Nature},
+    VOLUME  = {298},
+    NUMBER = {5871},
+    PAGES = {240-241},
+    YEAR = {1982}
+}
+
+@ARTICLE{cote:90,
+    AUTHOR = {Cote, G.J. and Nguyen, I.N. and Bereget, S.M. and Gagel, R.F.},
+    TITLE  = {Calcitonin exon sequences influence alternative RNA processing},
+    JOURNAL = {Molecular Endocrinology},
+    VOLUME = {4},
+    NUMBER = {11},
+    PAGES = {1744-1749},
+    YEAR = {1990}
+}
+
+@ARTICLE{yeakley:93,
+    AUTHOR = {Yeakley, J.M. and Hedjran, F. and Morfin, J.P. and Merillat, N. and Rosenfeld, M.G. and Emeson, R.B.},
+    TITLE = {Control of Calcitonin/Calcitonin Gene Related Peptide Pre-mRNA Processing by Constitutive Intron and Exon Elements},
+    JOURNAL = {Molecular and Cellular Biology},
+    VOLUME = {13},
+    NUMBER = {10},
+    PAGES = {5999-6011},
+    YEAR = {1993}
+}
+
+@ARTICLE{jurica:03,
+   AUTHOR = {Jurica,M.S. and Moore, M.J.},
+   TITLE = {Pre-mRNA splicing:awash in a sea of proteins},
+   JOURNAL = {Cell},
+   VOLUME = {12},
+   NUMBER = {1},
+   PAGES = {5-14},
+   YEAR = {2003}
+}
+    
+@ARTICLE{burtis:89,
+   AUTHOR = {Burtis, K.C. and Baker, B.S.},
+   TITLE = {Crosophila doublesex gene controls somatic sexual differentiation by producing alternatively spliced mRNAs encoding related sex-specifc polypeptids},
+   JOURNAL = {Cell},
+   VOLUME = {56},
+   NUMBER = {6},
+   PAGES = {997-1010},
+   YEAR = {1989}
+}
+
+@ARTICLE{nagoshi:88,
+    AUTHOR = {Nagoshi, R.N. and McKeown, M. and Burtis, K.C. and Belote, J.M. and Baker, B.S.},
+    TITLE = {The control of alternative splicing at genes regulating sexual differentiation in D.melanogaster},
+    JOURNAL = {Cell},
+    VOLUME = {53},
+    NUMBER = {2},
+    PAGES = {229-236},
+    YEAR = {1988}
+}
+
+@ARTICLE{woo:04,
+     AUTHOR = {Woo, Y. and Affourtit, J. and Daigle, S. and Viale, A. and Johnson, K. and Naggert, J. and Chrchill, G.},
+    TITLE = {A comparison of cDNA, oligonucleotide and Affymetrix GeneChip expression microarray platforms},
+    JOURNAL = {Journal of Biomolecular Technology},
+    VOLUME = {15},
+    NUMBER = {4},
+    PAGES = {276-284},
+    YEAR = {2004}
+}
+
+@ARTICLE{tan:03,
+   AUTHOR = {Tan, P.K. and Downey, T.J. and Spitznagel, E.L. and Xu, P. and Fu.D. and Dimitrov, D.S. and Lempicki, R.A. and Raaka, B.M. Cam, M.C.},
+   TITLE = {Evaluation of gene expression measurements from commercial microarray platforms},
+   JOURNAL = {Nucleic Acids Research},
+   VOLUME = {31},
+   NUMBER = {19},
+   PAGES  = {5676-5684},
+   YEAR = {2003}
+}
+
+@ARTICLE{kothapalli:02,
+    AUTHOR = {Kothapalli, R. and Yoder, S.J. and Mane, S. and Loughran, T.P.},
+    TITLE = {Microarray results: How accurate are they?},
+    JOURNAL = {BMC Bioinformatics},
+    VOLUME = {3},
+    NUMBER = {1},
+    PAGES = {22},
+    YEAR = {2002}
+}
+
+@ARTICLE{mockler:05,
+    AUTHOR = {Mockler, T.C. and Ecker, J.R.},
+    TITLE = {Applications of DNA tiling arrays for whole-genome analysis},
+    JOURNAL = {Genomics},
+    VOLUME = {85},
+    PAGES = {1-15},
+    YEAR = {2005}
+}
+
+@ARTICLE{yamada:03,
+    AUTHOR = {Yamada, K. and Lim,J. and Dale,J.M. and Chen,H.and Shinn,P. and Palm, C.J. and Southwick, A.M. and WU, H.C. and Kim, C.and Nguyen, M. and Pham,P. and Cheuk, R. and Karlin-Newmann,G. and Liu,S.X.and Lam,B. and Sakano,H. and Wu,T. and Yu,G. and Miranda,M. and Quach,H.L. and Tripp,M. and Chang,C.H. and Lee,J.M. and Toriumi,M. and Chan, M.M. and Tang, C.C. and Onodera,C.S. and Deng, J.M. and Akiyama,K. and Ansari,Y. and Arakawa,T. and Banh,J. and Banno, F. and Bowser,L. and Brooks,S. and Carninci,P. and Chao,Q. and Choy,N. and Enju,A. and Goldsmith,A.D. and Gurjal,M. and Hansen,N.F. and Hayashizaki, Y. and Johnson-Hopson,C. and Hsuan,V.W. and Lida,K. and Karnes,M. and Khan,S. and Koesema,E. and Ishida,J. and Jiang,P.X. and Jones,T. and kawai,J. and Kamiya,A.and Myers,C. and Nakajima,M. and Narusaka,M. and Seki,M. and Sakurai,T. and Satou,M. and Tamse,R.and Veysberg,M. and Wallender,E.K. and Wong,C. and Yamamura,Y. and Yuan,S. and Shinozaki,K. and Davis,R.W. and Theologis,A. and Ecker,J.R.},
+    TITLE = {Empirical analysis of transcriptional activity in the Arabidopsis genome},
+     JOURNAL = {Science},
+     VOLUME = {302},
+     PAGES = {842-846},
+     YEAR = {2003}
+}
+
+@ARTICLE{cawley:04,
+    AUTHOR = {Cawley, S. and Bekiranov,S. and Ng,H.H. and Kapranov,P. and Sekinger,E.A. and Kampa,D.and Piccolboni,A. and Sementchenko,V. and Cheng, J.and Williams,A.J. and Wheeler,R. and Wong,B. and Drenkow,J. and Yamanka, M. and Patel,S. and Brubaker,S. and Tammana,H. and Helt,G. and Struhl,K. and Gingeras,T.R.},
+    TITLE = {Unbiased Mapping of Transcription Factor Binding Sites Along Human Chromosomes 21 and 22 Points to Widespread regulation of noncoding RNAs},
+    JOURNAL = {Cell},
+    VOLUME = {116},
+    PAGES = {499-509},
+    YEAR = {2004}
+}
+
+@ARTICLE{kapranov:02,
+   AUTHOR = {Kapranov, P. and Cawley, S.E. and Drenkow,J. and Bekiranov,S. and Stausberg,R.L. and Fodor,S.P.and Gingeras,T.R. },
+   TITLE = {Large Scale Transcriptional Activity in Chromosomes 21 and 22},
+   JOURNAL = {Science},
+   VOLUME = {296},
+   PAGES = {916-919},
+   YEAR = {2002}
+}
+
+@ARTICLE{kampa:04,
+   AUTHOR = {Kampa, D and Cheng,J. and Kapranov,P. and Yamanka,M. and Brubaker,S.and Cawley,S. and Drenkow,J. and Piccolboni,A. and Bekiranov,S. and Helt,G. and Tammana,H. and Gingeras,T.R.},
+   TITLE = {Novel RNAs identified from an in-depth analysis of the transcriptome of human chromosomes 21 and 22},
+   JOURNAL = {Genome Research},
+   VOLUME  = {14},
+   PAGES = {331-342},
+   YEAR = {2004}
+}
+
+@ARTICLE{johnson:03,
+   AUTHOR = {Johnson, J.M. and Castle,J. and Garret-Engle,P. and Kan,Z. and Loerch,P.M. and Armour,C.D. and Santos,R. and Schadt, E.E. and Stoughton,R. and Shoemaker,D.D.},
+   TITLE = {Genome-wide survey of human alternative pre-mRNA splicing with exon junction microarrays},
+   JOURNAL = {Science},
+   VOLUME = {302},
+   PAGES  = {2141-2144},
+   YEAR = {2003}
+}
+
+@ARTICLE{clark:02,
+   AUTHOR = {Clark, T.A.and Sugnet, C.W. and Ares, M.},
+   TITLE = {Genomewide analysis of mRNA processing in yeast using splicing-specific microarrays},
+   JOURNAL = {Science},
+    VOLUME = {296},
+    PAGES = {907-910},
+    YEAR = {2002}
+}
+
+@ARTICLE{castle:03,
+   AUTHOR = {Castle,J and Garret-Engele,P. and Armour,C.D. and Duenwald,S.J. and loech,P.M. and Meyer,M.R. and Schadt,E.E. and Stoughton,R. and Parrish,M.L. and Shoemaker,D.D. and Johnson,J.M.},
+   TITLE = {Optimization of oligonucleotide arrays and RNA amplification protocols for analysis of transcript structure and alternative splicing},
+   JOURNAL  = {Genome Biology},
+   VOLUME = {4},
+   PAGES = {R26},
+   YEAR = {2003}
+}
+
+@ARTICLE{rinn:03,
+   AUTHOR = {Rinn, J.L. and Euskirchen, G. and Bertone,P. and Martone,R. and Luscombe,N.M. and Hartman,S. and Harrison,P.M. and Nelson,F.K. and Miller,P. and Gerstein,M. and Weissman,S. and Snyder,M.},
+  TITLE = {The Transcriptional Activity of Human Chromosome 22},
+  JOURNAL = {Genes and Development},
+  VOLUME = {17},
+  PAGES = {529-540},
+  YEAR = {2003}
+}
+
+@ARTICLE{buck:04, 
+   AUTHOR = {Buck, M.J. and Lieb, J.D.},
+   TITLE = {ChIP-chip:Considerations for the design, analysis and application of genome wide chromatin immuno-precipitation experiments},
+   JOURNAL = {Genomics},
+   VOLUME = {83},
+   PAGES = {349-360},
+   YEAR = {2004}
+}
+
+@ARTICLE{wang:96,
+   AUTHOR = {Wang, J.C.},
+   TITLE = {DNA Topoisomerases},
+   JOURNAL = {Annual Review of Biochemistry},
+   VOLUME = {65},
+   PAGES  = {635-639},
+   YEAR = {1996}
+}
+
+@ARTICLE{boube:02,
+   AUTHOR = {Boube, M and Joulia,L. and Cribbs, D.L. and Bourbon, H.M},
+   TITLE = {Evidence for a mediator of RNA polymerase transcriptional regulation conserved from yeast to man},
+   JOURNAL = {Cell},
+   VOLUME = {110},
+   PAGES = {143-151},
+   YEAR = {2002}
+}
+
+@ARTICLE{kadonaga:04,
+   AUTHOR = {Kadonaga,J.T.},
+   TITLE = {Regulation of RNA Polymerase II Transcription by Sequence-Specific DNA Binding Factors},
+   JOURNAL = {Cell},
+   VOLUME = {116},
+   PAGES = {247-257},
+   YEAR = {2004}
+}
+
+@ARTICLE{khorasanizadeh:04,
+   AUTHOR = {Khorasanizadeh, S.},
+   TITLE = {The Nucleosome: From Genomic Organization to Genomic Regulation},
+   JOURNAL = {Cell},
+   VOLUME = {116},
+   PAGES = {259-272},
+   YEAR = {2004}
+}
+
+@ARTICLE{lipman:04,
+	AUTHOR = {Lipman, A. and Matienssen, R.},
+	TITLE = {The role of RNA interference in heterochromatic silencing},
+	JOURNAL = {Nature},
+	VOLUME = {431},
+	PAGES = {364-370},
+	YEAR  = {2004}
+}
+
+@ARTICLE{gilbert:78,
+    AUTHOR = {Gilbert, W.},
+    TITLE = {Why are genes in pieces},
+    JOURNAL = {Nature},
+    VOLUME = {271},
+    NUMBER = {5641},
+    PAGES = {501},
+    YEAR = {1978}
+}
+
+@ARTICLE{hamilton:99,
+   AUTHOR = {Hamilton, A.J. and Baulcombe,J.C.},
+   TITLE = {A species of small antisense RNA in posttranscriptional gene silencing in plants},
+   JOURNAL = {Science},
+   VOLUME = {286},
+   PAGES = {950-952},
+   YEAR = {1999}
+}
+
+@ARTICLE{ambros:03,
+    AUTHOR = {Ambros, V. and Bartel, D.P. and Burge, C.B. and Carrington, J.C.. andChen, X. and Dreyfuss, G. and Eddy, S.R.. and Griffiths-Jones, S.. and Marshall,M.},
+    TITLE = {A uniform system for microRNA annotation},
+    JOURNAL = {RNA},
+    VOLUME = {9},
+    PAGES = {277-279},
+    YEAR = {2003}
+}
+
+@ARTICLE{rhoades:02,
+   AUTHOR = {Rhoades, M.W. and Reinhart, B.J. and Lim, L.P. and Burge, C.B. and Bartel, B. and Bartel, D.P.},
+   TITLE = {Prediction of plant microRNA targets},
+   JOURNAL = {Cell},
+   VOLUME = {110},
+   PAGES = {513-520},
+   YEAR = {2002}
+}
+
+@ARTICLE{matzke:03,
+   AUTHOR = {Matzke,M. and Matzke, A.J.M.},
+   TITLE = {RNAi Extends its Reach},
+   JOURNAL = {Science},
+   VOLUME = {301},
+   NUMBER = {5636},
+   PAGES = {1060-1061},
+   YEAR = {2003}
+}
+
+@ARTICLE{shramke:03,
+    AUTHOR = {Shramke, V. and Allshire, R.},
+    TITLE = {Hairpin RNAs and Retrotransposon LTRs Effect RNAi and Chromatin-Based Gene Silencing},
+    JOURNAL = {Science},
+    VOLUME = {301},
+    NUMBER = {5636},
+    PAGES = {1069-1074},
+    YEAR = {2003}
+}
+
+@ARTICLE{morley:04,
+   AUTHOR = {Morley, C. and Avner, P.},
+   TITLE = {Employment Opportunities for non-coding RNAs},
+   JOURNAL = {FEBS Letters},
+   VOLUME = {567},
+   NUMBER = {1},
+   PAGES = {27-34},
+   YEAR = {2004}
+}
+
+@ARTICLE{lim:03,
+    AUTHOR = {Lim, L.P. and Glasner, M.E. and Yekta, S. and Burge, C.B. and Bartell, D.P},
+    TITLE = {Vertebrate MicroRNA Genes},
+    JOURNAL = {Science},
+    VOLUME = {299},
+    NUMBER = {5612},
+    PAGES = {1540},
+    YEAR = {2003} 
+}
+
+@ARTICLE{vanhee-brossollet:98,
+    AUTHOR = {Vanhee-Brossollet, C. and Vaquero, C.},
+    TITLE = {Do natural antisense transcripts make sense in eukaryotes},
+    JOURNAL = {Gene},
+    VOLUME = {211},
+    NUMBER = {1},
+    PAGES = {1-9},
+    YEAR = {1998}
+}
+
+@ARTICLE{kiyosawa:03,
+   AUTHOR = {Kiyosawa,H. and Yamanaka,I. and Osato, N. and Kondo, S. and RIKEN GER Group and GSL Members and Hayashizaki,Y.},
+   TITLE = {Antisense Transcripts With FANTOM2 Clone Set and Their Implications for Gene Regulation},
+   JOURNAL = {Genome Research},
+   VOLUME = {13},
+   PAGES = {1324-1334},
+   YEAR = {2003}
+}
+
+@ARTICLE{yelin:03,
+   AUTHOR = {Yelin, R. and Dahary,D. and Sorek,R. and Levanon, E.Y. and Goldstein, O. and Shoshan, A. and Diber, A. and Biton, S. and Tamir, Y. and Khosravi, R. and Nemzer, S. and Pinner, E. and Walach,S. and Bernstein, J. and Savitsky, K. and Galit,R.},
+   TITLE = {Widespread occurence of antisense transcription in the human genome},
+   JOURNAL = {Nature Biotechnology},
+   VOLUME ={21},
+   NUMBER = {4},
+   PAGES = {379-386},
+   YEAR = {2003}
+}
+
+@ARTICLE{rougeulle:02,
+   AUTHOR = {Rougeulle, C. and Heard, E},
+   TITLE =  {Antisense RNA in imprinting: spreading silence through Air},
+   JOURNAL = {Trends in Genetics},
+   VOLUME = {18},
+   NUMBER = {9},
+   PAGES = {434-437},
+   YEAR = {2002}
+}
+
+@ARTICLE{brown:91,
+   AUTHOR = {Brown, C.J. and Ballabio, A. and Rupert, J.L. and Lafreniere, R.G. and Grompe, M.. and Tonlorenzi, R. and Willard, H.F.},
+   TITLE = {A gene from the region of the human X inactivation centre is expressed exclusively from the inactive X chromosome},
+   JOURNAL = {Nature},
+   VOLUME = {349},
+   NUMBER = {6304},
+   PAGES = {38-44},
+   YEAR = {1991}
+}
+
+@ARTICLE{volpe:02,
+   AUTHOR = {Volpe, T.A. and Kidner, C. and Hall, I.M. and Teng, G. and Grewal,S.I.S. and Martienssen, R.A.},
+   TITLE = {Regulation of heterochromatic silencing and histone H3 lysine-9 methylation by RNAi},
+   JOURNAL = {Science},
+   VOLUME = {297},
+   NUMBER = {5588},
+   PAGES = {1833-1837},
+   YEAR = {2002}
+}
+
+@ARTICLE{gerber:03,
+   AUTHOR = {Gerber, M. and Shilatifard, A.},
+   TITLE = {Transcriptional elongation by RNA polymerase II and histone methylation},
+   JOURNAL = {The Journal of Biological Chemistry},
+   VOLUME = {278},
+   NUMBER = {29},
+   PAGES = {26303-26306},
+   YEAR = {2003}
+}
+
+@ARTICLE{shoemaker:01,
+   AUTHOR = {Shoemaker, D.D.and Schadt,E.E. and Armour, C.D. and He,Y.D. and Garret-Engle, P. and McDonagh P.D. and Loerch, P.M. and Leonardson, A. and Lum, P.Y. and Cavet,G. and Wu, L.F. and Altschuler, S.J. and Edwards, S. and King, J. and Tsang, J.S. and Schimmacl, G. and Schelter, J.M. and Koch, J. and Ziman, M. and Marton, M.J. and Li,B. and Cundiff, P. and Ward, T. and Castle, J. and Krolewski,M. and Meyer,M.R. and Mao,M. and Burchard,J. and Kidd, M.J. and Dai, H. and Phillips, J.W. and Linsley, P.S. and Stoughton, R. and Scherer, S. and Boguski, M.S.},
+   TITLE = {Experimental annotation of the human genome using microarray technology},
+   JOURNAL = {Nature},
+   VOLUME = {409},
+   PAGES = {922-927},
+   YEAR = {2001} 
+}
+
+@ARTICLE{storz:05,
+   AUTHOR = {Storz,G. and Altuvia, S. and Wassarman, K.M.},
+   JOURNAL = {Annual Review of Biochemistry},
+   TITLE = {An abundance of RNA regulators},
+   VOLUME = {74},
+   PAGES = {199-217},
+   YEAR = {2005}
+}
+
+@ARTICLE{delihas:01,
+   AUTHOR = {Delihas, N.and Forst,S.},
+   TITLE  = {MicF: an antisense RNA gene involved in response of Escherichia coli to global stress factors},
+   JOURNAL = {Journal of Molecular Biology},
+   VOLUME = {313},
+   NUMBER = {1},
+   PAGES = {1-12},
+   YEAR = {2001},
+}
+
+@ARTICLE{suzuki:04,
+   AUTHOR = {Suzuki, M. and Hayashizaki,Y.},
+   TITLE = {Mouse-centric comparative transcriptomics of protein coding and non-coding RNAs},
+   JOURNAL = {BioEssays},
+   VOLUME = {26},
+   PAGES = {833-843},
+   YEAR = {2004},
+}
+
+@ARTICLE{reuter:99,
+   AUTHOR = {Reuter,S.M. and Dawson, T.R. and Emeson,R.B.},
+   TITLE = {Regulation of alternative splicing by RNA editing},
+   JOURNAL = {Nature},
+   VOLUME = {399},
+   PAGES = {75-80},
+   YEAR = {1999}
+}
+
+@ARTICLE{kim:04,
+   AUTHOR = {Kim, D.D.Y. and Kim, T.T.Y. and Walsh,T. and Kobayashi, Y. and Matise, T.C. and Buyske, S. and Gabriel,A.},
+   TITLE = {Widespread RNA editing of embedded Alu elements in te human transcriptome},
+   JOURNAL = {Genome Research},
+   VOLUME = {14},
+   PAGES = {1719-1725},
+   YEAR = {2004}
+}
+
+
+@ARTICLE{tonkin:03,
+   AUTHOR = {Tonkin, L.A. and Bass, B.L.},
+   TITLE = {Mutations in RNAi rescue abberrant chemotaxis of ADAR mutants},
+   JOURNAL = {Science},
+   VOLUME = {302},
+   PAGES = {1725},
+   YEAR = {2003}
+}
+
+
+@ARTICLE{higuchi:93,
+   AUTHOR = {Higuchi,M. and Single, F.N. and Kohler,M. and Sommer, B. and Sprengel,R. and Seeburg, P.H},
+   TITLE = {RNA editing of AMPA receptor subunit GluR-B: A base-paired intron-exon structre determines position and efficiency},
+   JOURNAL = {Cell},
+   VOLUME = {75},
+   PAGES = {1361-1370},
+   YEAR = {1993}
+}
+
+@ARTICLE{burns:97,
+   AUTHOR = {Burns,C.M. and Chu, H. and Rueter,S.M. and Hutchinson,L.K. and Canton,H. and Sandersd-Bush, E. and Emeson,R.B.},
+   TITLE = {Regulation of serotonin-2C receptor G protein coupling by RNA editing},
+   JOURNAL = {Nature},
+   VOLUME = {387},
+   PAGES = {303-308},
+   YEAR = {1997}
+}
+
+@ARTICLE{hopper:03,
+	AUTHOR = {Hopper, A.K. and Phizicky, E.M.},
+	TITLE = {tRNA transfers to the limelight},
+	JOURNAL = {Genes and Development},
+	VOLUME = {17},
+	NUMBER = {2},
+	PAGES = {162-180},
+	YEAR = {2003}
+}
+
+
+@ARTICLE{tang:05,
+	AUTHOR = {Tang, G.},
+	TITLE = {siRNA and miRNA: an insight into RISCs},
+	JOURNAL = {Trends in Biochemical Sciences},
+	VOLUME = {30},
+	NUMBER = {2},
+	YEAR = {2005}, 
+	PAGES = {106-114}
+
+}
+
+@ARTICLE{morse:02,
+   AUTHOR = {Morse, D.P. and Aruscavage,P.J. and Bass, B.L.},
+   TITLE = {RNA hairpins in non-coding regions of human brain and caenorhabditis elegans mRNA are edited by adenosine deaminases that act on RNA},
+   JOURNAL = {Procedures of the National Academy of Science},
+   VOLUME = {99},
+   PAGES = {7906-7911},
+   YEAR = {2002}
+}
+
+@ARTICLE{mattick:03,
+   AUTHOR = {Mattick,J.S.},
+   TITLE = {Challenging the dogma: the hidden layer of non-protein-coding RNAs in complex organisms},
+   JOURNAL = {BioEssays},
+   VOLUME = {25},
+   PAGES = {930-939},
+   YEAR = {2003}
+}
+
+@ARTICLE{mattick:01,
+   AUTHOR = {Mattick,J.S. and Gagen, M.J.},
+   TITLE = {The evolution of controlled multi-tasked gene networks: the role of introns and other non-coding RNAs in the development of complex organsisms.},
+   JOURNAL = {Molecular Biology of Evolution},
+   VOLUME = {18},
+   PAGES = {1611-1630},
+   YEAR = {2001}
+}
+
+@ARTICLE{herbert:99,
+   AUTHOR = {Herbert,A. and Rich,A.},
+   TITLE = {RNA processing and the evolution of eukaryotes},
+   JOURNAL = {Nature Genetics},
+   VOLUME = {21},
+   PAGES = {265-268},
+   YEAR = {1999}
+}
+
+@ARTICLE{mangus:04,
+   TITLE = {Poly(A)-binding proteins: multifunctional scaffolds for the post-transcriptional control of gene expression.},
+   AUTHOR = {Mangus, D.A. and  Evans, M.C. and Jacobson A.},
+   JOURNAL = {Genome Biology},
+   YEAR =  {2003},
+   VOLUME={4},
+   NUMBER={7},
+   PAGES={223}
+}
+
+
+@ARTICLE{maas:02,
+	AUTHOR = {Mass,S. and Rich, A. and Nishikura,K.},
+	TITLE = {A-to-I Editing: Recent News and Residual Mysteries},
+	JOURNAL = {The Journal of Biological Chemistry},
+	VOLUME = {278},
+	NUMBER = {3},
+	PAGES = {1391-1394},
+	YEAR = {2002}
+}
+
+@ARTICLE{blanc:02,
+	AUTHOR = {Blanc,V. and Davidson,N.O},
+	TITLE = {C-to-U RNA Editing: Mechanisms Leading to Genetic Diversity},
+	JOURNAL = {The Journal of Biological Chemistry},
+	VOLUME = {273},
+	NUMBER = {3},
+	PAGES = {1395-1398},
+	YEAR = {2002}
+}
+
+@ARTICLE{web:catalyst,
+    AUTHOR = { Sebastian Riedel },
+    TITLE= { Catalyst },
+    JOURNAL = {},
+    URL = { http://catalyst.perl.org },
+    YEAR = {2006}
+}
+
+@ARTICLE{web:catb,
+	AUTHOR = { Eric Raymond },
+	TITLE = {The Cathedral and The Bazaar},
+	JOURNAL = {},
+	URL = {http://www.catb.org/~esr/writings/cathedral-bazaar/cathedral-bazaar/},
+	YEAR = {2006}
+}
+
+@ARTICLE{web:eufloss,
+	AUTHOR = {EU},
+	URL = {http://www.infonomics.nl/FLOSS/report/},
+  	JOURNAL = {},
+	TITLE = {EU Report on Free, Libre and Open Source Software(FLOSS)},
+	YEAR = {2005}	
+	
+}
+
+@ARTICLE{web:mvc,
+	AUTHOR={Sun},
+	URL={http://java.sun.com/blueprints/patterns/MVC-detailed.html},
+	JOURNAL={},
+	TITLE={MVC},
+	YEAR={}
+}
+
+@ARTICLE{web:cpan,
+	AUTHOR = {},
+	URL = {http://search.cpan.org}, 
+	TITLE = {Comprehensive Perl Archive Network (CPAN)},
+	JOURNAL ={},
+	YEAR ={}
+}
+
+@ARTICLE{wiki:css,
+	AUTHOR={},
+	TITLE={Wiki Styling},
+	URL={http://bioinformatics.essex.ac.uk/lpcwiki/pmwiki.php/MATDevDoc/CSS},
+	JOURNAL={},
+	YEAR={}
+}
+
+@ARTICLE{web:winscp,
+	AUTHOR={},
+	TITLE={WinSCP},
+	URL={http://winscp.net/eng/index.php},
+	JOURNAL={},
+	YEAR={}
+}
+
+@ARTICLE{web:file_find,
+	AUTHOR={},
+	TITLE={File::Find},
+	URL={http://search.cpan.org/~rclamp/File-Find-Rule-0.28/lib/File/Find/Rule.pm},
+	JOURNAL={},
+	YEAR={}
+}
+
+@ARTICLE{web:prototype,
+	AUTHOR={},
+	TITLE={Prototype},
+	URL={http://prototype.conio.net/},
+	JOURNAL={},
+	YEAR={}
+}
+
+@ARTICLE{web:scriptaculous,
+	AUTHOR={},
+	TITLE={Scriptaculous},
+	URL={http://script.aculo.us},
+	JOURNAL={},
+	YEAR={}
+}
+
+@ARTICLE{kim:05,
+	AUTHOR = {Kim, V.N.},
+	TITLE = {MicroRNA BIOGENESIS: COORDINATED CROPPING AND DICING},
+	JOURNAL = {Nature Reviews Molecular Cell Biology},
+	VOILUME = {6},
+	PAGES = {376-385},
+	YEAR = {2005}
+}
+
+@ARTICLE{schmeing:03,
+	AUTHOR = {Schmeing, T.M. and Moore, P.B. and Steitz, T.A},
+	TITLE = {Structures of deacylated tRNA mimics bound to the E site of the large ribosomal subunit},
+	JOURNAL = {RNA}, 
+	YEAR = {2003},
+	VOLUME = {9},
+	PAGES = {1345-1352}
+}
+
+@ARTICLE{raska:04,
+	AUTHOR = {Raška, I. and Koberna, K. and Malínský, J. and Fidlerová, H. and Mašata,M.}, 
+	TITLE = {The nucleolus and transcription of ribosomal genes},
+	JOURNAL = {Biology of the Cell},
+	VOLUME = {96}, 
+	NUMBER = {8},
+	PAGES = {579-594}, 
+	YEAR = {2004}
+}
+
+
+@MISC{web:hooke,
+   AUTHOR = {http://www.park.edu},
+   TITLE = {http://www.park.edu/bhoffman/courses/bi350/recap/microsci.htm},
+   MONTH = {March},
+   YEAR = {2005}
+}
+
+@MISC{web:mam_ai_edit,
+	TITLE = {http://www.jbc.org/cgi/content/full/278/3/1391/F2},
+	AUTHOR = {http://www.jbc.org},
+	YEAR = {2005}
+}
+
+@MISC{web:prokeuk,
+   AUTHOR = {http://rst.gfsc.nasa.gov},
+   TITLE = {http://rst.gfsc.nasa.gov/Sect20/A12.html},
+   MONTH =  {March},
+   YEAR = {2005}
+}
+
+@MISC{web:nucstruct,
+   AUTHOR = {http://genetics.biol.ttu.edu},
+   TITLE = {http://genetics.biol.ttu.edu/Lecture/red17.html},
+   MONTH = {March},
+   YEAR = {2005}
+}
+
+@MISC{web:nucac,
+   AUTHOR = {http://binfo.ym.edu.tw},
+   TITLE = {http://binfo.ym.edu.tw/mb/images/tc\_mech.jpg},
+   MONTH = {March},
+   YEAR = {2005}
+}
+
+@MISC{web:simpnucac,
+   AUTHOR = {http://web.siumed.edu},
+   TITLE = {http://web.siumed.edu/~bbartholomew/course\_material/nucleic\_acids.html},
+   MONTH = {March},
+   YEAR = {2005}
+}
+
+@MISC{web:deoxy,
+   AUTHOR = {http://da.wikipedia.org},
+   TITLE = {http://da.wikipedia.org/wiki/Billede:Deoxyribose.png},
+   MONTH = {March},
+   YEAR = {2005}
+}
+
+@MISC{web:rna_bases,
+   AUTHOR = {www.cat.cc.md.us},
+   TITLE = {http://www.cat.cc.md.us/courses/bio141/lecguide/unit1/prostruct/rna/fg29.html},
+   MONTH = {March},
+   YEAR = {2005}
+}
+
+@MISC{web:dna_bases,
+   AUTHOR = {www.cat.cc.md.us},
+   TITLE = {http://www.cat.cc.md.us/courses/bio141/lecguide/unit4/genetics/DNA/DNA/fg4.html},
+   MONTH = {March},
+   YEAR= {2005}
+}
+
+@MISC{web:hbond,
+   AUTHOR = {http://www.web\-books.com},
+   TITLE = {http://www.web\-books.com/MoBio/Free/Ch3B.htm},
+   YEAR = {2005}
+}
+
+@MISC{web:splice_cons,
+   AUTHOR = {http://www.web\-books.com},
+   TITLE = {http://www.web-books.com/MoBio/Free/Ch5A4.htm},
+   YEAR = {2005}
+}
+
+@MISC{web:hbond2,
+   AUTHOR = {http://www.agen.ufl.edu},
+   TITLE = {http://www.agen.ufl.edu/~chyn/age2062/lect/lect\_02/3\_36.gif},
+   YEAR = {2005}
+}
+
+@MISC{web:dnahelix,
+   AUTHOR = {http://www.blc.arizona.edu},
+   TITLE = {http://www.blc.arizona.edu/Molecular\_Graphics/DNA\_Structure/DNA\_Tutorial.HTML},
+   YEAR = {2005}
+}
+
+@MISC{web:ribose,
+   AUTHOR = {http://www.kfunigraz.ac.at},
+   TITLE = {http://www.kfunigraz.ac.at/imhwww/lehre/ribose.jpg},
+   YEAR = {2005}
+}
+
+@MISC{web:uracil,
+   AUTHOR = {www.genome.gov},
+   TITLE = {http://www.genome.gov/Pages/Hyperion/DIR/VIP/Glossary/Illustration/uracil.shtml} ,
+   YEAR = {2005}
+}
+
+@MISC{web:denature,
+   AUTHOR = {web.siumed.edu},
+   TITLE = {http://web.siumed.edu/~bbartholomew/images/chapter5/F05-14.jpg},
+   YEAR = {2005}
+}
+
+@MISC{web:beads_ona_string,
+   AUTHOR = {http://www.mun.ca},
+   TITLE = {http://www.mun.ca/biology/desmid/brian/BIOL2250/Week\_Two/1GeneW2b.html},
+   YEAR = {2005}
+}
+
+@MISC{web:prok_transcription,
+   AUTHOR = {http://www.csu.edu.au},
+   TITLE = {http://www.csu.edu.au/faculty/health/biomed/subjects/molbol/images/7\_9.jpg},
+   YEAR = {2005}
+}
+
+@MISC{web:post_tsc_mod,
+   AUTHOR = {http://cenocracy.topcities.com},
+   TITLE = {http://cenocracy.topcities.com/Transcription.gif},
+   YEAR = {2005}
+}
+
+@MISC{web:cap,
+    AUTHOR = {www.mun.ca},
+    TITLE = {http://www.mun.ca/biology/desmid/brian/BIOL2060/CellBiol19/CB19\_19.html},
+    YEAR = {2005}
+}
+
+@MISC{web:capping,
+   AUTHOR = {http://departments.oxy.edu},
+   TITLE = {http://departments.oxy.edu/biology/Stillman/bi221/111300/processsing\_of\_hnrnas.htm},
+   YEAR = {2005}
+}
+
+@MISC{web:polya,
+   AUTHOR = {http://departments.oxy.edu},
+   TITLE = {http://departments.oxy.edu/biology/Stillman/bi221/111300/processsing\_of\_hnrnas.htm},
+   YEAR = {2005}
+}
+
+@MISC{web:splicing_reaction,
+   AUTHOR = {http://163.238.8.180},
+   TITLE = {http://163.238.8.180/~davis/Bio\_127/lectures/Post\_tx\_Processes/transeterification.JPG},
+   YEAR = {2005}
+}
+
+@MISC{web:atac_splice, 
+   AUTHOR = {http://www.reactome.org},
+   TITLE = {http://www.reactome.org},
+   YEAR = {2005}
+}
+
+@MISC{web:splice_types,
+   AUTHOR = {http://www.exonhit.com},
+   TITLE = {http://www.exonhit.com},
+   YEAR = {2005}
+}
+
+@MISC{web:tRNA,
+   AUTHOR = {http://www.biochem.uwo.ca}, 
+   TITLE = {http://www.biochem.uwo.ca/meds/medna/tRNA.html},
+   YEAR = {2005}
+}
+
+@MISC{web:transalt,
+   AUTHOR = {http://cellbio.utmb.edu},
+   TITLE ={http://cellbio.utmb.edu/cellbio/ribosome.html},
+   YEAR = {2005}
+}
+
+@MISC{web:calca,
+   AUTHOR = {http://homepages.strath.ac.uk},
+   TITLE = {http://homepages.strath.ac.uk/~dfs99109/Brain/PeptideReg.html},
+   YEAR ={2005}
+}
+
+@MISC{web:sxl,
+   AUTHOR = {http://cmgm.stanford.edu},
+   TITLE = {http://cmgm.stanford.edu/devbio/baker/Hierarchy.htm},
+   YEAR = {2005}
+}
+
+@MISC{web:sxl_splicing,
+   AUTHOR = {http://cmgm.stanford.edu},
+   TITLE = {http://cmgm.stanford.edu/devbio/baker/Hierarchy.htm},
+   YEAR = {2005}
+}
+
+@MISC{web:trsc_translat,
+   AUTHOR = {http://stemcells.nih,gov},
+   TITLE = {http://stemcells.nih.gov/info/scireport/images/figurea6.jpg},
+   YEAR = {2005}
+}
+
+@MISC{web:post_trsc_proc,
+    AUTHOR = {http://nobelprize.org},
+    TITLE = {http://nobelprize.org/medicine/educational/dna/b/splicing/},
+    YEAR = {2005}
+}
+
+@MISC{web:poly_a,
+   TITLE = {http://www.web-books.com/MoBio/Free/Ch5A.htm},
+   AUTHOR = {http://www.web-books.com/MoBio/Free/Ch5A.htm},
+   YEAR = {2005}
+}
+
+@MISC{web:rRNA_tscr,
+TITLE = {http://users.rcn.com/jkimball.ma.ultranet/BiologyPages/R/rDNA.html},
+AUTHOR = {http://users.rcn.com},
+YEAR = {2005}
+}
+
+@MISC{web:triplet_code,
+TITLE = {http://biology.kenyon.edu/courses/biol105/html/coding.jpg},
+AUTHOR = {http://biology.kenyon.edu},
+YEAR = {2005}
+}
+
+@MISC{web:polypeptide,
+TITLE = {http://www.ccnmtl.columbia.edu/projects/biology/lecture4/images/polypep2.gif},
+AUTHOR = {http://www.ccnmtl.colombia.edu},
+YEAR = {2005}
+}
+
+@MISC{web:protein,
+TITLE = {http://www.berkeley.edu/news/media/releases/2003/02/images/ras-rid-protein.gif},
+AUTHOR = {http://www.berkely.edu},
+YEAR = {2005}
+}
+
+@MISC{web:ribosome,
+TITLE = {http://users.rcn.com/jkimball.ma.ultranet/BiologyPages/T/Translation.html},
+AUTHOR = {http://users.rcn.com},
+YEAR = {2005}
+}
+
+

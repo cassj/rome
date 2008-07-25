@@ -1,0 +1,22 @@
+\section{User.pm}
+
+\paragraph{}
+The User controller (lib/ROME/Controller/User.pm) is responsible for managing user registration, login and logout and account details. The controllers actions are:
+
+\begin{verbatim}
+user/login
+user/logout
+user/register
+\end{verbatim}
+
+\paragraph{}
+The component also contains the logic for user and administrator confirmation of registration (sending emails to the relevant people, generating confirmation pages and so on). These can be switched on in the config file (rome.yml) by setting the values user\_confirm and admin\_confirm to 1 (0 will switch email confirmation off):
+
+\begin{verbatim}
+registration:
+    user_confirm: '1'
+    admin_confirm: '1'
+\end{verbatim}
+
+\paragraph{}
+Full technical details are available in the perldoc for the module.
