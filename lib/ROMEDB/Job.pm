@@ -161,7 +161,7 @@ SQL
 $new_source->result_class('ROMEDB::RootJob');
 
 # Finally, register your new ResultSource with your Schema
-ROMEDB->register_source( 'ROMEDB::RootJob' => $new_source );
+ROMEDB->register_source( 'RootJob' => $new_source );
 
 
 

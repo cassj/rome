@@ -1,7 +1,5 @@
-<h4>Continuous Variables in this experiment</h4>
-[%IF Catalyst.user.experiment.cont_vars%]
-  <dl>
   [% FOREACH cont_var IN Catalyst.user.experiment.cont_vars %]
+  <dl class="cont_var">
     <dt>
      <span class="cont_var_drag" id="[%cont_var.name%]-[%cont_var.owner.username%]">[% cont_var.name %]</span>
          <!-- Make span dropable -->
@@ -16,7 +14,7 @@
         [% FOREACH workgroup IN cont_var.workgroups %][% workgroup.name %] [% END %]
       [% END %]
 )
-     [% Catalyst.prototype.link_to_remote( 'Remove Variable from Experiment', {
+     <p>[% Catalyst.prototype.link_to_remote( 'Remove Variable from Experiment', {
           update => 'messages',
           url    => "/metadata/cont_var/delete_from_experiment?cont_var_name=$cont_var.name&cont_var_owner=$cont_var.owner.username",
           complete => "update_cont_var_list('cont_var_list');"
@@ -31,13 +29,8 @@
 	  evalScripts=>'true' 
          },
 	{class="ajax_link"} )
-        %] 
+        %]</p> 
     </dt>
     <dd>[% cont_var.description %]</dd>
-  [% END %]
   </dl>
- 
-[% ELSE %]
-     <span class="warning">No continuous variables yet defined for this experiment</span>
-[% END %]
-
+  [% END %]

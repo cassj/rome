@@ -1,8 +1,5 @@
-<h4 class="title">Factors in this experiment</h4>
-
-[%IF Catalyst.user.experiment.factors %]
-<dl>
 [%FOREACH factor IN Catalyst.user.experiment.factors%]
+<dl class="factor">
       <dt>
       [%factor.name%] ([%factor.owner.username%] - [% factor.status %]
       [% IF factor.status == 'shared'%]
@@ -10,7 +7,7 @@
         [% FOREACH workgroup IN factor.workgroups %][% workgroup.name %] [% END %]
       [% END %]
       )
-      [% Catalyst.prototype.link_to_remote( 'Remove Factor from Experiment', {
+      <p>[% Catalyst.prototype.link_to_remote( 'Remove Factor from Experiment', {
           update => 'messages',
           url    => "/metadata/factor/delete_from_experiment?factor_name=$factor.name&factor_owner=$factor.owner.username",
           complete => "update_factor_list('factor_list');"
@@ -25,15 +22,15 @@
 	  evalScripts=>'true' 
          },
 	{class="ajax_link"} )
-        %] 
+        %]</p> 
       </dt>
       <dd>[%factor.description%]</dd>
-      <dl>
+      <dl class="level">
 
       [%FOREACH level IN factor.levels%]
        <dt>
          <span class="level_drag" id="[%factor.name%]-[%factor.owner.username%]-[%level.name%]">[%level.name%]</span>
-         <!-- Make span dropable -->
+         <!-- Make span dragable -->
          <script type="text/javascript">
          <!--   
              make_dragable_var("[%factor.name%]-[%factor.owner.username%]-[%level.name%]")
@@ -45,10 +42,8 @@
       [%END%]
 
       </dl>
+</dl>
 [%END%]
 
-</dl>   
 
-[% ELSE %]
-  <span class="warning">No factors yet defined for this experiment</span>
-[% END %]
+

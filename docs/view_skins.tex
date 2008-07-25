@@ -2,24 +2,5 @@
 \label{sec:view_skins}
 
 \paragraph{}
-Although the way in which data is presented to the user is, to some degree, component-specific, the overall look and feel of ROME is easily customisable. Simple changes, such as modifying the colour-scheme, can be achieved trivially in the config files. More dramatic changes can be achieved by designing new skins. Figure \ref{fig:default_skin} shows the default ROME skin (based on the default Catalyst style). Figure \ref{fig:lpc_skin} shows the skin used for the London Pain Consortium. Specifying a particular skin is as simple as altering \texttt{skin: 'default'} to the name of the new skin in \texttt{rome.yml}.  The view module (\texttt{ROME/View/TT.pm}) is set up to search the directory specified by the config file for templates.
+The way in which data in ROME is presented to the user can be altered using skins. Multiple skins may be stored in \texttt{root/skins} and the selected skin is specified in the main config file. The view is set up to search for templates in the skin before searching for the default templates in root. This means that within a skin, any of the templates can be overriden. Similarly, the Static::Simple Catalyst plugin is setup to search the skin directories before root, so any static files, including css and javascript, can be overriden in the skin. A skin should echo the directory structure the main ROME \texttt{root} directory, though there is no need to create subdirectories unless the the files they contain are to be overriden. 
 
-
-\clearpage
-\begin{figure}
-\centering
-\caption{Default ROME skin}\label{fig:default_skin}
-\includegraphics[scale=0.2]{images/default_skin}
-\centering
-\caption{LPC ROME Skin}\label{fig:lpc_skin}
-\includegraphics[scale=0.2]{images/lpc_skin}
-\end{figure}
-
-\paragraph{}
-Multiple skins may be stored in \texttt{root/skins} and the selected skin is specified in the main config file.
-
-%  A skin consists of two directories, \texttt{config} and \texttt{site}.
-
-% \paragraph{}
-% The config files are Template Toolkit (section \ref{sec:tt}) files which define configuration settings for the templates in \texttt{site}. The default skin has two config files, \texttt{main}, and \texttt{col}. The various settings these files define can be accessed in the site templates as \texttt{site.setting\_name}, for example \texttt{site.col.page}.  Altering the colour scheme for ROME, can be acheived simply by altering the colours in \texttt{col}. \texttt{main} is used to define any other global template code, though this gets little use in the default skin. 
-% 

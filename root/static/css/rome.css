@@ -303,7 +303,7 @@ label {
 }
 
 .toggle{
- background-image: url(folder.png);
+ background-image: url(/folder.png);
  background-repeat: no-repeat;
  background-position: 0 0;
  padding-left: 25px;
@@ -433,6 +433,16 @@ label {
 
 /************** Metadata Page *****************/
 
+#factors, #cont_vars{
+  margin-bottom: 20px;
+  float:right;
+  clear:right;
+  width: 49%;
+}
+
+#factor_level_forms{
+  clear:both;
+}
 
 #factor_list{
   clear:both;
@@ -442,6 +452,41 @@ label {
   clear:both;
 }
 
+dl.factor dl{
+  margin-top: 10px;
+}
+
+dl.factor p, dl.cont_var p, #outcome_wrapper p{
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+
+#outcome_wrapper.h4 {
+  padding-bottom: 5px;
+}
+
+dl.factor, dl.cont_var{
+  margin-bottom: 5px;
+}
+
+dl.factor dt, dl.cont_var dt{
+   font-weight: bold;
+   color: #2E496A;
+}
+
+
+dl.factor dt a, dl.cont_var dt a{
+  font-weight: normal;
+}
+
+dl.factor dd {
+  margin-left: 0;
+  margin-bottom: 5px;
+}
+
+dl.factor dl{
+  margin-left: 2em;
+}
 
 .draggable_text { 
   border: 1px dashed blue;
@@ -483,6 +528,10 @@ label {
 } 
 
 
+#outcome_list{
+  width: 49%;
+  float:left;
+}
 
 /********* Jobs page ***************/
 

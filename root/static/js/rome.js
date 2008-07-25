@@ -226,7 +226,11 @@ function make_dropable_outcome(divid){
 
                     new Ajax.Updater('messages', 
                                      'metadata/outcome/add_level?outcome_name='+outcome+'&factor_name='+fac_name+'&factor_owner='+fac_owner+'&level_name='+lev,
-				     {}
+				     {
+				       asynchronous:1,
+  				       evalScripts:1,
+     				       onSuccess: setTimeout(function(){update_outcome_list('outcome_list')},500)
+				     }
                      );                    
 		}
                 else if (e.hasClassName('cont_var_drag')){
@@ -266,8 +270,13 @@ function delete_level(factor_name, factor_owner,level_name, outcome_name){
 		     + '&factor_owner='+ factor_owner 
 		     + '&level_name=' + level_name
 		     + '&outcome_name=' + outcome_name,
-		     {onComplete: function(){update_outcome_list('outcomes')} });
-}
+		     {
+			 asynchronous:1,
+			 evalScripts:1,
+			 onSuccess: setTimeout(function(){update_outcome_list('outcome_list')},500)
+
+                     });
+}  
 
 
 //delete a cont_var from an outcome 

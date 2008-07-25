@@ -58,6 +58,8 @@
     </div>
     [% END %]
     
+    <div class="force_clear"></div>
+
     <input type="submit" name="submit" value="Queue" class="button"/>
   </fieldset>
 </form>

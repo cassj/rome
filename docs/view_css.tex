@@ -2,4 +2,7 @@
 \label{sec:view_css}
 
 \paragraph{}
-TO FINISH
+Cascading style sheets (CSS) are used to define the way in which elements of ROME pages are presented. The default file is in \texttt{root/static/css/rome.css}, though this can be overridden as required in skins. CSS files for add on components can be added under the css directory with a path that corresponds to the URL of the ROME page on which they are used. These will then be added automatically for that page by the default wrapper template.
+
+\paragraph{}
+To make it easier to make simple global changes to the colour scheme, the css file is actually generated from two templates, \texttt{col} and \texttt{rome.css} in \texttt{root/css}. Colour scheme changes can be made in \texttt{col} and the static \texttt{rome.css} file can be regenerated using \texttt{script/rome\_makecss.pl}. A skin can override the static css file directly, or it can override the template files. Calling \texttt{script/rome\_makecss.pl} with the name of a skin as an argument will generate the static file for that skin.

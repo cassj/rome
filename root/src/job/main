@@ -6,6 +6,3 @@
   [% INCLUDE "job/queue" %]
 </div>
 
-<div id="job_search">
- [% INCLUDE "job/search" %]
-</div>

@@ -48,7 +48,7 @@ sub _parse_files : Local {
     my $process = $c->model('ROMEDB::Process')->find
 	({
 	  name => 'parse_affy_expression',
-	  component_name =>'parse_affy',
+	  component_name =>'parse_affy_expression',
 	  component_version => __PACKAGE__->VERSION,
 	});
     die "parse_affy_expression process not found in DB" unless $process;

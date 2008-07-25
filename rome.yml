@@ -13,7 +13,7 @@ name: ROME
 ###
 Model::ROMEDB:
   schema_class: ROMEDB
-  name: rome
+  name: rome_test
   connect_info:
     - dbi:mysql:rome_test
     - 'rome'

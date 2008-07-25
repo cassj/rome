@@ -35,7 +35,7 @@
       [%IF Catalyst.check_user_roles('admin')%]
         <div class="labelled_input">
           <label for="factor_owner">Owner</label>
-          <input type="text" name="factor_owner" id="factor_owner"/>
+          <input type="text" name="factor_owner" id="factor_owner" value="[%Catalyst.user.username%]"/>
           <div id="factor_owner_autocomplete_choices" class="autocomplete"></div>
           <script type="text/javascript" language="javascript">
           // <![CDATA[
@@ -52,3 +52,4 @@
    
   </fieldset>
 </form>
+

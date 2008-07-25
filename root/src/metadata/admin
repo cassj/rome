@@ -11,65 +11,81 @@
 [% ELSE %]
 
 
+[%# List the experimental outcomes %]
+<div id="outcome_list">
+[% INCLUDE 'metadata/outcomes' %]
+</div>
 
-[%# First list what we already have defined for this experiment %]
+[%# List what we already have defined for this experiment %]
 
 <div id="factors">
 <h2>Factors in this experiment</h2>
 [%IF Catalyst.user.experiment.factors%]
 
+  <div id="factor_list">[%INCLUDE 'metadata/factor_list'%]</div>
+
 [% ELSE %]
+
   <span class="warning">No factors yet defined for this experiment</span>
+
 [% END %]
+  <div id="factor_create_links">
+    <a class="ajax_link" 
+       href="/metadata/factor/create_form" 
+       onclick=" new Ajax.Updater( 'factor_level_forms',  
+                                   '/metadata/factor/create_form', 
+                                    { asynchronous: 1,
+                                      evalScripts: true,
+                                      onSuccess: function(){new Effect.ScrollTo('factor_level_forms')} 
+                                    } 
+                                 ) ; return false"
+     >Create a Factor</a>
+
+     <a class="ajax_link" 
+        href="/metadata/level/create_form" 
+        onclick=" new Ajax.Updater( 'factor_level_forms',  
+                                    '/metadata/level/create_form', 
+                                    { asynchronous: 1,
+                                      evalScripts: true,
+	   		              onSuccess: function(){new Effect.ScrollTo('factor_level_forms')}
+                                    } 
+                                  ) ; return false"
+     >Create a  Level of a factor</a>
+
+  </div>
+
 </div>
 
 <div id="cont_vars">
 <h2>Continuous Variables in this experiment</h2>
 [%IF Catalyst.user.experiment.cont_vars%]
-
+  <div id="cont_var_list">[%INCLUDE 'metadata/cont_var_list'%]</div>
 [% ELSE %]
      <span class="warning">No continuous variables yet defined for this experiment</span>
 [% END %]
+
+  <div id="cont_var_create_links">
+   <a class="ajax_link" 
+      href="/metadata/cont_var/create_form" 
+      onclick=" new Ajax.Updater( 'factor_level_forms',  
+                                  '/metadata/cont_var/create_form', 
+                                  { asynchronous: 1,
+                                    evalScripts: true,
+                                    onSuccess: function(){new Effect.ScrollTo('factor_level_forms')}
+                                  } 
+                                ) ; return false"
+   >Create a Continuous Varible</a>
+
+  </div>
+
 </div>
 
 
-<div id="create">
-
-<div id="new_factor">
- [% Catalyst.prototype.link_to_remote( 'Create a Factor', {
-      update => 'factor_level_forms',
-      url    => "/crud/factor/create_form",
-      evalScripts => 'true',
-    },{class="ajax_link"} )
- %]
-
- [% Catalyst.prototype.link_to_remote( 'Create a  Level of a factor', {
-      update => 'factor_level_forms',
-      url    => "/crud/level/create_form",
-      evalScripts=>'true',
-    },{class=>"ajax_link"} )
-  %]
 
 <div id="factor_level_forms"></div>
-</div>
 
 
-<div id="new_cont_var">
-  <div id="cont_var_create_results"></div>
- [% Catalyst.prototype.link_to_remote( 'Create a Continuous Varible', {
-      update => 'messages',
-      url    => "/crud/cont_var/create_form",
-      evalScripts => 'true',
-    },{class="ajax_link"} )
- %]
-
-</div>
-</div>
-
-
-
-
-
+<div id="add_forms">
 [%Catalyst.prototype.form_remote_tag({
      update => 'add_results',
      url    => "/crud/experiment/set_factor"
@@ -79,7 +95,7 @@
   <fieldset> 
      <legend>Add factors to an experiment...</legend>
 
-<div id="add_results"></div>
+     <div id="add_results"></div>
 
      <div class="labelled_input">
         <label for="factor_name">Factor Name</label>
@@ -105,20 +121,21 @@
         </script>
 
 
+       [%IF Catalyst.check_user_roles('admin')%]
        <div class="labelled_input">
         <label for="level_factor_name">Experiment Name</label>
-        <input type="text" name="experiment_name" id="experiment_name">
+        <input type="text" name="experiment_name" id="experiment_name" value="[%Catalyst.user.experiment.name%]"/>
         <div id="experiment_name_autocomplete_choices" class="autocomplete"></div>
       </div>
 
-      <input type="hidden" name="experiment_owner" id="experiment_owner"/>
+      <input type="hidden" name="experiment_owner" id="experiment_owner" value="[%Catalyst.user.experiment.owner.username%]"/>
 
         <script type="text/javascript" language="javascript">
         // <![CDATA[
 
              new Ajax.Autocompleter("experiment_name",
 				    "experiment_name_autocomplete_choices",
-			            "/crud/experiment/autocomplete",
+			            "/experiment/autocomplete",
 	                            {           
                                      afterUpdateElement :  function () {      
                                                              Ajax.Autocompleter.set_linked_value('experiment_owner',
@@ -127,12 +144,15 @@
                                    });
         // ]]>
         </script>      
-
+       [%ELSE%]
+       <input type="hidden" name="experiment_name id="experiment_name" value="[%Catalyst.user.experiment.name%]"/>
+       <input type="hidden" name="experiment_owner id="experiment_owner" value="[%Catalyst.user.experiment.owner.username%]"/>
+       [%END%]
        <br/><input type="submit" name="submit" value="Add this factor" class="button"/>
 
   </fieldset>
 </form>
-
+</div>
 
 [% END %]
 

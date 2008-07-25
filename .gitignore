@@ -1,3 +1,4 @@
 *.yml
 userdata/*
 *~
+R_templates/*

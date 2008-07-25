@@ -25,14 +25,14 @@
     <li><a class="active"title="Describe your experimental variables" href="/metadata">Metadata</li></a>
     <li><a class="active"title="Manage your datafiles" href="/datafile">datafiles</li></a>
     <li><a class="active"title="Export datafiles" href="">Data Export</li></a>
-    <li><a class="active"title="Monitor jobs and the job queue" href="/jobs">Jobs</li></a>
+    <li><a class="active"title="Monitor jobs and the job queue" href="/job">Jobs</li></a>
    </ul>
   </li>
 
 [% IF Catalyst.check_user_roles('dev')%]
   <li><a title="Development tools" href="#" class="dropdown">Devel Tools</a>
    <ul>
-    <li><a class="active"title="Create and Edit Components" href="/devel/components">Component Development</li></a>
+    <li><a class="active"title="Create and Edit Components" href="/devel/component/create">Component Development</li></a>
     <li><a class="active"title="Create Component Packages for Distribution" href="/devel/make_component_distribution">Package Component</li></a>
     <li><a class="active"title="Manage Datatypes" href="/devel/datatypes">Manage Datatypes</li></a>
    </ul>

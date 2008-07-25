@@ -2,6 +2,8 @@
 
 <div id="outcome_wrapper">
 
+<p>Drag level names to assign to outcomes</p>
+
 [% FOREACH outcome IN Catalyst.user.experiment.outcomes %]
 
   <div class="dropbox">
@@ -13,7 +15,7 @@
            [% FOREACH level IN outcome.levels %]
              <div class="fac_level">
 	     <span>[% level.factor.name %] : [% level.name %]</span>
-             <img src="images/delete.gif" onClick=delete_level('[%level.factor.name%]','[%level.factor.owner.username%]','[%level.name%]','[%outcome.name%]') />
+             <img src="delete.gif" onClick=delete_level('[%level.factor.name%]','[%level.factor.owner.username%]','[%level.name%]','[%outcome.name%]') />
 	     </div>
            [% END %]
         </div>
@@ -26,7 +28,7 @@
            [% FOREACH val IN outcome.values %]
              <div class="cont_var_val">
 	     <span>[%val.cont_var_name%][%val.value%]</span>
-	     <img src="images/delete.gif"  onClick=delete_cont_var('[%val.cont_var_name%]','[%val.cont_var.owner.username%]','[%outcome.name%]')  />
+	     <img src="delete.gif"  onClick=delete_cont_var('[%val.cont_var_name%]','[%val.cont_var.owner.username%]','[%outcome.name%]')  />
 	     </div>
            [% END %]
       </div>
