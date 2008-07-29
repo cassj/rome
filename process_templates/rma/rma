@@ -24,7 +24,8 @@ outcomes<-c("[%selected_outcomes.join('", "')%]");
 
 
 #trouble is, this isn't portable.
-ab<-load("[% rome_datafiles_in.AB.path %]")
+obj.names<-load("[% rome_datafiles_in.AB.path %]")
+ab<-get(obj.names[1])
 
 eset<-rma(ab[,outcomes]);
 
@@ -35,13 +36,14 @@ save(eset, file=filename);
 
 for (name in outcomes ){
 
-    #make a new outcome and link it to the datafile.
-    rome.new.outcome(outcome.name  = name, 
+    #outcomes must exist as we're not a root datafile, so find them and
+    #assign them to this datafile
+    rome.set.outcome(outcome.name  = name, 
                      outcome.experiment.name = rome.experiment_name,
                      outcome.experiment.owner = rome.username,
-                     datafile.name = "[%rome_datafiles_out.AB.name%]", 
-                     datafile.experiment.name = "[%rome_datafiles_out.AB.experiment_name%]",
-		     datafile.experiment.owner = "[%rome_datafiles_out.AB.experiment_owner%]")
+                     datafile.name = "[%rome_datafiles_out.ESet.name%]", 
+                     datafile.experiment.name = "[%rome_datafiles_out.ESet.experiment_name%]",
+		     datafile.experiment.owner = "[%rome_datafiles_out.ESet.experiment_owner%]")
 		     
 }
 

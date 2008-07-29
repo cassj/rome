@@ -416,8 +416,15 @@ sub outcome_exists{
     $dfv->name_this('outcome_exists');
     my $val = $dfv->get_current_constraint_value();
     my $data = $dfv->get_filtered_data;
-    my $expt_name = $data->{$expt_name_field} || $c->user->experiment->name;
-    my $expt_owner = $data->{$expt_owner_field} || $c->user->experiment->owner->username;
+    my ($expt_name, $expt_owner);
+    if($expt_name_field && $expt_owner_field ){
+      $expt_name = $data->{$expt_name_field};
+      $expt_owner = $data->{$expt_owner_field};
+    }
+    else{
+      $expt_name = $c->user->experiment->name;
+      $expt_owner = $c->user->experiment->owner->username;
+    }
     my $exists = $c->model('ROMEDB::Outcome')->find($val, $expt_name, $expt_owner);
     return $exists ? 1:0;
   }
@@ -433,8 +440,15 @@ sub not_outcome_exists{
     $dfv->name_this('not_outcome_exists');
     my $val = $dfv->get_current_constraint_value();
     my $data = $dfv->get_filtered_data;
-    my $expt_name = $data->{$expt_name_field} || $c->user->experiment->name;
-    my $expt_owner = $data->{$expt_owner_field} || $c->user->experiment->owner->username;
+    my ($expt_name, $expt_owner);
+    if($expt_name_field && $expt_owner_field ){
+      $expt_name = $data->{$expt_name_field};
+      $expt_owner = $data->{$expt_owner_field};
+    }
+    else{
+      $expt_name = $c->user->experiment->name;
+      $expt_owner = $c->user->experiment->owner->username;
+    }
     my $exists = $c->model('ROMEDB::Outcome')->find($val, $expt_name, $expt_owner);
     return $exists ? 0:1;
   }

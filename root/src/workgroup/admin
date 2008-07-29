@@ -1,11 +1,15 @@
 [% META title = 'ROME Workgroups' %]
 
 <!--Pending Join Requests -->
+<div id="pending_joins_user">
 [%INCLUDE 'workgroup/pending_joins_user'%]
+</div>
+
 
 <!--Pending Invites-->
+<div id="pending_invites_user">
 [%INCLUDE 'workgroup/pending_invites_user'%]
-
+</div>
 
 <!-- List of user's workgroups  -->
 <div id="workgroup_list">

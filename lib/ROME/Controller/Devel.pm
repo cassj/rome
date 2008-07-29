@@ -2379,7 +2379,7 @@ sub process_template_upload :Path('process/template/upload'){
       component_name => $c->request->params->{process_component_name},
       component_version => $c->request->params->{process_component_version},
      });
-  $process->tmpl_file($filename);
+  $process->tmpl_file($c->request->params->{process_name});
   $process->update;
 
   

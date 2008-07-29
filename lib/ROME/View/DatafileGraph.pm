@@ -93,8 +93,11 @@ sub datafile_edges{
     
     #if this file is an input to any jobs, link it to 
     #the output 
+
+    #these aren't jobs, they're datafiles?
     my @jobs = $datafile->input_to;
     foreach my $job (@jobs){
+
 	my @out_datafiles = $job->out_datafiles;
 	foreach my $out_datafile (@out_datafiles){
 	    $g->add_edge($datafile->name => $out_datafile->name, label=>$job->process->name);

@@ -10,6 +10,8 @@ A base class for ROME controllers providing common functions
 
 =head1 METHODS
 
+=over 2
+
 =cut
 
 use strict;
@@ -17,20 +19,60 @@ use warnings;
 use base 'Catalyst::Controller';
 use Module::Find;
 
-=head2 set_active_components
+use ROME::ActiveProcesses;
 
-  A utility method to update the active components hash. 
+sub auto :Private{
+  my ($self, $c) = @_;
+  $self->active_processes($c);
+}
 
-  The active components hash defines which components are 
-  available for use given the current user, experiment and datafile
-  This method can be called by a component if it changes any of these.
+sub active_processes{
+  my ($self, $c) = @_;
 
-=cut
+  #check if the ap in the session has diff expt_name, owner and datafiles
+  #to the current ones, if not, just return that
+  my $ap = $c->session->{active_processes};
+  unless ($ap 
+	  && $ap->experiment_name == $c->user->experiment->name
+	  && $ap->experiment_owner == $c->user->experiment->owner
+	  && grep {exists $ap->datafiles->{$_->name}} $c->user->datafiles){
+    
+    $c->session->{active_processes} = ROME::ActiveProcesses->new($c);
+    
+  }
 
-sub set_active_components{
-   my ($self, $c) = @_;
+  return $c->session->{active_processes};
+}
 
-   warn "called set_active_components";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#=head2 set_active_components
+#
+#  A utility method to update the active components hash. 
+#
+#  The active components hash defines which components are 
+#  available for use given the current user, experiment and datafile
+#  This method can be called by a component if it changes any of these.
+#
+#=cut
+#
+#sub set_active_components{
+#   my ($self, $c) = @_;
+#
+#   warn "called set_active_components";
 #   #get components that are always active
 #   my @always_active = WebR::M::CDBI::Component->search(
 #       always_active => 1
@@ -65,51 +107,53 @@ sub set_active_components{
 
 #   #store the comp_hash in the session
 #   $c->session->{active_components} = $comp_hash;
- }
+# }
 
 
-=head2 processor_factory
-
-  A utility method which returns an instance of the requested processor.
-
-  Currently, R is the only one available.
-
-  Takes the processor name as an argument. 
-  eg. for ROME::Processor::R, the name is 'R'
-
-
-=cut
-
-
-sub processor_factory {
-  my ($self,$c,$proc_req) = @_;
-
-  die "No processor type specified" unless $proc_req;
-  
-  #avoid evaling a string provided by the user 
-  #The lookup hash is setup in ROME.pm
-  if (my $proc_class =  $c->config->{processors}->{$proc_req}){
-    eval "require $proc_class";
-    return $proc_class->new($c);
-  }
-  else {
-    $c->log->error("Invalid processors $proc_req requested");
-    return 0;
-  }
-}
-
-
-# can be called from components to check that the datafiles are valid for 
-# the process
-# returns true if it's ok, returns false if not and sticks the required datafile
-# types in the stash error_msg.
-sub is_active: Private{
-    my ($self, $c) = @_;
-    warn ref($self);
-    
-    
-}
-
+#=head2 processor_factory
+#
+#  A utility method which returns an instance of the requested processor.
+#
+#  Currently, R is the only one available.
+#
+#  Takes the processor name as an argument. 
+#  eg. for ROME::Processor::R, the name is 'R'
+#
+#
+#=cut
+#
+#
+##why the hell is this here?
+#
+#sub processor_factory {
+#  my ($self,$c,$proc_req) = @_;
+#
+#  die "No processor type specified" unless $proc_req;
+#  
+#  #avoid evaling a string provided by the user 
+#  #The lookup hash is setup in ROME.pm
+#  if (my $proc_class =  $c->config->{processors}->{$proc_req}){
+#    eval "require $proc_class";
+#    return $proc_class->new($c);
+#  }
+#  else {
+#    $c->log->error("Invalid processors $proc_req requested");
+#    return 0;
+#  }
+#}
+#
+#
+## can be called from components to check that the datafiles are valid for 
+## the process
+## returns true if it's ok, returns false if not and sticks the required datafile
+## types in the stash error_msg.
+#sub is_active: Private{
+#    my ($self, $c) = @_;
+#    warn ref($self);
+#    
+#    
+#}
+#
 
 #  ###
 #  # Check user has write permissions on this experiment
@@ -147,6 +191,10 @@ sub is_active: Private{
 #    return 0;
 #  }
 
+
+=back
+
+=cut
 
 
 1;

@@ -31,6 +31,7 @@ sub index : Private{
   
   #return an admin GUI page 
   $c->stash->{template} = 'datafile/admin'; 
+
 }
 
 =head2 selected
@@ -207,33 +208,31 @@ return 1;
 }
 
 
-# The cascade deletes aren't working at the moment
-# Should probably build proper InnoDB tables with appropriate
-# cascade delete info.
 
-#=head2 delete_selected
-# 
-#  Matches datafile/delete_selected
-#
-#  Deletes all of the selected datafiles. 
-#
-#=cut
-#
-#sub delete_selected :Local {
-#    my ($self,$c) = @_;
-#    
-#    #don't need any param checks here - we haven't got any
-#
-#    $c->stash->{template} = 'messages';
-#    $c->stash->{ajax} = 1;
-#    
-#    foreach ($c->user->datafiles){
-#	$_->delete;
-#    }
-#
-#    $c->stash->{status_msg} = 'Datafiles deleted successfully';
-#    return 1;
-#}
+
+=head2 delete_selected
+ 
+  Matches datafile/delete_selected
+
+  Deletes all of the selected datafiles. 
+
+=cut
+
+sub delete_selected :Local {
+    my ($self,$c) = @_;
+    
+    #don't need any param checks here - we haven't got any
+
+    $c->stash->{template} = 'messages';
+    $c->stash->{ajax} = 1;
+    
+    foreach ($c->user->datafiles){
+	$_->delete;
+    }
+
+    $c->stash->{status_msg} = 'Datafiles deleted successfully';
+    return 1;
+}
 
 
 1;

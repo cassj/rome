@@ -1,0 +1,5 @@
+\subsubsection{Upload}
+\label{sec:view_upload}
+
+\paragraph{}
+The upload page allows the user to upload new files and to manage the contents of their upload directory. Files in the upload directory are simply raw data for parsing and are not integrated into ROME in any way and can be deleted at will. Multiple files may be uploaded as an archive (zip, tar, bzip) and will automatically be unpacked into the user's upload directory. Although only registered users are able to uploaded files, the unpacking of archives could pose a security risk if ROME is accessible via the internet. If this is a major concern, or if file sizes are likely to be too large to reasonably transfer over http, there is no reason why the users should not be given scponly accounts and sftp access to their chrooted upload directory.

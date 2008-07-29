@@ -2,8 +2,43 @@
 \label{sec:view_user}
 
 \paragraph{}
-The templates belonging to the user view provide user interfaces to the functionality of the user controller. This includes logging in and out, registering new users, resetting passwords, managing user details, joining, leaving and managing workgroups
+The templates belonging to the user view provide user interfaces to the functionality of the user controller (section \ref{sec:controller_user}). This includes logging in and out, registering new users, resetting passwords, managing user details. The management of user workgroups is also grouped in with this section, though the functionality in this case is provided by the workgroup controller (section \ref{sec:controller_workgroup}). Under the default menu structure, these elements are accessible as shown below:
 
+\begin{verbatim}
+ Start Here ->
+    Login
+    Logout
+    Register
+    Lost Password
 
-account                  awaiting_user_approval  list   login_successful  register              reset_password
-awaiting_admin_approval  delete                  login  lost_password     registration_success  workgroups
+  My Account ->
+    Reset Password
+    My Details
+    My Workgroups
+
+\end{verbatim}
+
+\paragraph{}
+Most of the user views consist of simple HTML forms and require no further discussion except to note that everything under the 'Start Here' menu is accessible without logging in. The 'My Workgroups' page is slightly more complex. The main page, defined by the \texttt{workgroups/admin} template is split into a number of \texttt{div}s whose content is derived from seperate templates. This is illustrated in figure \ref{fig:workgroups_main}
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.6]{../rome/docs/images/workgroup_page_structure}
+\caption{Structure of the Workgroups Page}\label{fig:workgroups_main}
+\end{figure}
+
+\paragraph{}
+The workgroups controller provides AJAX methods to return the \texttt{pending\_joins} and \texttt{workgroup\_list} div contents. These are used to update the appropriate content when a user's workgroups are changed via an AJAX call. The workgroup list separates workgroups into those of which a user is leader, and those to which they belong. A user may leave a workgroup unless they own it. Workgroups that they own may be deleted and managed. While the delete and leave links trigger AJAX calls to the appropriate controller actions, the manage link returns the management page for the workgroup in question, which allows the user to alter the details of the workgroup in the database, hand ownership of the group to another user, accept or reject membership requests and send out invitations.
+
+\paragraph{}
+The workgroup list 
+
+% 
+% account                  awaiting_user_approval  list   login_successful  register              reset_password
+% awaiting_admin_approval  delete                  login  lost_password     registration_success  workgroups
+
+% \begin{figure}[h]
+% \centering
+% \includegraphics[scale=0.4]{../rome/docs/images/screenshots/login}
+% \caption{Login Page}\label{fig:login}
+% \end{figure}

@@ -146,7 +146,7 @@ __PACKAGE__->has_many(in_datafiles => 'ROMEDB::InDatafile',{
 
 =cut
 
-__PACKAGE__->many_to_many(input_to => 'in_datafiles', 'datafile');
+__PACKAGE__->many_to_many(input_to => 'in_datafiles', 'job');
 
 
 #=item job_out_datafiles

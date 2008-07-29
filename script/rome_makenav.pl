@@ -74,7 +74,11 @@ sub make_tt{
       else {
         #make a regular link
 	my $name = $element->{$key}->{display_name} || $key;
+	my $component = $element->{$key}->{component};
+	my $version = $element->{$key}->{version};
+	my $process = $element->{$key}->{process};
 	my $href = $element->{$key}->{href};
+	$href = "component/$component/$process" unless $href;
 	my $title = $element->{$key}->{title};
         my $any_datatype = $element->{$key}->{any_datatype};
 	
@@ -84,7 +88,11 @@ sub make_tt{
 	  print FILE q|"active"|; 
 	}
 	else{
-	  print FILE qq| [% IF Catalyst.check_datafile_type %]"active"[% ELSE %]"inactive"[% END %] |;
+	  print FILE qq| [% IF Catalyst.session.active_processes.processes.$component.item('$version').$process %]
+                           "active"
+                         [% ELSE %]
+                           "inactive"
+                         [% END %] |;
 	}
 	
 	print FILE qq|title="$title"|

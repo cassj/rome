@@ -1,0 +1,5 @@
+\subsubsection{Base}
+\label{sec:controller_base}
+
+\paragraph{}
+All ROME controllers inherit from ROME::Controller::Base. Currently, all this does is define an auto action, called for every ROME component request, which ensures that the \texttt{active\_processes} are defined in the session. This is an instance of class ROME::ActiveProcesses which defines which processes are valid for the currently selected datafiles. The base controller will update the active processes if there has been any change to the selected datafiles.

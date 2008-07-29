@@ -5,13 +5,7 @@
 The default ROME View module, to which the Root controller \texttt{end} action forwards, uses Template Toolkit (TT) (\url{http://template-toolkit.org/}). The view module in question is \texttt{ROME::View::TT} which inherits from \texttt{Catalyst::View::TT} and defines some TT settings. Templates are given access to the Catalyst context object (as \texttt{Catalyst}), providing access to the model classes, ROME configuration settings and so on. 
 
 \paragraph{}
-Default view templates are located in \texttt{root/src}.  \texttt{config/main} is processed before any other template, allowing it to be used for setup of generic template variables. 
-
-
- The template \texttt{config/main} is set to be processed before any other template allowing it to be used for any generic templating setup (not much used in the default skin). The template file \texttt{site/error} is defined as the generic error response.
-
-\paragraph{}
-The template \texttt{site/wrapper} is defined in the view module as the wrapper for each page. The default wrapper template checks what type of content is being presented and adds an appropriate header and footer: An AJAX response (as determined by the current value of the \texttt{ajax} parameter in the Catalyst stash) is returned as a chunk of HTML, with no wrapping. In all other cases, site/wrapper inserts the content into the \texttt{site/layout} template and then into \texttt{site/html}, as illustrated in figure \ref{fig:wrapper}. 
+Default view templates are located in \texttt{root/src}.  \texttt{config/main} is processed before any other template, allowing it to be used for setup of generic template variables. \texttt{site/error} is the generic error response. \texttt{site/wrapper} is the wrapper for each ROME page. The default wrapper template checks what type of content is being presented and adds an appropriate header and footer: An AJAX response (as determined by the current value of the \texttt{ajax} parameter in the Catalyst stash) is returned as a chunk of HTML, with no wrapping. In all other cases, site/wrapper inserts the content into the \texttt{site/layout} template and then into \texttt{site/html}, as illustrated in figure \ref{fig:wrapper}. 
 
 \begin{figure}
 \centering
@@ -30,7 +24,39 @@ The default site/layout defines the layout of the body of each ROME page. It cre
 \end{figure}
 
 \paragraph{}
-The default \texttt{site/header} just adds either the title of the current template or, failing that, the site title to the top of the page. \texttt{site/nav} is the navigation menu, defined as a nested list. Changing nested lists by hand is prone to error, so in order to enable the ROME administrator to alter the structure of their menu this file is generated from a YAML configuration file \texttt{nav.yml} in the ROME directory using the \texttt{script/rome\_makenav.pl} script. The script will automatically generate the appropriate file in \texttt{rome/root/lib/site/nav} and this file should never be edited by hand. The entries in the navigation menu are given different CSS classes depending on the current user's selected experiment and datafile. This allows ROME stylesheet to make a visual distinction between menu options which are applicable to the current datafile and those which are not. \texttt{site/status\_bar} contains information about the current user, including the active experiment and datafile.
+The default \texttt{site/header} just adds either the title of the current template or, failing that, the site title to the top of the page. \texttt{site/nav} is the navigation menu, defined as a nested list. Changing nested lists by hand is prone to error, so in order to enable the ROME administrator to alter the structure of their menu this file is generated from a YAML configuration file \texttt{nav.yml} in the ROME directory using the \texttt{script/rome\_makenav.pl} script. The script will automatically generate the appropriate file in \texttt{rome/root/lib/site/nav} and this file should never be edited by hand. The entries in the navigation menu are given different CSS classes depending on the current user's selected experiment and datafile via the \texttt{check\_datafile\_types} action in the base ROME controller. This allows ROME stylesheet to make a visual distinction between menu options which are applicable to the current datafile and those which are not. \texttt{site/status\_bar} contains information about the current user, including the active experiment and datafile.
 
 \paragraph{} 
 Component developers only need to create templates for the html to display the data their controller has generated. This will automatically be wrapped with the appropriate headers. Various templates are defined for the core functions in ROME and add-on components can also define templates as required. 
+
+\subsubsection{Cascading Style Sheets}
+\label{sec:view_css}
+
+\paragraph{}
+Cascading style sheets (CSS) are used to define the way in which elements of ROME pages are presented. The default file is in \texttt{root/static/css/rome.css}, though this can be overridden as required in skins. CSS files for add on components can be added under the css directory with a path that corresponds to the URL of the ROME page on which they are used. These will then be added automatically for that page by the default wrapper template.
+
+\paragraph{}
+To make it easier to make simple global changes to the colour scheme, the css file is actually generated from two templates, \texttt{col} and \texttt{rome.css} in \texttt{root/css}. Colour scheme changes can be made in \texttt{col} and the static \texttt{rome.css} file can be regenerated using \texttt{script/rome\_makecss.pl}. A skin can override the static css file directly, or it can override the template files. Calling \texttt{script/rome\_makecss.pl} with the name of a skin as an argument will generate the static file for that skin.
+
+
+\subsubsection{AJAX and Javascript}
+\label{sec:view_javascript}
+
+\paragraph{}
+ROME uses the scriptaculous effects toolkit and the prototype.js library on which it is built. The requisite javascript files are in \texttt{root/static/js/} and are loaded by the default header. The default header also loads the \texttt{rome.js} file which contains javascript functions used by the ROME core. For add-onn ROME components, necessary javascript for a page will automatically be loaded if it is placed in a file under the same path as the url to which it corresponds. 
+
+\paragraph{}
+The core \texttt{rome.js} file defines various generic functions which can be used by any page, such as a \texttt{select\_all} function for checkbox groups and functions for updating  page elements when something changes via an AJAX call, including \texttt{update\_nav} and \texttt{update\_status\_bar}.
+
+\subsubsection{Skins}
+\label{sec:view_skins}
+
+\paragraph{}
+The way in which data in ROME is presented to the user can be altered using skins. Multiple skins may be stored in \texttt{root/skins} and the selected skin is specified in the main config file. The view is set up to search for templates in the skin before searching for the default templates in root. This means that within a skin, any of the templates can be overriden. Similarly, the Static::Simple Catalyst plugin is setup to search the skin directories before root, so any static files, including css and javascript, can be overriden in the skin. A skin should echo the directory structure the main ROME \texttt{root} directory, though there is no need to create subdirectories unless the the files they contain are to be overriden. 
+
+
+\subsubsection{Core Comonent Default Views}
+The following sections briefly describe the web interface to the core components as it is presented by the default view templates and styling.
+
+
+

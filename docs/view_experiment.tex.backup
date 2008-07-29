@@ -1,0 +1,15 @@
+\subsubsection{Experiments}
+\label{sec:view_experiment}
+
+\paragraph{}
+Before a user can do anything in ROME, they need to create an experiment. The main page for managing experiments is linked under the Session tab of the menu and provides the user with an interface to create new experiments and manage existing ones. The basis structure of the page is illustrated in figure \ref{fig:experiment_page_structure}
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.6]{../rome/docs/images/experiment_page_structure}
+\caption{Structure of the Expeirment Page}\label{fig:experiment_main}
+\end{figure}
+
+\paragraph{}
+The current experiment section provides basic details about the experiment the user currently has selected. The controller provides an AJAX action to update this section if the selected experiment changes via and AJAX call. The share experiment from allows the 

@@ -87,7 +87,9 @@
       - rma:
           display_name: RMA
           title: Robust Multi-Array Average Normalisation
-          href: /component/rma/rma
+          component: rma
+          version: 0.0.1
+          process: rma
         
 - Devel Tools:
     title: Development tools

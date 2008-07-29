@@ -24,14 +24,18 @@
     <li><a class="active"title="Parse raw data into an experiment" href="/parse">Parse Data</li></a>
     <li><a class="active"title="Describe your experimental variables" href="/metadata">Metadata</li></a>
     <li><a class="active"title="Manage your datafiles" href="/datafile">datafiles</li></a>
-    <li><a class="active"title="Export datafiles" href="">Data Export</li></a>
+    <li><a class="active"title="Export datafiles" href="component//">Data Export</li></a>
     <li><a class="active"title="Monitor jobs and the job queue" href="/job">Jobs</li></a>
    </ul>
   </li>
 
   <li><a title="Normalisation of Affymetrix Expression Data" href="#" class="dropdown">Affy Normalisation</a>
    <ul>
-    <li><a class= [% IF Catalyst.check_datafile_type %]"active"[% ELSE %]"inactive"[% END %] title="Robust Multi-Array Average Normalisation" href="/component/rma/rma">RMA</li></a>
+    <li><a class= [% IF Catalyst.session.active_processes.processes.rma.item('0.0.1').rma %]
+                           "active"
+                         [% ELSE %]
+                           "inactive"
+                         [% END %] title="Robust Multi-Array Average Normalisation" href="component/rma/rma">RMA</li></a>
    </ul>
   </li>
 
@@ -52,7 +56,7 @@
 
   <li><a title="" href="#" class="dropdown">Admin</a>
    <ul>
-    <li><a class="active"title="Approve Registrations" href="">Approve Registrations</li></a>
+    <li><a class="active"title="Approve Registrations" href="component//">Approve Registrations</li></a>
    </ul>
   </li>
    </ul>
