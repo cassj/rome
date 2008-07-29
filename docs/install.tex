@@ -43,7 +43,7 @@ R is able to automatically install Bioconductor metadata packages at a later dat
 \begin{verbatim}
 > biocContribUrl <- sapply(Biobase::biocReposList(), contrib.url)
 > biocPkgs <- available.packages(biocContribUrl)
-> biocLite(pkgs=biocPkgs)
+> biocLite(pkgs=biocPkgs[,"Package"])
 \end{verbatim}
 
 
