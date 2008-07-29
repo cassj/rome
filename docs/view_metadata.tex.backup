@@ -1,0 +1,21 @@
+\subsubsection{Metadata}
+\label{sec:view_metadata}
+
+\paragraph{}
+The metadata page provides users with the option to assign metadata information (levels of factors, values of continuous variables) to the experimental outcomes. Experimental outcomes are determined by the data parser and held in the database. If no experimental outcomes are defined for an experiment then the metadata functions are unavailable to the user. The main page is split into three main sections as shown in figure \ref{fig:metadata_page_structure}. One section lists the available experimental outcomes as a series of boxes into which levels of factors or continuous variables may be dragged and dropped (acheived using scriptaculous.js dragables and dropables).
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.6]{../rome/docs/images/metadata_page_structure}
+\caption{Structure of the Metadata Page}\label{fig:metadata_page_structure}
+\end{figure}
+
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.45, angle=90]{../rome/docs/images/screenshots/metadata2}
+\caption{The Metadata Page}\label{fig:metadata_view}
+\end{figure}
+
+\clearpage

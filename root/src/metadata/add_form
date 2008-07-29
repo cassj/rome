@@ -1,0 +1,66 @@
+[%Catalyst.prototype.form_remote_tag({
+     update => 'add_results',
+     url    => "/crud/experiment/set_factor"
+   } )
+%]
+
+  <fieldset> 
+     <legend>Add factors to an experiment...</legend>
+
+     <div id="add_results"></div>
+
+     <div class="labelled_input">
+        <label for="factor_name">Factor Name</label>
+        <input type="text" name="factor_name" id="factor_name">
+        <div id="factor_name_autocomplete_choices" class="autocomplete"></div>
+      </div>
+
+      <input type="hidden" name="factor_owner" id="factor_owner"/>
+
+        <script type="text/javascript" language="javascript">
+        // <![CDATA[
+
+             new Ajax.Autocompleter("factor_name",
+				    "factor_name_autocomplete_choices",
+			            "/crud/factor/autocomplete",
+	                            {           
+                                     afterUpdateElement :  function () {      
+                                                             Ajax.Autocompleter.set_linked_value('factor_owner',
+                                                                                                 'factor_owner_update');
+                                                            } 
+                                   });
+        // ]]>
+        </script>
+
+
+       [%IF Catalyst.check_user_roles('admin')%]
+       <div class="labelled_input">
+        <label for="level_factor_name">Experiment Name</label>
+        <input type="text" name="experiment_name" id="experiment_name" value="[%Catalyst.user.experiment.name%]"/>
+        <div id="experiment_name_autocomplete_choices" class="autocomplete"></div>
+      </div>
+
+      <input type="hidden" name="experiment_owner" id="experiment_owner" value="[%Catalyst.user.experiment.owner.username%]"/>
+
+        <script type="text/javascript" language="javascript">
+        // <![CDATA[
+
+             new Ajax.Autocompleter("experiment_name",
+				    "experiment_name_autocomplete_choices",
+			            "/experiment/autocomplete",
+	                            {           
+                                     afterUpdateElement :  function () {      
+                                                             Ajax.Autocompleter.set_linked_value('experiment_owner',
+                                                                                                 'experiment_owner_update');
+                                                            } 
+                                   });
+        // ]]>
+        </script>      
+       [%ELSE%]
+       <input type="hidden" name="experiment_name id="experiment_name" value="[%Catalyst.user.experiment.name%]"/>
+       <input type="hidden" name="experiment_owner id="experiment_owner" value="[%Catalyst.user.experiment.owner.username%]"/>
+       [%END%]
+       <br/><input type="submit" name="submit" value="Add this factor" class="button"/>
+
+  </fieldset>
+</form>
