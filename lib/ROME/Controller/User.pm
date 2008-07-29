@@ -76,6 +76,9 @@ sub login : Local {
 	# If successful, then let them use the application
   	$c->stash->{template} = 'user/login_successful';
 
+	# and set the active_processes hash
+	$self->active_processes($c);
+
 	#ok, at this point we're fine and the user is in the session,
 	#however on the next call the user is no longer in the session
 	return 1;
@@ -136,6 +139,10 @@ sub logout : Local {
   #logout the user
   $c->logout;  
   
+  #clear the active processes 
+  $c->session->{active_processes} = undef;
+
+
   #return the login page.
   $c->stash->{status_msg} = 'You have been logged out.';
   $c->detach('login');

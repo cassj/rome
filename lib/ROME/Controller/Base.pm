@@ -23,7 +23,10 @@ use ROME::ActiveProcesses;
 
 sub auto :Private{
   my ($self, $c) = @_;
-  $self->active_processes($c);
+  if ($c->user){
+    $self->active_processes($c);
+  }
+  return 1;
 }
 
 sub active_processes{
@@ -33,8 +36,8 @@ sub active_processes{
   #to the current ones, if not, just return that
   my $ap = $c->session->{active_processes};
   unless ($ap 
-	  && $ap->experiment_name == $c->user->experiment->name
-	  && $ap->experiment_owner == $c->user->experiment->owner
+	  && $ap->experiment_name eq $c->user->experiment->name
+	  && $ap->experiment_owner eq $c->user->experiment->owner
 	  && grep {exists $ap->datafiles->{$_->name}} $c->user->datafiles){
     
     $c->session->{active_processes} = ROME::ActiveProcesses->new($c);

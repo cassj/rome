@@ -39,6 +39,7 @@ sub _set_active_processes{
   my ($self,$c) = @_;
 
   #keep a note of the relevant context details.
+  return unless $c->user;
   $self->{username} = $c->user->username;
   return unless my $expt = $c->user->experiment;
   $self->{experiment_name} = $expt->name or return;
