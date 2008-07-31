@@ -39,11 +39,19 @@ __PACKAGE__->table('datatype');
    Where applicable, you should include information about how this datatype
    can be interpreted by the user.
 
+=item is_image
+
+  boolean: is this datatype an image type
+
+=item is_export
+
+  boolean: is this datatype an export type
+
 =back
 
 =cut
 
-__PACKAGE__->add_columns(qw/name description default_blurb/);
+__PACKAGE__->add_columns(qw/name description default_blurb is_image is_export/);
 __PACKAGE__->set_primary_key(qw/name/);
 
 =head1 RELATIONSHIP ACCESSORS

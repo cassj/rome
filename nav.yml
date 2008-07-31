@@ -80,6 +80,17 @@
           any_datatype: 1
           href: /job
 
+- Affy Quality Control:
+   title: Various quality control plots for Affymetrix Data
+   dropdown:
+      - affyboxplot:
+          display_name: Boxplot
+          title: Generate boxplots of Affymetrix Expression Data
+          component: affyboxplot
+          version: 0.0.1
+          process: affyboxploy
+        
+
 
 - Affy Normalisation:
    title: Normalisation of Affymetrix Expression Data 

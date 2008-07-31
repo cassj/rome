@@ -489,7 +489,7 @@ sub _validate_create_process :Local{
 									 ],
 					    process_display_name =>[
 								    ROME::Constraints::is_single,
-								    ROME::Constraints::allowed_chars,
+								    ROME::Constraints::allowed_chars_plus,
 								   ],
 					    process_description =>[
 								   ROME::Constraints::is_single,
@@ -1112,6 +1112,9 @@ sub process_creates_create :Path('process/add_creates'){
   $c->request->params->{process_component_version} = $c->session->{component_version}
       if(!$c->request->params->{process_component_version} && $c->session->{component_version});
 
+  #ditch trailing whitespace from name
+  $c->request->params->{name} =~s/\s+$//;
+  
   if ($c->forward('_validate_process_creates_create')){
     my $proc_create = $c->model('ROMEDB::ProcessCreates')->create
       ({
@@ -1341,6 +1344,9 @@ sub process_accepts_delete :Path('process/delete_accepts'){
     return;
   }
 
+  #ditch trailing whitespace from name
+  $c->request->params->{name} =~s/\s+$//;
+
   my $pc;
   if ($c->forward('_validate_process_accepts_delete')){
 
@@ -1517,7 +1523,7 @@ sub _validate_datatype_create :Local{
   my ($self, $c) = @_;
   my $dfv_profile = {
 		     required => [qw(name)],
-		     optional => [qw(description default_blurb)],
+		     optional => [qw(description default_blurb is_image is_export)],
 		     msgs => {
 			      format => '%s',
 			      constraints => 
@@ -1526,6 +1532,7 @@ sub _validate_datatype_create :Local{
 			       'allowed_chars' => 'Please use only letters and numbers in this field',
 			       'is_single' => 'Cannot take multiple values',
 			       'not_datatype_exists' => 'A datatype of that name already exists',
+			       'is_boolean' => 'Value should be 1 or 0',
 			      },
 			     },
 		     filters => ['trim'],
@@ -1540,6 +1547,14 @@ sub _validate_datatype_create :Local{
 							    ROME::Constraints::is_single,
 							    ROME::Constraints::allowed_chars_plus,
 								 ],
+					    is_image => [
+							 ROME::Constraints::is_single,
+							 ROME::Constraints::is_boolean,
+							],
+					    is_export => [
+							  ROME::Constraints::is_single,
+							  ROME::Constraints::is_boolean,
+							 ],
 					   },
 		    };
  
@@ -1578,6 +1593,8 @@ sub datatype_create :Path('datatype/create'){
 	name    => $c->request->params->{name},
 	description => $c->request->params->{description},
 	default_blurb => $c->request->params->{default_blurb} || $c->request->params->{description},
+	is_image => $c->request->params->{is_image} || 0,
+	is_export => $c->request->params->{is_export} || 0,
        });
     unless ($datatype){
       $c->stash->{error_msg} = 'Failed to create datatype';
@@ -1669,7 +1686,7 @@ sub _validate_datatype_update :Local{
   my ($self, $c) = @_;
   my $dfv_profile = {
 		     required => [qw(name)],
-		     optional => [qw(description default_blurb)],
+		     optional => [qw(description default_blurb is_image is_export)],
 		     msgs => {
 			      format => '%s',
 			      constraints => 
@@ -1696,6 +1713,16 @@ sub _validate_datatype_update :Local{
 							      ROME::Constraints::is_single,
 							      ROME::Constraints::allowed_chars_plus,
 							     ],
+					    is_image => [
+							 ROME::Constraints::is_single,
+							 ROME::Constraints::is_boolean,
+							],
+					    is_export => [
+							  ROME::Constraints::is_single,
+							  ROME::Constraints::is_boolean,
+							 ],
+					    
+					    
 					   },
 		    };
  
@@ -1737,6 +1764,8 @@ sub datatype_update :Path('datatype/update'){
 
     $datatype->description($c->request->params->{description});
     $datatype->default_blurb($c->request->params->{default_blurb} || $c->request->params->{description});
+    $datatype->is_image($c->request->params->{is_image} || 0);
+    $datatype->is_export($c->request->params->{is_export} || 0);
     $datatype->update;
   }
   else{

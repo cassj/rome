@@ -51,12 +51,16 @@ sub _set_active_processes{
     $self->{datafiles}->{$_->name} = 1;
   }
 
+
+  #what if we can have more than one datatype for a given
+  #input file? eg. affybatch or eset?
+
   #ok, now get the datatypes of the datafiles and the number 
   #of each type required
   my $datatypes = {};
   $datatypes->{$_->datatype->name}++ foreach @datafiles;
   
-  #now retrive the process which accept that combination of datatypes.
+  #now retrieve the process which accept that combination of datatypes.
   #there's no point in testing all of them, just grab the processes that are
   #ok for the first datatype and check those.
   my $d = $datafiles[0]->datatype->name;

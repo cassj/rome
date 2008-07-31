@@ -24,6 +24,15 @@
       <textarea name="description"></textarea>
     </div>
 
+    <div class="labelled_input">
+      <label for="is_image">Is Image?</label>
+      <input type="checkbox" value=1 name="is_image"/>
+    </div>
+
+    <div class="labelled_input">
+      <label for="is_export">Is Export?</label>
+      <input type="checkbox" value=1 name="is_export"/>
+    </div>
 
  <input type="submit" name="submit" value="Create datatype" class="button"/>
      

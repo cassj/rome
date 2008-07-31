@@ -1,0 +1,41 @@
+[% INCLUDE 'setup/R' %]
+
+library(affy)
+
+outcomes<-c("[%selected_outcomes.join('", "')%]");
+
+obj.names<-load("[% rome_datafiles_in.ESET.path %]")
+obj<-get(obj.names[1])
+
+mat<-as.matrix(exprs(obj)[,as.character(outcomes)]);
+
+[% IF log %] mat<-log2(mat) [% END %] 
+
+plotfile <- "[% rome_datafiles_out.PLOT.name %]"
+
+##open jpeg device
+bitmap(file=plotfile, width=8.27);
+
+displaynames=c([% FOREACH oc IN  selected_outcomes%]"[%oc.display_name%]",[%END%]);
+
+
+# GET DETAILS FOR PLOT TITLE
+experiment.name<-dbGetQuery(con ,
+		paste(
+ 	      'SELECT name FROM experiment WHERE id=',
+               experiment.id,
+	       sep=""
+	       ));
+
+title<-paste("Boxplot of [%IF log%](log2) [%END%] Intensities
+	      Experiment: ", [%rome.experiment.name%],
+	    sep=""
+	   );
+
+par(fin=c(8.27,5))
+boxplot(data.frame(mat), col=2:length(outcomes)+1,main=title,names=displaynames, las=2);
+
+
+#close jpeg device
+dev.off()
+

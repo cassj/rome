@@ -33,6 +33,16 @@
           <textarea name="description">[%datatype.description%]</textarea>
         </div>
 
+	<div class="labelled_input">
+	  <label for="is_image">Is Image?</label>
+	  <input type="checkbox" name="is_image" [%IF datatype.is_image%]CHECKED[%END%] />
+	</div>
+
+	<div class="labelled_input">
+	  <label for="is_export">Is Export?</label>
+	  <input type="checkbox" name="is_export" [%IF datatype.is_export%]CHECKED[%END%] />
+	</div>
+
         <input type="submit" name="submit" value="update datatype" class="button"/>
 
      </fieldset>

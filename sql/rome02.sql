@@ -105,6 +105,8 @@
  	create table datatype(
  	name VARCHAR(50) NOT NULL,
  	description VARCHAR(100),
+        is_image BOOLEAN NOT NULL DEFAULT 0,
+        is_export BOOLEAN NOT NULL DEFAULT 0,
         default_blurb TEXT,
 	PRIMARY KEY(name)
  	) ENGINE=INNODB;
@@ -143,18 +145,19 @@
 	) ENGINE=INNODB;
 
 
-        /*A comprehensive list of export types, eg PDF, TDT, EXCEL etc.*/
+        /* DEPRECATED 
  	create table export_method(
  	name VARCHAR(50) NOT NULL,
  	description TEXT,
         extension VARCHAR(10),
 	PRIMARY KEY (name)
  	) ENGINE=INNODB;
-
+	*/
         /* Export methods for datatypes are actually defined in R, and perl isn't
            aware of them. I decided it was easier to keep a note of them in the 
            database, rather than perl calling R every time it wanted a list of 
-           export possibilities. */
+           export possibilities.
+	   DEPRECATED
  	create table datatype_export_method(
   	datatype VARCHAR(50) NOT NULL,
  	export_method VARCHAR(50) NOT NULL,
@@ -162,7 +165,7 @@
 	FOREIGN KEY (datatype) REFERENCES datatype(name) ON DELETE CASCADE,
 	FOREIGN KEY (export_method) REFERENCES export_method(name) ON DELETE CASCADE
 	) ENGINE=INNODB;
-
+	*/
 
         /* Processes correspond to individual R templates */
  	create table process(
@@ -454,7 +457,7 @@
 
  	/* an extension of the datafile table for image files 
 	   deleted:src VARCHAR(200),
- 	*/
+ 	DEPRECATED - this is in the datatype definition
  	create table image_file(
  	datafile_name VARCHAR(50),
  	datafile_experiment_name VARCHAR(50),
@@ -468,12 +471,12 @@
 	   REFERENCES datafile(name, experiment_name, experiment_owner)
 	   ON DELETE CASCADE
  	) ENGINE=INNODB;
-
+        */
 
  	/* an extension of the datafile table for export files
  	   deleted: href VARCHAR(200)
    	   (DEPECATED : export_method VARCHAR(50) REFERENCES export_type)
-        */
+          DEPRECATED: is in the datatype definition
  	create table export_file(
 	datafile_name VARCHAR(50),
  	datafile_experiment_name VARCHAR(50),
@@ -484,6 +487,8 @@
            REFERENCES datafile(name, experiment_name, experiment_owner)
 	   ON DELETE CASCADE
  	) ENGINE=INNODB;
+
+	*/
 
  	/* Stores experiments 
  	removed while I have a think:

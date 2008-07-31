@@ -42,8 +42,6 @@ __PACKAGE__->load_classes({
                ContVarWorkgroup
 
                Datafile
-               ImageFile
-               ExportFile
                DatafilePending
                DatafileWorkgroup
 
