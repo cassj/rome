@@ -10,7 +10,8 @@
 				      }
                                      ); 
                      return false"
-        >Add a new datafile this process can accept</button>
+        >Add New</button>
+
 
         [% FOREACH accepts IN process.process_accepts %]
         <div class="accepts">

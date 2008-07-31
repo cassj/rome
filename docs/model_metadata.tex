@@ -2,7 +2,9 @@
 \label{sec:model_metadata}
 
 \paragraph{}
-A data parser may, if appropriate, define experimental \texttt{outcomes} associated with the newly parsed datafile. For example an AffyBatch may contain the results of multiple arrays run under different conditions, each array is registered with the database as a different \texttt{outcome}. These outcomes may then be associated with metadata describing the levels of factors, or values of continuous variables used in their generation. All the possible outcomes are registered with the experiment and datafiles belonging to that experiment can also be annotated with all or a subset of those outcomes. It should be noted that once the experiment has had outcomes defined, they cannot currently be redefined or added to by later parsing processes.
+A data parser may, if appropriate, define experimental \texttt{outcomes} associated with the newly parsed datafile. For example an AffyBatch may contain the results of multiple arrays run under different conditions, each array is registered with the database as a different \texttt{outcome}. These outcomes may then be associated with metadata describing the levels of factors, or values of continuous variables used in their generation. All the possible outcomes are registered with the experiment and datafiles belonging to that experiment can also be annotated with all or a subset of those outcomes. 
+
+%It should be noted that once the experiment has had outcomes defined, they cannot currently be redefined or added to by later parsing processes.
 
 \paragraph{}
 The ROME model captures only the metadata pertinent to the statistical analysis of the data, which comprises the independent variables under examination and the values of those variables used to generate each experimental outcome. Discrete variables are modelled by the \texttt{factor} and \texttt{level} tables in the database. Continuous variables are modelled by the \texttt{cont\_var} table. The structure of the metadata section of the database is outlined in figure \ref{fig:metadata_mod}. 

@@ -1,5 +1,6 @@
 <h4>Parameters this process requires</h4>
 
+
 	<button 
             onclick="new Ajax.Updater('forms',
                                       '[%Catalyst.uri_for("/devel/process/parameters_form")%]?process_name=[% process.name %]&process_component_name=[% process.component_name %]&process_component_version=[% process.component_version %]',
@@ -10,7 +11,7 @@
 				      }
                                      ); 
                      return false"
-        >Add a new parameter to this process</button>
+        >Add New</button>
 
 
        [% FOREACH param IN process.parameters %]
@@ -21,3 +22,4 @@
 	     [%IF param.default_value%]<span class="param_default_value">(default: [%param.default_value%])</span>[%END%]
           </div> <!-- end param-->
         [% END %]
+

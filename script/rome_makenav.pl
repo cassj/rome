@@ -78,7 +78,7 @@ sub make_tt{
 	my $version = $element->{$key}->{version};
 	my $process = $element->{$key}->{process};
 	my $href = $element->{$key}->{href};
-	$href = "component/$component/$process" unless $href;
+	$href = "/component/$component/$process" unless $href;
 	my $title = $element->{$key}->{title};
         my $any_datatype = $element->{$key}->{any_datatype};
 	

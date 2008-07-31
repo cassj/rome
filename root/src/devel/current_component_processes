@@ -1,14 +1,5 @@
    <h3>Processes associated with this component</h3>
 
-   <button
-      onclick=" new Ajax.Updater( 'forms',  
-                                   '[%Catalyst.uri_for("/devel/process/form")%]', 
-                                   { 
-                                     asynchronous: 1,
-				     onComplete: function(){new Effect.ScrollTo('forms'); return false;}
-				   } ) ; 	
-                return false"
-   >Add a new process to this component</button>
 
    [% FOREACH process IN selected_component.processes%]
  
@@ -46,4 +37,17 @@
            [% INCLUDE 'devel/process_template' %]
     	 </div>
 
+        
+      </div>
    [% END %]
+
+   <button 
+      onclick=" new Ajax.Updater( 'forms',  
+                                   '[%Catalyst.uri_for("/devel/process/form")%]', 
+                                   { 
+                                     asynchronous: 1,
+				     onComplete: function(){new Effect.ScrollTo('forms'); return false;}
+				   } ) ; 	
+                return false"
+   >Add a new process to this component</button>
+

@@ -1,7 +1,7 @@
 
        <h4>Datatypes this process creates</h4>
 
-	<button 
+	<button
             onclick="new Ajax.Updater('forms',
                                       '[%Catalyst.uri_for("/devel/process/creates_form")%]?process_name=[%process.name%]',
                                       { 
@@ -11,7 +11,9 @@
 				      }
                                      ); 
                      return false"
-        >Add a new datafile this process creates</button>
+        >Add New</button>
+
+
 
        [% FOREACH creates IN process.process_creates %]
          <div class="creates">

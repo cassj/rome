@@ -31,7 +31,7 @@
 
   <li><a title="Normalisation of Affymetrix Expression Data" href="#" class="dropdown">Affy Normalisation</a>
    <ul>
-    <li><a class= [% IF Catalyst.session.active_processes.rma.item('0.0.1').rma %]
+    <li><a class= [% IF Catalyst.session.active_processes.processes.rma.item('0.0.1').rma %]
                            "active"
                          [% ELSE %]
                            "inactive"

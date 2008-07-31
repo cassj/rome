@@ -134,7 +134,8 @@ label {
   margin-left: 20em;
 }
 
-.button {
+/*
+button, .button {
   margin-top: 2em; 
   background-color: [% site.col.button %]; 
   color: [% site.col.button_text %]; 
@@ -146,12 +147,13 @@ label {
   cursor: pointer !important;
 }
 
-.button:hover{
+button:hover, .button:hover{
   background-color: [% site.col.button_text %];
   color: [% site.col.button %];
   border-top: 2px solid  [% site.col.button_border %]; border-left: 2px solid  [% site.col.button_border %];
   border-bottom: 2px solid white; border-right: 2px solid white;
 }
+*/
 
 
 #dfv_error{
@@ -549,5 +551,56 @@ dl.factor dl{
 .queued_job th{
   text-align: left;
   padding-right: 20px;
+}
+
+/*********** Devel Page ***********/
+
+#current_component{
+ margin-bottom: 3em;
+ font-family: arial, helvetica, sans-serif; 
+}
+
+#current_component button{
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.process{
+  margin-left: 3em;
+  margin-right: 3em;
+  padding: 10px;
+  border: 1px dashed [%site.col.form_border%]
+}
+
+.process_name{
+  font-weight: bold;
+  color: [%site.col.highlight%];
+  font-family: arial, helvetica,sans-serif;
+  font-size: 1.5em;
+}
+
+.process_description{
+ display:block;
+}
+
+.process h4{
+  margin:0;
+  margin-top: 1em;
+}
+
+.process_accepts, .process_creates, .process_parameters, .process_template{
+  margin: 1em;
+  border-top: 1px dashed [%site.col.form_border%];
+  padding: 1em;
+}
+
+.param_name, .accepts_name, .creates_name{
+  color: [%site.col.highlight%];
+  font-weight: bold;
+  display:block;
+}
+
+.accepts_datatype_name, .create_datatype_name, .param_description{
+  margin-left: 1em;
 }
 
