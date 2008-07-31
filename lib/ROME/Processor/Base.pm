@@ -155,30 +155,16 @@ sub queue{
   }
   
   ####
-  # Check that the currently selected datafiles match up with process_accepts
-
-  my %in_datafile_types;
-  $in_datafile_types{$_->datatype->name}++ 
-    for $self->context->user->datafiles;
-
-  my %acceptable_datafile_types;
-  $acceptable_datafile_types{$_->accepts->name}++
-	for $self->process->process_accepts;
-
-  unless (Compare(\%in_datafile_types, \%acceptable_datafile_types) ){
-    my $error = join ' ', 
-      map {$_->accepts->name.' ('.$_->num.')'} 
-	$self->process->process_accepts;
-
-      $self->context->stash->{error_msg} =  
-	scalar(keys %acceptable_datafile_types) ?
-	  "Wrong datafiles selected. Requires datafiles of types: $error":
-	    "Wrong datafiles selected. No input datafiles required";
-
-   
-    return 0;
+  # Check the process in question is active
+  
+  unless ($self->context->session->{active_processes}
+	  && $self->context->session->{active_processes}->{processes}
+	  -> {$self->process->component_name}
+	  -> {$self->process->component_version}
+	  -> {$self->process->name}){
+      $self->context->stash->{error_msg} = "Unsuitable datatypes selected";
+      return 0;
   }
-
 
   ###
   # check that the contents of $self->arguments match up to those defined for 
@@ -197,8 +183,7 @@ sub queue{
     }
   }
 
- 
-
+  
   # constraint checks should have been done by the controller which 
   # uses the processor
 
@@ -244,10 +229,22 @@ sub queue{
 		     parameter_process_component_version => $self->process->component_version,
                      value => $val,
 		    });
-
-    
     }
   }
+
+  #if we've got selected_outcomes, also store their objects 
+  my @selected_outcome_objects;
+  foreach (@{$self->arguments->{selected_outcomes}}){
+    push @selected_outcome_objects, $self->context->model('ROMEDB::Outcome')->find
+      (
+       $_,
+       $self->context->user->experiment->name, 
+       $self->context->user->experiment->owner->username,
+      );
+  }
+
+  $self->arguments->{selected_outcome_objects} = \@selected_outcome_objects;
+  $self->arguments->{selected_outcome_display_names} = [map {$_->display_name} @selected_outcome_objects];
 
   ###
   # Process_accepts should be used here. 

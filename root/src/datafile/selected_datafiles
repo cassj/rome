@@ -4,7 +4,9 @@
 
     [%FOREACH datafile IN Catalyst.user.datafiles%]
      <table>
-       <tr><th class="datafile_name">[%datafile.name%]</th></tr>
+       <tr><th class="datafile_name">[%datafile.name%]</th>
+           <td><a target=_BLANK title="opens in a new window" href="[%Catalyst.uri_for('/datafile/view')%]?name=[%datafile.name%]&experiment_name=[%datafile.experiment_name%]&experiment_owner=[%datafile.experiment_owner%]">View/Download</a>
+       </tr>
        <tr><th>Job ID:</th><td>[% datafile.job.id %]</td></tr>
        <tr><th>Job Status: </th>
            [% IF datafile.job.completed==1 %]
@@ -26,6 +28,7 @@
        [%ELSE%]None
        [%END%] </td></tr>
      </table>
+     
      
     [%END%]
 [%ELSE%]

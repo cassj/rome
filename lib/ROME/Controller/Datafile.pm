@@ -235,4 +235,38 @@ sub delete_selected :Local {
 }
 
 
+=head2 view 
+
+  Matches datafile/view
+  Expects parameters
+  name: the datafile name
+  experiment_name: the name of the experiment to which the datafile belongs
+  experiment_owner: the owner of the datafile
+
+=cut
+sub view :Local{
+  my ($self, $c) = @_;
+
+  #just use the select param checks as they're the same
+  if($c->forward('_validate_select_params')){
+    #get the datafile
+    my $df = $c->model('ROMEDB::Datafile')->find
+      (
+       $c->request->params->{name},
+       $c->request->params->{experiment_name},
+       $c->request->params->{experiment_owner},
+      );
+    my $path = $df->path;
+    $c->serve_static_file($path);
+     
+  }
+  else {
+    $c->stash->{ajax} = 1;
+    $c->stash->{template} = 'site/messages';
+  }
+  return;
+  
+}
+
+
 1;

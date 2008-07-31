@@ -42,8 +42,8 @@ sub affyboxplot :Local{
 sub _validate_affyboxplot :Private{
   my ($self, $c) = @_;
   my $dfv_profile = {
-		      required => [qw(log selected_outcomes )],	
-		      optional => [qw()],	
+		      required => [qw(selected_outcomes )],	
+		      optional => [qw(log)],	
 		      dependencies =>{},
 		      msgs => {
 			       format => '%s',
