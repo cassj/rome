@@ -31,11 +31,11 @@
 
   <li><a title="Various quality control plots for Affymetrix Data" href="#" class="dropdown">Affy Quality Control</a>
    <ul>
-    <li><a class= [% IF Catalyst.session.active_processes.processes.affyboxplot.item('0.0.1').affyboxploy %]
+    <li><a class= [% IF Catalyst.session.active_processes.processes.affyboxplot.item('0.0.1').affyboxplot %]
                            "active"
                          [% ELSE %]
                            "inactive"
-                         [% END %] title="Generate boxplots of Affymetrix Expression Data" href="/component/affyboxplot/affyboxploy">Boxplot</li></a>
+                         [% END %] title="Generate boxplots of Affymetrix Expression Data" href="/component/affyboxplot/affyboxplot">Boxplot</li></a>
    </ul>
   </li>
 

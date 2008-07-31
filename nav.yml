@@ -88,7 +88,7 @@
           title: Generate boxplots of Affymetrix Expression Data
           component: affyboxplot
           version: 0.0.1
-          process: affyboxploy
+          process: affyboxplot
         
 
 

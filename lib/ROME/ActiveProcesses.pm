@@ -51,10 +51,6 @@ sub _set_active_processes{
     $self->{datafiles}->{$_->name} = 1;
   }
 
-
-  #what if we can have more than one datatype for a given
-  #input file? eg. affybatch or eset?
-
   #ok, now get the datatypes of the datafiles and the number 
   #of each type required
   my $datatypes = {};
@@ -74,17 +70,49 @@ sub _set_active_processes{
        }
      );
 
-  while(my $proc = $processes->next){
-    my $test = {};
-    $test->{$_}++ foreach map {$_->datatype_name} $proc->process_accepts;
-    #is test equal to datatypes?
-    my $ok = 1;
-    foreach (keys %$datatypes)
-      {
-	$ok = 0 unless exists $test->{$_} && $datatypes->{$_} == $test->{$_};
+
+  my $dts = $datatypes;
+
+  PROCESS: while(my $proc = $processes->next){
+    my $accepts ;
+    foreach ($proc->process_accepts){
+      push @{$accepts->{$_->name}}, $_->datatype_name;
+    }
+
+
+    my $dts = {%$datatypes};
+
+    foreach (keys %$accepts){
+
+      #remove any accepts datatypes which don't exist in datatypes
+      $accepts->{$_} = [ grep {exists $datatypes->{$_}} @{$accepts->{$_}} ];
+
+      #if there's only one option, remove an instance of that
+      #datatype from dts, or bail.
+      if (scalar @{$accepts->{$_}} == 1){
+	my $dt = $accepts->{$_}->[0];
+        next PROCESS unless defined $dts->{$dt};
+        $dts->{$dt} --;
+	delete $dts->{$dt} if $dts->{$dt}==0;
       }
-    $self->{processes}->{$proc->component_name}->{$proc->component_version}->{$proc->name} = 1 if $ok;
+    }
+
+    ##This bit isn't really tested. #########
+
+    #ok, the remaining accepted files can take multiple possible datatypes
+    my $indices  = { map {$_=> $#{$accepts->{$_}}} grep {$#{$accepts->{$_}} > 0} keys %{$accepts}};
+
+    #try all permutations of remaining dts and the datatypes in indices untile we get one
+    #that works or we give up and bail.
+
+    ###TODO##
+
+    #Shouldn't be anything left in dts by this point.
+    next PROCESS if scalar (keys %$dts);
+
+    $self->{processes}->{$proc->component_name}->{$proc->component_version}->{$proc->name} = 1;
   }
+
 }
 
 

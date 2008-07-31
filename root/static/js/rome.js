@@ -148,15 +148,14 @@ function datafile_updater (url){
 		      url, 
 		      { asynchronous: 1,
 			      onComplete: function(){
-                                update_nav(); 
                                 update_status_bar(); 
                                 update_datafile_list('list_datafiles'); 
                                 update_selected_datafiles('selected_datafiles'); 
+	                        update_nav(); 
                                 return false;
                               },
 			      evalScripts: true,
 		      });
-   
     return false;
 }
 
