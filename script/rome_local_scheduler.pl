@@ -2,11 +2,12 @@
 
 =head1 NAME
 
-script/rome_job_scheduler.pl
+script/rome_local_scheduler.pl
 
 =head1 DESCRIPTION
 
-This is the basic job scheduler daemon for ROME.
+This is the basic job scheduler daemon for ROME, scheduling and 
+running jobs on the local machine
 
 It checks the contents of the queue and runs (in order of submission) any
 jobs for whom the input datafiles are ready. It will skip over anything still
@@ -65,7 +66,6 @@ my $schema = ROMEDB->connect( $con->[0],$con->[1],$con->[2] );
 }
 
 
-
 sub daemonize {
   chdir('/');
 
@@ -86,7 +86,7 @@ sub daemonize {
 
 sub run{
   my $job = shift;
- 
+
   #do this bit in the user's directory
   my $userdir = dir($rome_root,'userdata', $job->owner->username);
   local $CWD = "$userdir"; 
@@ -102,7 +102,9 @@ sub run{
 
   #run the job.
   my $script = $prepared_job->{script};
-  my $pid = open(OUT, $prepared_job->{local_cmd}. "< $script 2>&1| ") 
+  my $cmd = $prepared_job->{executable} .' '. $prepared_job->{arguments}. " < $script 2>&1| ";
+ 
+  my $pid = open(OUT, $cmd) 
     or die "Couldn't fork: $!\n";
 
   #open the log

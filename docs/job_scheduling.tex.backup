@@ -2,37 +2,30 @@
 \label{sec:job_scheduling}
 
 \paragraph{}
-Running jobs in the queue is decoupled from the rest of ROME. job\_scheduler daemons call on the ROME::JobScheduler factory class to return an instance of the appropriate ROME::JobScheduler::Base subclass for the job in question. It selects the subclass on the basis of the name of the component to which the process belongs. The daemon calls the <process_name>_prepare method in the job scheduler object to do any setup and the <process_name>_complete method to do any necessary processing of the output of the job. The base class provides default prepare and complete methods. 
-
-The default prepare function just takes the job DBIx::Class object and retrieves the information required for running the job. For the basic scheduler this is simply the name of the executable to run (as defined by the processor), arguments to the executable (as defined by the processor), and the input and output files. 
-
+The \texttt{script/rome_local_scheduler.pl} schedules and runs jobs on the local machine. Althernatively, if ROME has access to a condor pool (even a person-condor pool of one) the \texttt{script/rome_condor_scheduler.pl} can submit ROME jobs to a condor pool. The schedulers are smart enough to deal skip over jobs which have uncompleted jobs upstream. Both schedulers rely on job scheduler objects of an appropriate subclass of ROME::JobScheduler::Base as returned by the factory class ROME::JobScheduler. If a class, ROME::JobScheduler::<ComponentName>, exists for the component to which the job's process belongs then this will be returned. Otherwise the base class will be returned. 
 
 \paragraph{}
-If ROME is running with access to a condor cluster (which can include a local personal-condor installation, usefule for testing ) then the \texttt{script/rome\_job\_scheduler\_condor.pl} daemon can be used instead. As with the basic scheduler, this has prepare and complete hooks which JobScheduler classes can use but instead of running the prepared job on the completed machine, it submits it to condor.
+Although one or other of the daemons deals with running or submitting the job they call on the JobScheduler to preprocess and post-process the job. The method <process_name>_prepare is called before the job is run and if this method is not found, the base prepare method is called. This allows authors of individual processes to add process-specific pre-processing by writing a ROME::JobScheduler::<ComponentName>-><process_name>_prepare method. A prepare method should return a hash of various key=value pairs. The base prepare function provides defaults for all the values shown below:
 
-Prepare should return a hash defining various settings for the job, which can be derived from the 
-executable
-arguments
-STDIN
-STDOUT
-STDERR
-
-
-
-Parallel processes could perhaps be handled by having the processor queue multiple jobs under some group in the queue and have a custom JobScheduler class to deal with the results. Not quite sure how this would work with pre-generated datafiles.
-
-
-
-
+\begin{scriptsize}
+\begin{tabular}[lcl]
+executable & required & binary to be run \\
+argument&required&arguments to binary\\
+script&required&Script (relative to userdir)\\
+in_datafiles&required&Input datafiles (relative to userdir)\\
+log&required&Logfile (relative to userdir)\\
+requirements&optional&characteristics of a machine capable of running this job. Ignored by the basic job scheduler, used in condor\\
+rank&optional&Some calculation to determine preferred target machines \\
+\end{tabular}
+\end{scriptsize}
 
 \paragraph{}
-Job processing is decoupled from the rest of ROME. The current job scheduler daemon (\texttt{scripts/rome\_job\_scheduler.pl}) simply browses through the queue, checking each queued job to see if the input datafiles it requires are ready and, if they are, sets the queued job status to PROCESSING and calls R to run the job, sending its output to the job's specified log file. On successful completion, the job is removed from the queue and it's completed flag is set to true. Generated datafiles have their pending flag removed. If the job fails, it's status flag is set to HALTED and an email is sent to the system administrator so that they can check the relevant log file.
+The optional requirements and rank values should be Condor ClassAds-style \citep{raman:98} specifications. Although not required (and are ignored by the basic scheduler) they are useful for allowing Condor to deal with processes which may have significant processor or space requirements. 
 
 \paragraph{}
-Clearly having all the jobs running on the server is not a scalable approach. One of the main reasons for having a seperate job scheduler was to make it easy to swap in a scheduler which could interact with a compute cluster. This has not been developed during this project as there was no cluster available on which to test it. It is, however, an obvious target for further development.
+If a job fails then the daemon calls the <process_name>_halted method in the JobScheduler, whih defaults to the base ->halted if not found. This sends warning emails to the user who created the job and the system administrator. It also removes the job and any downstream jobs or datafiles from the database. As with the prepare method, component developers can define their own process-specific error handling halted method if required.
 
 \paragraph{}
-MORE DETAILS ABOUT JOB SCHEDULING, PARTICULARLY ON OTHER MACHINES - HOW MUCH IS DECOUPLED, WHAT NEEDS TO BE INSTALLED ON THE CLUSTER, ETC.
-
+When a job completes successfully the daemon calls the jobScheduler's <process_name>_completed method, again this defaults to the base method and can be overridden for specific processes to do post-processing as required. 
 
 %  The job scheduler is smart enough to check whether the input datafiles for a job are ready yet and to delay processing if they aren't.

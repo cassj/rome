@@ -115,7 +115,7 @@ sub cmd {
 	$path = File::Which::which($self->cmd_name);
     }
     die "executable not found" unless ($path && -x $path);
-    return $path.' '.$self->cmd_params;
+    return $path;
 
 }
 

@@ -110,8 +110,7 @@ sub prepare{
 
   my $processor = ROME::Processor->new($self->job->process->processor);
   my $prepared = {};
-  $prepared->{executable}    = $processor->cmd_name;
-  $prepared->{local_cmd}     = $processor->cmd;
+  $prepared->{executable}    = $processor->cmd;
   $prepared->{arguments}     = $processor->cmd_params;
   $prepared->{script}        = $self->job->script;
   $prepared->{in_datafiles}  = [map {$_->path} $self->job->in_datafiles];
@@ -165,7 +164,6 @@ sub halted{
 
   #remove this job from the queue.
   $self->job->queued->delete;
-  $self->job->queued->update;
 
   #and remove any downstream jobs and datafiles altogether
   $self->_delete_datafiles($_) foreach $self->job->out_datafiles;
