@@ -509,36 +509,36 @@ sub parse_template {
 #}
 
 ########################################
-sub process_script
-  {
-    my $self = shift;
-   
-    die "Nothing in $self->script. Parse template first" unless $self->script;
- 
-    my $script = $self->script;
-
-    #STDERR/STDOUT to a filehandle
-    my $pid = open(OUT, $self->cmd." < '$script' |") 
-      or die "Couldn't fork: $!\n";
-
-    my ($line, $out);
-    while($line = <OUT>)
-      {
-	print STDERR $line;
-	#$out->{$1}= [split /,/,$2] if $line=~/^([\w|\-]+)\?(.+$)/;
-       }
-	
-    if (close(OUT)){
-      $self->send_email_confirmation;
-    }
-    else
-      {
-	die "Problem with process ".__PACKAGE__." : $!";
-	$self->send_admin_alert;
-      }
-    
-      $self->out($out);
-  }
+#sub process_script
+#  {
+#    my $self = shift;
+#   
+#    die "Nothing in $self->script. Parse template first" unless $self->script;
+# 
+#    my $script = $self->script;
+#
+#    #STDERR/STDOUT to a filehandle
+#    my $pid = open(OUT, $self->cmd." < '$script' |") 
+#      or die "Couldn't fork: $!\n";
+#
+#    my ($line, $out);
+#    while($line = <OUT>)
+#      {
+#	print STDERR $line;
+#	#$out->{$1}= [split /,/,$2] if $line=~/^([\w|\-]+)\?(.+$)/;
+#       }
+#	
+#    if (close(OUT)){
+#      $self->send_email_confirmation;
+#    }
+#    else
+#      {
+#	die "Problem with process ".__PACKAGE__." : $!";
+#	$self->send_admin_alert;
+#      }
+#    
+#      $self->out($out);
+#  }
 
 
 

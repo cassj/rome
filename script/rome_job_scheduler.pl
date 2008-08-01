@@ -1,113 +1,128 @@
-#!/usr/bin/perl;
+#!/usr/bin/perl
 
-# This script should be started when you start R-OME.
-# it keeps track of pending processes and runs them when the datafile they require is ready.
+=head1 NAME
+
+script/rome_job_scheduler.pl
+
+=head1 DESCRIPTION
+
+This is the basic job scheduler daemon for ROME.
+
+It checks the contents of the queue and runs (in order of submission) any
+jobs for whom the input datafiles are ready. It will skip over anything still
+with pending datafiles until it gets back round to the top.
+
+It calls  ROME::JobScheduler::* class <process_name>_prepare and _complete
+methods to setup the data and to process the results of the job, including
+necessary database updates. The default prepare and complete methods defined
+in ROME::JobScheduler::Base are fine for most simple processes.
+
+=head1 USAGE
+
+script/rome_job_scheduler.pl
+
+=cut
 
 use FindBin;
 use lib "$FindBin::Bin/../lib";
 
 use ROMEDB;
-#use WebR::M::CDBI;
 use Data::Dumper;
 use YAML;
 use POSIX qw(setsid);
+use Path::Class;
+use ROME::JobScheduler;
+use File::chdir;
 
+#script is always run from root dir.
+my $rome_root  = dir();     
+my $config =  YAML::LoadFile(file($rome_root, 'rome.yml'));
 
-#use lib '/srv/www/WebR/lib';
-
-	
-my $rome_root = $ARGV[0];
-my $config =  YAML::LoadFile("$rome_root/webr.yml");
-
+#connect to DB 
+my $con = $config->{Model::ROMEDB}->{connect_info};
+my $schema = ROMEDB->connect( $con->[0],$con->[1],$con->[2] );
 
 &daemonize;
 
-while (1){
-  my $pending = WebR::M::CDBI::ProcessPending->retrieve_all;
+ while (1){
 
-  #This will only deal with processes running on a single datafile. 
-  #Should this be a many-to-many? Feasibly a process might require multiple datafiles?
+  my $queued = $schema->resultset('Queue')->search
+    ({
+      status => 'QUEUED',
+     });
+  
+  while (my $q = $queued->next){
 
-  while (my $proc = $pending->next){
-    next if $proc->datafile->pending;
-    next unless $proc->status eq 'QUEUED';
-    warn "Starting Process ".$proc->id;
-    &run($proc);
+    #skip if datafiles are still pending
+    my @datafiles = $q->job->in_datafiles;
+    next if grep {$_->pending} @datafiles;
+
+    run($q->job);
+
   }
-  
-  sleep(5);
-}
 
-
-sub run{
-  my $proc_pending =shift;
-  
-  #setup
-  warn "setup";
-  
-  my $user =  $proc_pending->person; 
-  
-  #grab an empty processor so we get the fxns we need.
-  my $processor = $proc_pending->processor;
-  eval "require $processor";
-  my $processor = $processor->new();
-  
-  #add relevant bits to the processor
-  $processor->script($proc_pending->script);
-  $processor->config($config);
-  $processor->user($user);  
-  $processor->process($proc_pending->process);
-
-  my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) =
-    localtime();
-  
-  $year=$year+1900;
-  $mon++;
-  print "\nTIME: $year-$mon-$mday $hour:$min:$sec \n";
-  $proc_pending->start_time("$year-$mon-$mday $hour:$min:$sec");
-  
-  warn "processing";
-  $proc_pending->status('PROCESSING');
-  $proc_pending->update;
-  
-  #RUN!
-  #This should actually just queue the job on the farm. 
-  warn "running";
-  eval {
-    $processor->process_script
-  };
-  if($@){
-    $proc_pending->status('HALTED');
-    $proc_pending->update;
-    return 0;
-  }  
-  
-  #note - the R script deals with removing the pending flag on the new datafiles. see Webr.R register_datafile
-  
-  #and this should probably happen as a response to completion of a job on the farm.
-  warn "finishing";
-  $proc_pending->delete;
-
-  warn "DONE";
+   sleep(5);
 }
 
 
 
 sub daemonize {
-
   chdir('/');
-  
+
   my $access_log = $config->{'process'}->{'access_log'};
   my $error_log = $config->{'process'}->{'error_log'};
- 
+
   open STDIN,  '/dev/null' or die "Can't read /dev/null: $!";
-  open STDOUT, ">>$access_log" or die "Can't write to $access_log: $!";
-  open STDERR, ">>$error_log" or die "Can't write to $error_log: $!";
+  open STDOUT, '/dev/null' or die "Can't write to /dev/null: $!";
+  open STDERR, '/dev/null' or die "Can't write to /dev/null: $!";
   
   defined(my $pid = fork)   or die "Can't fork: $!";
   exit if $pid;
   setsid                    or die "Can't start a new session: $!";
   umask 0;
-  
+
 }
 
+
+sub run{
+  my $job = shift;
+ 
+  #do this bit in the user's directory
+  my $userdir = dir($rome_root,'userdata', $job->owner->username);
+  local $CWD = "$userdir"; 
+
+  #get a job scheduler
+  my $scheduler = ROME::JobScheduler->new($job);
+
+  #Access stuff indirectly via prepared_job to give
+  #process-specific JobSchedulers the chance to do
+  #pre-processing and override stuff
+  my $prepare = $job->process->name.'_prepare';
+  my $prepared_job = $scheduler->$prepare;
+
+  #run the job.
+  my $script = $prepared_job->{script};
+  my $pid = open(OUT, $prepared_job->{local_cmd}. "< $script 2>&1| ") 
+    or die "Couldn't fork: $!\n";
+
+  #open the log
+  my $log = file($prepared_job->{log});
+  $log = $log->open('>');
+
+  #send the output to the log file
+  while(my $line = <OUT>){
+    print $log $line;
+  }
+  $log->close;
+
+  #deal with the results
+  if (close(OUT)){
+    my $complete = $job->process->name.'_complete';
+    $scheduler->$complete
+  }
+  else {
+    my $halted = $job->process->name.'_halted';
+    $scheduler->$halted
+  }
+
+}

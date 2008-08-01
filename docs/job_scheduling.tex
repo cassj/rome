@@ -1,5 +1,31 @@
 \subsubsection{The Job Scheduler}
 \label{sec:job_scheduling}
+
+\paragraph{}
+Running jobs in the queue is decoupled from the rest of ROME. job\_scheduler daemons call on the ROME::JobScheduler factory class to return an instance of the appropriate ROME::JobScheduler::Base subclass for the job in question. It selects the subclass on the basis of the name of the component to which the process belongs. The daemon calls the <process_name>_prepare method in the job scheduler object to do any setup and the <process_name>_complete method to do any necessary processing of the output of the job. The base class provides default prepare and complete methods. 
+
+The default prepare function just takes the job DBIx::Class object and retrieves the information required for running the job. For the basic scheduler this is simply the name of the executable to run (as defined by the processor), arguments to the executable (as defined by the processor), and the input and output files. 
+
+
+\paragraph{}
+If ROME is running with access to a condor cluster (which can include a local personal-condor installation, usefule for testing ) then the \texttt{script/rome\_job\_scheduler\_condor.pl} daemon can be used instead. As with the basic scheduler, this has prepare and complete hooks which JobScheduler classes can use but instead of running the prepared job on the completed machine, it submits it to condor.
+
+Prepare should return a hash defining various settings for the job, which can be derived from the 
+executable
+arguments
+STDIN
+STDOUT
+STDERR
+
+
+
+
+Parallel processes could perhaps be handled by having the processor queue multiple jobs under some group in the queue and have a custom JobScheduler class to deal with the results. Not quite sure how this would work with pre-generated datafiles.
+
+
+
+
+
 \paragraph{}
 Job processing is decoupled from the rest of ROME. The current job scheduler daemon (\texttt{scripts/rome\_job\_scheduler.pl}) simply browses through the queue, checking each queued job to see if the input datafiles it requires are ready and, if they are, sets the queued job status to PROCESSING and calls R to run the job, sending its output to the job's specified log file. On successful completion, the job is removed from the queue and it's completed flag is set to true. Generated datafiles have their pending flag removed. If the job fails, it's status flag is set to HALTED and an email is sent to the system administrator so that they can check the relevant log file.
 

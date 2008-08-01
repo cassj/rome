@@ -65,8 +65,7 @@ sub graph : Local {
   $c->stash->{html_imagemap} = $c->subreq("/datafile/imap");
 
   #graphviz will add hrefs to nodes, but we need ajax links to datafile/select
-  #javascript for datafile_updater in rome.js. I kinda feel I should be able to do onclick=function(){myfuxnhere}
-  #but it doesn't work and google is failing me.
+  #javascript for datafile_updater in rome.js
   $c->stash->{html_imagemap} =~ s/href=\"(.+?)\"/href=\"$1\" onclick=\"return datafile_updater(\'$1\')\"/g;
 
 
@@ -256,6 +255,14 @@ sub view :Local{
        $c->request->params->{experiment_name},
        $c->request->params->{experiment_owner},
       );
+    #is it pending?
+    if ($df->pending){
+	$c->stash->{ajax} = 1;
+	$c->stash->{template} = 'site/messages';
+	$c->stash->{error_msg} = 'Datafile still pending. Please try again when the job that creates this datafile is complete';
+	return;
+    }
+
     my $path = $df->path;
     $c->serve_static_file($path);
      
