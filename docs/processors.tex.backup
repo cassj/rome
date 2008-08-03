@@ -1,87 +1,77 @@
-\subsection{Processors}
-\label{sec:processors}
+\subsubsection{Processors}
+\label{sec:model_processors}
 
 \paragraph{}
-Before looking at how to create new ROME components it is worth briefly describing how ROME Processors work. Processors are Perl classes in the ROME::Processor:: namespace which can be used by component controllers to generate and run scripts from ROME processes. All Processors should inherit from the ROME::Processor::Base class which provides various shared functionality. These subclasses do not need to be used directly as the ROME::Processor class is a factory class, capable of instanciating an object of the appropriate subclass. The only processor currently available is ROME::Processor::R, an instance of which can be retrieved as shown below. The design was implemented with a view to adding support for other types of processor in the future though this was beyond the requirements of the current project.
+Before looking at how to create new ROME components it is worth briefly describing how ROME Processors work. Processors are Perl classes in the ROME::Processor:: namespace which can be used by component controllers to generate runnable scripts from ROME processes. All Processors should inherit from the ROME::Processor::Base class which provides shared functionality. These subclasses do not need to be used directly as the ROME::Processor class is a factory class, capable of instanciating an object of the appropriate subclass. The only processor currently available is ROME::Processor::R, an instance of which can be retrieved as shown below. The design was implemented with a view to adding support for other types of processor in the future though this was beyond the requirements of the current project.
 
+\begin{scriptsize}
 \begin{verbatim}
 use ROME::Processor;
 my $R = ROME::Processor->new('R');
 #or similarly
 my $R = ROME::Processor->new($process->processor);
 \end{verbatim}
-
+\end{scriptsize}
 
 \paragraph{}
 The base processor class does most of the work. All the subclass needs to do is specify:
 
-\paragraph{cmd_name}
+\paragraph{cmd\_name}
 This method should return the name of the executable to which will be passed the script as input, for example \texttt{R}. Note that this should not be the full path, just the executable name.
 
-\paragraph{cmd_params}
+\paragraph{cmd\_params}
 This method should return any command line parameters (as a string) to be given to the command, for example \texttt{--slave --vanilla}.
 
 \paragraph{\_suffix}
 An optional file extension to be used for generated scripts, for example 'R'
 
 \paragraph{}
-The base class defines a \texttt{cmd} method which will determine the full path to the executable named in \texttt{cmd_name}. If environment variable with the name 'ROME_PROCESS_FOO' exists (where FOO is the name of the subclass (in uppercase)) then its contents are used as the path. Otherwise the Perl module File::Which is used to locate the executable in the path. 
+The base class defines a \texttt{cmd} method which will return the full path to the executable named in \texttt{cmd\_name}. If an environment variable with the name 'ROME\_PROCESS\_FOO' exists (where FOO is the name of the subclass (in uppercase)) then its contents are used as the path. Otherwise the Perl module File::Which is used to locate the executable in the path. 
 
 \paragraph{}
-If a processor has a process (an object of class \texttt{ROMEDB::Process}) and a hash reference of \texttt{arguments} then its \texttt{queue} method can be called. This will check the arguments against the constraints defined for the process's parameters, check the selected datafiles match up with the process's accepted datafiles, parse the process template into a script, create a new job entry in the database,create placeholder datafiles for the eventual results of the process and finally add the job to the queue.
+If a processor has a process (an object of class \texttt{ROMEDB::Process}) and a hash reference of \texttt{arguments} (though the hash referenced may be empty) then its \texttt{queue} method can be called. The \texttt{queue} method does all the setting up of the job to run the process. It checks that the user has permission to edit the experiment and that the selected datafiles match the process's accepted datatypes. It also checks that the arguments pass the constraints on the parameters for the process. Once the checks have been performed, the \texttt{queue} method creates an entry in the database for this job. It enters the arguments into the database and links them to the job, sets the currently selected datafiles as input to the job and creates placeholder datafiles for the output datafiles (as specified in the \texttt{process\_creates} table). Placeholder datafiles have their pending flag set and can't actually be used to run further processes (or be viewed / downloaded in the case of image and export files) however they have known datatypes so they can be used to generate new jobs which can be queued.
 
-
-
-
-A processor instance needs to be given a \texttt{process} (an object of class \texttt{ROMEDB::Process}) and a hash reference of the \texttt{arguments} to be used. Once these are set, the processor's \texttt{queue} method can be called. The \texttt{queue} method does all the setting up of the job. It checks that the user has permission to edit the experiment and that the selected datafiles match the process's accepted datatypes. It also checks that the arguments pass the constraints on the parameters for the process (the processor thaws the code refs and uses them in a Data::FormValidator profile for checking the arguments). Once the checks have been performed, the \texttt{queue} method creates an entry in the database for this job. It enters the arguments into the database and links them to the job, sets the currently selected datafiles as input to the job and creates placeholder datafiles for the output datafiles (as specified in the \texttt{process\_creates} table). Placeholder datafiles have their pending flag set and can't actually be used to run further processes (or be viewed / downloaded in the case of image and export files) however they have known datatypes so they can be used to generate new jobs which can be queued. The job scheduler is smart enough to check whether the input datafiles for a job are ready yet and to delay processing if they aren't.
+% (the processor thaws the code refs and uses them in a Data::FormValidator profile for checking the arguments)
 
 \paragraph{}
-The base processor class defines a basic \texttt{process\_script} method which can be called to actually run the process. The job entry in the database has a note of the process and via that the processor it requires. The idea is that the job scheduler can instantiate a new processor object, load in the script defined in the job and call the \texttt{process\_script} method to actually run it. If in the future a job scheduler is sending jobs to be processed on a different machine, it will presumably need to generate a wrapper script to do this, which will be sent with the process script to the remote machine. 
-The remote machines will need to be able to instantiate a processor object, implying that it will need access to the processor modules and all their dependencies. The processor class has been written with this in mind and is decoupled from ROME's front end, however it does need access to the database and the database classes (ROMEDB::*). The base class \texttt{process\_script} method is very simple, basically just running \texttt{\$cmd < \$script } and returning the output as a string. The current job scheduler simply writes this to the log file specified by the job. Subclass processors are free to override the \texttt{process\_script} method as long as they still return the output of the job as a string.
+The base processor class defines a basic \texttt{process\_script} method which can be called to actually run the process, as described in section \ref{sec:job_scheduling}
 
-
-
-\paragraph{} 
-The base class \texttt{process_script} method actually runs the parsed script using the \texttt{cmd}. 
-
-If required, the subclass can override the base class \texttt{process\_script} method, as long as it returns the output as a string.
-
-
-
-
-
-
-
-
-
-
-
-
+% The job entry in the database has a note of the process and via that the processor it requires. The idea is that the job scheduler can instantiate a new processor object, load in the script defined in the job and call the \texttt{process\_script} method to actually run it. 
+% If in the future a job scheduler is sending jobs to be processed on a different machine, it will presumably need to generate a wrapper script to do this, which will be sent with the process script to the remote machine. 
+% The remote machines will need to be able to instantiate a processor object, implying that it will need access to the processor modules and all their dependencies. The processor class has been written with this in mind and is decoupled from ROME's front end, however it does need access to the database and the database classes (ROMEDB::*). The base class \texttt{process\_script} method is very simple, basically just running \texttt{\$cmd < \$script } and returning the output as a string. The current job scheduler simply writes this to the log file specified by the job. Subclass processors are free to override the \texttt{process\_script} method as long as they still return the output of the job as a string.
 
 \paragraph{}
-Installing a new processor is as simple as creating a perl module conforming to the Processor interface under the ROME::Processor namespace. It will automatically be detected (in ROME.pm) and made available to controllers via the \texttt{processor\_factory} method they inherit from ROME::Controller::Base (eg. \verb|my $R = $self->processor_factory($c, "R");|)
+Installing a new processor is as simple as creating a perl module conforming to the Processor interface under the ROME::Processor namespace. It will automatically be detected by the ROME::Processor factory class.
 
 
 
-\subsection{rome.tt2}
-This file provides some common setup for any R script you might be running, including connecting to the database and so forth. It also sets up some variables which can be used by component scripts:
-
-\begin{tabular}{l c}
-\texttt{rome.dbname} & Name of the database\\
-\texttt{rome.dbuser} & Database username\\
-\texttt{rome.dbpass} & Database password\\
-\texttt{con} & A connection to the database (see RMySQL)\\
-\texttt{rome.data.dir}& The current user's data directory\\
-\texttt{rome.upload.dir}& The current user's upload directory \\
-\texttt{rome.static.dir}& The current user's static directory \\
-\texttt{rome.username}& The current user's username\\
-\texttt{rome.new.datafile.ids}& The datafile IDs to be used for files generated by this script\\
-\texttt{rome.experiment\_name}&The user's currently selected experiment\\
-\end{tabular}
-
-It also defines various useful classes and functions which are documented in the code. Their use is illustrated in appendix \ref{sec:XXXX}
 
 
+
+
+%\subsubsection{ROME::Processor::R}
+
+
+
+% \paragraph{rome.tt2}
+% This file provides some common setup for any R script you might be running, including connecting to the database and so forth. It also sets up some variables which can be used by component scripts:
+% 
+% \begin{tabular}{l c}
+% \texttt{rome.dbname} & Name of the database\\
+% \texttt{rome.dbuser} & Database username\\
+% \texttt{rome.dbpass} & Database password\\
+% \texttt{con} & A connection to the database (see RMySQL)\\
+% \texttt{rome.data.dir}& The current user's data directory\\
+% \texttt{rome.upload.dir}& The current user's upload directory \\
+% \texttt{rome.static.dir}& The current user's static directory \\
+% \texttt{rome.username}& The current user's username\\
+% \texttt{rome.new.datafile.ids}& The datafile IDs to be used for files generated by this script\\
+% \texttt{rome.experiment\_name}&The user's currently selected experiment\\
+% \end{tabular}
+% 
+% It also defines various useful classes and functions which are documented in the code. Their use is illustrated in appendix \ref{sec:XXXX}
+% 
+% 
 
 
 
