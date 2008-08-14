@@ -6,7 +6,6 @@ library(rjson)
 
 
 [%# ROME Variables, defined by setup/R:
-   con 
    rome.userdir
    rome.username  
    rome.experiment_name 

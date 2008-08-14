@@ -5,12 +5,6 @@ All templates automatically have access to:
 Catalyst
  The catalyst context object. 
 
-ROMEDB
- The database configuration details.
- NOT the database - if you need to get info from the DB
- when parsing the template, do it via the model through
- your catalyst context object.
-
 in_datafiles
  A hash of ROMEDB::Datafile objects, keyed by the names of
  the datafiles this process accepts, as specified in the 
@@ -30,129 +24,10 @@ out_datafiles
 %]
 
 
-#################################################################################
-# Setup database connection.
-# At the moment, the parsers still need this to add outcomes - do it in the
-# <processname>_complete function.
-#################################################################################
-library(RMySQL);
-
-rome.dbname        <- "[% ROMEDB.name %]";
-rome.dbuser        <- "[% ROMEDB.connect_info.1 %]";
-rome.dbpass        <- "[% ROMEDB.connect_info.2 %]";
-rome.con <- dbConnect(dbDriver("MySQL"), dbname = rome.dbname, user=rome.dbuser,password=rome.dbpass);
-#
 ##################################################################################
 # Setup some common values.
 ###################################################################################
-rome.userdir          <-"[% Catalyst.config.userdata _ '/' _ Catalyst.user.username%]"
+rome.userdir          <- "[% Catalyst.config.userdata _ '/' _ Catalyst.user.username%]"
 rome.username         <- "[%Catalyst.user.username%]";
 rome.experiment_name  <- "[% Catalyst.user.experiment.name %]";
 
-
-#################################################################################
-# rome.file(pattern="",dir="",ext="");
-# Returns a unique filename
-# like tempfile, but with the option to define a suffix. 
-# doesn't actually create the file, just gives you the name.
-# 
-# stick the username on to avoid name clashes in the generic static directory.
-##################################################################################
-#rome.file<-function(user,pattern="Rfile",dir=tempdir(),ext='R')
-#{
-# 
-#  filenum <- 1;
-#  while(file.exists(paste(dir,'/',user,'_',pattern,filenum,'.',ext,sep="")))
-#  {
-#    filenum<-filenum+1;	
-#  } 
-#
-#  return(paste(dir,'/',user, '_',pattern,filenum,'.',ext,sep=""));
-#}
-
-
-##################################################################################
-# Allow for NULLs
-##################################################################################
-
-#setClassUnion("listOrNULL", c("list","NULL"));
-#setClassUnion("numericOrNULL", c("numeric","NULL"));
-#setClassUnion("characterOrNULL",c("character","NULL"));
-#setClassUnion("data.frameOrNULL",c("data.frame","NULL"));
-
-
-
-#################################################################################
-# Useful database interaction functions
-#################################################################################
-
-rome.new.outcome<-function(outcome.name, 
-                           outcome.display.name = "",
-		           outcome.experiment.name, 
-                           outcome.experiment.owner, 
-                           outcome.description="", 
-                           datafile.name, 
-                           datafile.experiment.name, 
-                           datafile.experiment.owner){
-
-
-  if (outcome.display.name == "") outcome.display.name = outcome.name
-
-  #add the outcome to the outcome table
-  q<-paste('insert into outcome (name, display_name, experiment_name, experiment_owner, description) values ("',
-            paste(
-		  outcome.name, 
-                  outcome.display.name,
-                  outcome.experiment.name, 
-                  outcome.experiment.owner, 
-                  outcome.description,
-                  sep='","'),
-           '");',
-           sep="");
-
-   dbGetQuery(rome.con,q); 
-
-  #link the outcome to the datafile 
-  q<-paste('insert into outcome_datafile (outcome_name, outcome_experiment_name, outcome_experiment_owner, datafile_name, datafile_experiment_name, datafile_experiment_owner) values ("',
-           paste( outcome.name, 
-                  outcome.experiment.name, 
-                  outcome.experiment.owner, 
-                  datafile.name, 
-                  datafile.experiment.name, 
-                  datafile.experiment.owner, 
-                  sep='","'), 
-	   '");',
-           sep="");
-  
-    dbGetQuery(rome.con,q);
-}
-
-
-
-
-
-#rome.set.outcome<-function(outcome.name, 
-#                           outcome.display.name = "",
-#		           outcome.experiment.name, 
-#                           outcome.experiment.owner, 
-#                           outcome.description="", 
-#                           datafile.name, 
-#                           datafile.experiment.name, 
-#                           datafile.experiment.owner){
-#
-#
-#
-#  #link the outcome to the datafile 
-#  q<-paste('insert into outcome_datafile (outcome_name, outcome_experiment_name, outcome_experiment_owner, datafile_name, datafile_experiment_name, datafile_experiment_owner) values ("',
-#           paste( outcome.name, 
-#                  outcome.experiment.name, 
-#                  outcome.experiment.owner, 
-#                  datafile.name, 
-#                  datafile.experiment.name, 
-#                  datafile.experiment.owner, 
-#                  sep='","'), 
-#	   '");',
-#           sep="");
-#  
-#    dbGetQuery(rome.con,q);
-#}
