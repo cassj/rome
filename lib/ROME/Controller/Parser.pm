@@ -1,16 +1,12 @@
 package ROME::Controller::Parser;
 
-
 use strict;
 use warnings;
 
 use base 'ROME::Controller::Base';
-
-
-use Class::Data::Inheritable;
-use File::Find::Rule;
-use Module::Find;
+use ROME::Parser;
 use Path::Class;
+
 
 =head1 NAME
 
@@ -26,29 +22,8 @@ Base class for ROME data parsers.
 
 =cut
 
- __PACKAGE__->mk_classdata('file_rule');
- __PACKAGE__->file_rule(File::Find::Rule->file);
-
-
-=item valid_files
-
-  returns a reference to an array of all the uploaded files valid
-  for this parser, as defined by __PACKAGE__->file_rule.
-
-=cut
-
-sub valid_files : Local {
-    my ($self, $c) = @_;
-    my $rule = $self->file_rule;
-    my $upload_dir = dir($c->config->{userdata},$c->user->username,'uploads');
-    my @files = $rule->relative->in("$upload_dir");
-    return \@files;
-}
-
-
-
 =item parse
-  
+
   Global action. Matches /parse
 
   Checks what parsers are installed available and returns the
@@ -61,23 +36,20 @@ sub parse : Global {
 
     $c->stash->{template} = 'parser/form';
 
-   #submitted?
-   $c->forward('parse_files') if $c->request->params->{selected_files};
+    #submitted?
+    $c->forward('parse_files') if $c->request->params->{selected_files};
 
     #check we've got an experiment selected.
     if ($c->user->experiment){
-      my @parsers = map {/ROME::Controller::Parser::(.+)/} 
-	  findsubmod ROME::Controller::Parser;
+      my @parsers = grep {!/^Base$/} ROME::Parser->subclasses;
       $c->stash->{parser_list} = \@parsers;
     }
-}
-
+  }
 
 
 =item set_parser
 
   Global ajax method called when the select_parser form (in parser/form) is submitted.
-  
 
 =cut
 
@@ -87,32 +59,24 @@ sub set_parser : Global {
     $c->stash->{ajax} = 1;
     $c->stash->{template} = 'parser/select_files';
 
-    unless ($c->request->params->{selected_parser}){
+    my $subclass = $c->request->params->{selected_parser} ;
+    unless ($subclass){
       $c->session->{parser} = '';
       $c->stash->{error_msg} = "Please select a parser";
       return;
     }
 
-    #parsers we've got: 
-    my %parsers = map {/ROME::Controller::Parser::(.+)/ => 1} findsubmod ROME::Controller::Parser;
-    
-    #have we got the selected parser?
-    my $parser;
-    unless($parsers{$c->request->params->{selected_parser}}){
-      $c->stash->{error_msg} = "The selected parser isn't found";
-      return;
-    }
-    
-    #ok, store this parser for later (need to lc for url).
-    $c->session->{parser} = lc($c->request->params->{selected_parser});
+    my $parser = ROME::Parser->new($subclass, $c);
+
+    #ok, store the parser name for later
+    $c->session->{parser} = $subclass;
 
     # and call it's valid_files action 
-    # which it inherits from here, but defines its own File::Find::Rule)
-    # to get the list of files it can process. 
-    my $files = $c->forward('/parser/'.lc($c->request->params->{selected_parser}).'/valid_files');
+    my $files = $parser->valid_files;
 
     unless ($files){
-      $self->stash->{error_msg} = "That parser can't find any suitable files in your upload directory";
+
+      $c->stash->{error_msg} = "That parser can't find any suitable files in your upload directory";
       return;
     }
     
@@ -124,8 +88,8 @@ sub set_parser : Global {
 
 =item parse_files
 
-  Checks the files are valid and calls the subclass _parse_files method
-  to do the parsing.
+  Checks the files are valid grabs the process and appropriate processor
+  to do the parsing and parses the files.
 
 =cut
 sub parse_files : Local {
@@ -136,21 +100,54 @@ sub parse_files : Local {
     #if a single file is selected, this is a scalar, not arrayref
     my @files = ref($files) ? @$files : ($files);
 
-
     #quick sanity check on the specified files.
     foreach (@files){
       $c->stash->{error_msg} = "Disallowed filename: $_, please change and resubmit" unless /^[\w\/]+\.?[\w]*$/;
-
       my $file = file($c->config->{userdata},$c->user->username, 'uploads',$_);
       $c->stash->{error_msg} = "File $_ doesn't exist" unless (-e "$file");
       $c->stash->{error_msg} = "File $_ is not readable" unless (-r "$file");
       return if $c->stash->{error_msg};
     }
 
-    #parse your data. undef if it fails so just return
-    $c->forward(lc('/parser/'.$c->session->{parser}).'/_parse_files') or return;
+    #retrieve the parser.
+    my $parser = ROME::Parser->new($c->session->{parser} , $c);
 
-#    $c->stash->{status_msg} = 'something other than the default if you like';
+    #get the process
+    my $process = $parser->process($c);
+    unless ($process){
+      $c->log->error("Process not found for ".$c->session->{parser} );
+      $c->stash->{error_msg} = "There seems to be a problem with this parser. Please contact your system administrator";
+      return;
+    }
+
+    #get a processor
+    my $processor = ROME::Processor->new($process->processor);
+
+    # what the hell?
+    # set your process in the processor
+    $processor->process($process);
+ 
+    # give the processor the current context
+    $processor->context($c);
+
+    #set the arguments for the process.
+    my $filenames = $c->request->params->{selected_files};
+    my @filenames = map {''.file($c->config->{userdata},$c->user->username, 'uploads',$_)}
+      ref($filenames) ? @{$filenames} : ($filenames);
+
+    #These must have the same names as the arguments in the database for this process
+    $processor->arguments({
+		     filenames   => \@filenames,
+		    });
+    
+    #need to put the context into the processor
+    $processor->context($c);
+
+    #create a job and put it in the job queue to be run
+    return unless $processor->queue();
+
+    #really shouldn't try to do this if the processor queue didn't work
+    $c->stash->{status_msg} = 'Queued to be parsed';
 
 }
 

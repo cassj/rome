@@ -46,6 +46,16 @@
                          [% ELSE %]
                            "inactive"
                          [% END %] title="Robust Multi-Array Average Normalisation" href="/component/rma/rma">RMA</li></a>
+    <li><a class= [% IF Catalyst.session.active_processes.processes.gcrma.item('0.0.1').gcrma %]
+                           "active"
+                         [% ELSE %]
+                           "inactive"
+                         [% END %] title="Robust Multi-Array Average Normalisation with GC Correction" href="/component/gcrma/gcrma">gcRMA</li></a>
+    <li><a class= [% IF Catalyst.session.active_processes.processes.mas5.item('0.0.1').mas5 %]
+                           "active"
+                         [% ELSE %]
+                           "inactive"
+                         [% END %] title="MicroArray Suite 5 Normalisation" href="/component/mas5/mas5">mas5</li></a>
    </ul>
   </li>
 

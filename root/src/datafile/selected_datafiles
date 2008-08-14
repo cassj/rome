@@ -12,9 +12,16 @@
            [% IF datafile.job.completed==1 %]
                  <td>Completed</td></tr>
            [% ELSE %]
-                 <td>[% datafile.job.queued.status %]</td>
+	         [% IF datafile.job.queued %]
+                   <td>[% datafile.job.queued.status %]</td>
+		 [% END %]
        [% END %]
        </tr>
+       <tr><th>Job Log file</th>
+           <td><a target=_BLANK title="opens in a new window" href="[%Catalyst.uri_for('/job/log/view')%]?jid=[%datafile.job_id%]">
+	   View/Download
+	   </a>
+           </td></tr>
        <tr><th>Process:</th><td>[% datafile.job.process.display_name OR datafile.job.process.name%]</td></tr>
        <tr><th>Process description:</th><td>[% datafile.job.process.description %]</td></tr>
        <tr><th>Experiment:</th><td>[% datafile.experiment_name %]</td></tr>

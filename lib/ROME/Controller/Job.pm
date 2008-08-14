@@ -174,6 +174,38 @@ sub _delete_job{
 
 
 
+
+=item view_log
+
+  statically serve the logfile for the given job id
+
+=cut
+sub view_log :Path('log/view'){
+    my ($self, $c) = @_;
+
+    $c->stash->{ajax} = 1;
+    $c->stash->{template} = 'site/messages';
+
+    #same as delete check
+    if ($c->forward('_validate_delete')){
+	#get the job
+	my $job = $c->model('ROMEDB::Job')->find($c->request->params->{jid});
+	my $log = $job->log;
+	if (-e $log){
+	    $c->serve_static_file($log);
+	    return;
+	}
+	else{
+	    $c->stash->{error_msg} = "Failed to find logfile with id ".$job->id.". Contact your system administrator.";
+	    return;
+	}
+    }
+    else { return; }
+}
+
+
+
+
 =back
 
 =cut

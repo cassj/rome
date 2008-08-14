@@ -1079,7 +1079,6 @@ sub _validate_process_creates_create :Local{
 					    is_report=>[
 							ROME::Constraints::is_single,
 						       ],
-					    
 					   },
 		    };
  
@@ -1968,6 +1967,8 @@ sub _validate_process_param_create :Local{
 			       'valid_max' => 'Not a valid value for maximum',
 			       'min_less_max' => 'Minimum must be less than maximum',
 			       'is_checkbox_value' => 'Checkbox value can only be on or off',
+			       'outcome_exists' => 'Outcome not found',
+			       'treatment_exists' => 'Treatment not found',
 			      },
  			     },
 		     filters => ['trim'],
@@ -2016,7 +2017,9 @@ sub _validate_process_param_create :Local{
 										|| $val eq 'checkbox_group'
 									        || $val eq 'radio'
 									        || $val eq 'select'
-									        || $val eq 'outcome_list');
+									        || $val eq 'outcome_list'
+										|| $val eq 'outcome_radio'
+									        );
 								   return;
 								 }, 
 								],
@@ -2187,7 +2190,6 @@ sub process_param_create :Path('process/parameter/create'){
 	is_multiple => $c->request->params->{element_is_multiple} || '0',
        });
  
-
     #add the process parameter checks to the controller
     #CamelCase the component name.
     my $cc_component_name = 
@@ -2237,7 +2239,7 @@ sub process_param_create :Path('process/parameter/create'){
 	else {
 	  if ($c->request->params->{form_element_type} =~/^outcome_list/){
 	    push @constraints, 'ROME::Constraints::outcome_exists($c)';
-	  }	  
+	  }
 	  else{
 	    #type is one of checkbox_group, radio or select
 	    #add is_one_of(list of options) constraint.

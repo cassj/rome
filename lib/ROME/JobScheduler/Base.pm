@@ -38,13 +38,15 @@ use strict;
 use warnings;
 use Sub::Auto;
 use ROME::Processor;
+use YAML;
 
 our $VERSION = '0.01';
 
 =head2 new
 
  Creates a new job scheduler instance. 
- Expects a job (ROMEDB::Job) object as an argument
+ Expects a job (ROMEDB::Job) object and
+ schema (DBIx::Class schema) as arguments
 
 =cut
 
@@ -53,6 +55,7 @@ sub new {
     my $self = bless {}, $class;
     $self->{job} = shift or die "No job supplied";
     die "Job not of class ROMEDB::Job" unless ref($self->job) eq 'ROMEDB::Job';
+    $self->{schema} = shift or die "No schema supplied";
     return $self;
 }
 
@@ -68,6 +71,17 @@ sub new {
 sub job{
   my $self = shift;
   return $self->{job};
+}
+
+
+=head2 schema
+
+  ROMEDB schema object
+
+=cut
+sub schema{
+  my $self = shift;
+  return $self->{schema};
 }
 
 
@@ -161,6 +175,8 @@ sub complete{
 =cut
 sub halted{
   my $self = shift;
+
+  warn "Halting job ". $self->job->log;
 
   #remove this job from the queue.
   $self->job->queued->delete;

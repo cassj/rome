@@ -1,4 +1,4 @@
-package ROME::Processor::R;
+package ROME::Processor::Perl;
 
 use strict;
 use warnings;
@@ -6,26 +6,25 @@ use warnings;
 use base 'ROME::Processor::Base';
 
 ##overriden methods from ROME::Processor
-sub _suffix { return 'R'; }
-sub cmd_name{ return 'R'}
-sub cmd_params {return '--slave --vanilla'};
+sub _suffix { return 'pl'; }
+sub cmd_name{ return 'perl'}
+sub cmd_params {return ''};
 
 1;
 __END__
-# Below is stub documentation for your module. You'd better edit it!
 
 =head1 NAME
 
-ROME::Processor::R - ROME R processor
+ROME::Processor::Perl - ROME Perl processor
 
 =head1 SYNOPSIS
 
   use Rome::Processor;
-  my $R = new ROME::Processor($process->processor);
+  my $perl = new ROME::Processor($process->processor);
 
 =head1 DESCRIPTION
 
-R processor for ROME
+Perl processor for ROME
 
 
 =head1 SEE ALSO
@@ -38,7 +37,7 @@ Cass Johnston, E<lt>johnston@localdomainE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2006 by Cass Johnston
+Copyright (C) 2008 by Cass Johnston
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.5 or,

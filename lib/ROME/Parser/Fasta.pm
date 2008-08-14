@@ -1,4 +1,4 @@
-package ROME::Controller::Parser::AffymetrixExpression;
+package ROME::Controller::Parser::Fasta;
 
 use strict;
 use warnings;
@@ -11,12 +11,15 @@ our $VERSION = '0.0.1';
 
 =head1 NAME
 
-ROME::Controller::Parser::AffymetrixExpression 
+ROME::Controller::Parser::Fasta
 
 =head1 DESCRIPTION
 
-Subclass of ROME::Controller::Parser to parse Affymetrix Expression 
-data in the form of .CEL files.
+Subclass of ROME::Controller::Parser to parse Fasta files.
+Actually, doesn't do much in the way of parsing - will concatenate
+multiple selected files, but otherwise just makes the fasta file into
+ROME datafiles. Adds the individual sequences as experimental outcomes.
+
 
 =head1 METHODS
 
@@ -29,41 +32,40 @@ data in the form of .CEL files.
 
 =cut
 
-__PACKAGE__->file_rule(File::Find::Rule->file->name( qr/\.CEL/i ));
+__PACKAGE__->file_rule(File::Find::Rule->file->name( qr/\.fa(sta)?$/i ));
 
 
 =head2 _parse_files
 
-  The action which parsers these datafiles. 
-  Templates and so on are set in ROME::Controller::Parser. 
-  You can set stash->{error_msg} or {status_msg}
-  if required, or you can throw an exception.
+  Parses the fasta files. Actually, just concatenates the files if there
+  are multiple, adds each of the sequences as an experimental outcome
+  and adds the file as a root datafile
 
 =cut
 
 sub _parse_files : Local {
     my ($self, $c) = @_;
+
+    #everything except the process is generic. Have a ->_process sub and 
+    #shift everything else to base.
     
     #get your process (which should be added to the DB at install)
     my $process = $c->model('ROMEDB::Process')->find
 	({
-	  name => 'parse_affy_expression',
-	  component_name =>'parse_affy_expression',
+	  name => 'parse_fasta',
+	  component_name =>'parse_fasta',
 	  component_version => __PACKAGE__->VERSION,
 	});
-    die "parse_affy_expression process not found in DB" unless $process;
+    die "parse_fasta process not found in DB" unless $process;
 
     #get a processor
     my $processor = ROME::Processor->new($process->processor);
 
-
-    #set your R process.
+    #set your process.
     $processor->process($process);
 
     #set the arguments for the process
-    #note that the files must be the full paths to the files. 
-    #the processor will do param checking on these, you don't have
-    #to worry about it.
+    #Base parser checks these for you. 
     my $filenames = $c->request->params->{selected_files};
     my @filenames = map {''.file($c->config->{userdata},$c->user->username, 'uploads',$_)}
       ref($filenames) ? @{$filenames} : ($filenames);

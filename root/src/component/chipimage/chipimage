@@ -1,9 +1,9 @@
-[% META title="{% process_display_name %}" %]
+[% META title="Chip Image" %]
 
-<form action="[% Catalyst.uri_for('/component/{% component_name %}/{%process_name%}/queue') %]"
+<form action="[% Catalyst.uri_for('/component/chipimage/chipimage/queue') %]"
       method="post" 
       onsubmit=" new Ajax.Updater( 'messages',  
-                                   '[% Catalyst.uri_for('/component/{% component_name %}/{%process_name%}/queue') %]',
+                                   '[% Catalyst.uri_for('/component/chipimage/chipimage/queue') %]',
                                    { parameters: Form.serialize(this), 
                                      asynchronous: 1,
 				     evalScripts: 1
@@ -13,9 +13,9 @@
 >
 
   <fieldset>
-    <legend>Run the {% process_display_name %} process</legend>
+    <legend>Run the Chip Image process</legend>
 
-    [% FOREACH parameter IN Catalyst.model('ROMEDB::Process').find('{%process_name%}','{%component_name%}','{%component_version%}').parameters %]
+    [% FOREACH parameter IN Catalyst.model('ROMEDB::Process').find('chipimage','chipimage','0.0.1').parameters %]
     <div class="labelled_input">
       <label for="[%parameter.name%]">[% parameter.display_name %]
         [%IF parameter.description%]<span class="details">([%parameter.description%])</span>[%END%]

@@ -116,18 +116,32 @@
 			  $('element_is_multiple_div').style.display='block'" />
           Drop-down Select Box</label>
 
+
+          <label for="form_element_outcome_radio">
+	  <input type="radio" name="form_element_type" value="outcome_radio" id="form_element_outcome_radio"
+                 onclick="$('form_element_values').style.display='none';
+                          $('form_element_constraints').style.display='none';
+			  $('element_is_multiple').checked=false;
+                          $('parameter_name').value='selected_outcome'; 
+			  $('element_is_multiple_div').style.display='none'" />
+          Experimental Outcome: Select One</label>
+
+
           <label for="form_element_outcome_list">
 	  <input type="radio" name="form_element_type" value="outcome_list" id="form_element_outcome_list"
                  onclick="$('form_element_values').style.display='none';
                           $('form_element_constraints').style.display='none';
 			  $('element_is_multiple').checked=true;
-			  $('element_is_multiple_div').style.display='block';
-                          $('parameter_name').value='selected_outcomes'; " />
-          Experimental Outcome Select List</label>
-          
+                          $('parameter_name').value='selected_outcomes';
+			  $('element_is_multiple_div').style.display='none' " />
+          Experimental Outcome: Select List</label>
+ 
+         
  	  <div class="force_clear"></div>
 	  </div> <!--end radio list -->
-	</div><!-- end labelled_input -->
+ 	</div><!-- end labelled_input -->
+
+
 
         <div class="labelled_input" id="form_element_values" style="display:none">
 	  <label for="form_element_values">Possible values of parameter 

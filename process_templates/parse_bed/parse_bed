@@ -1,11 +1,8 @@
 [% INCLUDE 'setup/R' %]
 
-
 [%# ROME Variables, defined by setup/R:
-   con 
-   rome.data.dir
-   rome.upload.dir
-   rome.static.dir
+
+   rome.userdir
    rome.username  
    rome.experiment_name 
 
@@ -16,6 +13,7 @@
     rome_datafiles_in
 %]
 
+
 [%# Arguments from controller 
   filenames : an array reference
 %]
@@ -23,19 +21,21 @@
 
 
 ###
+# Scripts are always run from the context of the user's directory.
+
+
+###
 # change into the user's upload dir
 
 cwd<-getwd()
-setwd(rome.upload.dir);
+setwd('uploads');
 
 ###
-# create affybatch
-AB<-ReadAffy(filenames=c("[% filenames.join('", "')%]"));
+# OK, so for the selected files:
 
-###
-# change into the user's data directory
 
-setwd(rome.data.dir)
+
+
 
 [%#
    get the (unique, at least for this user) name of the 

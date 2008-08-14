@@ -1,0 +1,17 @@
+  <div class="checkbox_list">
+  [% FOREACH treatment IN Catalyst.user.experiment.outcomes %]
+    <label for="outcome_[%outcome.name%]"> 
+    <input name="selected_outcomes" class="outcome_option" id="outcome_[%outcome.name%]" type="checkbox" value="[%outcome.name%]"/>
+    [%outcome.display_name%]</label>
+  [% END %]
+  </div>
+ 
+    <input type="button" 
+       id="select_all_outcomes"
+       name="select_all_outcomes" 
+       value="select all" 
+       onClick="select_all($$('.outcome_option'), $('select_all_outcomes') );" 
+       class="button" 
+    /> 
+
+   <div class="force_clear"></div>

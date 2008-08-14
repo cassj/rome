@@ -43,7 +43,7 @@ my $config =  YAML::LoadFile(file($rome_root, 'rome.yml'));
 my $con = $config->{Model::ROMEDB}->{connect_info};
 my $schema = ROMEDB->connect( $con->[0],$con->[1],$con->[2] );
 
-&daemonize;
+#&daemonize;
 
  while (1){
 
@@ -92,7 +92,8 @@ sub run{
   local $CWD = "$userdir"; 
 
   #get a job scheduler
-  my $scheduler = ROME::JobScheduler->new($job);
+  my $scheduler = ROME::JobScheduler->new($job, $schema);
+
 
   #Access stuff indirectly via prepared_job to give
   #process-specific JobSchedulers the chance to do
@@ -103,7 +104,7 @@ sub run{
   #run the job.
   my $script = $prepared_job->{script};
   my $cmd = $prepared_job->{executable} .' '. $prepared_job->{arguments}. " < $script 2>&1| ";
- 
+
   my $pid = open(OUT, $cmd) 
     or die "Couldn't fork: $!\n";
 

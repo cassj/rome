@@ -46,7 +46,7 @@ sub _set_active_processes{
   $self->{experiment_owner} = $expt->owner->username or return;
   
   #build the selected datafiles lookup hash
-  my @datafiles = $c->user->datafiles or return;
+  my @datafiles = $c->user->datafiles;
   foreach (@datafiles){
     $self->{datafiles}->{$_->name} = 1;
   }
@@ -56,63 +56,84 @@ sub _set_active_processes{
   my $datatypes = {};
   $datatypes->{$_->datatype->name}++ foreach @datafiles;
   
-  #now retrieve the process which accept that combination of datatypes.
-  #there's no point in testing all of them, just grab the processes that are
-  #ok for the first datatype and check those.
-  my $d = $datafiles[0]->datatype->name;
-  my $processes = $c->model('Process')->search
-    ({
-      'process_accepts.datatype_name' => $d,
-     },
-     {
-      join => 'process_accepts',
-      prefetch => ['process_accepts'],
+  #What if we don't have any selected datafiles?
+  if (defined $datafiles[0]){
+  
+    #now retrieve the process which accept that combination of datatypes.
+    #there's no point in testing all of them, just grab the processes that are
+    #ok for the first datatype and check those.
+    my $d = $datafiles[0]->datatype->name;
+    my $processes = $c->model('Process')->search
+      ({
+	'process_accepts.datatype_name' => $d,
+       },
+       {
+	join => 'process_accepts',
+	prefetch => ['process_accepts'],
        }
-     );
+      );
+    
+    
+    my $dts = $datatypes;
+    
+    PROCESS: while(my $proc = $processes->next){
+	my $accepts ;
+	foreach ($proc->process_accepts){
+	  push @{$accepts->{$_->name}}, $_->datatype_name;
+	}
+	
+	
+	my $dts = {%$datatypes};
+	
+	foreach (keys %$accepts){
+	  
+	  #remove any accepts datatypes which don't exist in datatypes
+	  $accepts->{$_} = [ grep {exists $datatypes->{$_}} @{$accepts->{$_}} ];
+	  
+	  #if there's only one option, remove an instance of that
+	  #datatype from dts, or bail.
+	  if (scalar @{$accepts->{$_}} == 1){
+	    my $dt = $accepts->{$_}->[0];
+	    next PROCESS unless defined $dts->{$dt};
+	    $dts->{$dt} --;
+	    delete $dts->{$dt} if $dts->{$dt}==0;
+	  }
+	}
 
+	##This bit isn't really tested. #########
 
-  my $dts = $datatypes;
+	#ok, the remaining accepted files can take multiple possible datatypes
+	my $indices  = { map {$_=> $#{$accepts->{$_}}} grep {$#{$accepts->{$_}} > 0} keys %{$accepts}};
 
-  PROCESS: while(my $proc = $processes->next){
-    my $accepts ;
-    foreach ($proc->process_accepts){
-      push @{$accepts->{$_->name}}, $_->datatype_name;
-    }
-
-
-    my $dts = {%$datatypes};
-
-    foreach (keys %$accepts){
-
-      #remove any accepts datatypes which don't exist in datatypes
-      $accepts->{$_} = [ grep {exists $datatypes->{$_}} @{$accepts->{$_}} ];
-
-      #if there's only one option, remove an instance of that
-      #datatype from dts, or bail.
-      if (scalar @{$accepts->{$_}} == 1){
-	my $dt = $accepts->{$_}->[0];
-        next PROCESS unless defined $dts->{$dt};
-        $dts->{$dt} --;
-	delete $dts->{$dt} if $dts->{$dt}==0;
+	#try all permutations of remaining dts and the datatypes in indices untile we get one
+	#that works or we give up and bail.
+	
+	###TODO##
+	
+	#Shouldn't be anything left in dts by this point.
+	next PROCESS if scalar (keys %$dts);
+	
+	$self->{processes}->{$proc->component_name}->{$proc->component_version}->{$proc->name} = 1;
       }
-    }
-
-    ##This bit isn't really tested. #########
-
-    #ok, the remaining accepted files can take multiple possible datatypes
-    my $indices  = { map {$_=> $#{$accepts->{$_}}} grep {$#{$accepts->{$_}} > 0} keys %{$accepts}};
-
-    #try all permutations of remaining dts and the datatypes in indices untile we get one
-    #that works or we give up and bail.
-
-    ###TODO##
-
-    #Shouldn't be anything left in dts by this point.
-    next PROCESS if scalar (keys %$dts);
-
-    $self->{processes}->{$proc->component_name}->{$proc->component_version}->{$proc->name} = 1;
   }
-
+  else{
+    #join doesn't work like this. Can I define an outer join?
+    
+    #we don't have any datafiles selected, so we only want those processes which 
+    #have no inputs
+    my $processes = $c->model('Process')->search
+      (
+       {'process_accepts.name' => undef,},
+       {
+	join => 'process_accepts',
+	prefetch => ['process_accepts'],
+       }
+      );
+     while(my $proc = $processes->next){
+       $self->{processes}->{$proc->component_name}->{$proc->component_version}->{$proc->name} = 1;
+     }
+    
+  }
 }
 
 

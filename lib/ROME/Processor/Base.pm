@@ -119,7 +119,6 @@ sub cmd {
 
 }
 
-
 =head2 queue
 
   Creates a job from this processor and the associated process
@@ -232,15 +231,17 @@ sub queue{
     }
   }
 
-  #if we've got selected_outcomes, also store their objects 
+  #if we've got selected_outcomes, also store their objects and link them to the datafile
   my @selected_outcome_objects;
   foreach (@{$self->arguments->{selected_outcomes}}){
-    push @selected_outcome_objects, $self->context->model('ROMEDB::Outcome')->find
+    my $outcome =  $self->context->model('ROMEDB::Outcome')->find
       (
        $_,
        $self->context->user->experiment->name, 
        $self->context->user->experiment->owner->username,
       );
+
+    push @selected_outcome_objects, $outcome;
   }
 
   $self->arguments->{selected_outcome_objects} = \@selected_outcome_objects;
@@ -365,6 +366,19 @@ sub queue{
 	   datafile_experiment_owner=>$datafile->experiment_owner,
 	  });
 
+
+    #if we've got selected outcomes, add them to the datafile
+    foreach (@selected_outcome_objects){
+      $self->context->model('ROMEDB::OutcomeDatafile')->create
+	({
+	  outcome_name => $_->name,
+	  outcome_experiment_name => $_->experiment_name,
+	  outcome_experiment_owner => $_->experiment_owner,
+	  datafile_name => $datafile->name,
+	  datafile_experiment_name => $datafile->experiment_name,
+	  datafile_experiment_owner => $datafile->experiment_owner,
+	 });
+    }
 
     #and pass it to the template (name as in process_creates)
     $self->arguments->{rome_datafiles_out}->{$_->name} = $datafile;

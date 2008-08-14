@@ -1,7 +1,9 @@
 [% INCLUDE 'setup/R' %]
 
-#load the affy library
+#load the required libraries
 library(affy)
+library(rjson)
+
 
 [%# ROME Variables, defined by setup/R:
    con 
@@ -51,18 +53,33 @@ save(AB, file=filename);
 
 ###
 # This datafile corresponds to a number of outcomes.
-# Add them to the database.
+# Print them to output to be handled by the ParseAffy job scheduler
 
 for (name in colnames(exprs(AB))){
 
-    #make a new outcome and link it to the datafile.
-    rome.new.outcome(outcome.name  = name, 
-                     outcome.experiment.name = rome.experiment_name,
-                     outcome.experiment.owner = rome.username,
-                     datafile.name = "[%rome_datafiles_out.AB.name%]", 
-                     datafile.experiment.name = "[%rome_datafiles_out.AB.experiment_name%]",
-		     datafile.experiment.owner = "[%rome_datafiles_out.AB.experiment_owner%]")
-		     
+  #warn the parser to JSON this bit
+  cat("START_JSON\n")
+
+  outcome<-c(name, 
+             rome.experiment_name, 
+             rome.username,
+             "[% rome_datafiles_out.AB.name %]",
+	     "[% rome_datafiles_out.AB.experiment_name %]",
+	     "[% rome_datafiles_out.AB.experiment_owner %]"
+	     );
+  names(outcome)<-c("outcome_name",
+                    "outcome_experiment_name",
+		    "outcome_experiment_owner",
+		    "datafile_name",
+		    "datafile_experiment_name",
+		    "datafile_experiment_owner"
+                   )
+
+  json<-toJSON(outcome);
+  cat(json,"\n",sep="");
+		
+  cat("STOP_JSON\n")
+     
 }
 
 

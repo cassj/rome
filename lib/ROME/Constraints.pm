@@ -789,7 +789,7 @@ sub allowed_chars_plus{
     my $dfv = shift;
     $dfv->name_this('allowed_chars_plus');
     my $val = $dfv->get_current_constraint_value();
-    return ($val =~/^[\w\s,\._-]+$/ xor $inverse);  
+    return ($val =~/^[\w\s,\._\-\(\)]+$/ xor $inverse);  
   }
  
 }

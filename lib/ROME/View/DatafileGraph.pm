@@ -40,7 +40,10 @@ sub process {
     my $expt_owner = $c->user->experiment->owner->username or die 'missing expt_owner in cat context';
     my $username = $c->user->username or die 'missing username in cat context';
     
-    my $g = GraphViz->new(name=> "datafiles_img");
+    my $g = GraphViz->new(name  => "datafiles_img",
+			  width => "10",
+			  ratio => "compress",
+			  overlap => "compress");
 
     #add a node for each datafile in this experiment
     foreach my $datafile ($c->user->experiment->datafiles){
@@ -65,7 +68,7 @@ sub process {
 		   fillcolor => $fill_colour,
 		   style=>'filled',
 		   fontname=>'arial',
-		   fontsize=> '12',
+		   fontsize=> '10',
 		   fontcolor=> $font_colour,
 	    );
       

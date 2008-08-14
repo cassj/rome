@@ -101,6 +101,19 @@
           component: rma
           version: 0.0.1
           process: rma
+      - gcrma:
+          display_name: gcRMA
+          title: Robust Multi-Array Average Normalisation with GC Correction
+          component: gcrma
+          version: 0.0.1
+          process: gcrma
+      - mas5:
+          display_name: mas5
+          title: MicroArray Suite 5 Normalisation
+          component: mas5
+          version: 0.0.1
+          process: mas5
+     
         
 - Devel Tools:
     title: Development tools

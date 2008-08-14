@@ -259,7 +259,7 @@
 	process_component_version VARCHAR (20) NOT NULL,
  	description VARCHAR(100),
 	optional BOOLEAN NOT NULL DEFAULT 0,
-	form_element_type ENUM('text','textarea','checkbox','checkbox_group','select', 'outcome_list') NOT NULL,
+	form_element_type ENUM('text','textarea','checkbox','checkbox_group','select', 'outcome_list', 'outcome_radio') NOT NULL,
 	min_value NUMERIC,
 	max_value NUMERIC,
 	default_value VARCHAR(255),
