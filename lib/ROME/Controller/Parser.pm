@@ -132,7 +132,9 @@ sub parse_files : Local {
 
     #set the arguments for the process.
     my $filenames = $c->request->params->{selected_files};
-    my @filenames = map {''.file($c->config->{userdata},$c->user->username, 'uploads',$_)}
+    
+    #make the filenames relative to the userdir
+    my @filenames = map {''.file('uploads',$_)}
       ref($filenames) ? @{$filenames} : ($filenames);
 
     #These must have the same names as the arguments in the database for this process

@@ -34,6 +34,11 @@ use POSIX qw(setsid);
 use Path::Class;
 use ROME::JobScheduler;
 use File::chdir;
+use Getopt::Long;
+
+
+my $debug = 0;
+GetOptions('debug|d' => \$debug);
 
 #script is always run from root dir.
 my $rome_root  = dir();     
@@ -43,9 +48,9 @@ my $config =  YAML::LoadFile(file($rome_root, 'rome.yml'));
 my $con = $config->{Model::ROMEDB}->{connect_info};
 my $schema = ROMEDB->connect( $con->[0],$con->[1],$con->[2] );
 
-#&daemonize;
+&daemonize unless $debug;
 
- while (1){
+while (1){
 
   my $queued = $schema->resultset('Queue')->search
     ({
@@ -89,11 +94,10 @@ sub run{
 
   #do this bit in the user's directory
   my $userdir = dir($rome_root,'userdata', $job->owner->username);
-  local $CWD = "$userdir"; 
+  local $CWD = "$userdir";
 
   #get a job scheduler
   my $scheduler = ROME::JobScheduler->new($job, $schema);
-
 
   #Access stuff indirectly via prepared_job to give
   #process-specific JobSchedulers the chance to do

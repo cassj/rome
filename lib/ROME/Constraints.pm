@@ -1998,6 +1998,16 @@ sub is_single{
 }
 
 
+sub not_is_single{
+    return sub{
+	my $dfv = shift;
+	$dfv->name_this('not_is_single');
+	my $field = $dfv->get_current_constraint_field;
+	my $data = $dfv->get_filtered_data;
+        my $test = $data->{$field};
+	return ref $test ? 1:0;
+    }
+}
 
 =head2 is_one_of
 

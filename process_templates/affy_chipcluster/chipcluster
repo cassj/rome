@@ -1,0 +1,34 @@
+[% INCLUDE 'setup/R' %]
+
+library(affy)
+
+outcomes<-c("[%selected_outcomes.join('", "')%]");
+displaynames<-c("[%selected_outcome_display_names.join('", "')%]");
+obj.names<-load("[% rome_datafiles_in.ESET.name %]")
+obj<-get(obj.names[1])
+
+plotfile <- "[% rome_datafiles_out.PLOT.name %]"
+
+bitmap(file=plotfile, res=300);
+
+title<-paste("Hierarchical Clustering of Intensities",
+             "\nExperiment: ", rome.experiment_name,
+	    sep=""
+	   );
+
+
+#run the clustering
+chipclust<-function(obj)
+{
+   e<-exprs(obj)[,as.character(outcomes)];
+   d<-dist(t(e));
+   clust<-hclust(d);
+   return(clust);   
+}
+
+plot(chipclust(obj), labels=displaynames, main=title);
+
+
+#close jpeg device
+dev.off()
+

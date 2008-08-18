@@ -233,7 +233,8 @@ sub queue{
 
   #if we've got selected_outcomes, also store their objects and link them to the datafile
   my @selected_outcome_objects;
-  foreach (@{$self->arguments->{selected_outcomes}}){
+  my @outcomes = ref $self->arguments->{selected_outcomes} ? @{$self->arguments->{selected_outcomes}} : ($self->arguments->{selected_outcomes}); 
+  foreach (@outcomes){
     my $outcome =  $self->context->model('ROMEDB::Outcome')->find
       (
        $_,

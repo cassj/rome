@@ -122,7 +122,7 @@
                  onclick="$('form_element_values').style.display='none';
                           $('form_element_constraints').style.display='none';
 			  $('element_is_multiple').checked=false;
-                          $('parameter_name').value='selected_outcome'; 
+                          $('parameter_name').value='selected_outcomes'; 
 			  $('element_is_multiple_div').style.display='none'" />
           Experimental Outcome: Select One</label>
 

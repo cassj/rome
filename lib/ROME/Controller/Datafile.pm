@@ -182,8 +182,9 @@ sub select :Local {
 #private DFV param check
 sub _validate_select_params : Private{
   my ($self, $c) = @_;
-    
+
   my $dfv_profile = {
+		     required => [qw(experiment_name experiment_owner datafile_name)],
 		     msgs => {
 			      constraints => {
 					      'allowed_chars_plus'   => 'Not a valid filename',
@@ -191,7 +192,6 @@ sub _validate_select_params : Private{
 					     },
 			      format => '%s',
 			     },
-		     required => [qw(experiment_name experiment_owner datafile_name)],
 		     filters => ['trim'],
 		     missing_optional_valid => 1,    
 		     constraint_methods => {
@@ -202,8 +202,6 @@ sub _validate_select_params : Private{
 		    };
   
   $c->form($dfv_profile);
-
-return 1;
 }
 
 
@@ -247,7 +245,10 @@ sub view :Local{
   my ($self, $c) = @_;
 
   #just use the select param checks as they're the same
+
+  $c->request->params->{datafile_name} = $c->request->params->{name};
   if($c->forward('_validate_select_params')){
+
     #get the datafile
     my $df = $c->model('ROMEDB::Datafile')->find
       (
@@ -257,15 +258,15 @@ sub view :Local{
       );
     #is it pending?
     if ($df->pending){
-	$c->stash->{ajax} = 1;
-	$c->stash->{template} = 'site/messages';
-	$c->stash->{error_msg} = 'Datafile still pending. Please try again when the job that creates this datafile is complete';
-	return;
+      $c->stash->{ajax} = 1;
+      $c->stash->{template} = 'site/messages';
+      $c->stash->{error_msg} = 'Datafile still pending. Please try again when the job that creates this datafile is complete';
+      return;
     }
-
+    
     my $path = $df->path;
     $c->serve_static_file($path);
-     
+    return 1;
   }
   else {
     $c->stash->{ajax} = 1;

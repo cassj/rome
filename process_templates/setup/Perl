@@ -1,3 +1,8 @@
+#!/usr/bin/perl;
+
+use strict;
+use warnings;
+
 [%# 
 
 All templates automatically have access to:
@@ -23,11 +28,10 @@ out_datafiles
 
 %]
 
-
 ##################################################################################
 # Setup some common values.
 ###################################################################################
-rome.userdir          <- "[% Catalyst.config.userdata _ '/' _ Catalyst.user.username%]"
-rome.username         <- "[% Catalyst.user.username%]";
-rome.experiment_name  <- "[% Catalyst.user.experiment.name %]";
-rome.experiment_owner <- "[% Catalyst.user.experiment.owner.username %]";
+my \$rome_userdir          = "[% Catalyst.config.userdata _ '/' _ Catalyst.user.username%]";
+my \$rome_username         = "[% Catalyst.user.username%]";
+my \$rome_experiment_name  = "[% Catalyst.user.experiment.name %]";
+my \$rome_experiment_owner = "[% Catalyst.user.experiment.owner.username %]";

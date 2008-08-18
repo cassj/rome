@@ -1,0 +1,29 @@
+[% INCLUDE 'setup/R' %]
+
+library(affy)
+
+outcomes<-c("[%selected_outcomes.join('", "')%]");
+displaynames<-c("[%selected_outcome_display_names.join('", "')%]");
+obj.names<-load("[% rome_datafiles_in.ESET.name %]")
+obj<-get(obj.names[1])
+
+mat<-as.matrix(exprs(obj)[,as.character(outcomes)]);
+
+[% IF log %] mat<-log2(mat) [% END %] 
+
+plotfile <- "[% rome_datafiles_out.PLOT.name %]"
+
+##open jpeg device
+bitmap(file=plotfile, res=300);
+par(mar=c(10, 4.1, 4.1, 2.1))
+
+title<-paste("Boxplot of [%IF log%](log2) [%END%] Intensities",
+             "\nExperiment: ", rome.experiment_name,
+	    sep=""
+	   );
+
+boxplot(data.frame(mat), col=2:length(outcomes)+1,main=title,names=displaynames, las=2);
+
+#close jpeg device
+dev.off()
+

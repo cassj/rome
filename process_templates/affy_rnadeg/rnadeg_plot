@@ -1,0 +1,41 @@
+[% INCLUDE 'setup/R' %]
+
+library(affy)
+
+outcomes<-c("[%selected_outcomes.join('", "')%]");
+displaynames<-c("[%selected_outcome_display_names.join('", "')%]");
+obj.names<-load("[% rome_datafiles_in.AB.name %]")
+obj<-get(obj.names[1])
+
+mat<-as.matrix(exprs(obj)[,as.character(outcomes)]);
+
+plotfile <- "[% rome_datafiles_out.PLOT.name %]"
+
+bitmap(file=plotfile, res=300);
+
+title<-paste("RNA Degradation Plot",
+             "\nExperiment: ", rome.experiment_name,
+	    sep=""
+	   );
+
+
+plot.new();
+par(cex=1.3);
+legend(x="topright", legend=displaynames ,fill=2:(length(displaynames)+1), bty="n")
+
+#reset the plot area
+par(new=T, fig=c(0,0.75,0,1))
+
+plotAffyRNAdeg(AffyRNAdeg(obj[,as.character(outcomes)]), col=2:(length(outcomes)+1));
+
+dev.off()
+
+
+
+
+
+
+
+
+
+

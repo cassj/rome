@@ -54,7 +54,6 @@ sub upload : Local {
     my $subdir = $c->request->params->{subdir};
     $subdir =~s/[^\w\d]//g;
     
-    
     my $upload_dir = dir($c->config->{userdata},$c->user->username,'uploads');
     
     if($subdir){
@@ -197,8 +196,7 @@ sub autocomplete_subdir : Local{
   else{
     $user = $c->user;
   }
-
-  my $upload_dir = dir($c->config->{userdata},$c->user->userdata);
+  my $upload_dir = dir($c->config->{userdata},$c->user->username,'uploads');
 
   opendir DIR, "$upload_dir";
   my @subdirs = grep {/.*$val.*/}

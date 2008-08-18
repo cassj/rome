@@ -230,7 +230,6 @@
  	create table component(
  	name VARCHAR(50) NOT NULL,
 	version VARCHAR (20) NOT NULL,
- 	always_active BOOLEAN NOT NULL DEFAULT '0',
 	description VARCHAR(255),
 	installed BOOLEAN NOT NULL DEFAULT '0',
 	PRIMARY KEY (name, version )

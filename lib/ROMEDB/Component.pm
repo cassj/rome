@@ -50,7 +50,7 @@ __PACKAGE__->table('component');
 
 =cut
 
-__PACKAGE__->add_columns(qw/name version always_active description installed/);
+__PACKAGE__->add_columns(qw/name version description installed/);
 __PACKAGE__->set_primary_key(qw/name version/);
 
 

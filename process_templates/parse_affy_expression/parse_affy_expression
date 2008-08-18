@@ -22,22 +22,17 @@ library(rjson)
 %]
 
 
-
-###
-# change into the user's upload dir
-
-cwd<-getwd()
-setwd(paste(rome.userdir,'/uploads',sep=""));
-
 ###
 # create affybatch
-AB<-ReadAffy(filenames=c("[% filenames.join('", "')%]"));
+filenames <- c("[% filenames.join('", "')%]");
+
+AB<-ReadAffy(filenames=filenames);
 
 ###
 # change into the user's data directory
 
-setwd(rome.userdir)
-
+#setwd(rome.userdir)
+#
 [%#
    get the (unique, at least for this user) name of the 
    actual datafile we are calling the RawAffy file
@@ -81,8 +76,3 @@ for (name in colnames(exprs(AB))){
      
 }
 
-
-
-
-#change back to where you were 
-setwd(cwd);

@@ -1,6 +1,6 @@
 =head1 NAME
 
-  ROME::JobScheduler::parse_affy_expression
+  ROME::JobScheduler::parse_bed
 
 =head1 SYNOPSIS
 
@@ -8,11 +8,11 @@
 
 =head1 ABSTRACT
 
-  JobScheduler code for the parse_affy_expression component
+  JobScheduler code for the parse_bed component
 
 =cut
 
-package ROME::JobScheduler::parse_affy_expression;
+package ROME::JobScheduler::parse_bed;
 our $VERSION = '0.01';
 
 use base qw/ROME::JobScheduler::Base/;
@@ -20,13 +20,13 @@ use base qw/ROME::JobScheduler::Base/;
 use FileHandle;
 use JSON;
 
-=head2 parse_affy_expression_complete
+=head2 parse_bed_complete
 
   Override the base complete method to parse the JSON outcomes that the
-  affy expression parses writes to its log file.
+  bed parser writes to its log file.
 
 =cut
-sub parse_affy_expression_complete{
+sub parse_bed_complete{
   my $self = shift;
 
   #open the job log file and scan through it for outcomes. 
@@ -54,8 +54,8 @@ sub parse_affy_expression_complete{
 	name => $_->{outcome_name},
 	experiment_name=>  $_->{outcome_experiment_name},
 	experiment_owner=> $_->{outcome_experiment_owner},
-	display_name => $_->{outcome_name}
-       });
+	display_name => $_->{outcome_display_name} || $_->{outcome_name},
+      });
 
     my $df_out = $self->schema->resultset('OutcomeDatafile')->find_or_create
       ({
@@ -76,3 +76,4 @@ sub parse_affy_expression_complete{
 
 
 1;
+

@@ -25,12 +25,11 @@ use JSON;
   \$CWD = "uploads";
   
   #Open your datafile for appending sequences
-  my \$outfile = Bio::SeqIO->new(-file=> "> ../[% rome_datafiles_out.BED.name %]", -format=>'fasta');
+  my \$outfile = Bio::SeqIO->new(-file=> "> ../[% rome_datafiles_out.FASTA.name %]", -format=>'fasta');
 
   #for each selected file
   my @files = qw([% filenames.join(' ')%]);
   foreach (@files){
-
     #for each of the sequences in that file
     my \$iter = Bio::SeqIO->new(-file => "<\$_", -format=>'fasta');
     while (my \$seq = \$iter->next_seq){

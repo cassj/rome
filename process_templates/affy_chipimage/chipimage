@@ -1,0 +1,28 @@
+[% INCLUDE 'setup/R' %]
+
+library(affy)
+
+
+outcomes<-c("[%selected_outcomes.join('", "')%]");
+displaynames<-c("[%selected_outcome_display_names.join('", "')%]");
+
+#the gui should guarantee that outcome is of length 1, but just in case
+outcome<-outcomes[1]
+displayname<-displaynames[1]
+
+obj.names<-load("[% rome_datafiles_in.AB.name %]")
+obj<-get(obj.names[1])
+
+plotfile <- "[% rome_datafiles_out.PLOT.name %]"
+
+bitmap(file=plotfile);
+
+title<-paste("Image of ", displayname,
+             "\nExperiment: ", rome.experiment_name,
+	    sep=""
+	   );
+
+image(obj[,outcome])
+
+dev.off()
+

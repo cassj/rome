@@ -163,7 +163,6 @@ sub create_component :Path('component/create'){
       ({
 	name    => $c->request->params->{component_name},
 	version => $c->request->params->{component_version},
-
 	description => $c->request->params->{component_description},
 	installed => 1,
        });
@@ -173,12 +172,8 @@ sub create_component :Path('component/create'){
     }
     
 
-    #camel case the component name to the name of a controller
-    my $cc_component_name = 
-      join('', map{ ucfirst $_ } 
-	   split(/_/, 
-		 $c->request->params->{component_name}));
-
+    my $cc_component_name =   $c->request->params->{component_name};
+#
     #do we already have a component of that name? Database constraints
     #ensures the only difference is version, so package it up into
     #root/components: 
@@ -566,11 +561,7 @@ sub create_process :Path('process/create'){
 
     #add the process actions to the controller
     #CamelCase the component name.
-    my $cc_component_name = 
-      join('', map{ ucfirst $_ } 
-	   split(/_/, 
-		 $c->request->params->{process_component_name}));
- 
+    my $cc_component_name = $c->request->params->{process_component_name};
 
     #parse the process_action template file into a string.
     $config = {
@@ -701,10 +692,7 @@ sub delete_process :Path('process/delete'){
     
     #remove the bits of the process from the Controller.
     #CamelCase the component name.
-    my $cc_component_name = 
-      join('', map{ ucfirst $_ } 
-	   split(/_/, 
-		 $process->component_name));
+    my $cc_component_name =  $process->component_name;
  
     #and insert it into the controller, saving the previous version in component_name.pm.bak
     my $component_file = $c->path_to('lib','ROME','Controller', $cc_component_name.'.pm');
@@ -2192,11 +2180,8 @@ sub process_param_create :Path('process/parameter/create'){
  
     #add the process parameter checks to the controller
     #CamelCase the component name.
-    my $cc_component_name = 
-      join('', map{ ucfirst $_ } 
-	   split(/_/, 
-		 $param->process_component_name));
- 
+    my $cc_component_name =  $param->process_component_name;
+
     #insert constraints into the controller, saving the previous version in component_name.pm.bak
     my $component_file = $c->path_to('lib','ROME','Controller', 'Component',$cc_component_name.'.pm');
     {
@@ -2237,7 +2222,7 @@ sub process_param_create :Path('process/parameter/create'){
 	  push @constraints,'ROME::Constraints::is_boolean';
 	}
 	else {
-	  if ($c->request->params->{form_element_type} =~/^outcome_list/){
+	  if ($c->request->params->{form_element_type} =~/^outcome_/){
 	    push @constraints, 'ROME::Constraints::outcome_exists($c)';
 	  }
 	  else{

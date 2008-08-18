@@ -29,16 +29,6 @@
    </ul>
   </li>
 
-  <li><a title="Various quality control plots for Affymetrix Data" href="#" class="dropdown">Affy Quality Control</a>
-   <ul>
-    <li><a class= [% IF Catalyst.session.active_processes.processes.affyboxplot.item('0.0.1').affyboxplot %]
-                           "active"
-                         [% ELSE %]
-                           "inactive"
-                         [% END %] title="Generate boxplots of Affymetrix Expression Data" href="/component/affyboxplot/affyboxplot">Boxplot</li></a>
-   </ul>
-  </li>
-
   <li><a title="Normalisation of Affymetrix Expression Data" href="#" class="dropdown">Affy Normalisation</a>
    <ul>
     <li><a class= [% IF Catalyst.session.active_processes.processes.rma.item('0.0.1').rma %]
@@ -46,16 +36,46 @@
                          [% ELSE %]
                            "inactive"
                          [% END %] title="Robust Multi-Array Average Normalisation" href="/component/rma/rma">RMA</li></a>
-    <li><a class= [% IF Catalyst.session.active_processes.processes.gcrma.item('0.0.1').rma %]
+    <li><a class= [% IF Catalyst.session.active_processes.processes.gcrma.item('0.0.1').gcrma %]
                            "active"
                          [% ELSE %]
                            "inactive"
-                         [% END %] title="Robust Multi-Array Average Normalisation with GC Correction" href="/component/gcrma/rma">gcRMA</li></a>
+                         [% END %] title="Robust Multi-Array Average Normalisation with GC Correction" href="/component/gcrma/gcrma">gcRMA</li></a>
     <li><a class= [% IF Catalyst.session.active_processes.processes.mas5.item('0.0.1').mas5 %]
                            "active"
                          [% ELSE %]
                            "inactive"
                          [% END %] title="MicroArray Suite 5 Normalisation" href="/component/mas5/mas5">mas5</li></a>
+   </ul>
+  </li>
+
+  <li><a title="Quality control plots for Affymetrix Data" href="#" class="dropdown">Affy Quality Control</a>
+   <ul>
+    <li><a class= [% IF Catalyst.session.active_processes.processes.affy_distribution_plots.item('0.0.1').density_dist %]
+                           "active"
+                         [% ELSE %]
+                           "inactive"
+                         [% END %] title="Generate density distribution plots of Affymetrix Expression Data" href="/component/affy_distribution_plots/density_dist">Density Distribution</li></a>
+    <li><a class= [% IF Catalyst.session.active_processes.processes.affy_distribution_plots.item('0.0.1').boxplot %]
+                           "active"
+                         [% ELSE %]
+                           "inactive"
+                         [% END %] title="Generate boxplots of Affymetrix Expression Data" href="/component/affy_distribution_plots/boxplot">Boxplot</li></a>
+    <li><a class= [% IF Catalyst.session.active_processes.processes.affy_rnadeg.item('0.0.1').rnadeg_plot %]
+                           "active"
+                         [% ELSE %]
+                           "inactive"
+                         [% END %] title="Generate RNA Degradation Plot of Affymetrix Expression Data" href="/component/affy_rnadeg/rnadeg_plot">RNA Degradation Plot</li></a>
+    <li><a class= [% IF Catalyst.session.active_processes.processes.affy_chipimage.item('0.0.1').chipimage %]
+                           "active"
+                         [% ELSE %]
+                           "inactive"
+                         [% END %] title="Generate Images of Affymetrix GeneChips" href="/component/affy_chipimage/chipimage">Chip Images</li></a>
+    <li><a class= [% IF Catalyst.session.active_processes.processes.affy_chipcluster.item('0.0.1').chipcluster %]
+                           "active"
+                         [% ELSE %]
+                           "inactive"
+                         [% END %] title="Hierarchical Clustering of Affymetrix GeneChips" href="/component/affy_chipcluster/chipcluster">Chip Clustering</li></a>
    </ul>
   </li>
 

@@ -80,18 +80,6 @@
           any_datatype: 1
           href: /job
 
-- Affy Quality Control:
-   title: Various quality control plots for Affymetrix Data
-   dropdown:
-      - affyboxplot:
-          display_name: Boxplot
-          title: Generate boxplots of Affymetrix Expression Data
-          component: affyboxplot
-          version: 0.0.1
-          process: affyboxplot
-        
-
-
 - Affy Normalisation:
    title: Normalisation of Affymetrix Expression Data 
    dropdown:
@@ -113,7 +101,46 @@
           component: mas5
           version: 0.0.1
           process: mas5
-     
+
+- Affy Quality Control:
+   title: Quality control plots for Affymetrix Data
+   dropdown:
+      - affydensdist:
+          display_name: Density Distribution
+          title: Generate density distribution plots of Affymetrix Expression Data
+          component: affy_distribution_plots
+          version: 0.0.1
+          process: density_dist
+      - affyboxplot:
+          display_name: Boxplot
+          title: Generate boxplots of Affymetrix Expression Data
+          component: affy_distribution_plots
+          version: 0.0.1
+          process: boxplot
+      - affyrnadegplot:
+          display_name: RNA Degradation Plot
+          title: Generate RNA Degradation Plot of Affymetrix Expression Data
+          component: affy_rnadeg
+          version: 0.0.1
+          process: rnadeg_plot
+      - affychipimage:
+          display_name: Chip Images
+          title: Generate Images of Affymetrix GeneChips
+          component: affy_chipimage
+          version: 0.0.1
+          process: chipimage
+      - affychipcluster:
+          display_name: Chip Clustering
+          title: Hierarchical Clustering of Affymetrix GeneChips
+          component: affy_chipcluster
+          version: 0.0.1
+          process: chipcluster
+      - affymvaplot:
+          display_name: MvA Plots
+          title: M (ratio) v A (ave. expression) plots for Affymetrix Expression Data
+          component: affy_mva_pairs
+          version: 0.0.1
+          process: mva_pairs
         
 - Devel Tools:
     title: Development tools
