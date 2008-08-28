@@ -24,6 +24,10 @@
            </td></tr>
        <tr><th>Process:</th><td>[% datafile.job.process.display_name OR datafile.job.process.name%]</td></tr>
        <tr><th>Process description:</th><td>[% datafile.job.process.description %]</td></tr>
+       [%FOREACH arg IN datafile.job.arguments %] 
+       <tr><th>Parameter [%arg.parameter_name%]</th><td>[%arg.value%]</td></tr>
+       [%END%]
+
        <tr><th>Experiment:</th><td>[% datafile.experiment_name %]</td></tr>
        <tr><th>Experiment Owner:</th><td>[% datafile.experiment_owner %]</td></tr>
        <tr><th>Datatype:</th><td>[% datafile.datatype.name %]

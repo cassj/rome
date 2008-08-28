@@ -1,8 +1,20 @@
-[%Catalyst.prototype.form_remote_tag({
-     update => 'add_results',
-     url    => "/crud/experiment/set_factor"
-   } )
-%]
+<form action="/metadata/factor/add_to_experiment" 
+      onsubmit=" new Ajax.Updater( 'add_results',  
+                                   '/metadata/factor/add_to_experiment', 
+                                   { 
+                                     parameters: Form.serialize(this),
+                                     asynchronous: 1, 
+                                     onComplete: function(){
+                                                  setTimeout(
+                                                    function(){
+                                                      update_factor_list('factor_list');
+                                                    }, 
+                                                    1000
+                                                  );
+                                                }
+                                   } 
+                                 ) ; return false"
+>
 
   <fieldset> 
      <legend>Add factors to an experiment...</legend>
@@ -22,7 +34,7 @@
 
              new Ajax.Autocompleter("factor_name",
 				    "factor_name_autocomplete_choices",
-			            "/crud/factor/autocomplete",
+			            "/metadata/factor/autocomplete",
 	                            {           
                                      afterUpdateElement :  function () {      
                                                              Ajax.Autocompleter.set_linked_value('factor_owner',

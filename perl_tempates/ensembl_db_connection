@@ -1,0 +1,56 @@
+[% INCLUDE 'setup/Perl' %]
+
+[%# ROME Variables, defined by setup/R:
+   $rome_userdir
+   $rome_username  
+   $rome_experiment_name 
+
+%]
+
+[%# TT Arguments from Processor
+    rome_datafiles_out
+    rome_datafiles_in
+%]
+
+[%# TT Arguments from controller 
+  gene_id : an array reference
+%]
+
+
+use Storable qw/nstore/;
+
+#this code will retrieve and return the appropriate ensembl gene
+my \$code = sub {
+
+  require Bio::EnsEMBL::Registry;
+  my \$registry = 'Bio::EnsEMBL::Registry';
+
+  \$registry->load_registry_from_db(
+				    -host => '[% dbhost %]',
+				    -user => '[% dbuser %]',
+				    [% IF dbpass%]  
+				    -pass => '[% dbpass %]',
+				    [% END %]
+				    [% IF dbport %]
+				    -port => '[% dbport %]',
+				    [% END %]
+				    -verbose => 1,
+				    [% IF dbversion%]
+				    -db_version => '[% dbversion %]',
+				    [% END %]
+				   );
+
+  return \$registry;
+};
+
+
+#save the gene retrieval code in the appropriate datafile using storable?
+\$Storable::Deparse =1;
+my \$filename = "[% rome_datafiles_out.EnsemblDBRegistry.name %]";
+nstore \$code, \$filename;
+
+
+
+
+
+

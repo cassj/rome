@@ -49,7 +49,7 @@
       [% IF parameter.form_element_type == "radio" %]
        <div class="radio_list">
        [% FOREACH val IN parameter.allowed_values %]
-           <input type="checkbox" name="[%parameter.name%]" value="[%val.value%]"
+           <input type="radio" name="[%parameter.name%]" value="[%val.value%]"
 	   [%IF val.value == parameter.default_value%]checked=true[%END%]>[%val.value%]</input>
 	[% END %]
 	</div>

@@ -1,0 +1,22 @@
+[% INCLUDE 'setup/R' %]
+
+library(affyPLM)
+
+#get plm
+obj.names<-load("[% rome_datafiles_in.PLM.name %]")
+PLM<-get(obj.names[1])
+outcome<-c("[%selected_outcomes.join('", "')%]");
+#should always be 1, but just in case
+outcome<-outcome[1]
+
+plotfile<-"[%rome_datafiles_out.IMG.name%]"
+bitmap(file=plotfile, res=300);
+arrays<-colnames(coefs(PLM))
+type="weights"
+[%IF type=="residuals"%]
+type="resids"
+[%END%]
+image(pset, which=which(arrays==outcome), type=type)
+dev.off()
+
+

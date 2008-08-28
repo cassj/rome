@@ -2,22 +2,19 @@
 \label{sec:controller_datafile}
 
 \paragraph{}
-The datafile controller provides functionality for managing the datafiles in an experiment. It's public actions are:
+The datafile controller provides functionality for managing the datafiles in an experiment. Its perldoc provides full documentation of its actions. Datafiles are only created by ROME processes so there is no create action, but they can be deleted. Deleting a datafile will remove any datafiles derived from it and any pending jobs using that datafile as an input. Shared datafiles cannot be deleted, so deletion will fail if either the datafile or any of its descendants are shared. The parent-child relationships between datafiles form a directed acyclic graph. The graph action is to generate a GraphViz graph of the datafiles and their relationships. The png and imap actions are used to pass that graph through to the ROME::View::DatafileGraph view to generate a clickable PNG image of the graph.
 
-\begin{scriptsize}
-\begin{verbatim}
-datafile/
-datafile/select
-datafile/selected
-datafile/graph
-datafile/png
-datafile/imap
-datafile/delete
-\end{verbatim}
-\end{scriptsize}
 
-\paragraph{}
-Datafiles are only created by ROME processes so there is no create action, but they can be deleted. Deleting a datafile will remove any datafiles derived from it and any pending jobs using that datafile as an input. Shared datafiles cannot be deleted, so deletion will fail if either the datafile or any of its descendants are shared.
+% 
+% \begin{scriptsize}
+% \begin{verbatim}
+% datafile/
+% datafile/select
+% datafile/selected
+% datafile/graph
+% datafile/png
+% datafile/imap
+% datafile/delete
+% \end{verbatim}
+% \end{scriptsize}
 
-\paragraph{}
-The parent-child relationships between datafiles form a directed acyclic graph. The graph action is to generate a GraphViz graph of the datafiles and their relationships. The png and imap actions are used to pass that graph through to the ROME::View::DatafileGraph view to generate a clickable PNG image of the graph.

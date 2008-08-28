@@ -2,10 +2,10 @@
 \label{sec:job_scheduling}
 
 \paragraph{}
-The \texttt{script/rome\_local\_scheduler.pl} schedules and runs jobs on the local machine. Alternatively, if ROME has access to a Condor pool (even a personal-condor pool of one) the \texttt{script/rome\_condor\_scheduler.pl} can submit ROME jobs to a Condor pool (see section \ref{sec:condor}. The schedulers are smart enough to skip over jobs which have uncompleted jobs upstream. Both schedulers rely on job scheduler objects of an appropriate subclass of ROME::JobScheduler::Base as returned by the factory class ROME::JobScheduler. If a class, ROME::JobScheduler::$<$ComponentName$>$, exists for the component to which the job's process belongs then this will be returned. Otherwise the base class will be returned. 
+The \texttt{script/rome\_local\_scheduler.pl} schedules and runs jobs on the local machine. Alternatively, if ROME has access to a Condor pool (even a personal-condor pool of one) the \texttt{script/rome\_condor\_scheduler.pl} can submit ROME jobs to a Condor pool (see section \ref{sec:condor}. The schedulers are smart enough to skip over jobs which have uncompleted jobs upstream. Both schedulers rely on job scheduler objects of an appropriate subclass of ROME::JobScheduler::Base as returned by the factory class ROME::JobScheduler. If a class, \texttt{ROME::JobScheduler::$<$ComponentName$>$}, exists for the component to which the job's process belongs then this will be returned. Otherwise the base class will be returned. 
 
 \paragraph{}
-Although one or other of the daemons deals with running or submitting the job they call on the JobScheduler to preprocess and post-process the job. The method $<$process\_name$>$\_prepare is called before the job is run and if this method is not found, the base prepare method is called. This allows authors of individual processes to optionally add process-specific pre-processing by writing a ROME::JobScheduler::$<$ComponentName$>$-$<$process\_name$>$\_prepare method. A prepare method should return a hash of various key=value pairs. The base prepare function provides defaults for all the values shown below:
+Although one or other of the daemons deals with running or submitting the job they call on the JobScheduler to preprocess and post-process the job. The method \texttt{$<$process\_name$>$\_prepare} is called before the job is run and if this method is not found, the base prepare method is called. This allows authors of individual processes to optionally add process-specific pre-processing by writing a \texttt{ROME::JobScheduler::$<$ComponentName$>$-$<$process\_name$>$\_prepare} method. A prepare method should return a hash of various key=value pairs. The base prepare function provides defaults for all the values shown below:
 
 \begin{scriptsize}
 \begin{tabular}{l|c|l}
@@ -20,10 +20,10 @@ rank&optional&Some calculation to determine preferred target machines \\
 \end{scriptsize}
 
 \paragraph{}
-The optional requirements and rank values should be Condor ClassAds-style \citep{raman:98} specifications. Although not required (and are ignored by the basic scheduler) they are useful for allowing Condor to deal with processes which may have significant processor or space requirements. 
+The optional requirements and rank values should be Condor ClassAds-style \citep{raman:98} specifications. Although not required (and ignored by the basic scheduler) they are useful for allowing Condor to deal with processes which may have significant processor or space requirements and for specifying software, libraries and so on the target machine will require to run the job.
 
 \paragraph{}
 If a job fails then the daemon calls the $<$process\_name$>$\_halted method in the JobScheduler, whih defaults to the base -$>$halted if not found. This sends warning emails to the user who created the job and the system administrator. It also removes the job and any downstream jobs or datafiles from the database. As with the prepare method, component developers can define their own process-specific error handling halted method if required.
 
 \paragraph{}
-When a job completes successfully the daemon calls the jobScheduler's $<$process\_name$>$\_completed method, again this defaults to the base method and can be overridden for specific processes to do post-processing as required. The base completed method removes the job from the queue, sets its completed tag to true and removes the 'pending' tags on all its output datafiles. It may also email the user to let them know their job has completed, depending on configuration settings.
+When a job completes successfully the daemon calls the jobScheduler's \texttt{$<$process\_name$>$\_completed} method, again this defaults to the base method and can be overridden for specific processes to do post-processing as required. The base completed method removes the job from the queue, sets its completed tag to true and removes the 'pending' tags on all its output datafiles. It may also email the user to let them know their job has completed, depending on configuration settings.

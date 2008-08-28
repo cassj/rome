@@ -14,8 +14,8 @@ Default view templates are located in \texttt{root/src}.  \texttt{config/main} i
 \end{figure}
 
 \paragraph{}
-The default site/html template defines the html tag and everything in the head of each ROME page. This includes the loading of css and javascript files.
-The default site/layout defines the layout of the body of each ROME page. It creates a div called \texttt{header} into which it inserts \texttt{site/header} and \texttt{site/nav}. This is followed by the \texttt{status\_bar} div, which contains \texttt{site/status\_bar}. The main content is in a div with ID \texttt{content} which contains \texttt{site/messages} and the catalyst generated content. Finally, the footer div contains \texttt{site/footer}. This layout is illustrated in figure \ref{fig:layout}
+The default \texttt{site/html} template defines the html tag and everything in the head of each ROME page. This includes the loading of css and javascript files.
+The default \texttt{site/layout} defines the layout of the body of each ROME page. It creates a div called \texttt{header} into which it inserts \texttt{site/header} and \texttt{site/nav}. This is followed by the \texttt{status\_bar} div, which contains \texttt{site/status\_bar}. The main content is in a div with ID \texttt{content} which contains \texttt{site/messages} and the catalyst generated content. Finally, the footer div contains \texttt{site/footer}. This layout is illustrated in figure \ref{fig:layout}
 
 \begin{figure}
 \centering
@@ -24,7 +24,21 @@ The default site/layout defines the layout of the body of each ROME page. It cre
 \end{figure}
 
 \paragraph{}
-The default \texttt{site/header} just adds either the title of the current template or, failing that, the site title to the top of the page. \texttt{site/nav} is the navigation menu, defined as a nested list. Changing nested lists by hand is prone to error, so in order to enable the ROME administrator to alter the structure of their menu this file is generated from a YAML configuration file \texttt{nav.yml} in the ROME directory using the \texttt{script/rome\_makenav.pl} script. The script will automatically generate the appropriate file in \texttt{rome/root/lib/site/nav} and this file should never be edited by hand. The entries in the navigation menu are given different CSS classes depending on the current user's selected experiment and datafile via the \texttt{check\_datafile\_types} action in the base ROME controller. This allows ROME stylesheet to make a visual distinction between menu options which are applicable to the current datafile and those which are not. \texttt{site/status\_bar} contains information about the current user, including the active experiment and datafile.
+The default \texttt{site/header} just adds either the title of the current template or, failing that, the site title to the top of the page. \texttt{site/nav} is the navigation menu, defined as a nested list. Changing nested lists by hand is prone to error, so in order to enable the ROME administrator to alter the structure of their menu this file is generated from a YAML configuration file \texttt{nav.yml} in the ROME directory using the \texttt{script/rome\_makenav.pl} script. The script will automatically generate the appropriate file in \texttt{rome/root/lib/site/nav} and this file should never be edited by hand. The entries in the navigation menu are given different CSS classes depending on the current user's selected experiment and datafile via the \texttt{check\_datafile\_types} action in the base ROME controller. This allows ROME stylesheet to make a visual distinction between menu options which are applicable to the current datafile and those which are not. \texttt{site/status\_bar} contains information about the current user, including the active experiment and datafile. The entries in the YAML file are in the format shown below. Here, 'Affy Normalisation' becomes an element of the root menu. When this menu element is moused-over, the text of the title field is shown. The contents of the dropdown list are then defined. Dropdowns can be nested, if absolutely necessary, although more than two levels make for a confusing interface. The display name of the menu item is optional and defaults to the name of the element (rma in this case). The component name, version and process name are required for ROME add-on components as these are used to determine whether to activate the menu item dependent on the selected datafiles. An href field can also be defined, though this defaults to \texttt{component/<component\_name>/<process\_name>} for add-on components.
+
+\begin{scriptsize}
+\begin{verbatim}
+ - Affy Normalisation:
+   title: Normalisation of Affymetrix Expression Data 
+   dropdown:
+      - rma:
+          display_name: RMA
+          title: Robust Multi-Array Average Normalisation
+          component: rma
+          version: 0.0.1
+          process: rma
+\end{verbatim}
+\end{scriptsize}
 
 \paragraph{} 
 Component developers only need to create templates for the html to display the data their controller has generated. This will automatically be wrapped with the appropriate headers. Various templates are defined for the core functions in ROME and add-on components can also define templates as required. 

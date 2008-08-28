@@ -183,7 +183,6 @@ button:hover, .button:hover{
   border: 1px solid  [% site.col.nav_border %];
   border-width:  0;
   margin: 0 0 5px 0;
-  width: 80%;
 }
 
 

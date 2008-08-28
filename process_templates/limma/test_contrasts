@@ -1,0 +1,59 @@
+##############################################################
+## make contrasts
+
+ #get the limma fit
+ expt_id<-"{$expt_id}";
+ fit_file_id<-"{$fit_file_id}";
+ load("{$fit_file}");
+ {$contrast_matrix}
+
+ fit2<-contrasts.fit(fit, cont_matrix);
+ dir<-"{$dir}"
+
+ fit2<-eBayes(fit2);
+ 
+
+####################################################################################
+
+# store results 
+
+ #save fit2 as an RData file and tell perl where it is.
+ tmpfile=tempfile(pattern="limma_contrasts",tmpdir=dir);
+ save(fit2, file=tmpfile);
+ cat("FIT2?",tmpfile,"\n",sep="");
+
+#Enter fit2 into the DB. Do we have an ID for the fit file?
+insert<-"INSERT INTO datafile (name, description, experiment, process, parent, full_path) values ";
+dbSendQuery(con, paste('INSERT INTO datafile (name, description, experiment, process, parent, full_path)'
+		 ,'values'
+		 ,'("fit2", "Limma contrast fit result (after eBayes)",'
+                 , expt_id
+                 , ',"limma_contrast", '
+                 , fit_file_id, ',' 
+                 , '"',tmpfile,'"',')'
+                 , sep=" ") 
+            );
+
+###################################################################################
+# make genelists for each contrast, and stick the results in the DB
+
+ len<-nrow(fit2$genes);
+ genes<-fit2$genes; 
+ for (i in colnames(fit2$contrasts))
+ \{
+     #hack cos doesn't work for one col,
+     if (ncol(fit2$contrasts) == 1)
+     \{	
+	i<-1
+     \}
+
+	#Enter contrast name and parent DF to contrast
+	#Enter level ids their values and their rank from cont_matrix to contrast_level
+	#enter contrast, stat class, stat, p, q
+
+     res<-topTable(fit2,coef=i,number=len,adjust.method="fdr");
+
+     #actually should put this in the database.
+     save(res, file="/tmp/test.RData");
+
+\}

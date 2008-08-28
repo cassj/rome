@@ -1,0 +1,33 @@
+\subsubsection{User}
+\label{sec:controller_user}
+
+\paragraph{}
+The User controller is responsible for managing user registration, login and logout and account details. Its public actions are:
+
+\begin{scriptsize}
+\begin{verbatim}
+user/login
+user/logout
+user/register
+user/user_confirm
+user/admin_confirm
+user/reset_password
+user/lost_password
+user/account
+user/account/update
+user/lost_password
+user/reset_password
+user/set_experiment
+\end{verbatim}
+\end{scriptsize}
+
+\paragraph{}
+Registration has configuration settings in the rome.yml configuration file which determine whether or not confirmation (via email) is required for both the user and the administrator:
+
+\begin{scriptsize}
+\begin{verbatim}
+registration:
+    user_confirm: '1'
+    admin_confirm: '1'
+\end{verbatim}
+\end{scriptsize}

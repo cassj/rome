@@ -1,5 +1,5 @@
 \chapter{ROME Schema}
-\label{ch:rome_schema}
+\label{sec:rome_schema}
 
 
 \begin{tiny}
@@ -251,398 +251,371 @@ create table parameter(
 	optional BOOLEAN NOT NULL DEFAULT 0,
 	default_value VARCHAR(255),
 	PRIMARY KEY (name, process_name, process_component_name, process_component_version),
-FOREIGN KEY (process_name, process_component_name, process_component_version) 
-REFERENCES process(name, component_name, component_version) 
-ON DELETE CASCADE
+	FOREIGN KEY (process_name, process_component_name, process_component_version) 
+		REFERENCES process(name, component_name, component_version) 
+		ON DELETE CASCADE
 ) ENGINE=INNODB;
 
-/* Constraints on parameters. These are eval'ed and used as closures for DFV  */
-create table parameter_constraint(
-parameter_name VARCHAR(50) NOT NULL,
-parameter_process_name VARCHAR(50) NOT NULL,
-parameter_process_component_name VARCHAR(50) NOT NULL,
-parameter_process_component_version VARCHAR (20) NOT NULL,
-constraint_name VARCHAR(50) NOT NULL,
-constraint_sub TEXT NOT NULL,
-constraint_error_msg TEXT NOT NULL,
-PRIMARY KEY (parameter_name, parameter_process_name, parameter_process_component_name, parameter_process_component_version, constraint_name),
-FOREIGN KEY (parameter_name, parameter_process_name, parameter_process_component_name, parameter_process_component_version) 
-REFERENCES parameter(name, process_name, process_component_name, process_component_version) 
-ON DELETE CASCADE
-) ENGINE=INNODB;
-
-/* Arguments are instances of parameters - ie values given to an actual job*/
+/* Arguments are instances of parameters - ie the values of parameters
+   given to an actual job*/
 create table argument(
-jid INT NOT NULL REFERENCES job(id),
-parameter_name VARCHAR(50) NOT NULL,
-parameter_process_name VARCHAR(50) NOT NULL,
-parameter_process_component_name VARCHAR(50) NOT NULL,
-parameter_process_component_version VARCHAR (20) NOT NULL,
-value TEXT,
-PRIMARY KEY (jid, parameter_name, parameter_process_name, parameter_process_component_name, parameter_process_component_version),
-FOREIGN KEY (parameter_name, parameter_process_name, parameter_process_component_name, parameter_process_component_version)
-REFERENCES parameter(name, process_name, process_component_name, process_component_version)
-ON DELETE CASCADE
+	jid INT NOT NULL REFERENCES job(id),
+	parameter_name VARCHAR(50) NOT NULL,
+	parameter_process_name VARCHAR(50) NOT NULL,
+	parameter_process_component_name VARCHAR(50) NOT NULL,
+	parameter_process_component_version VARCHAR (20) NOT NULL,
+	value TEXT,
+	PRIMARY KEY (jid, parameter_name, parameter_process_name, parameter_process_component_name, parameter_process_component_version),
+	FOREIGN KEY (parameter_name, parameter_process_name, parameter_process_component_name, parameter_process_component_version)
+		REFERENCES parameter(name, process_name, process_component_name, process_component_version)
+		ON DELETE CASCADE
 ) ENGINE=INNODB;
 
 
-/*Stores all the datafiles
-removed and replaced by job_id process VARCHAR(50) REFERENCES process(name)*/
-
+/* Stores all the datafiles */
 create table datafile(
-name VARCHAR(50),
-experiment_name VARCHAR(50),
-experiment_owner CHAR(50),
-path VARCHAR(100) NOT NULL,
-datatype varchar(50) NOT NULL,
-status ENUM('private','shared','public'),
-job_id INT,
-is_root BOOLEAN NOT NULL DEFAULT 0,
-PRIMARY KEY (name, experiment_name, experiment_owner),
-FOREIGN KEY (experiment_name, experiment_owner)
-REFERENCES experiment(name,owner)
-ON DELETE CASCADE,
-FOREIGN KEY (datatype) 
-REFERENCES datatype(name),
-FOREIGN KEY (job_id)
-REFERENCES job(id)
+	name VARCHAR(50),
+	experiment_name VARCHAR(50),
+	experiment_owner CHAR(50),
+	path VARCHAR(100) NOT NULL,
+	datatype varchar(50) NOT NULL,
+	status ENUM('private','shared','public'),
+	job_id INT,
+	is_root BOOLEAN NOT NULL DEFAULT 0,
+	PRIMARY KEY (name, experiment_name, experiment_owner),
+	FOREIGN KEY (experiment_name, experiment_owner)
+		REFERENCES experiment(name,owner)
+		ON DELETE CASCADE,
+	FOREIGN KEY (datatype) 
+		REFERENCES datatype(name),
+	FOREIGN KEY (job_id)
+		REFERENCES job(id)
 ) ENGINE=INNODB;
 
 
 /* for currently selected datafiles */
 create table person_datafile(
-person CHAR(50) NOT NULL,
-datafile_name VARCHAR(50) NOT NULL,
-datafile_experiment_name VARCHAR(50),
-datafile_experiment_owner VARCHAR(50),
-PRIMARY KEY (person, datafile_name, datafile_experiment_name, datafile_experiment_owner),
-FOREIGN KEY (datafile_name, datafile_experiment_name, datafile_experiment_owner)
-REFERENCES datafile(name, experiment_name, experiment_owner)
-ON DELETE CASCADE,
-FOREIGN KEY (person)
-REFERENCES person(username)
-ON DELETE CASCADE
+	person CHAR(50) NOT NULL,
+	datafile_name VARCHAR(50) NOT NULL,
+	datafile_experiment_name VARCHAR(50),
+	datafile_experiment_owner VARCHAR(50),
+	PRIMARY KEY (person, datafile_name, datafile_experiment_name, datafile_experiment_owner),
+	FOREIGN KEY (datafile_name, datafile_experiment_name, datafile_experiment_owner)
+		REFERENCES datafile(name, experiment_name, experiment_owner)
+		ON DELETE CASCADE,
+	FOREIGN KEY (person)
+		REFERENCES person(username)
+		ON DELETE CASCADE
 ) ENGINE=INNODB;
 
 
 /* for sharing datafiles */
 create table datafile_workgroup(
-datafile_name VARCHAR(50) NOT NULL,
-datafile_experiment_name VARCHAR(50)NOT NULL,
-datafile_experiment_owner CHAR(50) NOT NULL,
-workgroup VARCHAR(100) NOT NULL,
-PRIMARY KEY (datafile_name, datafile_experiment_name, datafile_experiment_owner, workgroup),
-FOREIGN KEY (datafile_name, datafile_experiment_name, datafile_experiment_owner)
-REFERENCES datafile(name, experiment_name, experiment_owner),
-FOREIGN KEY (workgroup) 
-REFERENCES workgroup(name)
-ON DELETE CASCADE
+	datafile_name VARCHAR(50) NOT NULL,
+	datafile_experiment_name VARCHAR(50)NOT NULL,
+	datafile_experiment_owner CHAR(50) NOT NULL,
+	workgroup VARCHAR(100) NOT NULL,
+	PRIMARY KEY (datafile_name, datafile_experiment_name, datafile_experiment_owner, workgroup),
+	FOREIGN KEY (datafile_name, datafile_experiment_name, datafile_experiment_owner)
+		REFERENCES datafile(name, experiment_name, experiment_owner),
+	FOREIGN KEY (workgroup) 
+		REFERENCES workgroup(name)
+		ON DELETE CASCADE
 ) ENGINE=INNODB;
 
 /* keeps track of the relationships between datafiles.
 this is deleted if you delete the child, but not the parent
-so always delete from the children back up to the root.
-*/
+so always delete from the children back up to the root.*/
 create table datafile_relationship(
-parent_datafile_name VARCHAR(50) NOT NULL,
-parent_datafile_experiment_name VARCHAR(50)NOT NULL,
-parent_datafile_experiment_owner CHAR(50) NOT NULL,
-child_datafile_name VARCHAR(50) NOT NULL,
-child_datafile_experiment_name VARCHAR(50)NOT NULL,
-child_datafile_experiment_owner CHAR(50) NOT NULL,
-PRIMARY KEY (parent_datafile_name, parent_datafile_experiment_name, parent_datafile_experiment_owner, child_datafile_name, child_datafile_experiment_name, child_datafile_experiment_owner),
-FOREIGN KEY (parent_datafile_name, parent_datafile_experiment_name, parent_datafile_experiment_owner)
-REFERENCES datafile(name, experiment_name, experiment_owner),
-FOREIGN KEY (child_datafile_name, child_datafile_experiment_name, child_datafile_experiment_owner)
-REFERENCES datafile(name, experiment_name, experiment_owner)
-ON DELETE CASCADE
+	parent_datafile_name VARCHAR(50) NOT NULL,
+	parent_datafile_experiment_name VARCHAR(50)NOT NULL,
+	parent_datafile_experiment_owner CHAR(50) NOT NULL,
+	child_datafile_name VARCHAR(50) NOT NULL,
+	child_datafile_experiment_name VARCHAR(50)NOT NULL,
+	child_datafile_experiment_owner CHAR(50) NOT NULL,
+	PRIMARY KEY (parent_datafile_name, parent_datafile_experiment_name, parent_datafile_experiment_owner, child_datafile_name, 	child_datafile_experiment_name, child_datafile_experiment_owner),
+	FOREIGN KEY (parent_datafile_name, parent_datafile_experiment_name, parent_datafile_experiment_owner)
+		REFERENCES datafile(name, experiment_name, experiment_owner),
+	FOREIGN KEY (child_datafile_name, child_datafile_experiment_name, child_datafile_experiment_owner)
+		REFERENCES datafile(name, experiment_name, experiment_owner)
+		ON DELETE CASCADE
 ) ENGINE=INNODB;
 
 
-/* this is an extension of the datafile table
-allows us to store placeholder datafiles while processes are being run,
+/* this is an extension of the datafile table that allows us to
+mark placeholder datafiles while processes are being run,
 which means we can queue up processes on the placeholder datafile. */
 create table datafile_pending(
-datafile_name VARCHAR(50) NOT NULL REFERENCES datafile(name),
-datafile_experiment_name VARCHAR(50)NOT NULL REFERENCES datafile(experiment_name),
-datafile_experiment_owner CHAR(50) NOT NULL REFERENCES datafile(experiment_owner),
-PRIMARY KEY(datafile_name, datafile_experiment_name, datafile_experiment_owner),
-FOREIGN KEY (datafile_name, datafile_experiment_name, datafile_experiment_owner)
-REFERENCES datafile(name, experiment_name, experiment_owner)
-ON DELETE CASCADE
+	datafile_name VARCHAR(50) NOT NULL REFERENCES datafile(name),
+	datafile_experiment_name VARCHAR(50)NOT NULL REFERENCES datafile(experiment_name),
+	datafile_experiment_owner CHAR(50) NOT NULL REFERENCES datafile(experiment_owner),
+	PRIMARY KEY(datafile_name, datafile_experiment_name, datafile_experiment_owner),
+	FOREIGN KEY (datafile_name, datafile_experiment_name, datafile_experiment_owner)
+		REFERENCES datafile(name, experiment_name, experiment_owner)
+		ON DELETE CASCADE
 ) ENGINE=INNODB;
 
 
+/* Jobs */
 create table job(
-id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-owner CHAR(50),
-experiment_name VARCHAR(50) NOT NULL,
-experiment_owner CHAR(50) NOT NULL,
-process_name VARCHAR(50) NOT NULL,
-process_component_name VARCHAR(50) NOT NULL,
-process_component_version VARCHAR (20) NOT NULL,
-completed BOOLEAN DEFAULT 0,
-log VARCHAR(255),
-script VARCHAR(255),
-is_root BOOLEAN NOT NULL DEFAULT 0,
-FOREIGN KEY (owner)
-REFERENCES person(username),
-FOREIGN KEY (experiment_name, experiment_owner) 
-REFERENCES experiment(name,owner)
-ON DELETE CASCADE,
-FOREIGN KEY (process_name, process_component_name, process_component_version) 
-REFERENCES process(name, component_name, component_version)
+	id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	owner CHAR(50),
+	experiment_name VARCHAR(50) NOT NULL,
+	experiment_owner CHAR(50) NOT NULL,
+	process_name VARCHAR(50) NOT NULL,
+	process_component_name VARCHAR(50) NOT NULL,
+	process_component_version VARCHAR (20) NOT NULL,
+	completed BOOLEAN DEFAULT 0,
+	log VARCHAR(255),
+	script VARCHAR(255),
+	is_root BOOLEAN NOT NULL DEFAULT 0,
+	FOREIGN KEY (owner)
+		REFERENCES person(username),
+	FOREIGN KEY (experiment_name, experiment_owner) 
+		REFERENCES experiment(name,owner)
+		ON DELETE CASCADE,
+	FOREIGN KEY (process_name, process_component_name, process_component_version) 
+		REFERENCES process(name, component_name, component_version)
 ) ENGINE=INNODB;
 
+
+/* Input datafiles to a Job */
 create table in_datafile(
-jid INT NOT NULL,
-datafile_name VARCHAR(50),
-datafile_experiment_name VARCHAR(50),
-datafile_experiment_owner CHAR(50),
-PRIMARY KEY (jid, datafile_name, datafile_experiment_name, datafile_experiment_owner),
-FOREIGN KEY (datafile_name, datafile_experiment_name, datafile_experiment_owner)
-REFERENCES datafile(name, experiment_name, experiment_owner)
-ON DELETE CASCADE,
-FOREIGN KEY (jid) 
-REFERENCES job(id)
+	jid INT NOT NULL,
+	datafile_name VARCHAR(50),
+	datafile_experiment_name VARCHAR(50),
+	datafile_experiment_owner CHAR(50),
+	PRIMARY KEY (jid, datafile_name, datafile_experiment_name, datafile_experiment_owner),
+	FOREIGN KEY (datafile_name, datafile_experiment_name, datafile_experiment_owner)
+		REFERENCES datafile(name, experiment_name, experiment_owner)
+		ON DELETE CASCADE,
+	FOREIGN KEY (jid) 
+		REFERENCES job(id)
 ) ENGINE=INNODB;
 
 
+/* The queue for running jobs */
 create table queue(
-jid INT NOT NULL,
-pid INT,
-status ENUM ('QUEUED','PROCESSING','HALTED'),
-start_time DATETIME,
-PRIMARY KEY(jid),
-FOREIGN KEY (jid) 
-REFERENCES job(id)
-ON DELETE CASCADE
+	jid INT NOT NULL,
+	pid INT,
+	status ENUM ('QUEUED','PROCESSING','HALTED'),
+	start_time DATETIME,
+	PRIMARY KEY(jid),
+	FOREIGN KEY (jid) 
+		REFERENCES job(id)
+		ON DELETE CASCADE
 ) ENGINE=INNODB;
 
 /* an extension of the datafile table for image files */
-create table image_file(
-datafile_name VARCHAR(50),
-datafile_experiment_name VARCHAR(50),
-datafile_experiment_owner CHAR(50),
-path VARCHAR(100) NOT NULL,
-height FLOAT,
-width FLOAT,
-is_png BOOLEAN DEFAULT 1,
-PRIMARY KEY (datafile_name, datafile_experiment_name, datafile_experiment_owner),
-FOREIGN KEY (datafile_name, datafile_experiment_name, datafile_experiment_owner)
-REFERENCES datafile(name, experiment_name, experiment_owner)
-ON DELETE CASCADE
+	create table image_file(
+	datafile_name VARCHAR(50),
+	datafile_experiment_name VARCHAR(50),
+	datafile_experiment_owner CHAR(50),
+	path VARCHAR(100) NOT NULL,
+	height FLOAT,
+	width FLOAT,
+	is_png BOOLEAN DEFAULT 1,
+	PRIMARY KEY (datafile_name, datafile_experiment_name, datafile_experiment_owner),
+	FOREIGN KEY (datafile_name, datafile_experiment_name, datafile_experiment_owner)
+		REFERENCES datafile(name, experiment_name, experiment_owner)
+		ON DELETE CASCADE
 ) ENGINE=INNODB;
 
 
-/* an extension of the datafile table for export files
-deleted: href VARCHAR(200)        */
+/* an extension of the datafile table for export files   */
 create table export_file(
-datafile_name VARCHAR(50),
-datafile_experiment_name VARCHAR(50),
-datafile_experiment_owner CHAR(50),
-PRIMARY KEY (datafile_name,datafile_experiment_name, datafile_experiment_owner),
-FOREIGN KEY (datafile_name, datafile_experiment_name, datafile_experiment_owner)
-REFERENCES datafile(name, experiment_name, experiment_owner)
-ON DELETE CASCADE
+	datafile_name VARCHAR(50),
+	datafile_experiment_name VARCHAR(50),
+	datafile_experiment_owner CHAR(50),
+	PRIMARY KEY (datafile_name,datafile_experiment_name, datafile_experiment_owner),
+	FOREIGN KEY (datafile_name, datafile_experiment_name, datafile_experiment_owner)
+		REFERENCES datafile(name, experiment_name, experiment_owner)
+		ON DELETE CASCADE
 ) ENGINE=INNODB;
 
-/* Stores experiments 
-removed while I have a think:
-root_datafile_name VARCHAR(50) NOT NULL REFERENCES datafile(name),
-*/
+/* Stores experiments */
 create table experiment(
-name VARCHAR(50),
-owner CHAR(50) NOT NULL,
-date_created DATE NOT NULL,
-pubmed_id CHAR(30),
-description TEXT,
-status ENUM('private','shared','public'),
-PRIMARY KEY (name,owner),
-FOREIGN KEY (owner) 
-REFERENCES person(username)
+	name VARCHAR(50),
+	owner CHAR(50) NOT NULL,
+	date_created DATE NOT NULL,
+	pubmed_id CHAR(30),
+	description TEXT,
+	status ENUM('private','shared','public'),
+	PRIMARY KEY (name,owner),
+	FOREIGN KEY (owner) 
+		REFERENCES person(username)
 ) ENGINE=INNODB;
-
+	
 /* for sharing experiments */
 create table experiment_workgroup(
-experiment_name VARCHAR(50) NOT NULL,
-experiment_owner CHAR(50) NOT NULL,
-workgroup VARCHAR(100) NOT NULL,
-PRIMARY KEY(experiment_name, experiment_owner,workgroup),
-FOREIGN KEY (experiment_name, experiment_owner)
-REFERENCES experiment(name, owner)
-ON DELETE CASCADE,
-FOREIGN KEY (workgroup)
-REFERENCES workgroup(name)
-ON DELETE CASCADE
+	experiment_name VARCHAR(50) NOT NULL,
+	experiment_owner CHAR(50) NOT NULL,
+	workgroup VARCHAR(100) NOT NULL,
+	PRIMARY KEY(experiment_name, experiment_owner,workgroup),
+	FOREIGN KEY (experiment_name, experiment_owner)
+		REFERENCES experiment(name, owner)
+		ON DELETE CASCADE,
+	FOREIGN KEY (workgroup)
+		REFERENCES workgroup(name)
+		ON DELETE CASCADE
 ) ENGINE=INNODB;
 
 
 /*Experimental Outcomes - eg. channels in an array expt, replicates etc*/
 create table outcome(
-name VARCHAR (50) NOT NULL,
-experiment_name VARCHAR(50) NOT NULL ,
-experiment_owner VARCHAR(50) NOT NULL,
-description VARCHAR(255),
-PRIMARY KEY (name, experiment_name, experiment_owner),
-FOREIGN KEY (experiment_name, experiment_owner)
-REFERENCES experiment(name, owner)
-ON DELETE CASCADE
+	name VARCHAR (50) NOT NULL,
+	experiment_name VARCHAR(50) NOT NULL ,
+	experiment_owner VARCHAR(50) NOT NULL,
+	description VARCHAR(255),
+	PRIMARY KEY (name, experiment_name, experiment_owner),
+	FOREIGN KEY (experiment_name, experiment_owner)
+		REFERENCES experiment(name, owner)
+		ON DELETE CASCADE
 ) ENGINE=INNODB;
 
 /*Many to Many mapping between datafiles and outcomes*/
 create table outcome_datafile(
-outcome_name VARCHAR (50) NOT NULL,
-outcome_experiment_name VARCHAR(50) NOT NULL,
-outcome_experiment_owner VARCHAR(50) NOT NULL,
-datafile_name VARCHAR(50) NOT NULL,
-datafile_experiment_name VARCHAR(50) NOT NULL,
-datafile_experiment_owner CHAR(50) NOT NULL,
-PRIMARY KEY(outcome_name, outcome_experiment_name, outcome_experiment_owner, datafile_name, datafile_experiment_name, datafile_experiment_owner),
-FOREIGN KEY (outcome_name, outcome_experiment_name, outcome_experiment_owner)
-REFERENCES outcome(name, experiment_name, experiment_owner)
-ON DELETE CASCADE,
-FOREIGN KEY (datafile_name, datafile_experiment_name, datafile_experiment_owner)
-REFERENCES datafile(name, experiment_name, experiment_owner)
-ON DELETE CASCADE
+	outcome_name VARCHAR (50) NOT NULL,
+	outcome_experiment_name VARCHAR(50) NOT NULL,
+	outcome_experiment_owner VARCHAR(50) NOT NULL,
+	datafile_name VARCHAR(50) NOT NULL,
+	datafile_experiment_name VARCHAR(50) NOT NULL,
+	datafile_experiment_owner CHAR(50) NOT NULL,
+	PRIMARY KEY(outcome_name, outcome_experiment_name, outcome_experiment_owner, 
+	datafile_name, datafile_experiment_name, datafile_experiment_owner),
+	FOREIGN KEY (outcome_name, outcome_experiment_name, outcome_experiment_owner)
+		REFERENCES outcome(name, experiment_name, experiment_owner)
+		ON DELETE CASCADE,
+	FOREIGN KEY (datafile_name, datafile_experiment_name, datafile_experiment_owner)
+		REFERENCES datafile(name, experiment_name, experiment_owner)
+		ON DELETE CASCADE
 ) ENGINE=INNODB;
 
 
 /*Discrete Independent Variables*/
 create table factor(
-name VARCHAR(50) NOT NULL,
-owner CHAR(50) NOT NULL,
-description TEXT,
-status ENUM('private','shared','public'),
-tech_rep BOOLEAN DEFAULT 0,
-PRIMARY KEY (name, owner),
-FOREIGN KEY (owner)
-REFERENCES person(username)
+	name VARCHAR(50) NOT NULL,
+	owner CHAR(50) NOT NULL,
+	description TEXT,
+	status ENUM('private','shared','public'),
+	tech_rep BOOLEAN DEFAULT 0,
+	PRIMARY KEY (name, owner),
+	FOREIGN KEY (owner)
+		REFERENCES person(username)
 ) ENGINE=INNODB;
 
 /*Levels of Factors*/
 create table level(
-factor_name VARCHAR(50) NOT NULL,
-factor_owner CHAR(50) NOT NULL,
-name VARCHAR(50) NOT NULL,
-description TEXT,
-PRIMARY KEY (factor_name, factor_owner, name),
-FOREIGN KEY (factor_name, factor_owner)
-REFERENCES factor(name, owner)
-ON DELETE CASCADE
+	factor_name VARCHAR(50) NOT NULL,
+	factor_owner CHAR(50) NOT NULL,
+	name VARCHAR(50) NOT NULL,
+	description TEXT,
+	PRIMARY KEY (factor_name, factor_owner, name),
+	FOREIGN KEY (factor_name, factor_owner)
+		REFERENCES factor(name, owner)
+		ON DELETE CASCADE
 ) ENGINE=INNODB;
 
 /*many to many mapping between outcome and level*/
 create table outcome_level(
-outcome_name VARCHAR (50) NOT NULL,
-outcome_experiment_name VARCHAR(50) NOT NULL,
-outcome_experiment_owner VARCHAR(50) NOT NULL,
-level_factor_name VARCHAR(50) NOT NULL,
-level_factor_owner CHAR(50) NOT NULL,
-level_name VARCHAR(50) NOT NULL,
-PRIMARY KEY (outcome_name, outcome_experiment_name, outcome_experiment_owner, level_factor_name, level_factor_owner, level_name),
-FOREIGN KEY (outcome_name, outcome_experiment_name, outcome_experiment_owner)
-REFERENCES outcome(name, experiment_name, experiment_owner)	
-ON DELETE CASCADE,
-FOREIGN KEY (level_factor_name, level_factor_owner, level_name)
-REFERENCES level(factor_name, factor_owner, name)
-ON DELETE CASCADE
+	outcome_name VARCHAR (50) NOT NULL,
+	outcome_experiment_name VARCHAR(50) NOT NULL,
+	outcome_experiment_owner VARCHAR(50) NOT NULL,
+	level_factor_name VARCHAR(50) NOT NULL,
+	level_factor_owner CHAR(50) NOT NULL,
+	level_name VARCHAR(50) NOT NULL,
+	PRIMARY KEY (outcome_name, outcome_experiment_name, outcome_experiment_owner, level_factor_name, level_factor_owner, level_name),
+	FOREIGN KEY (outcome_name, outcome_experiment_name, outcome_experiment_owner)
+		REFERENCES outcome(name, experiment_name, experiment_owner)	
+		ON DELETE CASCADE,
+	FOREIGN KEY (level_factor_name, level_factor_owner, level_name)
+		REFERENCES level(factor_name, factor_owner, name)
+		ON DELETE CASCADE
 ) ENGINE=INNODB;
 
 /*For sharing of factors with workgroups*/
 create table factor_workgroup(
-factor_name VARCHAR(50) NOT NULL,
-factor_owner CHAR(50) NOT NULL,
-workgroup_name VARCHAR(100) NOT NULL,
-PRIMARY KEY (factor_name, factor_owner, workgroup_name),
-FOREIGN KEY (factor_name,factor_owner)
-REFERENCES factor(name, owner)
-ON DELETE CASCADE,
-FOREIGN KEY (workgroup_name)
-REFERENCES workgroup(name)
-ON DELETE CASCADE
+	factor_name VARCHAR(50) NOT NULL,
+	factor_owner CHAR(50) NOT NULL,
+	workgroup_name VARCHAR(100) NOT NULL,
+	PRIMARY KEY (factor_name, factor_owner, workgroup_name),
+	FOREIGN KEY (factor_name,factor_owner)
+	REFERENCES factor(name, owner)
+		ON DELETE CASCADE,
+	FOREIGN KEY (workgroup_name)
+		REFERENCES workgroup(name)
+		ON DELETE CASCADE
 ) ENGINE=INNODB;	
 
 
 /*Continuous Independent Variables*/
 create table cont_var(
-name VARCHAR(50) NOT NULL,
-owner CHAR(50) NOT NULL,
-description TEXT,
-status ENUM('private','shared','public'),
-PRIMARY KEY (name, owner),
-FOREIGN KEY (owner)
-REFERENCES person(username)
+	name VARCHAR(50) NOT NULL,
+	owner CHAR(50) NOT NULL,
+	description TEXT,
+	status ENUM('private','shared','public'),
+	PRIMARY KEY (name, owner),
+	FOREIGN KEY (owner)
+		REFERENCES person(username)
 ) ENGINE=INNODB;
 
 /*Values of continuous variables*/
 create table cont_var_value(
-cont_var_name VARCHAR(50) NOT NULL,
-cont_var_owner CHAR(50) NOT NULL,
-outcome_name VARCHAR (50) NOT NULL,
-outcome_experiment_name VARCHAR(50) NOT NULL,
-outcome_experiment_owner VARCHAR(50) NOT NULL,
-value VARCHAR(255),
-PRIMARY KEY (cont_var_name, cont_var_owner, outcome_name, outcome_experiment_name, outcome_experiment_owner),
-FOREIGN KEY (cont_var_name, cont_var_owner)
-REFERENCES cont_var(name, owner),
-FOREIGN KEY (outcome_name, outcome_experiment_name, outcome_experiment_owner)
-REFERENCES outcome(name, experiment_name, experiment_owner)
-ON DELETE CASCADE
+	cont_var_name VARCHAR(50) NOT NULL,
+	cont_var_owner CHAR(50) NOT NULL,
+	outcome_name VARCHAR (50) NOT NULL,
+	outcome_experiment_name VARCHAR(50) NOT NULL,
+	outcome_experiment_owner VARCHAR(50) NOT NULL,
+	value VARCHAR(255),
+	PRIMARY KEY (cont_var_name, cont_var_owner, outcome_name, outcome_experiment_name, outcome_experiment_owner),
+	FOREIGN KEY (cont_var_name, cont_var_owner)
+		REFERENCES cont_var(name, owner),
+	FOREIGN KEY (outcome_name, outcome_experiment_name, outcome_experiment_owner)
+		REFERENCES outcome(name, experiment_name, experiment_owner)
+		ON DELETE CASCADE
 ) ENGINE=INNODB;
 
 /*Factors used in an experiment*/
 create table factor_experiment(
-factor_name VARCHAR(50) NOT NULL,
-factor_owner CHAR(50) NOT NULL,
-experiment_name VARCHAR(50) NOT NULL,
-experiment_owner CHAR(50) NOT NULL,
-PRIMARY KEY (factor_name, factor_owner, experiment_name, experiment_owner),
-FOREIGN KEY (factor_name, factor_owner)
-REFERENCES factor(name, owner),
-FOREIGN KEY (experiment_name, experiment_owner)
-REFERENCES experiment(name, owner)
-ON DELETE CASCADE
+	factor_name VARCHAR(50) NOT NULL,
+	factor_owner CHAR(50) NOT NULL,
+	experiment_name VARCHAR(50) NOT NULL,
+	experiment_owner CHAR(50) NOT NULL,
+	PRIMARY KEY (factor_name, factor_owner, experiment_name, experiment_owner),
+	FOREIGN KEY (factor_name, factor_owner)
+		REFERENCES factor(name, owner),
+	FOREIGN KEY (experiment_name, experiment_owner)
+		REFERENCES experiment(name, owner)
+		ON DELETE CASCADE
 ) ENGINE=INNODB;
 
 /*Continuous Variables used in an experiment*/
 create table cont_var_experiment(
-cont_var_name VARCHAR(50) NOT NULL,
-cont_var_owner CHAR(50) NOT NULL,
-experiment_name VARCHAR(50) NOT NULL,
-experiment_owner CHAR(50) NOT NULL,
-PRIMARY KEY (cont_var_name, cont_var_owner, experiment_name, experiment_owner),
-FOREIGN KEY (cont_var_name, cont_var_owner)
-REFERENCES cont_var(name, owner),
-FOREIGN KEY (experiment_name, experiment_owner)
-REFERENCES experiment(name, owner)
-ON DELETE CASCADE
+	cont_var_name VARCHAR(50) NOT NULL,
+	cont_var_owner CHAR(50) NOT NULL,
+	experiment_name VARCHAR(50) NOT NULL,
+	experiment_owner CHAR(50) NOT NULL,
+	PRIMARY KEY (cont_var_name, cont_var_owner, experiment_name, experiment_owner),
+	FOREIGN KEY (cont_var_name, cont_var_owner)
+		REFERENCES cont_var(name, owner),
+	FOREIGN KEY (experiment_name, experiment_owner)
+		REFERENCES experiment(name, owner)
+		ON DELETE CASCADE
 ) ENGINE=INNODB;
 
 	
 /*For sharing of continuous variables with workgroups*/
 create table cont_var_workgroup(
-cont_var_name VARCHAR(50) NOT NULL,
-cont_var_owner CHAR(50) NOT NULL,
-workgroup_name VARCHAR(100) NOT NULL,
-PRIMARY KEY (cont_var_name, cont_var_owner, workgroup_name),
-FOREIGN KEY (cont_var_name, cont_var_owner)
-REFERENCES cont_var(name, owner),
-FOREIGN KEY (workgroup_name) 
-REFERENCES workgroup(name)
-ON DELETE CASCADE  
+	cont_var_name VARCHAR(50) NOT NULL,
+	cont_var_owner CHAR(50) NOT NULL,
+	workgroup_name VARCHAR(100) NOT NULL,
+	PRIMARY KEY (cont_var_name, cont_var_owner, workgroup_name),
+	FOREIGN KEY (cont_var_name, cont_var_owner)
+		REFERENCES cont_var(name, owner),
+	FOREIGN KEY (workgroup_name) 
+		REFERENCES workgroup(name)
+		ON DELETE CASCADE  
 ) ENGINE=INNODB;	
-
-
-/* Classes of statistics. Not implemented yet. 
-Still pondering how to deal with this
-create table stat_class(
-id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-name CHAR(50) NOT NULL,
-description VARCHAR(100),
-multi_level ENUM('0','1'),
-multi_fac ENUM('0','1')
-) ENGINE=INNODB;*/
 
 \end{verbatim}
 \end{tiny}

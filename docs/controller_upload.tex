@@ -2,25 +2,22 @@
 \label{sec:controller_upload}
 
 \paragraph{}
-The upload controller provides support for uploading datafiles into the user's upload directory. It also provides the required actions for managing the upload directory including listing its contents and deleting files or subdirectories. It's public actions are:
+The upload controller provides support for uploading datafiles into the user's upload directory. It also provides the required actions for managing the upload directory including listing its contents and deleting files or subdirectories. As many of the files required for -omics analysis are large, the upload module allows the user to upload a tarball or zip file and have it unpacked into their user directory (non-compressed files can also be uploaded). Again, full documentation can be found in the controller's perldoc.
 
-\begin{scriptsize}
-\begin{verbatim}
-upload
-upload/autocomplete_subdir
-upload/list
-upload/delete
-\end{verbatim}
-\end{scriptsize}
+% \begin{scriptsize}
+% \begin{verbatim}
+% upload
+% upload/autocomplete_subdir
+% upload/list
+% upload/delete
+% \end{verbatim}
+% \end{scriptsize}
 
-\paragraph{}
-As many of the files required for -omics analysis are large, the upload module allows the used to upload a tarball or zip file and have it unpacked into their user directory (non-compressed files can also be uploaded). 
-
-\paragraph{}
-The UploadProgress Catalyst Plugin provides the AJAX upload-status bar functionality. In order to work this requires a forking server. Under the test server this can be acheived with:
-
-\begin{scriptsize}
-\begin{verbatim}
-  script/rome_server.pl -fork 
-\end{verbatim}
-\end{scriptsize}
+% \paragraph{}
+% The UploadProgress Catalyst Plugin provides the AJAX upload-status bar functionality. In order to work this requires a forking server. Under the test server this can be acheived with:
+% 
+% \begin{scriptsize}
+% \begin{verbatim}
+%   script/rome_server.pl -fork 
+% \end{verbatim}
+% \end{scriptsize}

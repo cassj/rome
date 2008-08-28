@@ -1,0 +1,26 @@
+[% INCLUDE 'setup/R' %]
+
+library(affyPLM)
+
+#I was planning to have an option to select the type of 
+#normalisation here, but am having problems with anything 
+#other than mas5
+
+#get affybatch
+outcomes<-c("[%selected_outcomes.join('", "')%]");
+displaynames<-c("[%selected_outcome_display_names.join('", "')%]");
+obj.names<-load("[% rome_datafiles_in.AB.name %]")
+AB<-get(obj.names[1])
+AB<-AB[,outcomes]
+
+
+
+#create PLMset
+pset<-fitPLM(AB)
+
+# this should really fit the model with a 
+# treatment parameter, I guess. 
+# but I don't have time right now
+
+filename<-"[%rome_datafiles_out.PLM.name%]"
+save(pset,file=filename)

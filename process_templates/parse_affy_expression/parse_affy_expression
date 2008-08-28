@@ -29,6 +29,11 @@ filenames <- c("[% filenames.join('", "')%]");
 AB<-ReadAffy(filenames=filenames);
 
 ###
+# make a phenodata object from the metadata
+
+
+
+###
 # change into the user's data directory
 
 #setwd(rome.userdir)

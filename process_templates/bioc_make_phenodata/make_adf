@@ -1,0 +1,47 @@
+[% INCLUDE 'setup/R' %]
+
+library(affy)
+
+[%# get all the factors in the experiment%]
+
+[%first=1%]
+factors<-list(
+[%factornames = []%]
+[% FOREACH factor IN Catalyst.user.experiment.factors %]
+  [% factornames.push(factor.name) %]
+  [% levelnames = [] %]
+  [% FOREACH level IN factor.levels %]
+    [% levelnames.push(level.name) %]
+  [% END %]
+  [%UNLESS first%],[%END%][%factor.name%] = c("[% levelnames.join('", "')%]")     
+  [%first=0%]
+[% END %]
+)
+
+
+[%# And all the outcomes %]
+[% outcomenames = [] %]
+[% FOREACH outcome IN Catalyst.user.experiment.outcomes %]
+  [%outcomenames.push(outcome.name)%]
+[% END %]
+
+outcomes<-c("[%outcomenames.join('", "')%]");
+
+pd<-matrix(nrow=length(outcomes), ncol=length(factors))
+rownames(pd)<-outcomes;
+colnames(pd)<-names(factors)
+
+[%# Ok, now assign the levels of factors %]
+
+[% FOREACH outcome IN Catalyst.user.experiment.outcomes%]
+  [% FOREACH level IN outcome.levels%]
+     pd["[%outcome.name%]","[%level.factor.name%]"]<-which(factors\$[%level.factor_name%]=="[%level.name%]")
+   [% END %]
+[% END %]
+
+
+pd<-data.frame(pd)
+ADF<-new("AnnotatedDataFrame", data=pd, dimLabels=c('outcomes','variables'))
+save(ADF, file="[%rome_datafiles_out.ADF.name%]")
+
+

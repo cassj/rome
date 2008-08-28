@@ -86,35 +86,11 @@ require_ssl:
 
 
 
-###
-# Authentication settings.
-# The salt values are used in encrypting passwords.
-# You can set them to some random value on install.
-# Don't change them once there are users in the database.
-###
+########## You can put configuration for add-on components here #########
 
-#put these in Rome.pm
-
-#authentication:
-#    dbic:
-#        user_class: 'ROMEDB::Person'
-#        user_field: 'username'
-#        password_field: 'password'
-#        password_type: 'hashed'
-#        password_hash_type: 'SHA-1'
-#        password_pre_salt: 'gibbon' 
-#        password_post_salt: ''
-#
-#
-###
-# Authorization settings.
-# You shouldn't need to change these.
-###
-#authorization:
-#    dbic:
-#        role_class: ROMEDB::Role
-#        role_field: name
-#        role_rel: map_person_role
-#        user_role_user_field: person
-#
-
+ensembl:
+    db:
+        host: ensembldb.ensembl.org
+        user: anonymous
+        pass:
+        port:        

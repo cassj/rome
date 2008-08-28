@@ -24,13 +24,17 @@
     <li><a class="active"title="Parse raw data into an experiment" href="/parse">Parse Data</li></a>
     <li><a class="active"title="Describe your experimental variables" href="/metadata">Metadata</li></a>
     <li><a class="active"title="Manage your datafiles" href="/datafile">datafiles</li></a>
-    <li><a class="active"title="Export datafiles" href="/component//">Data Export</li></a>
     <li><a class="active"title="Monitor jobs and the job queue" href="/job">Jobs</li></a>
    </ul>
   </li>
 
   <li><a title="Normalisation of Affymetrix Expression Data" href="#" class="dropdown">Affy Normalisation</a>
    <ul>
+    <li><a class= [% IF Catalyst.session.active_processes.processes.bioc_make_phenodata.item('0.0.1').make_adf %]
+                           "active"
+                         [% ELSE %]
+                           "inactive"
+                         [% END %] title="Make a Bioconductor Annotated DataFrame object from Experimental Metadata" href="/component/bioc_make_phenodata/make_adf">Make Annotated DataFrame</li></a>
     <li><a class= [% IF Catalyst.session.active_processes.processes.rma.item('0.0.1').rma %]
                            "active"
                          [% ELSE %]
@@ -81,6 +85,76 @@
                          [% ELSE %]
                            "inactive"
                          [% END %] title="M (ratio) v A (ave. expression) plots for Affymetrix Expression Data" href="/component/affy_mva_pairs/mva_pairs">MvA Plots</li></a>
+    <li><a class= [% IF Catalyst.session.active_processes.processes.simple_affy.item('0.0.1').make_simpleaffy_qc %]
+                           "active"
+                         [% ELSE %]
+                           "inactive"
+                         [% END %] title="Plot Bioconductor simpleaffy QC Data" href="/component/simple_affy/make_simpleaffy_qc">Make Simple Affy QC Plot</li></a>
+
+  <li><a title="" href="#" class="dropdown">affyplm</a>
+   <ul>
+    <li><a class= [% IF Catalyst.session.active_processes.processes.affyplm.item('0.0.1').make_plm %]
+                           "active"
+                         [% ELSE %]
+                           "inactive"
+                         [% END %] title="Fit an Affymetrix Probe Level Model" href="/component/affyplm/make_plm">Fit AffyPLM Model</li></a>
+    <li><a class= [% IF Catalyst.session.active_processes.processes.affyplm.item('0.0.1').chip_image %]
+                           "active"
+                         [% ELSE %]
+                           "inactive"
+                         [% END %] title="Generate a chip pseudo-image from an Affymetrix Probe Level Model" href="/component/affyplm/chip_image">Chip Pseudo Image</li></a>
+    <li><a class= [% IF Catalyst.session.active_processes.processes.affyplm.item('0.0.1').rle %]
+                           "active"
+                         [% ELSE %]
+                           "inactive"
+                         [% END %] title="Relative Log Expression plot for an Affymetrix Probe Level Model" href="/component/affyplm/rle">RLE</li></a>
+    <li><a class= [% IF Catalyst.session.active_processes.processes.affyplm.item('0.0.1').nuse %]
+                           "active"
+                         [% ELSE %]
+                           "inactive"
+                         [% END %] title="Normalised Unscaled Standard Errors Plot for Affymetrix Probe Level Model" href="/component/affyplm/nuse">NUSE</li></a>
+   </ul>
+  </li>
+   </ul>
+  </li>
+
+  <li><a title="Linear Models for MicroArrays" href="#" class="dropdown">Limma</a>
+   <ul>
+    <li><a class= [% IF Catalyst.session.active_processes.processes.limma.item('0.0.1').limma_fit %]
+                           "active"
+                         [% ELSE %]
+                           "inactive"
+                         [% END %] title="Fit a Bioconductor Limma Model" href="/component/limma/limma_fit">Fit Limma Model</li></a>
+    <li><a class= [% IF Catalyst.session.active_processes.processes.limma.item('0.0.1').test_contrasts %]
+                           "active"
+                         [% ELSE %]
+                           "inactive"
+                         [% END %] title="Test Constrasts of a Limma Model" href="/component/limma/test_contrasts">Test Contrasts</li></a>
+   </ul>
+  </li>
+
+  <li><a title="Interact with the EnsEMBL Database" href="#" class="dropdown">Ensembl</a>
+   <ul>
+    <li><a class= [% IF Catalyst.session.active_processes.processes.ensembl.item('0.0.1').dbconnect %]
+                           "active"
+                         [% ELSE %]
+                           "inactive"
+                         [% END %] title="Make a connection to an EnsEMBL database" href="/component/ensembl/dbconnect">Connect</li></a>
+    <li><a class= [% IF Catalyst.session.active_processes.processes.ensembl.item('0.0.1').retrieve_gene %]
+                           "active"
+                         [% ELSE %]
+                           "inactive"
+                         [% END %] title="Retrieve and EnsEMBL Gene by its EnsEMBL ID" href="/component/ensembl/retrieve_gene">Retrieve Gene</li></a>
+    <li><a class= [% IF Catalyst.session.active_processes.processes.ensembl.item('0.0.1').ensembl_gene_report %]
+                           "active"
+                         [% ELSE %]
+                           "inactive"
+                         [% END %] title="Generate a report file for an EnsEMBL Gene" href="/component/ensembl/ensembl_gene_report">Gene Report</li></a>
+    <li><a class= [% IF Catalyst.session.active_processes.processes.ensembl.item('0.0.1').ensemblgene_to_bioseq %]
+                           "active"
+                         [% ELSE %]
+                           "inactive"
+                         [% END %] title="Convert an EnsEMBL gene to a Bioperl Bio::Seq" href="/component/ensembl/ensemblgene_to_bioseq">Gene to BioSeq</li></a>
    </ul>
   </li>
 

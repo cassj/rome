@@ -1,0 +1,12 @@
+[% INCLUDE 'setup/R' %]
+
+library(simpleaffy)
+
+
+obj.names<-load("[% rome_datafiles_in.SimpleAffyQC.name %]")
+AB<-get(obj.names[1])
+AB<-AB[,outcomes]
+xpn<-call.exprs(AB,"mas5");
+qcs <- qc(AB,xpn);
+
+save(qcs, file="[%rome_datafiles_out.SimpleAffyQC.name%]")

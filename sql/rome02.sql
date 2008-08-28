@@ -145,28 +145,6 @@
 	) ENGINE=INNODB;
 
 
-        /* DEPRECATED 
- 	create table export_method(
- 	name VARCHAR(50) NOT NULL,
- 	description TEXT,
-        extension VARCHAR(10),
-	PRIMARY KEY (name)
- 	) ENGINE=INNODB;
-	*/
-        /* Export methods for datatypes are actually defined in R, and perl isn't
-           aware of them. I decided it was easier to keep a note of them in the 
-           database, rather than perl calling R every time it wanted a list of 
-           export possibilities.
-	   DEPRECATED
- 	create table datatype_export_method(
-  	datatype VARCHAR(50) NOT NULL,
- 	export_method VARCHAR(50) NOT NULL,
-        PRIMARY KEY (datatype, export_method) ,
-	FOREIGN KEY (datatype) REFERENCES datatype(name) ON DELETE CASCADE,
-	FOREIGN KEY (export_method) REFERENCES export_method(name) ON DELETE CASCADE
-	) ENGINE=INNODB;
-	*/
-
         /* Processes correspond to individual R templates */
  	create table process(
  	name VARCHAR(50) NOT NULL,
@@ -235,22 +213,11 @@
 	PRIMARY KEY (name, version )
  	) ENGINE=INNODB;
 
-        /* Link components to processes. Generally a component should only
-           need to run a single process, but occasionally you need more than one 
-
-        Nah, just have a link to the component table in process.
- 	create table component_process
- 	component VARCHAR(50) NOT NULL,
- 	process VARCHAR(50) NOT NULL,
-        PRIMARY KEY (component,process),
-	FOREIGN KEY (component) REFERENCES component(name) ON DELETE CASCADE,
-	FOREIGN KEY (process) REFERENCES process(name) ON DELETE CASCADE
-	) ENGINE=INNODB; */
 
         /* Parameters that are used by components. This lets us auto-generate a lot
            of the interface and keep track of exactly what has been done to generate
            a given datafile */
- 	create table parameter(
+ 	create table parameter_(
  	name VARCHAR(50) NOT NULL,
 	display_name VARCHAR(100) NOT NULL,
 	process_name VARCHAR(50) NOT NULL,
@@ -258,7 +225,7 @@
 	process_component_version VARCHAR (20) NOT NULL,
  	description VARCHAR(100),
 	optional BOOLEAN NOT NULL DEFAULT 0,
-	form_element_type ENUM('text','textarea','checkbox','checkbox_group','select', 'outcome_list', 'outcome_radio') NOT NULL,
+	form_element_type ENUM('text','textarea','checkbox','checkbox_group', 'radio', 'select', 'outcome_list', 'outcome_radio') NOT NULL,
 	min_value NUMERIC,
 	max_value NUMERIC,
 	default_value VARCHAR(255),
@@ -427,19 +394,6 @@
 	) ENGINE=INNODB;
 
 
-	/* I think this is DEPRECATED
-           job just has_many datafiles
-	create table out_datafile(
-	jid INT NOT NULL REFERENCES job(id),
-	datafile_name VARCHAR(50) REFERENCES datafile(name),
-	datafile_experiment_name VARCHAR(50) REFERENCES datafile(experiment_name),
-	datafile_experiment_owner CHAR(50) REFERENCES datafile(experiment_owner),
-	PRIMARY KEY (jid, datafile_name, datafile_experiment_name, datafile_experiment_owner),
-	FOREIGN KEY (datafile_name, datafile_experiment_name, datafile_experiment_owner)
-	   REFERENCES datafile(name, experiment_name, experiment_owner)
-	) ENGINE=INNODB;*/
-
-
 	create table queue(
 	jid INT NOT NULL,
 	pid INT,
@@ -455,41 +409,7 @@
 	   ON DELETE CASCADE
 	) ENGINE=INNODB;
 
- 	/* an extension of the datafile table for image files 
-	   deleted:src VARCHAR(200),
- 	DEPRECATED - this is in the datatype definition
- 	create table image_file(
- 	datafile_name VARCHAR(50),
- 	datafile_experiment_name VARCHAR(50),
- 	datafile_experiment_owner CHAR(50),
- 	path VARCHAR(100) NOT NULL,
- 	height FLOAT,
- 	width FLOAT,
-        mime_type VARCHAR(100),
-	PRIMARY KEY (datafile_name, datafile_experiment_name, datafile_experiment_owner),
-	FOREIGN KEY (datafile_name, datafile_experiment_name, datafile_experiment_owner)
-	   REFERENCES datafile(name, experiment_name, experiment_owner)
-	   ON DELETE CASCADE
- 	) ENGINE=INNODB;
-        */
-
- 	/* an extension of the datafile table for export files
- 	   deleted: href VARCHAR(200)
-   	   (DEPECATED : export_method VARCHAR(50) REFERENCES export_type)
-          DEPRECATED: is in the datatype definition
- 	create table export_file(
-	datafile_name VARCHAR(50),
- 	datafile_experiment_name VARCHAR(50),
- 	datafile_experiment_owner CHAR(50),
-	mime_type VARCHAR(100),
-	PRIMARY KEY (datafile_name,datafile_experiment_name, datafile_experiment_owner),
-	FOREIGN KEY (datafile_name, datafile_experiment_name, datafile_experiment_owner)
-           REFERENCES datafile(name, experiment_name, experiment_owner)
-	   ON DELETE CASCADE
- 	) ENGINE=INNODB;
-
-	*/
-
+ 
  	/* Stores experiments 
  	removed while I have a think:
 	root_datafile_name VARCHAR(50) NOT NULL REFERENCES datafile(name),
@@ -676,20 +596,6 @@
 	   REFERENCES workgroup(name)
 	   ON DELETE CASCADE  
 	) ENGINE=INNODB;	
-
-
-
- 	/* Classes of statistics. Not implemented yet. 
-           Still pondering how to deal with this
- 	create table stat_class(
- 	id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
- 	name CHAR(50) NOT NULL,
- 	description VARCHAR(100),
- 	multi_level ENUM('0','1'),
- 	multi_fac ENUM('0','1')
- 	) ENGINE=INNODB;*/
-
-
 
 
 

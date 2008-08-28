@@ -1,0 +1,29 @@
+[% INCLUDE 'setup/Perl' %]
+
+[%# ROME Variables, defined by setup/R:
+   $rome_userdir
+   $rome_username  
+   $rome_experiment_name 
+
+%]
+
+[%# TT Arguments from Processor
+    rome_datafiles_out
+    rome_datafiles_in
+%]
+
+[%# TT Arguments from controller 
+  gene_id : an array reference
+%]
+
+
+use Storable qw/nstore retrieve/;
+
+#retrieve the ensembl gene 
+\$Storable::Eval=1;
+my \$ensembl_gene = &{Storable::retrieve [% rome_datafiles_out.EnsemblGene.name %]};
+
+
+
+
+

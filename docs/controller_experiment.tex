@@ -2,26 +2,7 @@
 \label{sec:controller_experiment}
 
 \paragraph{}
-The Experiment controller provides the functionality for creating, managing, sharing and deleting experiments.
-
-\begin{scriptsize}
-\begin{verbatim}
-experiment/
-experiment/add
-experiment/delete
-experiment/search_like
-experiment/update_form
-experiment/update
-experiment/autocomplete
-experiment/autocomplete_owner
-experiment/share_with_all
-experiment/share_with_workgroup
-experiment/current
-\end{verbatim}
-\end{scriptsize}
-
-\paragraph{}
-The index action, mapping to /experiment, passes the main page template to the view. The add, delete and update actions are ajax actions (with self-explanatory functions). Only users with administrator privileges may create, delete or update experiments for users other than themselves. 
+The Experiment controller provides the functionality for creating, managing, sharing and deleting experiments. Full documentation for the actions in the Experiment controller are available from its perldoc. The index action, mapping to \texttt{/experiment}, passes the main page template to the view. The component also has add, delete and update AJAX actions (with self-explanatory functions). Only users with administrator privileges may create, delete or update experiments for users other than themselves. 
 
 \paragraph{}
 The search\_like action takes a string as a parameter and searches for experiment names that match that string. It only returns experiments to which the current user has permissions (their own, those shared with workgroups to which they belong, those made public). It also takes a 'which' parameter that determines whether to return only the user's own experiments or all those to which they have access (defaulting to just their own). It then hands the list template to the view which provides a formatted list of experiments with links to operations that can be performed on them (as described further in section \ref{sec:view} on the experiment views). The search\_like action can also be used to generate a complete list of experiments (subject to user permissions and the 'which' parameter) by passing it an empty string. The autocomplete action takes a string as a parameter and retrieves any of the experiments to which the user has access whose names contain that string. It then passes a template to the view which can format this list appropriately for a prototype.js autocompleted form field. Similarly the autocomplete\_owner action returns a suitably formatted list of users. 
@@ -29,3 +10,21 @@ The search\_like action takes a string as a parameter and searches for experimen
 \paragraph{}
 Experiments can be made public or shared with workgroups. Only the owner of an experiment (or an administrator) may share it. The share\_all and share\_with\_workgroup actions provide this functionality. 
 The current action just forwards to the view with the template for displaying the details of the currently selected experiment (as described in section \ref{sec:view}) 
+
+
+% \begin{scriptsize}
+% \begin{verbatim}
+% experiment/
+% experiment/add
+% experiment/delete
+% experiment/search_like
+% experiment/update_form
+% experiment/update
+% experiment/autocomplete
+% experiment/autocomplete_owner
+% experiment/share_with_all
+% experiment/share_with_workgroup
+% experiment/current
+% \end{verbatim}
+% \end{scriptsize}
+

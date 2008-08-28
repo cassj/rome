@@ -1,0 +1,63 @@
+[% META title="Test Contrasts" %]
+
+
+<!-- Widget to make the generation of contrasts easier -->
+<form
+   action="#"
+   onsubmit="return false"
+   >
+  <fieldset>
+    <legend> Define contrasts of interests</legend>
+
+  <!-- Actually, this is very tied to the implementation of the 
+       generation of the model as we are assuming the coefficients
+       are one per treatment, we're not using the actual coeffs. 
+       Which we should do, really. They could be metadata -->
+
+  <table id="treatment_table">
+    <tr>
+      <th></th>
+      <th>+</th>
+      <th>-</th>
+      <th>0</th>
+    </tr>
+  [% FOREACH treatment IN treatments.keys %]
+     <tr>
+       <th class="left highlight">[%treatment%]</td>
+       <td><input type="radio" id="treat_[%treatment%]" name="treat_[%treatment%]" value="+" /></td>
+       <td><input type="radio" id="treat_[%treatment%]" name="treat_[%treatment%]" value="-" /></td>
+       <td><input type="radio" id="treat_[%treatment%]" name="treat_[%treatment%]" value="0" /><td>
+     </tr>
+  [% END %]
+  </table>
+
+    <input type="submit" name="submit" value="Add Contrast" class="button" onclick="add_contrast"/>
+
+  </fieldset>
+</form>
+
+<form action="[% Catalyst.uri_for('/component/limma/test_contrasts/queue') %]"
+      method="post" 
+      onsubmit=" new Ajax.Updater( 'messages',  
+                                   '[% Catalyst.uri_for('/component/limma/test_contrasts/queue') %]',
+                                   { parameters: Form.serialize(this), 
+                                     asynchronous: 1,
+				     evalScripts: 1
+
+				   }
+				   ) ; 	
+                return false;"
+>
+
+  <fieldset>
+    <legend>Run the Test Contrasts process</legend>
+    
+    <div id="contrasts"> 
+     <h4>Contrasts of Interest</h4>
+    </div>
+
+    <div class="force_clear"></div>
+
+    <input type="submit" name="submit" value="Queue" class="button"/>
+  </fieldset>
+</form>

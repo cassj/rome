@@ -35,6 +35,7 @@ sub new {
 
 #internal method which retrieves the relevant stuff out of the
 #cat context.
+
 sub _set_active_processes{
   my ($self,$c) = @_;
 
@@ -62,6 +63,7 @@ sub _set_active_processes{
     #now retrieve the process which accept that combination of datatypes.
     #there's no point in testing all of them, just grab the processes that are
     #ok for the first datatype and check those.
+
     my $d = $datafiles[0]->datatype->name;
     my $processes = $c->model('Process')->search
       ({
@@ -69,10 +71,8 @@ sub _set_active_processes{
        },
        {
 	join => 'process_accepts',
-	prefetch => ['process_accepts'],
        }
       );
-    
     
     my $dts = $datatypes;
     
@@ -81,8 +81,6 @@ sub _set_active_processes{
 	foreach ($proc->process_accepts){
 	  push @{$accepts->{$_->name}}, $_->datatype_name;
 	}
-	
-	
 	my $dts = {%$datatypes};
 	
 	foreach (keys %$accepts){

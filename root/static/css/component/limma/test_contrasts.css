@@ -1,0 +1,21 @@
+/* CSS for the limme test_contrasts process page */
+
+#treatment_table {
+  font-family: ariel, helvetica, sans-serif;  
+  margin: 10px;
+  margin-bottom: 30px;
+}
+
+#treatment_table .left{
+  text-align: left;
+}
+
+#treatment_table th, #treatment_table td{
+  padding: 2px;
+}
+
+#contrasts{
+  border: 1px solid lightgray;
+  margin: 10px;
+  padding: 10px;
+}

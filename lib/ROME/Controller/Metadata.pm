@@ -124,6 +124,9 @@ sub factor_add : Path('factor/add') {
   #default to current user as owner.
   $c->request->params->{factor_owner} = $c->user->username unless $c->request->params->{factor_owner};
 
+  #ditch whitespace from factor_name
+  $c->request->params->{factor_name} =~s/\w+$//;
+
   # check select experiment access permissions
   unless ($c->check_user_roles('admin')){
     unless ($c->user->experiment->owner->username == $c->user->username){
@@ -242,6 +245,9 @@ sub factor_add_to_experiment : Path('factor/add_to_experiment') {
 
   #default to current user as owner.
   $c->request->params->{factor_owner} = $c->user->username unless $c->request->params->{factor_owner};
+
+  #ditch whitespace from factor_name
+  $c->request->params->{factor_name} =~s/\w+$//;
 
   # check params, add to experiment
   my $factor;

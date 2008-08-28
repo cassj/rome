@@ -1,3 +1,5 @@
+#!/usr/bin/perl
+
 use SQL::Translator;
 
 my $trans = new SQL::Translator(

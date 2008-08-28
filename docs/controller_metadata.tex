@@ -2,33 +2,32 @@
 \label{sec:controller_metadata}
 
 \paragraph{}
-The Metadata controller provides the functionality for managing factors and continuous variables relating to an experiment. 
+The Metadata controller provides the functionality for managing factors and continuous variables relating to an experiment. Full documentation of the controller's actions are available in its perldoc. The index action passes the main metadata template to the view. The create\_form and list actions just pass the appropriate template to the view, as described in section \ref{sec:view}. The various autocomplete actions return lists of factors, continuous variables or users formatted for prototype.js autocomplete form fields. All the remaining actions are AJAX actions, which  provide functionality that for the most part is self-explanatory. The add and delete actions add and delete new factors, levels and continuous variables. Levels belong to a given factor. Factors and variables have to belong to at least one experiment and by default they are added to the currently selected experiment when they are created. The add\_to\_experiment and delete\_from\_experiment actions remove the factor or variable from the experiment but leave them in the database. Factors and continuous variables may be made public or shared with workgroups similarly to experiments. Given that the factors and variables belonging to an experiment may not be owned by the owner of that experiment (and therefore cannot have their permissions altered by that user), an experiment may only be shared with the lowest permissions of any associated factors or variables. 
 
-\begin{scriptsize}
-\begin{verbatim}
-metadata/ 
-metadata/owner_autocomplete
-metadata/factor/add
-metadata/factor/add_to_experiment
-metadata/level/add
-metadata/factor/create_form
-metadata/factor/autocomplete
-metadata/factor/list
-metadata/factor/delete
-metadata/factor/delete_from_experiment
-metadata/factor/share_with_all
-metadata/factor/share_with_workgroup
-metadata/cont_var/add
-metadata/cont_var/add_to_experiment
-metadata/cont_var/create_form
-metadata/cont_var/autocomplete
-metadata/cont_var/list
-metadata/cont_var/delete
-metadata/cont_var/delete_from_experiments
-metadata/cont_var/share_all
-metadata/cont_var/share_with_workgroup
-\end{verbatim}
-\end{scriptsize}
+% 
+% \begin{scriptsize}
+% \begin{verbatim}
+% metadata/ 
+% metadata/owner_autocomplete
+% metadata/factor/add
+% metadata/factor/add_to_experiment
+% metadata/level/add
+% metadata/factor/create_form
+% metadata/factor/autocomplete
+% metadata/factor/list
+% metadata/factor/delete
+% metadata/factor/delete_from_experiment
+% metadata/factor/share_with_all
+% metadata/factor/share_with_workgroup
+% metadata/cont_var/add
+% metadata/cont_var/add_to_experiment
+% metadata/cont_var/create_form
+% metadata/cont_var/autocomplete
+% metadata/cont_var/list
+% metadata/cont_var/delete
+% metadata/cont_var/delete_from_experiments
+% metadata/cont_var/share_all
+% metadata/cont_var/share_with_workgroup
+% \end{verbatim}
+% \end{scriptsize}
 
-\paragraph{}
-The index action passes the main metadata template to the view. The create\_form and list actions just pass the appropriate template to the view, as described in section \ref{sec:view}. The various autocomplete actions return lists of factors, continuous variables or users formatted for prototype.js autocomplete form fields. All the remaining actions are ajax actions which provide functionality which for the most part is self-explanatory. The add and delete actions add and delete new factors, levels and continuous variables. Levels belong to a given factor. Factors and variables have to belong to at least one experiment and by default they are added to the currently selected experiment when they are created. The add\_to\_experiment and delete\_from\_experiment actions remove the factor or variable from the experiment but leave them in the database. Factors and continuous variables may be made public or shared with workgroups similarly to experiments. Given that the factors and variables belonging to an experiment may not be owned by the owner of that experiment (and therefore cannot have their permissions altered by that user), an experiment may only be shared with the lowest permissions of any associated factors or variables. 

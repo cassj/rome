@@ -41,7 +41,6 @@ sub active_processes{
 	  && grep {exists $ap->datafiles->{$_->name}} $c->user->datafiles){
     
     $c->session->{active_processes} = ROME::ActiveProcesses->new($c);
-    
   }
 
   return $c->session->{active_processes};

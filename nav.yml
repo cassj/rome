@@ -70,19 +70,22 @@
           title: Manage your datafiles
           any_datatype: 1
           href: /datafile
-      - export:
-          display_name: Data Export
-          title: Export datafiles
-          any_datatype: 1
       - jobs:
           display_name: Jobs
           title: Monitor jobs and the job queue
           any_datatype: 1
           href: /job
 
+
 - Affy Normalisation:
    title: Normalisation of Affymetrix Expression Data 
    dropdown:
+      - makeadf:
+          display_name: Make Annotated DataFrame
+          title: Make a Bioconductor Annotated DataFrame object from Experimental Metadata
+          component: bioc_make_phenodata
+          version: 0.0.1
+          process: make_adf
       - rma:
           display_name: RMA
           title: Robust Multi-Array Average Normalisation
@@ -141,7 +144,85 @@
           component: affy_mva_pairs
           version: 0.0.1
           process: mva_pairs
-        
+      - simpleaffyqc:
+          display_name: Make Simple Affy QC Plot
+          title: Plot Bioconductor simpleaffy QC Data
+          component: simple_affy
+          version: 0.0.1
+          process: make_simpleaffy_qc
+      - affyplm:
+          title: 
+          dropdown:
+            - makeplm: 
+                display_name: Fit AffyPLM Model
+                title: Fit an Affymetrix Probe Level Model
+                component: affyplm
+                version: 0.0.1
+                process: make_plm
+            - chipimage: 
+                display_name: Chip Pseudo Image
+                title: Generate a chip pseudo-image from an Affymetrix Probe Level Model
+                component: affyplm
+                version: 0.0.1
+                process: chip_image
+            - rle: 
+                display_name: RLE
+                title: Relative Log Expression plot for an Affymetrix Probe Level Model
+                component: affyplm
+                version: 0.0.1
+                process: rle
+            - nuse: 
+                display_name: NUSE
+                title: Normalised Unscaled Standard Errors Plot for Affymetrix Probe Level Model
+                component: affyplm
+                version: 0.0.1
+                process: nuse
+
+- Limma:
+   title: Linear Models for MicroArrays
+   dropdown:
+      - limma_fit:
+          display_name: Fit Limma Model
+          title: Fit a Bioconductor Limma Model
+          component: limma
+          version: 0.0.1
+          process: limma_fit
+      - test_contrasts:
+          display_name: Test Contrasts
+          title: Test Constrasts of a Limma Model
+          component: limma
+          version: 0.0.1
+          process: test_contrasts
+ 
+- Ensembl:
+   title: Interact with the EnsEMBL Database
+   dropdown:
+      - dbconnect:
+          display_name: Connect
+          title: Make a connection to an EnsEMBL database
+          component: ensembl
+          version: 0.0.1
+          process: dbconnect
+      - retrieve_gene:
+          display_name: Retrieve Gene
+          title: Retrieve and EnsEMBL Gene by its EnsEMBL ID
+          component: ensembl
+          version: 0.0.1
+          process: retrieve_gene
+      - ensembl_gene_report:
+          display_name: Gene Report
+          title: Generate a report file for an EnsEMBL Gene
+          component: ensembl
+          version: 0.0.1
+          process: ensembl_gene_report
+      - ensemblgene_to_bioseq:
+          display_name: Gene to BioSeq
+          title: Convert an EnsEMBL gene to a Bioperl Bio::Seq
+          component: ensembl
+          version: 0.0.1
+          process: ensemblgene_to_bioseq
+
+
 - Devel Tools:
     title: Development tools
     roles:

@@ -245,8 +245,10 @@ sub queue{
     push @selected_outcome_objects, $outcome;
   }
 
-  $self->arguments->{selected_outcome_objects} = \@selected_outcome_objects;
-  $self->arguments->{selected_outcome_display_names} = [map {$_->display_name} @selected_outcome_objects];
+  if ($#selected_outcome_objects){
+    $self->arguments->{selected_outcome_objects} = \@selected_outcome_objects;
+    $self->arguments->{selected_outcome_display_names} = [map {$_->display_name} @selected_outcome_objects];
+  }
 
   ###
   # Process_accepts should be used here. 
@@ -369,16 +371,18 @@ sub queue{
 
 
     #if we've got selected outcomes, add them to the datafile
-    foreach (@selected_outcome_objects){
-      $self->context->model('ROMEDB::OutcomeDatafile')->create
-	({
-	  outcome_name => $_->name,
-	  outcome_experiment_name => $_->experiment_name,
-	  outcome_experiment_owner => $_->experiment_owner,
-	  datafile_name => $datafile->name,
-	  datafile_experiment_name => $datafile->experiment_name,
-	  datafile_experiment_owner => $datafile->experiment_owner,
-	 });
+    if ($#selected_outcome_objects){
+      foreach (@selected_outcome_objects){
+	$self->context->model('ROMEDB::OutcomeDatafile')->create
+	  ({
+	    outcome_name => $_->name,
+	    outcome_experiment_name => $_->experiment_name,
+	    outcome_experiment_owner => $_->experiment_owner,
+	    datafile_name => $datafile->name,
+	    datafile_experiment_name => $datafile->experiment_name,
+	    datafile_experiment_owner => $datafile->experiment_owner,
+	   });
+      } 
     }
 
     #and pass it to the template (name as in process_creates)

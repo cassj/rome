@@ -1,34 +1,32 @@
 \subsubsection{Workgroup}
 \label{sec:controller_workgroup}
 \paragraph{}
-Workgroup provides the functionality for workgroup management. Workgroups can be searched and listed. Users can request to join a workgroup or leave a group to which they belong and they may create workgroups of their own. Owners of workgroups can manage that group, inviting users to join, approving or denying requests to join, removing users from the group and so on. Its public actions are:
-
-\begin{scriptsize}
-\begin{verbatim}
-workgroup
-workgroup/autocomplete_leader
-workgroup/add
-workgroup/list_user_workgroups
-workgroup/delete
-workgroup/search
-workgroup/update_form
-workgroup/update
-workgroup/manage
-workgroup/pending_joins
-workgroup/autocomplete
-workgroup/join
-wokrgroup/confirm_join
-workgroup/deny_join
-workgroup/invite
-workgroup/confirm_invite
-workgroup/deny_invite
-workgroup/pending_invites
-workgroup/leave
-workgroup/remove
-workgroup/members_autocomplete
-workgroup/users_autocomplete
-\end{verbatim}
-\end{scriptsize}
-
-\paragraph{}
-The index action matches the url ../workgroup and returns the main workgroup page
+The Workgroup controller provides the functionality for workgroup management. Workgroups can be searched and listed. Users can request to join a workgroup or leave a group to which they belong and they may create workgroups of their own. Owners of workgroups can manage that group, inviting users to join, approving or denying requests to join, removing users from the group and so on. The index action matches the url \texttt{/workgroup} and returns the main workgroup page. Full documentation for the other actions of the workgroup controller can be found in its perldoc.
+% 
+% \begin{scriptsize}
+% \begin{verbatim}
+% workgroup
+% workgroup/autocomplete_leader
+% workgroup/add
+% workgroup/list_user_workgroups
+% workgroup/delete
+% workgroup/search
+% workgroup/update_form
+% workgroup/update
+% workgroup/manage
+% workgroup/pending_joins
+% workgroup/autocomplete
+% workgroup/join
+% wokrgroup/confirm_join
+% workgroup/deny_join
+% workgroup/invite
+% workgroup/confirm_invite
+% workgroup/deny_invite
+% workgroup/pending_invites
+% workgroup/leave
+% workgroup/remove
+% workgroup/members_autocomplete
+% workgroup/users_autocomplete
+% \end{verbatim}
+% \end{scriptsize}
+% 
