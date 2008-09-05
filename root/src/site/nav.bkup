@@ -28,106 +28,6 @@
    </ul>
   </li>
 
-  <li><a title="Normalisation of Affymetrix Expression Data" href="#" class="dropdown">Affy Normalisation</a>
-   <ul>
-    <li><a class= [% IF Catalyst.session.active_processes.processes.bioc_make_phenodata.item('0.0.1').make_adf %]
-                           "active"
-                         [% ELSE %]
-                           "inactive"
-                         [% END %] title="Make a Bioconductor Annotated DataFrame object from Experimental Metadata" href="/component/bioc_make_phenodata/make_adf">Make Annotated DataFrame</li></a>
-    <li><a class= [% IF Catalyst.session.active_processes.processes.rma.item('0.0.1').rma %]
-                           "active"
-                         [% ELSE %]
-                           "inactive"
-                         [% END %] title="Robust Multi-Array Average Normalisation" href="/component/rma/rma">RMA</li></a>
-    <li><a class= [% IF Catalyst.session.active_processes.processes.gcrma.item('0.0.1').gcrma %]
-                           "active"
-                         [% ELSE %]
-                           "inactive"
-                         [% END %] title="Robust Multi-Array Average Normalisation with GC Correction" href="/component/gcrma/gcrma">gcRMA</li></a>
-    <li><a class= [% IF Catalyst.session.active_processes.processes.mas5.item('0.0.1').mas5 %]
-                           "active"
-                         [% ELSE %]
-                           "inactive"
-                         [% END %] title="MicroArray Suite 5 Normalisation" href="/component/mas5/mas5">mas5</li></a>
-   </ul>
-  </li>
-
-  <li><a title="Quality control plots for Affymetrix Data" href="#" class="dropdown">Affy Quality Control</a>
-   <ul>
-    <li><a class= [% IF Catalyst.session.active_processes.processes.affy_distribution_plots.item('0.0.1').density_dist %]
-                           "active"
-                         [% ELSE %]
-                           "inactive"
-                         [% END %] title="Generate density distribution plots of Affymetrix Expression Data" href="/component/affy_distribution_plots/density_dist">Density Distribution</li></a>
-    <li><a class= [% IF Catalyst.session.active_processes.processes.affy_distribution_plots.item('0.0.1').boxplot %]
-                           "active"
-                         [% ELSE %]
-                           "inactive"
-                         [% END %] title="Generate boxplots of Affymetrix Expression Data" href="/component/affy_distribution_plots/boxplot">Boxplot</li></a>
-    <li><a class= [% IF Catalyst.session.active_processes.processes.affy_rnadeg.item('0.0.1').rnadeg_plot %]
-                           "active"
-                         [% ELSE %]
-                           "inactive"
-                         [% END %] title="Generate RNA Degradation Plot of Affymetrix Expression Data" href="/component/affy_rnadeg/rnadeg_plot">RNA Degradation Plot</li></a>
-    <li><a class= [% IF Catalyst.session.active_processes.processes.affy_chipimage.item('0.0.1').chipimage %]
-                           "active"
-                         [% ELSE %]
-                           "inactive"
-                         [% END %] title="Generate Images of Affymetrix GeneChips" href="/component/affy_chipimage/chipimage">Chip Images</li></a>
-    <li><a class= [% IF Catalyst.session.active_processes.processes.affy_chipcluster.item('0.0.1').chipcluster %]
-                           "active"
-                         [% ELSE %]
-                           "inactive"
-                         [% END %] title="Hierarchical Clustering of Affymetrix GeneChips" href="/component/affy_chipcluster/chipcluster">Chip Clustering</li></a>
-    <li><a class= [% IF Catalyst.session.active_processes.processes.affy_mva_pairs.item('0.0.1').mva_pairs %]
-                           "active"
-                         [% ELSE %]
-                           "inactive"
-                         [% END %] title="M (ratio) v A (ave. expression) plots for Affymetrix Expression Data" href="/component/affy_mva_pairs/mva_pairs">MvA Plots</li></a>
-    <li><a class= [% IF Catalyst.session.active_processes.processes.simple_affy.item('0.0.1').make_simpleaffy_qc %]
-                           "active"
-                         [% ELSE %]
-                           "inactive"
-                         [% END %] title="Plot Bioconductor simpleaffy QC Data" href="/component/simple_affy/make_simpleaffy_qc">Make Simple Affy QC Plot</li></a>
-
-  <li><a title="" href="#" class="dropdown">affyplm</a>
-   <ul>
-    <li><a class= [% IF Catalyst.session.active_processes.processes.affyplm.item('0.0.1').make_plm %]
-                           "active"
-                         [% ELSE %]
-                           "inactive"
-                         [% END %] title="Fit an Affymetrix Probe Level Model" href="/component/affyplm/make_plm">Fit AffyPLM Model</li></a>
-    <li><a class= [% IF Catalyst.session.active_processes.processes.affyplm.item('0.0.1').chip_image %]
-                           "active"
-                         [% ELSE %]
-                           "inactive"
-                         [% END %] title="Generate a chip pseudo-image from an Affymetrix Probe Level Model" href="/component/affyplm/chip_image">Chip Pseudo Image</li></a>
-    <li><a class= [% IF Catalyst.session.active_processes.processes.affyplm.item('0.0.1').rle %]
-                           "active"
-                         [% ELSE %]
-                           "inactive"
-                         [% END %] title="Relative Log Expression plot for an Affymetrix Probe Level Model" href="/component/affyplm/rle">RLE</li></a>
-    <li><a class= [% IF Catalyst.session.active_processes.processes.affyplm.item('0.0.1').nuse %]
-                           "active"
-                         [% ELSE %]
-                           "inactive"
-                         [% END %] title="Normalised Unscaled Standard Errors Plot for Affymetrix Probe Level Model" href="/component/affyplm/nuse">NUSE</li></a>
-   </ul>
-  </li>
-   </ul>
-  </li>
-
-  <li><a title="Linear Models for MicroArrays" href="#" class="dropdown">Limma</a>
-   <ul>
-    <li><a class= [% IF Catalyst.session.active_processes.processes.limma.item('0.0.1').limma_fit %]
-                           "active"
-                         [% ELSE %]
-                           "inactive"
-                         [% END %] title="Fit a Bioconductor Limma Model" href="/component/limma/limma_fit">Fit Limma Model</li></a>
-   </ul>
-  </li>
-
   <li><a title="Interact with the EnsEMBL Database" href="#" class="dropdown">Ensembl</a>
    <ul>
     <li><a class= [% IF Catalyst.session.active_processes.processes.ensembl.item('0.0.1').dbconnect %]
@@ -139,12 +39,27 @@
                            "active"
                          [% ELSE %]
                            "inactive"
-                         [% END %] title="Retrieve and EnsEMBL Gene by its EnsEMBL ID" href="/component/ensembl/retrieve_gene">Retrieve Gene</li></a>
-    <li><a class= [% IF Catalyst.session.active_processes.processes.ensembl.item('0.0.1').ensembl_gene_report %]
+                         [% END %] title="Retrieve an EnsEMBL Gene by its EnsEMBL ID" href="/component/ensembl/retrieve_gene">Retrieve Gene</li></a>
+    <li><a class= [% IF Catalyst.session.active_processes.processes.ensembl.item('0.0.1').retrieve_transcript %]
                            "active"
                          [% ELSE %]
                            "inactive"
-                         [% END %] title="Generate a report file for an EnsEMBL Gene" href="/component/ensembl/ensembl_gene_report">Gene Report</li></a>
+                         [% END %] title="Retrieve an EnsEMBL Transcript by its EnsEMBL ID" href="/component/ensembl/retrieve_transcript">Retrieve Transcript</li></a>
+    <li><a class= [% IF Catalyst.session.active_processes.processes.ensembl.item('0.0.1').retrieve_exon %]
+                           "active"
+                         [% ELSE %]
+                           "inactive"
+                         [% END %] title="Retrieve an EnsEMBL Exon by its EnsEMBL ID" href="/component/ensembl/retrieve_exon">Retrieve Exon</li></a>
+    <li><a class= [% IF Catalyst.session.active_processes.processes.ensembl.item('0.0.1').retrieve_slice %]
+                           "active"
+                         [% ELSE %]
+                           "inactive"
+                         [% END %] title="Retrieve an EnsEMBL Slice Species and Chromosome Location" href="/component/ensembl/retrieve_slice">Retrieve Slice</li></a>
+    <li><a class= [% IF Catalyst.session.active_processes.processes.ensembl.item('0.0.1').ensembl2txt %]
+                           "active"
+                         [% ELSE %]
+                           "inactive"
+                         [% END %] title="Generate a textual summary of an EnsEMBL sequence" href="/component/ensembl/ensembl2txt">Summary</li></a>
     <li><a class= [% IF Catalyst.session.active_processes.processes.ensembl.item('0.0.1').ensemblgene_to_bioseq %]
                            "active"
                          [% ELSE %]

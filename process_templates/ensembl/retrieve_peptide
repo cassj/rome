@@ -31,32 +31,22 @@ my \$code = sub {
   my \$registry = &\$registry_code; 
 
   #check what species we're dealing with 
-  my (\$species,\$type) = \$registry->get_species_and_object_type("[% gene_id %]");
+  my (\$species,\$type) = \$registry->get_species_and_object_type("[% peptide_id %]");
   
-  #retrieve a gene adaptor for that species.
-  my \$gene_ad = \$registry->get_adaptor(\$species,'core',\$type);
+  #retrieve a peptide adaptor for that species.
+  my \$peptide_ad = \$registry->get_adaptor(\$species,'core',\$type);
   
-  #get the gene
-  my \$gene = \$gene_ad->fetch_by_stable_id("[% gene_id %]");
+  #get the peptide
+  my \$peptide = \$peptide_ad->fetch_by_stable_id("[% peptide_id %]");
   
-  return \$gene, \$gene_ad, \$registry;
+  return \$peptide;
 };
 
 
 #save the gene retrieval code in the appropriate datafile using storable?
 \$Storable::Deparse =1;
-my \$filename = "[% rome_datafiles_out.GENE.name %]";
+my \$filename = "[% rome_datafiles_out.PEPTIDE.name %]";
 nstore \$code, \$filename;
-
-#note to self. retrieve like:
-#\$Storable::Eval=1;
-#my \$test = &{retrieve \$filename};
-#use Data::Dumper;
-#die Dumper \$test;
-
-
-#in this case, we have only a single gene and it's not really the result
-#of an experiment so outcomes are not meaningful and we don't need to set them.
 
 
 

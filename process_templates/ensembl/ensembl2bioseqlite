@@ -1,0 +1,77 @@
+[% INCLUDE 'setup/Perl' %]
+
+[%# ROME Variables, defined by setup/R:
+   $rome_userdir
+   $rome_username  
+   $rome_experiment_name 
+
+%]
+
+[%# TT Arguments from Processor
+    rome_datafiles_out
+    rome_datafiles_in
+%]
+
+use Storable qw/nstore retrieve/;
+use IO::File;
+use Bio::PrimarySeq;
+
+#retrieve the ensembl object
+#this also requires all the relevant ensembl api libs. 
+\$Storable::Eval=1;
+my \$code = retrieve('[% rome_datafiles_in.ENSEMBL_OBJECT.name %]');
+my (\$obj, \$obj_ad, \$registry) = &\$code;
+
+#find out what we've got
+my \$class =  ref \$obj;
+
+#do we want padding sequence?
+
+my (\$three, \$five);
+\$three = [% 3prime_pad %];
+\$five = [% 5prime_pad %];
+
+
+#these are what we need to define
+my \$pseq;
+
+
+if (\$class eq 'Bio::EnsEMBL::Gene'){
+
+    \$pseq = Bio::PrimarySeq->new(
+	-seq => \$obj->seq,
+	-id => \$obj->display_id,
+	-primary_id => \$obj->stable_id,
+	-accession_number => \$obj->stable_id,
+	-alphabet => 'dna',
+	-version => \$obj->adaptor->db->dbc->dbname,
+	-description => \$obj->description,
+	);
+
+}
+elsif (\$class eq 'Bio::EnsEMBL::Transcript'){
+
+    \$pseq = \$obj->seq;
+    \$pseq->version($obj->adaptor->db->dbc->dbname);
+
+
+
+}
+elsif (\$class eq 'Bio::EnsEMBL::Exon'){
+
+}
+elsif (\$class eq 'Bio::EnsEMBL::Slice'){
+
+}
+elsif (\$class eq 'Bio::EnsEMBL::Peptide'){
+
+}
+else {
+  die "Don't know what to do with objects of class \$class";
+}
+
+
+my \$filename = "[% rome_datafiles_out.BioPrimarySeq.name %]";
+nstore \$pseq, \$filename;
+
+

@@ -1,0 +1,57 @@
+
+[% INCLUDE 'setup/Perl' %]
+
+[%# ROME Variables, defined by setup/R:
+   $rome_userdir
+   $rome_username  
+   $rome_experiment_name 
+
+%]
+
+[%# TT Arguments from Processor
+    rome_datafiles_out
+    rome_datafiles_in
+%]
+
+[%# TT Arguments from controller 
+  exon_id : an array reference
+%]
+
+
+use Storable qw/nstore/;
+
+
+#this code will retrieve and return the appropriate ensembl gene
+my \$code = sub {
+  
+  #retreive the code for the registry connection
+  require Storable;
+  \$Storable::Eval=1;
+  my \$registry_code = Storable::retrieve('[% rome_datafiles_in.EnsemblDBRegistry.name %]');
+  my \$registry = &\$registry_code; 
+
+  #check what species we're dealing with 
+  my (\$species,\$type) = \$registry->get_species_and_object_type("[% exon_id %]");
+  
+  #retrieve a exon adaptor for that species.
+  my \$exon_ad = \$registry->get_adaptor(\$species,'core',\$type);
+  
+  #get the exon
+  my \$exon = \$exon_ad->fetch_by_stable_id("[% exon_id %]");
+  
+  return \$exon, \$exon_ad, \$registry;
+};
+
+
+#save the exon retrieval code in the appropriate datafile using storable?
+\$Storable::Deparse =1;
+my \$filename = "[% rome_datafiles_out.EXON.name %]";
+nstore \$code, \$filename;
+
+
+
+
+
+
+
+

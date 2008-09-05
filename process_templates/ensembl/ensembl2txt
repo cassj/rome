@@ -1,0 +1,132 @@
+[% INCLUDE 'setup/Perl' %]
+
+[%# ROME Variables, defined by setup/R:
+   $rome_userdir
+   $rome_username  
+   $rome_experiment_name 
+
+%]
+
+[%# TT Arguments from Processor
+    rome_datafiles_out
+    rome_datafiles_in
+%]
+
+# This doesn't really (as yet) provide a detailed report, though I guess
+# it could do. It's mainly just to check I've got the ensembl objects ok
+
+use Storable qw/nstore retrieve/;
+use IO::File;
+
+#retrieve the ensembl object
+#this also requires all the relevant ensembl api libs. 
+\$Storable::Eval=1;
+my \$code = retrieve('[% rome_datafiles_in.ENSEMBL_OBJECT.name %]');
+my (\$obj, \$obj_ad, \$registry) = &\$code;
+
+#ok, we're just going to print a load of info out to the textfile
+my \$fh = new IO::File;
+\$fh->open("> [% rome_datafiles_out.TXT.name %]") or die "Failed to open file [%rome_datafiles_out.TXT.name%]";
+
+#find out what we've got
+my \$class =  ref \$obj;
+
+if (\$class eq 'Bio::EnsEMBL::Gene'){
+  print \$fh 'Gene: '.\$obj->display_id."\n";
+  print \$fh "\t".\$obj->description."\n\n";
+  print \$fh "Chromosome ".\$obj->slice->seq_region_name;
+  print \$fh ' (start: '.\$obj->start.' end: '.\$obj->end;
+  print \$fh ' strand: '.\$obj->strand.")\n";
+  print \$fh "Species: ".\$obj->adaptor->db->species."\n\n";
+
+  my @exons = @{\$obj->get_all_Exons};
+  print \$fh 'This gene has '.@exons." Exon(s):\n\n";
+  my %exons;
+
+  for (my \$i=0; \$i<=\$#exons; \$i++){
+    \$exons{\$exons[\$i]->display_id} = \$i;
+    print \$fh "\t".\$i."\t".\$exons[\$i]->display_id.': '
+                 .\$exons[\$i]->start.'-'
+                 .\$exons[\$i]->end."\n";
+  }
+
+  #get the transcripts and TSSs
+  my @transcripts = @{\$obj->get_all_Transcripts};
+ 
+  print \$fh "\nwhich make ".@transcripts. " transcript(s)\n";
+  my @tss;
+  foreach my \$transcript (@transcripts){
+    my \$seq = \$transcript->seq;
+    print \$fh \$transcript->display_id
+                 ."\t".\$transcript->start
+                 ."-".\$transcript->end
+	         ."\n";
+    my \$tss = \$obj->strand == 1 ? \$transcript->start : \$transcript->end;
+    my \$start_exon = \$transcript->start_Exon;
+    print \$fh "\t starts at chromosome position \$tss in exon ".\$exons{\$start_exon->display_id}.' ('.\$start_exon->display_id.')'."\n";
+  }
+
+}
+elsif (\$class eq 'Bio::EnsEMBL::Transcript'){
+
+   my \$seq = \$obj->seq;
+    my \$strand = \$obj->strand == 1 ? 'positive' : 'negative';
+    print \$fh 'Transcript '.\$obj->display_id;
+    print \$fh " on chromosome ".\$obj->slice->seq_region_name
+      .\$obj->start
+	."-".\$obj->end
+	  ." on the \$strand strand \n";
+
+    my @exons = @{\$obj->get_all_Exons};
+    print \$fh 'It has '.@exons." Exon(s):\n\n";
+    my %exons;
+    
+    for (my \$i=0; \$i<=\$#exons; \$i++){
+      \$exons{\$exons[\$i]->display_id} = \$i;
+      print \$fh "\t".\$i."\t".\$exons[\$i]->display_id.': '
+	.\$exons[\$i]->start.'-'
+	  .\$exons[\$i]->end."\n";
+    }
+
+    print \$fh "\nIt has sequence:\n".\$seq->seq."\n\n";
+    
+    if (\$obj->translation){
+      print \$fh "And translates to:\n".\$obj->translate->seq."\n";
+    }
+    else{
+      print \$fh "\nand is a non-coding Transcript\n";
+    }
+    
+
+}
+elsif (\$class eq 'Bio::EnsEMBL::Exon'){
+
+}
+elsif (\$class eq 'Bio::EnsEMBL::Slice'){
+
+  print \$fh 'Sequence on Chromosome'.\$obj->seq_region_name;
+  print \$fh ' (start: '.\$obj->start.' end: '.\$obj->end;
+  print \$fh ' strand: '.\$obj->strand.")\n";
+  print \$fh "Species: ".\$obj->adaptor->db->species."\n\n";
+
+  print \$fh "Contains genes (positions relative to slice start): \n";
+  foreach my \$gene (@{\$obj->get_all_Genes}){
+    print \$fh "\t".\$gene->display_id
+      . '('.\$gene->description.') '
+	. \$gene->start.'-'.\$gene->end
+	  .' on strand '.\$gene->strand."\n\n";
+  }
+
+  print \$fh "Has sequence: \n".\$obj->seq();
+
+
+}
+elsif (\$class eq 'Bio::EnsEMBL::Peptide'){
+
+}
+else {
+  die  "Don't know what to do with objects of class \$class";
+}
+
+\$fh->close;
+

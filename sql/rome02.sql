@@ -217,7 +217,7 @@
         /* Parameters that are used by components. This lets us auto-generate a lot
            of the interface and keep track of exactly what has been done to generate
            a given datafile */
- 	create table parameter_(
+ 	create table parameter(
  	name VARCHAR(50) NOT NULL,
 	display_name VARCHAR(100) NOT NULL,
 	process_name VARCHAR(50) NOT NULL,

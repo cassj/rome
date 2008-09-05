@@ -77,123 +77,6 @@
           href: /job
 
 
-- Affy Normalisation:
-   title: Normalisation of Affymetrix Expression Data 
-   dropdown:
-      - makeadf:
-          display_name: Make Annotated DataFrame
-          title: Make a Bioconductor Annotated DataFrame object from Experimental Metadata
-          component: bioc_make_phenodata
-          version: 0.0.1
-          process: make_adf
-      - rma:
-          display_name: RMA
-          title: Robust Multi-Array Average Normalisation
-          component: rma
-          version: 0.0.1
-          process: rma
-      - gcrma:
-          display_name: gcRMA
-          title: Robust Multi-Array Average Normalisation with GC Correction
-          component: gcrma
-          version: 0.0.1
-          process: gcrma
-      - mas5:
-          display_name: mas5
-          title: MicroArray Suite 5 Normalisation
-          component: mas5
-          version: 0.0.1
-          process: mas5
-
-- Affy Quality Control:
-   title: Quality control plots for Affymetrix Data
-   dropdown:
-      - affydensdist:
-          display_name: Density Distribution
-          title: Generate density distribution plots of Affymetrix Expression Data
-          component: affy_distribution_plots
-          version: 0.0.1
-          process: density_dist
-      - affyboxplot:
-          display_name: Boxplot
-          title: Generate boxplots of Affymetrix Expression Data
-          component: affy_distribution_plots
-          version: 0.0.1
-          process: boxplot
-      - affyrnadegplot:
-          display_name: RNA Degradation Plot
-          title: Generate RNA Degradation Plot of Affymetrix Expression Data
-          component: affy_rnadeg
-          version: 0.0.1
-          process: rnadeg_plot
-      - affychipimage:
-          display_name: Chip Images
-          title: Generate Images of Affymetrix GeneChips
-          component: affy_chipimage
-          version: 0.0.1
-          process: chipimage
-      - affychipcluster:
-          display_name: Chip Clustering
-          title: Hierarchical Clustering of Affymetrix GeneChips
-          component: affy_chipcluster
-          version: 0.0.1
-          process: chipcluster
-      - affymvaplot:
-          display_name: MvA Plots
-          title: M (ratio) v A (ave. expression) plots for Affymetrix Expression Data
-          component: affy_mva_pairs
-          version: 0.0.1
-          process: mva_pairs
-      - simpleaffyqc:
-          display_name: Make Simple Affy QC Plot
-          title: Plot Bioconductor simpleaffy QC Data
-          component: simple_affy
-          version: 0.0.1
-          process: make_simpleaffy_qc
-      - affyplm:
-          title: 
-          dropdown:
-            - makeplm: 
-                display_name: Fit AffyPLM Model
-                title: Fit an Affymetrix Probe Level Model
-                component: affyplm
-                version: 0.0.1
-                process: make_plm
-            - chipimage: 
-                display_name: Chip Pseudo Image
-                title: Generate a chip pseudo-image from an Affymetrix Probe Level Model
-                component: affyplm
-                version: 0.0.1
-                process: chip_image
-            - rle: 
-                display_name: RLE
-                title: Relative Log Expression plot for an Affymetrix Probe Level Model
-                component: affyplm
-                version: 0.0.1
-                process: rle
-            - nuse: 
-                display_name: NUSE
-                title: Normalised Unscaled Standard Errors Plot for Affymetrix Probe Level Model
-                component: affyplm
-                version: 0.0.1
-                process: nuse
-
-- Limma:
-   title: Linear Models for MicroArrays
-   dropdown:
-      - limma_fit:
-          display_name: Fit Limma Model
-          title: Fit a Bioconductor Limma Model
-          component: limma
-          version: 0.0.1
-          process: limma_fit
-      - test_contrasts:
-          display_name: Test Contrasts
-          title: Test Constrasts of a Limma Model
-          component: limma
-          version: 0.0.1
-          process: test_contrasts
- 
 - Ensembl:
    title: Interact with the EnsEMBL Database
    dropdown:
@@ -205,23 +88,46 @@
           process: dbconnect
       - retrieve_gene:
           display_name: Retrieve Gene
-          title: Retrieve and EnsEMBL Gene by its EnsEMBL ID
+          title: Retrieve an EnsEMBL Gene by its EnsEMBL ID
           component: ensembl
           version: 0.0.1
           process: retrieve_gene
-      - ensembl_gene_report:
-          display_name: Gene Report
-          title: Generate a report file for an EnsEMBL Gene
+      - retrieve_transcript:
+          display_name: Retrieve Transcript
+          title: Retrieve an EnsEMBL Transcript by its EnsEMBL ID
           component: ensembl
           version: 0.0.1
-          process: ensembl_gene_report
-      - ensemblgene_to_bioseq:
-          display_name: Gene to BioSeq
-          title: Convert an EnsEMBL gene to a Bioperl Bio::Seq
+          process: retrieve_transcript
+      - retrieve_exon:
+          display_name: Retrieve Exon
+          title: Retrieve an EnsEMBL Exon by its EnsEMBL ID
           component: ensembl
           version: 0.0.1
-          process: ensemblgene_to_bioseq
-
+          process: retrieve_exon
+      - retrieve_slice:
+          display_name: Retrieve Slice
+          title: Retrieve an EnsEMBL Slice Species and Chromosome Location
+          component: ensembl
+          version: 0.0.1
+          process: retrieve_slice
+      - ensembl2txt:
+          display_name: Summary
+          title: Generate a textual summary of an EnsEMBL sequence
+          component: ensembl
+          version: 0.0.1
+          process: ensembl2txt
+      - ensembl2bioseq:
+          display_name: Ensembl to Bio::Seq
+          title: Convert an EnsEMBL sequence object to a Bioperl Bio::Seq (with features)
+          component: ensembl
+          version: 0.0.1
+          process: ensembl2bioseq
+      - ensembl2bioseqlite:
+          display_name: Ensembl to Bio::Seq Lite
+          title: Convert an EnsEMBL sequence object to a Bioperl Bio::PrimarySeq (just the sequence)
+          component: ensembl
+          version: 0.0.1
+          process: ensembl2bioseqlite
 
 - Devel Tools:
     title: Development tools

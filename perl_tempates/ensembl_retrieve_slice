@@ -48,15 +48,6 @@ my \$code = sub {
 my \$filename = "[% rome_datafiles_out.GENE.name %]";
 nstore \$code, \$filename;
 
-#note to self. retrieve like:
-#\$Storable::Eval=1;
-#my \$test = &{retrieve \$filename};
-#use Data::Dumper;
-#die Dumper \$test;
-
-
-#in this case, we have only a single gene and it's not really the result
-#of an experiment so outcomes are not meaningful and we don't need to set them.
 
 
 
