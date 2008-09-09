@@ -62,6 +62,7 @@ __PACKAGE__->load_classes({
                Job
                InDatafile
              
+               Fieldset
                Parameter
                ParameterAllowedValue
                Argument

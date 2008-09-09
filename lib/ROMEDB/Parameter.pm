@@ -38,7 +38,7 @@ __PACKAGE__->table('parameter');
 =cut
 
 
-__PACKAGE__->add_columns(qw/name display_name process_name process_component_name process_component_version description optional default_value form_element_type min_value max_value is_multiple/);
+__PACKAGE__->add_columns(qw/name display_name process_name process_component_name process_component_version description optional default_value form_element_type min_value max_value is_multiple position fieldset/);
 __PACKAGE__->set_primary_key(qw/name process_name process_component_name process_component_version/);
 
  
@@ -59,6 +59,19 @@ __PACKAGE__->belongs_to(process=>'ROMEDB::Process',
 			});
 
 
+=item fieldset
+
+  The fieldset to which this parameter belongs
+
+=cut
+
+__PACKAGE__->belongs_to(fieldset=>'ROMEDB::Fieldset',
+			{
+			 'foreign.name' => 'self.fieldset',
+			 'foreign.process_name' => 'self.process_name',
+			 'foreign.process_component_name' => 'self.process_component_name',
+			 'foreign.process_component_version' => 'self.process_component_version',
+			} );
 
 =item arguments
 

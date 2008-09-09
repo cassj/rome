@@ -1,0 +1,71 @@
+  <fieldset>
+    <legend>Design a single Primer Pair</legend>
+
+   [% FOREACH fieldset IN process.fieldsets %]
+   <fieldset>
+     <legend 
+       onclick="Element.toggle('fieldset_[%fieldset.name%]')" style="cursor:pointer;">[%fieldset.legend%]
+     <img alt="click to view" src="/right_arrow.gif" />  
+     </legend>
+
+     <div id="fieldset_[%fieldset.name%]" [%UNLESS fieldset.toggle%]style="display:none"[%END%]>
+
+     [%FOREACH parameter IN fieldset.parameters%]
+     <div class="labelled_input">
+        <label for="[%parameter.name%]">[% parameter.display_name %]
+          [%IF parameter.description%]<span class="details">([%parameter.description%])</span>[%END%]
+        </label>
+
+        [% IF parameter.form_element_type=="outcome_list"%]
+           [% INCLUDE 'form_widgets/outcome_checkbox_group' %]
+        [% END%]
+ 
+        [% IF parameter.form_element_type=="outcome_radio" %]
+           [% INCLUDE 'form_widgets/outcome_radio_group' %]
+        [% END%]
+
+        [% IF parameter.form_element_type == "text"%]
+          <input type="text" name="[%parameter.name%]" value="[%parameter.default_value%]" />
+        [% END %]
+        [% IF parameter.form_element_type == "textarea" %]
+          <textarea type="text" name="[%parameter.name%]">[%parameter.default_value%]</textarea>
+        [% END %]
+        [% IF parameter.form_element_type == "checkbox" %]
+          <input type="checkbox" name="[%parameter.name%]" value="1" />
+        [% END %]
+        [% IF parameter.form_element_type == "checkbox_group" %]
+          <div class="checkbox_list">
+          [% FOREACH val IN parameter.allowed_values %]
+             <input type="checkbox" name="[%parameter.name%]" value="[%val.value%]"
+	     [%IF val.value == parameter.default_value%]checked=true[%END%]>[%val.value%]</input>
+	  [% END %]
+          </div>
+        [% END %]   
+        [% IF parameter.form_element_type == "radio" %]
+         <div class="radio_list">
+         [% FOREACH val IN parameter.allowed_values %]
+            <input type="radio" name="[%parameter.name%]" value="[%val.value%]"
+	    [%IF val.value == parameter.default_value%]checked=true[%END%]>[%val.value%]</input>
+	 [% END %]
+	 </div>
+        [% END %]
+        [% IF parameter.form_element_type == "select" %]
+          <select name="[% parameter.name %]">
+             <option value="">---</option>
+         [% FOREACH val IN parameter.allowed_values %]
+             <option value="[%val.value%]"
+ 	     [%IF val.value == parameter.default_value%]selected="selected"[%END%] 
+	     >[% val.value %]</option>
+	  [% END %]
+          </select>
+        [% END %]    
+      </div>
+      [% END %]
+
+
+    </div>
+   </fieldset>
+   [% END %]  
+
+
+  </fieldset>

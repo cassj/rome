@@ -225,7 +225,9 @@
 	process_component_version VARCHAR (20) NOT NULL,
  	description VARCHAR(100),
 	optional BOOLEAN NOT NULL DEFAULT 0,
-	form_element_type ENUM('text','textarea','checkbox','checkbox_group', 'radio', 'select', 'outcome_list', 'outcome_radio') NOT NULL,
+	form_element_type ENUM('text','textarea','checkbox','checkbox_group', 'radio', 'select', 'outcome_list', 'outcome_radio', 'hidden') NOT NULL,
+	fieldset VARCHAR(100) REFERENCES fieldset(name),
+	position INT NOT NULL DEFAULT 1,
 	min_value NUMERIC,
 	max_value NUMERIC,
 	default_value VARCHAR(255),
@@ -233,8 +235,27 @@
 	PRIMARY KEY (name, process_name, process_component_name, process_component_version),
 	FOREIGN KEY (process_name, process_component_name, process_component_version) 
            REFERENCES process(name, component_name, component_version) 
-	   ON DELETE CASCADE
+	   ON DELETE CASCADE,
+	FOREIGN KEY (fieldset, process_name, process_component_name, process_component_version)
+           REFERENCES fieldset(name, process_name, process_component_name, process_component_version)
+           ON DELETE CASCADE
  	) ENGINE=INNODB;
+
+
+	create table fieldset(
+	name VARCHAR(100) NOT NULL,
+	process_name VARCHAR(50) NOT NULL,
+	process_component_name VARCHAR(50) NOT NULL,
+	process_component_version VARCHAR (20) NOT NULL,
+	legend VARCHAR(255),
+	toggle BOOLEAN NOT NULL DEFAULT 1,
+       	position INT NOT NULL DEFAULT 1,
+	PRIMARY KEY (name, process_name, process_component_name, process_component_version),
+	FOREIGN KEY (process_name, process_component_name, process_component_version)
+	   REFERENCES process(name, component_name, component_version)
+           ON DELETE CASCADE
+       	) ENGINE = INNODB;
+
 
 	/* Allowed values for a parameter. These are just used to generate param forms
 	   and are not necessary for every type of parameter. 

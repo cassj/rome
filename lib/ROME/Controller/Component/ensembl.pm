@@ -56,7 +56,7 @@ sub _validate_ensembl2bioseqlite :Private{
   my ($self, $c) = @_;
   my $dfv_profile = {
 		      required => [qw()],	
-		      optional => [qw(5prime_pad 3prime_pad 5prime_pad 3prime_pad )],	
+		      optional => [qw(five_prime_pad three_prime_pad five_prime_pad three_prime_pad )],	
 		      dependencies =>{},
 		      msgs => {
 			       format => '%s',
@@ -76,13 +76,13 @@ sub _validate_ensembl2bioseqlite :Private{
 		      filters => ['trim'],
 		      missing_optional_valid => 1,    
 		      constraint_methods => {
-		        '5prime_pad' => [
+		        'five_prime_pad' => [
 		           ROME::Constraints::is_single,
 		           ROME::Constraints::allowed_chars_plus,
 		           ROME::Constraints::is_integer,
 		           ROME::Constraints::is_less_than(5000)
 		        ],
-		        '3prime_pad' => [
+		        'three_prime_pad' => [
 		           ROME::Constraints::is_single,
 		           ROME::Constraints::allowed_chars_plus,
 		           ROME::Constraints::is_integer,
@@ -166,7 +166,7 @@ sub _validate_ensembl2bioseq :Private{
   my ($self, $c) = @_;
   my $dfv_profile = {
 		      required => [qw()],	
-		      optional => [qw(5prime_pad 3prime_pad )],	
+		      optional => [qw(five_prime_pad three_prime_pad )],	
 		      dependencies =>{},
 		      msgs => {
 			       format => '%s',
@@ -186,13 +186,13 @@ sub _validate_ensembl2bioseq :Private{
 		      filters => ['trim'],
 		      missing_optional_valid => 1,    
 		      constraint_methods => {
-		        '5prime_pad' => [
+		        'five_prime_pad' => [
 		           ROME::Constraints::is_single,
 		           ROME::Constraints::allowed_chars_plus,
 		           ROME::Constraints::is_integer,
 		           ROME::Constraints::is_less_than(5000)
 		        ],
-		        '3prime_pad' => [
+		        'three_prime_pad' => [
 		           ROME::Constraints::is_single,
 		           ROME::Constraints::allowed_chars_plus,
 		           ROME::Constraints::is_integer,

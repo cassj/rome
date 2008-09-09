@@ -142,6 +142,24 @@ __PACKAGE__->has_many(parameters=>'ROMEDB::Parameter',
 
 
 
+=item fieldsets
+
+    has_many relationship to the fieldset table
+    Returns a list of ROMEDB::Fieldset objects
+
+=cut
+
+
+__PACKAGE__->has_many(fieldsets=>'ROMEDB::Fieldset',
+		      {
+		       'foreign.process_name'=>'self.name',
+		       'foreign.process_component_name' => 'self.component_name',
+		       'foreign.process_component_version' => 'self.component_version',
+		      },
+		      { order_by => 'position'},
+    );
+
+
 =item jobs
 
    has_many relationship to the jobs tables.
