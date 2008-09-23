@@ -1,0 +1,45 @@
+
+[% INCLUDE 'setup/Perl' %]
+
+[%# ROME Variables, defined by setup/R:
+   $rome_userdir
+   $rome_username  
+   $rome_experiment_name 
+
+%]
+
+[%# TT Arguments from Processor
+    rome_datafiles_out
+    rome_datafiles_in
+%]
+
+[%# TT Arguments from controller 
+   infile = SEQ
+   outfile = PRIMEDSEQ
+   Too many params to list. See the sql.
+%]
+
+
+use Storable;
+
+#retrieve the stored Bio::Seq or Bio::PrimarySeq
+my \$seq_obj = Storable::retrieve('[% rome_datafiles_in.SEQ.name %]');
+
+#Assume ensembl modules are in your path?
+
+
+
+
+
+#save the resulting Bio::Seq
+my \$filename = "[% rome_datafiles_out.PRIMEDSEQ.name %]";
+nstore \$code, \$filename;
+
+
+
+
+
+
+
+
+
