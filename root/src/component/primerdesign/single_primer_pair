@@ -7,8 +7,6 @@
 </div>
 
 
-
-
 <form action="[% Catalyst.uri_for('/component/primerdesign/single_primer_pair/queue') %]"
       method="post" 
       onsubmit=" new Ajax.Updater( 'messages',  

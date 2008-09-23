@@ -23,6 +23,22 @@ This is a Catalyst controller for a ROME component.
 
 our $VERSION = "0.0.1";
 
+
+
+### 
+# Common Sequence Visualisation and Selection Tools
+###
+
+# ok, this uses the template primer_picker_pic which 
+# is included by the other pages. So, this method needs to
+# prepare all the bits of info that the template needs to draw stuff
+# Maybe this should be a view? Like the graphviz hing?
+
+# so, we need to create the image and overlay an imagemap which 
+# provides the
+
+
+
 ### PROCESS METHODS ###
 
 ### START PROCESS tiling_primers ###

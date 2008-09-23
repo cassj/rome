@@ -14,7 +14,16 @@
 
 use Storable qw/nstore retrieve/;
 use IO::File;
-use Bio::PrimarySeq;
+use Bio::Seq;
+use Bio::Annotation::Collection;
+use Bio::Annotation::ExternalLocation;
+use Bio::SeqFeature::Gene::GeneStructure;
+use Bio::SeqFeature::Gene::Transcript;
+use Bio::SeqFeature::Gene::Exon;
+use Bio::SeqFeature::Gene::UTR;
+use Bio::DB::Taxonomy;
+
+
 
 #retrieve the ensembl object
 #this also requires all the relevant ensembl api libs. 
@@ -34,7 +43,7 @@ my (\$three, \$five);
 \$three = 0 unless defined \$three;
 \$five = 0 unless defined \$five;
 
-my \$pseq;
+my \$seq;
 
 if (\$class eq 'Bio::EnsEMBL::Gene'){
 
@@ -51,23 +60,114 @@ if (\$class eq 'Bio::EnsEMBL::Gene'){
   #retrieve a slice covering this region
   my \$slice_adap = \$registry->get_adaptor(\$obj->adaptor->db->species, 'core','slice');
   my \$slice = \$slice_adap->fetch_by_region('chromosome', \$obj->slice->seq_region_name, \$start, \$end);
-  
+
   #swap to -ve strand if required
   \$slice->invert if \$obj->strand == -1;
 
-  #and stick the sequence into a pseq:
-  \$pseq = Bio::PrimarySeq->new(
-			       -seq => \$slice->seq,
-			       -primary_id => \$slice->id,
-			       -object_id => \$obj->display_id,
-			       -alphabet => 'dna',
-			       -description => "EnsEMBL gene ".\$obj->display_id." with 5 prime padding $five and 3 prime padding $three",
-			      );
+  #create a new sequence
+  \$seq = Bio::Seq->new(
+		       -seq         => \$slice->seq,
+		       -primary_id  => \$slice->id,
+		       -display_id  => \$slice->id,
+		       -alphabet    => 'dna',
+		       -description => "EnsEMBL gene ".\$obj->display_id." with 5 prime padding  and 3 prime padding ",
+		      );
+
+  #create gene feature from $obj
+  my \$gene_feat = Bio::SeqFeature::Gene::GeneStructure->new
+    (
+     '-start'        => \$obj->start,
+     '-end'          => \$obj->end,
+     '-strand'       => \$obj->strand,
+     '-display_name' => \$obj->display_id,
+    );
+
+  my \$transcripts = \$obj->get_all_Transcripts;
+  foreach (@\$transcripts){ 
+
+    #create a transcript feature
+    my \$trsc_feat = Bio::SeqFeature::Gene::Transcript->new
+      (
+       '-start'        => \$_->start,
+       '-end'          => \$_->end,
+       '-strand'       => \$_->strand,
+       '-display_name' => \$_->stable_id,
+       '-primary_tag'  => 'transcript ('.\$_->status.')',
+       '-primary_id'   => \$_->stable_id,
+      );
+
+    #can create utrs, but not coding regions. 
+    my \$utr1 = Bio::SeqFeature::Gene::UTR->new
+      (
+       '-start'       => \$_->start,
+       '-end'         => \$_->coding_region_start,
+       '-strand'      => \$_->strand,
+       '-primary_tag' => \$_->strand == 1 ? 'utr5prime' : 'utr3prime',
+      );
+    my \$utr2 = Bio::SeqFeature::Gene::UTR->new
+      (
+       '-start'       => \$_->coding_region_end,
+       '-end'         => \$_->end,
+       '-strand'      => \$_->strand,
+       '-primary_tag' => \$_->strand == 1 ? 'utr3prime' : 'utr5prime',
+
+      );
+
+    \$trsc_feat->add_utr(\$utr1, \$utr1->primary_tag);
+    \$trsc_feat->add_utr(\$utr2, \$utr2->primary_tag);
+
+    #add the exons of the transcript as features
+    my \$exons = \$_->get_all_Exons;
+    foreach my \$exon (@\$exons){
+      my \$exon_feat = Bio::SeqFeature::Gene::Exon->new
+	(
+	 '-start'        => \$exon->start,
+	 '-end'          => \$exon->end,
+	 '-strand'       => \$exon->strand,
+	 '-display_name' => \$exon->stable_id,
+	 '-primary_tag'  => 'exon',
+	 '-primary_id'   => \$exon->stable_id,
+	);
+
+      \$trsc_feat->add_exon(\$exon_feat);
+    }
+
+    #and add the transcript to the gene feature
+    \$gene_feat->add_transcript(\$trsc_feat);
+  }
+
+  #Add the gene feature to the sequence
+  \$seq->add_SeqFeature(\$gene_feat);
+
+  #get an appropriate taxon object
+  my \$db = Bio::DB::Taxonomy->new('-source' => 'entrez');
+  my \$taxon = \$db->get_taxon(\$db->get_taxonid(\$obj->adaptor->db->species));
+
+  #Finally, we need to create an annotation object
+  #to keep track of where we got this sequence from
+  my \$genome_loc = Bio::Annotation::ExternalLocation->new
+    (
+     '-start'               => \$start,
+     '-end'                 => \$end,
+     '-strand'              => \$obj->strand,
+     '-taxon'               => \$taxon,
+     '-authority'           => \$obj->adaptor->db->dbc->host,
+     '-coord_sys_version'   => \$obj->adaptor->db->dbc->dbname,
+     '-coord_sys_type'      => 'chromosome',
+     '-coord_sys_id'        => \$obj->slice->seq_region_name,
+     '-tagname'             => 'EnsemblSequence',
+    );
+
+  #add our annotation to the sequence
+  my \$annot = \$seq->annotation;
+  \$annot->add_Annotation(\$genome_loc);
+  \$seq->annotation(\$annot);
+
 }
 elsif (\$class eq 'Bio::EnsEMBL::Transcript'){
 
   #doesn't make sense to genome pad a transcript, it's not genomic.
-  \$pseq = \$obj->seq;
+  \$seq = \$obj->seq;
 
 }
 elsif (\$class eq 'Bio::EnsEMBL::Exon'){
@@ -90,7 +190,7 @@ elsif (\$class eq 'Bio::EnsEMBL::Exon'){
   \$slice->invert if \$obj->strand == -1;
 
   #and stick the sequence into a pseq:
-  \$pseq = Bio::PrimarySeq->new(
+  \$seq = Bio::PrimarySeq->new(
 			       -seq => \$slice->seq,
 			       -primary_id => \$slice->id,
 			       -object_id => \$obj->display_id,
@@ -101,7 +201,7 @@ elsif (\$class eq 'Bio::EnsEMBL::Exon'){
 elsif (\$class eq 'Bio::EnsEMBL::Slice'){
 
   #and stick the sequence into a pseq:
-  \$pseq = Bio::PrimarySeq->new(
+  \$seq = Bio::PrimarySeq->new(
 			       -seq => \$obj->seq,
 			       -primary_id => \$obj->id,
 			       -alphabet => 'dna',
@@ -111,7 +211,8 @@ else {
   die "Don't know what to do with objects of class \$class";
 }
 
-#save the PrimarySeq
-my \$filename = "[% rome_datafiles_out.BioPrimarySeq.name %]";
-nstore \$pseq, \$filename;
+#save the BioSeq
+\$Storable::xsDeparse =1;
+my \$filename = "[% rome_datafiles_out.BioSeq.name %]";
+nstore \$seq, \$filename;
 

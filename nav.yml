@@ -129,6 +129,22 @@
           version: 0.0.1
           process: ensembl2bioseqlite
 
+- Primer Design:
+   title: Primer Design
+   dropdown:
+     - single_primer_pair:
+          display_name: Single Primer Pair
+          title: Design a single pair of primers
+          component: primerdesign
+          version: 0.0.1
+          process: single_primer_pair
+     - tiling_primers:
+          display_name: Tiling Primers
+          title: Design a set of primers to tile a region of the sequence
+          component: primerdesign
+          version: 0.0.1
+          process: tiling_primers
+
 - Devel Tools:
     title: Development tools
     roles:

@@ -25,7 +25,7 @@ This is a Catalyst controller for a ROME component.
 
 our $VERSION = "0.0.1";
 
-#set some defaults for ensembl DB connection settings
+# set some defaults for ensembl DB connection settings
 sub auto :Private{
   my ($self,$c) = @_;
 
@@ -34,6 +34,7 @@ sub auto :Private{
 
   return 1;
 }
+
 
 
 ### PROCESS METHODS ###

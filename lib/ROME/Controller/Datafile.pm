@@ -68,7 +68,6 @@ sub graph : Local {
   #javascript for datafile_updater in rome.js
   $c->stash->{html_imagemap} =~ s/href=\"(.+?)\"/href=\"$1\" onclick=\"return datafile_updater(\'$1\')\"/g;
 
-
   #Reset content type
   $c->response->content_type("text/html");
 
@@ -85,7 +84,6 @@ sub png : Local{
   $c->stash->{graphview}->{object} = $c->user->experiment;
   $c->stash->{graphview}->{format} = "png";
   $c->forward('ROME::View::DatafileGraph');
-  
 }
 
 

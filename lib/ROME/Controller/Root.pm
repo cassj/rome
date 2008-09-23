@@ -154,6 +154,11 @@ sub end : ActionClass('RenderView') {
   if(my $view = $c->stash->{graphview}->{view}) {
       $c->detach($view);
   }
+
+  #deal with bioseq views
+  if(my $view = $c->stash->{bioseqview}->{view}){
+      $c->detach($view);
+  }
   
 }
 
