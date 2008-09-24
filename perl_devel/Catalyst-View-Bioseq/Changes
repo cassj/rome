@@ -1,5 +1,6 @@
-Revision history for Catalyst-View-Bioseq
+Revision history for Perl extension Catalyst::View::Bioseq.
 
-0.01  Tue Sep 23 2008
-        - original version; 
+0.01  Tue Sep 23 22:56:54 2008
+	- original version; created by h2xs 1.23 with options
+		-XA -n Catalyst::View::Bioseq
 

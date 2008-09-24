@@ -23,8 +23,6 @@ use Bio::SeqFeature::Gene::Exon;
 use Bio::SeqFeature::Gene::UTR;
 use Bio::DB::Taxonomy;
 
-
-
 #retrieve the ensembl object
 #this also requires all the relevant ensembl api libs. 
 \$Storable::Eval=1;
@@ -212,7 +210,7 @@ else {
 }
 
 #save the BioSeq
-\$Storable::xsDeparse =1;
+\$Storable::Deparse = 1;
 my \$filename = "[% rome_datafiles_out.BioSeq.name %]";
 nstore \$seq, \$filename;
 

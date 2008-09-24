@@ -1,19 +1,16 @@
-use strict;
-use warnings;
+use 5.008008;
 use ExtUtils::MakeMaker;
-
+# See lib/ExtUtils/MakeMaker.pm for details of how to influence
+# the contents of the Makefile that is written.
 WriteMakefile(
-    NAME                => 'Catalyst::View::Bioseq',
-    AUTHOR              => 'Caroline Johnston <johnston@biochem.ucl.ac.uk>',
-    VERSION_FROM        => 'lib/Catalyst/View/Bioseq.pm',
-    ABSTRACT_FROM       => 'lib/Catalyst/View/Bioseq.pm',
-    PL_FILES            => {},
-    PREREQ_PM => {
-        'Test::More' => 0,
-        "Bio::Seq" => 0,
-        "Catalyst" => 0,
-        "Catalyst::Plugin::SubRequest" => 0,
-    },
-    dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
-    clean               => { FILES => 'Catalyst-View-Bioseq-*' },
+    NAME              => 'Catalyst::View::Bioseq',
+    VERSION_FROM      => 'lib/Catalyst/View/Bioseq.pm', # finds $VERSION
+    PREREQ_PM         => {
+	Bio::Seq       => 0,
+        GD             => 0,
+        Catalyst::View => 0
+	}, # e.g., Module::Name => 1.1
+    ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
+      (ABSTRACT_FROM  => 'lib/Catalyst/View/Bioseq.pm', # retrieve abstract from module
+       AUTHOR         => 'Caroline Johnston <johnston@biochem.ucl.ac.uk>') : ()),
 );

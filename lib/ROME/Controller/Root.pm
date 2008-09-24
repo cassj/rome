@@ -152,12 +152,13 @@ sub end : ActionClass('RenderView') {
   
   #deal with graphview views
   if(my $view = $c->stash->{graphview}->{view}) {
-      $c->detach($view);
+      $c->forward($view);
   }
 
   #deal with bioseq views
-  if(my $view = $c->stash->{bioseqview}->{view}){
-      $c->detach($view);
+  if($c->stash->{bioseqview}->{seq}){
+      my $view = $c->stash->{bioseqview}->{view} || 'ROME::View::Bioseq';
+      $c->forward($view);
   }
   
 }

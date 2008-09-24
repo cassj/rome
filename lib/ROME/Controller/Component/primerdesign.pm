@@ -5,6 +5,8 @@ use warnings;
 use base 'Catalyst::Controller';
 use ROME::Processor;
 use ROME::Constraints;
+use Storable qw/retrieve/;
+use Path::Class;
 
 =head1 NAME
 
@@ -23,19 +25,6 @@ This is a Catalyst controller for a ROME component.
 
 our $VERSION = "0.0.1";
 
-
-
-### 
-# Common Sequence Visualisation and Selection Tools
-###
-
-# ok, this uses the template primer_picker_pic which 
-# is included by the other pages. So, this method needs to
-# prepare all the bits of info that the template needs to draw stuff
-# Maybe this should be a view? Like the graphviz hing?
-
-# so, we need to create the image and overlay an imagemap which 
-# provides the
 
 
 
@@ -168,7 +157,17 @@ sub tiling_primers_queue :Path('tiling_primers/queue'){
 sub single_primer_pair :Local{
 
   my ($self, $c) = @_;
-  $c->stash->{template} = 'component/primerdesign/single_primer_pair';
+
+  #need checks here - right input datafiles are only checked properly
+  #at process time.
+  my $bioseq =  $c->user->datafiles->next;
+  my $file =  file($c->config->{userdata}, $c->user->username, $bioseq->name);
+
+  $Storable::Eval = 1;
+  $bioseq = retrieve($file);
+ 
+  
+#  $c->stash->{template} = 'component/primerdesign/single_primer_pair';
 
 }
 
