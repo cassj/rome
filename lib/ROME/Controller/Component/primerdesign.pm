@@ -8,6 +8,11 @@ use ROME::Constraints;
 use Storable qw/retrieve/;
 use Path::Class;
 
+# Storable needs to be able to eval code refs.
+# Note that this will break unless you remove the || {} in
+# Bio::SeqFeature::Generic sub cleanup_generic 
+$Storable::Eval = 1;
+
 =head1 NAME
 
 ROME::Controller::Component::primerdesign - ROME Component Controller
@@ -25,6 +30,54 @@ This is a Catalyst controller for a ROME component.
 
 our $VERSION = "0.0.1";
 
+
+
+### Support methods for Bioseq View
+
+# details of how to generate the png and imap for this case are
+# given in ROME::View::BioseqForPrimers
+
+# Renders a png image of a bioseq.
+sub png : Local{
+  my ($self, $c) = @_;
+
+  #need checks here that there is only 1 datafile and that it 
+  #can be retrieved to a Bio::Seq
+  my $bioseq =  $c->user->datafiles->next;
+  my $file =  file($c->config->{userdata}, $c->user->username, $bioseq->name);
+  $bioseq = retrieve($file);
+  $c->stash->{bioseqview}->{seq} = $bioseq;
+
+  # define the view we wish to use 
+  $c->stash->{bioseqview}->{view} = 'ROME::View::BioseqPrimer';
+  # hand it the sequence
+  $c->stash->{bioseqview}->{seq} = $bioseq;
+  #and ask it to return an imap
+  $c->stash->{bioseqview}->{type} = "png";
+
+}
+
+
+# Renders the HTML image map for the bioseq
+sub imap : Local{
+  my ($self, $c, $mapname) = @_;
+  
+  #retrieve the bioseq from the current datafile.
+  my $bioseq =  $c->user->datafiles->next;
+  my $file =  file($c->config->{userdata}, $c->user->username, $bioseq->name);
+  $bioseq = retrieve($file);
+  $c->stash->{bioseqview}->{seq} = $bioseq;
+
+  # define the view we wish to use 
+  $c->stash->{bioseqview}->{view} = 'ROME::View::BioseqPrimer';
+  # hand it the sequence
+  $c->stash->{bioseqview}->{seq} = $bioseq;
+  #and ask it to return an imap
+  $c->stash->{bioseqview}->{type} = "imap";
+  #called primer_picker_pic
+  $c->stash->{bioseqview}->{mapname} = $c->stash->{mapname};
+}
+    
 
 
 
@@ -158,16 +211,14 @@ sub single_primer_pair :Local{
 
   my ($self, $c) = @_;
 
-  #need checks here - right input datafiles are only checked properly
-  #at process time.
-  my $bioseq =  $c->user->datafiles->next;
-  my $file =  file($c->config->{userdata}, $c->user->username, $bioseq->name);
-
-  $Storable::Eval = 1;
-  $bioseq = retrieve($file);
- 
+  #we need to define a name for this imagemap
+  $c->stash->{mapname} = 'primer_picker_pic';
   
-#  $c->stash->{template} = 'component/primerdesign/single_primer_pair';
+  #do a subrequest to get the image map
+  $c->stash->{imagemap} = $c->subreq("/component/primerdesign/imap/", $c->stash);  
+  
+  #and then render the full page.
+  $c->stash->{template} = 'component/primerdesign/single_primer_pair';
 
 }
 

@@ -1,2 +1,13 @@
-<h1>This will be an interactive image</h1>
+
+[% imagemap %]
+
+[%# 
+    To prevent browser caching of the dynamically generated image we need to
+    generate a random number and add it as a param to the image url. It's 
+    ignored by the server, but it looks like a different image file to the 
+    browser.
+%]
+
+[% USE Math %]
+<img name="primer_picker_pic" src="[% Catalyst.uri_for('/component/primerdesign/png') %]?[% Math.rand(100) %]" USEMAP="#[%mapname%]" border=0 />
 

@@ -22,6 +22,8 @@ use Bio::SeqFeature::Gene::Transcript;
 use Bio::SeqFeature::Gene::Exon;
 use Bio::SeqFeature::Gene::UTR;
 use Bio::DB::Taxonomy;
+use Bio::Coordinate::Pair;
+use Bio::Location::Simple;
 
 #retrieve the ensembl object
 #this also requires all the relevant ensembl api libs. 
@@ -71,43 +73,80 @@ if (\$class eq 'Bio::EnsEMBL::Gene'){
 		       -description => "EnsEMBL gene ".\$obj->display_id." with 5 prime padding  and 3 prime padding ",
 		      );
 
-  #create gene feature from $obj
+
+  #create a location for the genome slice and one for the seq and 
+  #a co-ord pair to map between the two.
+  #Both are in +ve strand coords
+  my \$genome_location = Bio::Location::Simple->new
+    (
+     '-seq_id' => 'genome_location',
+     '-start'  => \$slice->start,
+     '-end'    => \$slice->end,
+     '-strand' => 1,
+    );
+
+  my \$seq_location = Bio::Location::Simple->new
+    (
+     '-seq_id' => 'seq_location',
+     '-start'  => 1,
+     '-end'    => \$seq->length,
+     '-strand' => 1,
+    );
+
+  my \$coord_pair = Bio::Coordinate::Pair->new
+    (
+     '-in'  => \$genome_location,
+     '-out' => \$seq_location,
+    );
+
+  #create gene feature from \$obj
+  my \$pos = Bio::Location::Simple->new 
+    ('-start' => \$obj->start, '-end' => \$obj->end, '-strand' => \$obj->strand );
+  my \$new_pos = \$coord_pair->map(\$pos);
   my \$gene_feat = Bio::SeqFeature::Gene::GeneStructure->new
     (
-     '-start'        => \$obj->start,
-     '-end'          => \$obj->end,
-     '-strand'       => \$obj->strand,
+     '-start'        => \$new_pos->start,
+     '-end'          => \$new_pos->end,
+     '-strand'       => \$new_pos->strand,
      '-display_name' => \$obj->display_id,
     );
 
   my \$transcripts = \$obj->get_all_Transcripts;
   foreach (@\$transcripts){ 
-
+    \$pos = Bio::Location::Simple->new
+      ('-start' => \$_->start, '-end'=>\$_->end, '-strand' => \$_->strand);
+    \$new_pos = \$coord_pair->map(\$pos);
     #create a transcript feature
     my \$trsc_feat = Bio::SeqFeature::Gene::Transcript->new
       (
-       '-start'        => \$_->start,
-       '-end'          => \$_->end,
-       '-strand'       => \$_->strand,
+       '-start'        => \$new_pos->start,
+       '-end'          => \$new_pos->end,
+       '-strand'       => \$new_pos->strand,
        '-display_name' => \$_->stable_id,
        '-primary_tag'  => 'transcript ('.\$_->status.')',
        '-primary_id'   => \$_->stable_id,
       );
 
     #can create utrs, but not coding regions. 
+    \$pos = Bio::Location::Simple->new
+      ('-start' => \$_->start, '-end' => \$_->coding_region_start, '-strand' => \$_->strand);
+    \$new_pos = \$coord_pair->map(\$pos);
     my \$utr1 = Bio::SeqFeature::Gene::UTR->new
       (
-       '-start'       => \$_->start,
-       '-end'         => \$_->coding_region_start,
-       '-strand'      => \$_->strand,
-       '-primary_tag' => \$_->strand == 1 ? 'utr5prime' : 'utr3prime',
+       '-start'       => \$new_pos->start,
+       '-end'         => \$new_pos->end,
+       '-strand'      => \$new_pos->strand,
+       '-primary_tag' => \$new_pos->strand == 1 ? 'utr5prime' : 'utr3prime',
       );
+    \$pos = Bio::Location::Simple->new
+      ('-start' => \$_->coding_region_end, '-end' => \$_->end, '-strand' => \$_->strand);
+    \$new_pos = \$coord_pair->map(\$pos);
     my \$utr2 = Bio::SeqFeature::Gene::UTR->new
       (
-       '-start'       => \$_->coding_region_end,
-       '-end'         => \$_->end,
-       '-strand'      => \$_->strand,
-       '-primary_tag' => \$_->strand == 1 ? 'utr3prime' : 'utr5prime',
+       '-start'       => \$new_pos->start,
+       '-end'         => \$new_pos->end,
+       '-strand'      => \$new_pos->strand,
+       '-primary_tag' => \$new_pos->strand == 1 ? 'utr3prime' : 'utr5prime',
 
       );
 
@@ -117,11 +156,14 @@ if (\$class eq 'Bio::EnsEMBL::Gene'){
     #add the exons of the transcript as features
     my \$exons = \$_->get_all_Exons;
     foreach my \$exon (@\$exons){
+      \$pos = Bio::Location::Simple->new
+	('-start' => \$exon->start, '-end'=>\$exon->end, '-strand'=> \$exon->strand);
+      \$new_pos = \$coord_pair->map(\$pos);
       my \$exon_feat = Bio::SeqFeature::Gene::Exon->new
 	(
-	 '-start'        => \$exon->start,
-	 '-end'          => \$exon->end,
-	 '-strand'       => \$exon->strand,
+	 '-start'        => \$new_pos->start,
+	 '-end'          => \$new_pos->end,
+	 '-strand'       => \$new_pos->strand,
 	 '-display_name' => \$exon->stable_id,
 	 '-primary_tag'  => 'exon',
 	 '-primary_id'   => \$exon->stable_id,
@@ -147,13 +189,12 @@ if (\$class eq 'Bio::EnsEMBL::Gene'){
     (
      '-start'               => \$start,
      '-end'                 => \$end,
-     '-strand'              => \$obj->strand,
      '-taxon'               => \$taxon,
      '-authority'           => \$obj->adaptor->db->dbc->host,
      '-coord_sys_version'   => \$obj->adaptor->db->dbc->dbname,
      '-coord_sys_type'      => 'chromosome',
      '-coord_sys_id'        => \$obj->slice->seq_region_name,
-     '-tagname'             => 'EnsemblSequence',
+     '-tagname'             => 'ExternalLocation',
     );
 
   #add our annotation to the sequence

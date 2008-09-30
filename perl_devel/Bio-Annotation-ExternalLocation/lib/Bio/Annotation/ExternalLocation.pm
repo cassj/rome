@@ -7,7 +7,6 @@ Bio::Annotation::ExternalLocation - Annotate sequences with an external location
   my $annot = Bio::Annotaion:ExternalLocation->new(
                 -start             => $start,
                 -end               => $end,
-                -strand            => -1,
                 -taxon             => $taxon,
                 -authority         => 'NCBI',
                 -coord_sys_type    => 'chromosome'
@@ -256,27 +255,27 @@ sub end{
 
 
 
-
-=head2 strand
-
-  Title   : strand
-  Usage   : $strand = $loc->strand($new_strand)
-  Function: Accessor for the strand of the location 
-            1 = Positive Strand
-            -1 = Negative Strand
-  Returns : [1 or -1] The strand of the sequence
-  Args    : [1 or -1] Optionally a new value for strand
-
-=cut
-
-sub strand{
-
-  my ($self, $val) = @_;
-  if (defined $val){
-    $self->{strand} = $val;
-  }
-  return $self->{strand};
-}
+#no - always +ve
+#=head2 strand
+#
+#  Title   : strand
+#  Usage   : $strand = $loc->strand($new_strand)
+#  Function: Accessor for the strand of the location 
+#            1 = Positive Strand
+#            -1 = Negative Strand
+#  Returns : [1 or -1] The strand of the sequence
+#  Args    : [1 or -1] Optionally a new value for strand
+#
+#=cut
+#
+#sub strand{
+#
+#  my ($self, $val) = @_;
+#  if (defined $val){
+#    $self->{strand} = $val;
+#  }
+#  return $self->{strand};
+#}
 
 
 

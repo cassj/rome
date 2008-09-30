@@ -83,7 +83,7 @@ sub png : Local{
   $c->stash->{graphview}->{view} = 'ROME::View::DatafileGraph';
   $c->stash->{graphview}->{object} = $c->user->experiment;
   $c->stash->{graphview}->{format} = "png";
-  $c->forward('ROME::View::DatafileGraph');
+#  $c->forward('ROME::View::DatafileGraph');
 }
 
 
