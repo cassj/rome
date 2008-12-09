@@ -4,9 +4,18 @@ use strict;
 use base qw/Catalyst::View/;
 use Bio::Seq;
 use Bio::Graphics;
-use Bio::SeqFeature::Generic;
 use Bio::Coordinate::Pair;
 use Bio::Location::Simple;
+use Module::Find;
+
+# we may load the sequence from a storable file so
+# we haven't necessarily got all the classes loaded
+# easiest way to deal is to just load all seqfeature 
+# classes
+useall Bio::SeqFeature;
+
+
+
 
 our $VERSION = '0.27';
 
@@ -82,16 +91,22 @@ sub render {
   $loc = $mapper->map($loc) if $mapper;
 
   #build a Bio::Graphics::Panel from seq
-  my $panel = Bio::Graphics::Panel->new
-    (
-     '-width'        => $self->panel_width,
-     '-start'        => $loc->start,
-     '-end'          => $loc->end,
-     '-pad_left'     => $self->panel_pad_left($seq),
-     '-pad_right'    => $self->panel_pad_right($seq),
-     '-pad_bottom'   => $self->panel_pad_bottom($seq),
-     '-pad_top'      => $self->panel_pad_top($seq),
-    );
+
+    my %params = (
+		  '-width'        => $self->panel_width,
+		  '-start'        => $loc->start,
+		  '-end'          => $loc->end,
+		  '-pad_left'     => $self->panel_pad_left($seq),
+		  '-pad_right'    => $self->panel_pad_right($seq),
+		  '-pad_bottom'   => $self->panel_pad_bottom($seq),
+		  '-pad_top'      => $self->panel_pad_top($seq),
+		 );
+
+  if ($c->stash->{bioseqview}->{type} eq 'svg'){
+    $params{'-image_class'}='GD::SVG';
+  }
+
+  my $panel = Bio::Graphics::Panel->new(%params);
 
   #create a generic seqfeature for the scale
   my $full_seq = Bio::SeqFeature::Generic->new
@@ -109,35 +124,21 @@ sub render {
 		    '-double' => 1,
 		    '-tick'   => 2,
 		    '-name'   => 'ladder',
-		   );
-
-
-  #and as the actual sequence
-  $panel->add_track(
-		    $full_seq,
-		    '-glyph'  => 'generic',
 		    '-label'  => 1,
-		    '-name'   => 'full_seq',
 		   );
 
-
-  #sort features up by their primary tag and render
+  #sort features by their primary tag and render
   my $feats = {};
-  foreach ($seq->get_SeqFeatures){
-    #storable file, which doesn't appear to load up all the
-    #classes we need, so we have to do it by hand.
-    my $class = ref $_;
-    eval "require $class";
+  foreach ($seq->all_SeqFeatures){
     push @{$feats->{$_->primary_tag}}, $_;
   }
-
   foreach (keys %$feats){
     $self->add_feats($panel, $_, $feats)
   }
 
   #and render it appropriately, setting the content type
   my $type = $c->stash->{bioseqview}->{type} || 'png';
-  
+
   if ($type eq 'png'){
     $c->response->body($panel->png);
     $c->response->content_type('image/png');
@@ -152,8 +153,12 @@ sub render {
 			$self->imap_target
 		       )); 
     $c->response->content_type('text/html');
+  }elsif ($type eq 'svg' ){
+    $c->response->body($panel->svg);
+    #what's the appropriate ct? html+svg maybe? Stick it in a template?
+    $c->response->content_type('application/svg');
   }
-  #possibly also deal with jpeg? svg? 
+
 
   return 1;
 }
@@ -164,25 +169,15 @@ sub render {
 sub add_feats{
   my ($self, $panel, $tagname, $sorted_feats) =  @_;
 
-   #get a position mapper
-  my $mapper = $self->coord_mapper;
-
   #grab the features with this tagname
   my $feats = $sorted_feats->{$tagname};
   return $panel unless ref $feats eq 'ARRAY';
 
   #if we're mapping to another coord sys, make sure we
   #map the features
-  if ($mapper){
+  if ($self->coord_mapper){
     foreach (@$feats){
-      my $loc = Bio::Location::Simple->new(
-					   '-start'  => $_->start, 
-					   '-end'    => $_->end, 
-					   '-strand' => $_->strand, 
-					  );
-      $loc = $mapper->map($loc) if $mapper;
-      $_->start($loc->start);
-      $_->end($loc->end);
+      $_ = $self->_map($_);
     }
   }
 
@@ -203,6 +198,25 @@ sub add_feats{
   return $panel;
 }
 
+
+sub _map{
+  my ($self, $feat) = @_;
+  
+  #get a position mapper
+  my $mapper = $self->coord_mapper;
+  
+  #map the feature
+  my $loc = Bio::Location::Simple->new(
+				       '-start'  => $feat->start, 
+				       '-end'    => $feat->end, 
+				       '-strand' => $feat->strand, 
+					  );
+  $loc = $mapper->map($loc) if $mapper;
+  $feat->start($loc->start);
+  $feat->end($loc->end);
+
+  return $feat;
+}
 
 #an optional Bio::Coordinate::Pair capable of mapping
 #the sequence positions to another set of coords

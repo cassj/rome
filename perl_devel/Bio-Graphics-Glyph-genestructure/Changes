@@ -1,0 +1,6 @@
+Revision history for Perl extension Bio::Graphics::Glyph::genestructure.
+
+0.01  Tue Sep 30 19:19:37 2008
+	- original version; created by h2xs 1.23 with options
+		-XA -n Bio::Graphics::Glyph::genestructure
+

@@ -5,8 +5,12 @@ use warnings;
 use base 'ROME::Controller::Base';
 use ROME::Constraints;
 use Template;
-use File::Copy::Recursive qw/fmove fcopy dirmove/;
-use File::Path qw/rmtree/;
+use File::Copy::Recursive qw/fmove fcopy dirmove dircopy/;
+use File::Path qw/mkpath rmtree/;
+use File::Temp qw/tempfile tempdir/;
+use IO::File;
+use Path::Class::Dir;
+use Cwd;
 
 =head1 NAME
 
@@ -303,6 +307,10 @@ sub select_component :Path('component/select'){
       $c->stash->{error_msg} = 'Failed to find component';
       return;
     }
+    unless ($comp->installed){
+      $c->stash->{error_msg} = 'Component is not installed';
+      return;
+    }
   }
   else{
     return;
@@ -312,11 +320,6 @@ sub select_component :Path('component/select'){
   $c->session->{component_version} = $comp->version;
   $c->stash->{status_msg} = "Component selected";
 }
-
-
-
-
-
 
 
 
@@ -434,7 +437,9 @@ sub component_autocomplete :Path('component/autocomplete') {
   $val =~ s/\*/%/g;
   $c->stash->{ajax} = 1;
 
-  my $components =  $c->model('ROMEDB::Component')->search_like({name=>'%'.$val.'%'});
+  my $components =  $c->model('ROMEDB::Component')->search_like({name=>'%'.$val.'%',
+								 installed => 1});
+  
 
   $c->stash->{template} = 'devel/component_autocomplete';
   $c->stash->{components} = $components;
@@ -1440,8 +1445,17 @@ sub make_component_distribution :Local{
       return;
     }
 
-    #this needs to take param component_name and generate a distribution
-    #of the currently installed version of that component.
+    #retrieve the selected component.
+    if ($c->session->{component_name} && $c->session->{component_version}){
+      $c->stash->{selected_component} =
+	$c->model('ROMEDB::Component')->find
+	  (
+	   $c->session->{component_name},
+	   $c->session->{component_version}
+	  );
+    }
+    
+
     
     #then stick that distribution in the root/components dir.
     $c->stash->{template} = 'devel/make_component_distribution';
@@ -2402,6 +2416,266 @@ sub process_template_upload :Path('process/template/upload'){
   #success!
   $c->stash->{status_msg} = "Template successfully updated.";
 }
+
+
+sub _validate_package :Private{
+  my ($self, $c) = @_;
+  my $dfv_profile = {
+		     required => [qw(pack_type)],
+		     msgs => {
+			      format => '%s',
+			      constraints => 
+			      {
+			       pack_type => 'Invalid package file type.',
+			      },
+			     },
+		     filters => ['trim'],
+		     missing_optional_valid => 1,    
+		     constraint_methods => {
+					    pack_type => [
+							  sub {
+							    my $dfv = shift;
+							    $dfv->name_this('pack_type');
+							    my $val = $dfv->get_current_constraint_value();
+							    return $val =~/^zip|tgz$/;
+							  } ,
+							 ],
+					   },
+		    };
+ $c->form($dfv_profile);
+ 
+}
+
+#package the currently selected component and return a link to the file
+sub package : Path('component/package'){
+
+  my ( $self, $c ) = @_;
+
+  $c->stash->{ajax} = 1;
+  $c->stash->{template} = 'site/messages';
+
+  #check permissions.
+  unless($c->check_user_roles('dev')){
+    $c->stash->{error_msg} = "You don't have permission to package components.";
+    return;
+  }
+
+  if ($c->forward('_validate_package')){
+    
+    
+    #retrieve the selected component.
+    my $component;
+    if ($c->session->{component_name} && $c->session->{component_version}){
+      $component = 
+	$c->model('ROMEDB::Component')->find
+	  (
+	   $c->session->{component_name},
+	   $c->session->{component_version}
+	  );
+    }
+
+    my $processes = $component->processes;
+
+    my $pack_type = $c->request->params->{pack_type};
+
+    #make a dir for the component in the current user's datadir.
+    my $compdir = $c->config->{userdata}.'/'.$c->user->username.'/'.$component->name;
+    mkpath($compdir);
+
+    #Shortcuts to various locations
+    my $root_dir = $c->config->{root};
+    my ($template_dir) = $root_dir =~/(.+)root/;
+    my $lib_dir = $template_dir;
+    $template_dir .=$c->config->{process_templates};
+    $lib_dir .= 'lib/ROME';
+
+    #cp Component Controller:
+    my $file1 = "$lib_dir/Controller/Component/".$component->name.".pm";
+    my $file2 = $compdir.'/lib/ROME/Controller/Component/'.$component->name.".pm";
+    fcopy($file1, $file2) or $c->log->error("failed to copy controller for ".$component->name." $!");
+
+    #cp View templates
+    $file1 = "$root_dir/src/component/".$component->name;
+    $file2 = $compdir."/root/src/component/".$component->name;
+    dircopy($file1, $file2) or $c->log->error("failed to copy view templates for ".$component->name." $!");
+
+    #cp Process templates
+    $file1 = "$template_dir/".$component->name;
+    $file2 = $compdir."/process_templates/".$component->name;
+    dircopy($file1, $file2) or $c->log->error("failed to copy process templates for ".$component->name." $!");
+
+    #SQL
+    mkpath($compdir.'/sql');
+    my $sql_file = $compdir.'/sql/'.$component->name.".sql";
+    my $fh = new IO::File;
+    $fh->open("> $sql_file") or $c->log->error("failed to open sql file for ".$component->name."$!");
+    
+    #cos replace has to delete stuff and it can't
+    print $fh "SET FOREIGN_KEY_CHECKS=0;\n";
+
+    #Component SQL
+    #set currently installed versions of this component to 0
+    print $fh "UPDATE component SET installed=0 WHERE name='".$component->name
+      ."' AND version !='".$component->version."';\n";
+
+    #Insert the new component (using replace in case it has already been installed)
+    print $fh "REPLACE INTO component (name, version, description, installed) values ('"
+      .$component->name."','"
+	.$component->version."','"
+	  .$component->description."',1);\n";
+    
+    #Process SQL
+    while (my $process = $processes->next){
+      print $fh "REPLACE INTO process (name, component_name, component_version, tmpl_file, description, processor, display_name) values ('"
+	.$process->name."','"
+	  .$component->name."','"
+	    .$component->version."','"
+	      .$process->tmpl_file."','"
+		.$process->description."','"
+		  .$process->processor."','"
+		    .$process->display_name."');\n";
+      my $accepts = $process->process_accepts;
+
+      while(my $acc = $accepts->next){
+	#datatypes should really be installed from a central DB, but this'll do for now
+	my $datatype = $acc->accepts;
+	print $fh "REPLACE INTO datatype (name, description, default_blurb, is_image, is_export) values ('"
+	  .$datatype->name."','"
+	    .$datatype->description."','"
+	      .$datatype->default_blurb."',"
+		.$datatype->is_image.','
+		  .$datatype->is_export.");\n";
+	print $fh "REPLACE INTO process_accepts (process_name, process_component_name, process_component_version, datatype_name, name) values ('"
+	  .$process->name."','"
+	    .$component->name."','"
+	      .$component->version."','"
+		.$datatype->name."','"
+		  .$acc->name."');\n";
+
+      }
+      my $creates = $process->process_creates;
+      while (my $cre = $creates->next){
+	#datatypes should really be installed from a central DB, but this'll do for now
+	my $datatype = $cre->creates;
+	print $fh "REPLACE INTO datatype (name, description, default_blurb, is_image, is_export) values ('"
+	  .$datatype->name."','"
+	    .$datatype->description."','"
+	      .$datatype->default_blurb."',"
+		.$datatype->is_image.','
+		  .$datatype->is_export.");\n";
+   
+	print $fh "REPLACE INTO process_creates (process_name, process_component_name, process_component_version, datatype_name, name, suffix, is_image, is_export, is_report) values ('"
+	  .$process->name."','"
+	    .$component->name."','"
+	      .$component->version."','"
+		.$datatype->name."','"
+		  .$cre->name."','"
+		    .$cre->suffix."',"
+		      .$cre->is_image.','
+			.$cre->is_export.','
+			  .$cre->is_report.");\n";
+
+      }
+
+
+      my $fieldsets = $process->fieldsets;
+      while(my $fs = $fieldsets->next){
+	print $fh "REPLACE INTO fieldset (name, process_name, process_component_name, process_component_version, legend, toggle, position) values('"
+	  .$fs->name."','"
+	    .$process->name."','"
+	      .$component->name."','"
+		.$component->version."','"
+		  .$fs->legend."','"
+		    .$fs->toggle."','"
+		      .$fs->position."');\n";
+      }
+
+
+      my $params = $process->parameters;
+
+      while(my $param = $params->next){
+	print $fh "REPLACE INTO parameter (name, display_name, process_name, process_component_name, process_component_version, description, optional, form_element_type, min_value, max_value, default_value, is_multiple, position, fieldset) values ('"
+	  .$param->name."','"
+	    .$param->display_name,"','"
+	      .$process->name."','"
+		.$component->name."','"
+		  .$component->version."','"
+		    .$param->description."','"
+		      .$param->optional."','"
+			.$param->form_element_type."','"
+			  .$param->min_value."','"
+			    .$param->max_value."','"
+			      .$param->default_value."','"
+				.$param->is_multiple."','"
+				  .$param->position."','"
+				    .$param->fieldset->name."');\n";
+      
+	
+	my $allowed_values = $param->allowed_values;
+	while(my $av = $allowed_values->next){
+	  print $fh "REPLACE INTO parameter_allowed_value (parameter_name, parameter_process_name, parameter_process_component_name, parameter_process_component_version, value) values ('"
+	    .$param->name."','"
+	      .$process->name."','"
+		.$component->name."','"
+		  .$component->version."','"
+		    .$av->value."');\n";
+	}
+      }
+
+    }
+    $fh->close;
+
+    #zip or gzip your new directory as requested.
+    
+    my $dir = $c->config->{userdata}.'/'.$c->user->username.'/';
+    my $filename = $component->name;
+    $filename   .= $c->request->params->{pack_type} eq 'zip'? '.zip': '.tgz';
+    my $cmd = $c->request->params->{pack_type} eq 'zip' ?
+      'zip -r ' : 'tar -czf ';
+    $cmd .="$filename ".$component->name;
+
+    my $cwd = getcwd;
+    my $name=$component->name;
+    $compdir =~ s/(.*)\/$name/$1/;
+    chdir $compdir;
+    system "$cmd";
+    rmtree( $component->name, {} );
+    chdir $cwd;
+    
+    #Success!
+    $c->{stash}->{status_msg} ="Success! <a href='/devel/component/download/".$filename."'>Download your packaged component</a>";
+
+  }
+  else{return;}
+  
+  
+}
+
+
+sub download : Path('component/download'){
+
+  my ($self, $c, $file) = @_;
+
+  $c->stash->{ajax} = 1;
+  $c->stash->{template} = 'site/messages';
+
+  #check permissions.
+  unless($c->check_user_roles('dev')){
+    $c->stash->{error_msg} = "You don't have permission to download packaged components.";
+    return;
+  }
+  
+  #hmm, this gets served as 'download' which is no use. 
+  my $path = $c->config->{userdata}.'/'.$c->user->username.'/'.$file;
+  if (-e $path){
+    $c->serve_static_file($path);
+  }
+  else{
+    $c->stash->{error_msg} = "File not found";
+  }
+}
+
+
 
 =back
 

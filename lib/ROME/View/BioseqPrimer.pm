@@ -7,8 +7,7 @@ use Bio::Location::Simple;
 use Bio::Coordinate::Pair;
 use Bio::Annotation::ExternalLocation;
 
-#we want to define a coord mapper for the external location
-#annotation
+#define a coord mapper for the external location annotation
 sub coord_mapper{
   my ($self) = @_;
 
@@ -38,10 +37,13 @@ sub coord_mapper{
 ## As per the Bio::Graphics::Panel docs
  
 #href for the imap link for a seqfeature
+
+#this isn't going to be flexible enough. Maybe SVG would be easier?
 sub imap_link{
   return sub{
     my ($feat, $panel) = @_;
-    return 'http://www.google.com' if (ref($feat) eq 'Bio::SeqFeature::Gene::GeneStructure');
+    return 'http://gene' if ($feat->primary_tag eq 'gene');
+    return 'http://transcript' if ($feat->primary_tag eq 'transcript');
     return '';
   }
 }
@@ -60,36 +62,69 @@ sub panel_pad_bottom{
   return 20;
 }
 
+sub panel_width{
+  return 1000;
+}
 
+#######
+# how to render seqfeats tagged in a particular way:
 
-###### Some generic seqfeature display methods
-
-#MOVE TO BASE CLASS WHEN WORKING.
-
-#Define a specific render method for SeqFeature::Gene::GeneStructure 
-#features
-sub render_genestructure{
+sub render_gene{
   my ($self, $panel, $feat) = @_;
 
   #the base class deals with any coord mapping.
-  #just draw the thing.
-  
-  #draw a track for the whole gene region
+  #just draw the thing
+
+  #draw a track for the whole gene region using the
+  #genestructure glyph
   $panel->add_track($feat,
-		    '-glyph'  => 'generic',
+		    '-glyph'  => 'arrow',
+		    '-linewidth' => 3,
+		    '-maxdepth' => 0,
 		    '-label'  => 1,
-		    '-bgcolor'  => 'red',
+		    '-color'  => 'red',
 		   );
-  
-  #and add transcript features as a box
-
-  #fill transript box with exons
-
-  #what about UTR? PolyA etc.
 
   return $panel;
 }
 
+sub render_transcript{
+  my ($self, $panel, $feat) = @_;
+
+  #draw a track for the transcript
+  $panel->add_track($feat,
+		    '-glyph'  => 'transcript',
+		    '-label'  => 1,
+		    '-bgcolor'  => 'yellow',
+		   );
+
+  return $panel;
+}
+
+#these are all parts of a transcript, don't
+#draw them again
+
+#hmm, is there any way of getting these to sit on the same 
+#track as the transcript? Yes, of course - they're subfeatures.
+sub render_exon{
+  my ($self, $panel, $feat) = @_;
+  return $panel;
+}
+
+sub render_utr3prime{
+  my ($self, $panel, $feat) = @_;
+  return $panel;
+}
+
+sub render_utr5prime{
+  my ($self, $panel, $feat) = @_;
+  return $panel;
+}
+
+sub render_polyA{
+  my ($self, $panel, $feat) = @_;
+  return $panel;
+}
 
 =head1 NAME
 

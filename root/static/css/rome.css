@@ -597,3 +597,10 @@ dl.factor dl{
   margin-left: 1em;
 }
 
+
+
+/**** Admin Pages ****/
+.selected_component{
+  padding: 10px;
+  border: 1px solid #c6c9cc;
+}

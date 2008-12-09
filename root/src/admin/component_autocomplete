@@ -1,0 +1,7 @@
+<ul>
+[%WHILE (component = components.next)%]
+     <li>[%component.name%]<span class="informal">
+        (<span>[%component.version%]</span>)
+     </li>  
+[%END%]
+</ul>

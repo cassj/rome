@@ -1,12 +1,33 @@
 [%META title="Component Management"%]
 
+[% IF Catalyst.check_user_roles("admin") %]
+
 <!-- Search through currently installed components  -->
 
+<div id="selected_component">
+[%INCLUDE 'admin/selected_component'%]
+</div>
+
+<div id="select_component">
+[%INCLUDE 'admin/select_component'%]
+</div>
 
 <!-- Remove an existing component -->
+<div id="remove_component">
+<div id="remove_component_results"></div>
+[% INCLUDE 'admin/remove_component' %]
+</div>
 
 
 <!-- Add a new component -->
 <div id="add_component">
-[% INCLUDE 'admin/component_add' %]
+[% INCLUDE 'admin/add_component' %]
 </div>
+
+[% ELSE %]
+
+<p class="warning">You do not have permission to access this page</p>
+
+[% END %]
+
+

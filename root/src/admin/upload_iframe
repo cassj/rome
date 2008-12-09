@@ -1,0 +1,9 @@
+<script type="text/javascript">
+    //<![CDATA[
+         window.top.window.stop_upload('upload_results','[% IF status_msg %]<span class="message">[%status_msg%]</span>[% END %][% IF error_msg %]<span class="error">[%error_msg%]</span>[% END %]');
+	 /*window.top.window.start_install_monitor('upload_results');*/
+    //]]>
+</script>
+
+<!-- Need to get this to start a watch to ping the server to find out how the 
+   installation is going-->

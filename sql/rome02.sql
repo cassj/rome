@@ -1,7 +1,3 @@
-      /* select your database */
-      
-       use rome_test; 
-
        /*Need to unset the FK checks so we can define
          them at the same time as the table. I can't
          keep track of them when they're all done 
@@ -231,7 +227,7 @@
 	min_value NUMERIC,
 	max_value NUMERIC,
 	default_value VARCHAR(255),
-	is_multiple BOOLEAN NOT NULL DEFAULT 0;
+	is_multiple BOOLEAN NOT NULL DEFAULT 0,
 	PRIMARY KEY (name, process_name, process_component_name, process_component_version),
 	FOREIGN KEY (process_name, process_component_name, process_component_version) 
            REFERENCES process(name, component_name, component_version) 

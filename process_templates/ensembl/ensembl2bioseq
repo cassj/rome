@@ -103,12 +103,13 @@ if (\$class eq 'Bio::EnsEMBL::Gene'){
   my \$pos = Bio::Location::Simple->new 
     ('-start' => \$obj->start, '-end' => \$obj->end, '-strand' => \$obj->strand );
   my \$new_pos = \$coord_pair->map(\$pos);
-  my \$gene_feat = Bio::SeqFeature::Gene::GeneStructure->new
+  my \$gene_feat = Bio::SeqFeature::Generic->new
     (
      '-start'        => \$new_pos->start,
      '-end'          => \$new_pos->end,
      '-strand'       => \$new_pos->strand,
      '-display_name' => \$obj->display_id,
+     '-primary_tag'  => 'gene'
     );
 
   my \$transcripts = \$obj->get_all_Transcripts;
@@ -117,21 +118,21 @@ if (\$class eq 'Bio::EnsEMBL::Gene'){
       ('-start' => \$_->start, '-end'=>\$_->end, '-strand' => \$_->strand);
     \$new_pos = \$coord_pair->map(\$pos);
     #create a transcript feature
-    my \$trsc_feat = Bio::SeqFeature::Gene::Transcript->new
+    my \$trsc_feat = Bio::SeqFeature::Generic->new
       (
        '-start'        => \$new_pos->start,
        '-end'          => \$new_pos->end,
        '-strand'       => \$new_pos->strand,
        '-display_name' => \$_->stable_id,
-       '-primary_tag'  => 'transcript ('.\$_->status.')',
+       '-primary_tag'  => 'transcript',
        '-primary_id'   => \$_->stable_id,
       );
 
-    #can create utrs, but not coding regions. 
+    #can create utrs, but not coding regions.
     \$pos = Bio::Location::Simple->new
       ('-start' => \$_->start, '-end' => \$_->coding_region_start, '-strand' => \$_->strand);
     \$new_pos = \$coord_pair->map(\$pos);
-    my \$utr1 = Bio::SeqFeature::Gene::UTR->new
+    my \$utr1 = Bio::SeqFeature::Generic->new
       (
        '-start'       => \$new_pos->start,
        '-end'         => \$new_pos->end,
@@ -141,7 +142,7 @@ if (\$class eq 'Bio::EnsEMBL::Gene'){
     \$pos = Bio::Location::Simple->new
       ('-start' => \$_->coding_region_end, '-end' => \$_->end, '-strand' => \$_->strand);
     \$new_pos = \$coord_pair->map(\$pos);
-    my \$utr2 = Bio::SeqFeature::Gene::UTR->new
+    my \$utr2 = Bio::SeqFeature::Generic->new
       (
        '-start'       => \$new_pos->start,
        '-end'         => \$new_pos->end,
@@ -150,8 +151,8 @@ if (\$class eq 'Bio::EnsEMBL::Gene'){
 
       );
 
-    \$trsc_feat->add_utr(\$utr1, \$utr1->primary_tag);
-    \$trsc_feat->add_utr(\$utr2, \$utr2->primary_tag);
+    \$trsc_feat->add_SeqFeature(\$utr1, \$utr1->primary_tag);
+    \$trsc_feat->add_SeqFeature(\$utr2, \$utr2->primary_tag);
 
     #add the exons of the transcript as features
     my \$exons = \$_->get_all_Exons;
@@ -159,7 +160,7 @@ if (\$class eq 'Bio::EnsEMBL::Gene'){
       \$pos = Bio::Location::Simple->new
 	('-start' => \$exon->start, '-end'=>\$exon->end, '-strand'=> \$exon->strand);
       \$new_pos = \$coord_pair->map(\$pos);
-      my \$exon_feat = Bio::SeqFeature::Gene::Exon->new
+      my \$exon_feat = Bio::SeqFeature::Generic->new
 	(
 	 '-start'        => \$new_pos->start,
 	 '-end'          => \$new_pos->end,
@@ -169,11 +170,11 @@ if (\$class eq 'Bio::EnsEMBL::Gene'){
 	 '-primary_id'   => \$exon->stable_id,
 	);
 
-      \$trsc_feat->add_exon(\$exon_feat);
+      \$trsc_feat->add_SeqFeature(\$exon_feat);
     }
 
     #and add the transcript to the gene feature
-    \$gene_feat->add_transcript(\$trsc_feat);
+    \$gene_feat->add_SeqFeature(\$trsc_feat);
   }
 
   #Add the gene feature to the sequence

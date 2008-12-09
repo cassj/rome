@@ -73,6 +73,26 @@
    </ul>
   </li>
 
+  <li><a title="Primer Design" href="#" class="dropdown">Primer Design</a>
+   <ul>
+    <li><a class= [% IF Catalyst.session.active_processes.processes.primerdesign.item('0.0.1').single_primer_pair %]
+                           "active"
+                         [% ELSE %]
+                           "inactive"
+                         [% END %] title="Design a single pair of primers" href="/component/primerdesign/single_primer_pair">Single Primer Pair</li></a>
+    <li><a class= [% IF Catalyst.session.active_processes.processes.primerdesign.item('0.0.1').tiling_primers %]
+                           "active"
+                         [% ELSE %]
+                           "inactive"
+                         [% END %] title="Design a set of primers to tile a region of the sequence" href="/component/primerdesign/tiling_primers">Tiling Primers</li></a>
+   </ul>
+  </li>
+    <li><a class= [% IF Catalyst.session.active_processes.processes..item(''). %]
+                           "active"
+                         [% ELSE %]
+                           "inactive"
+                         [% END %] title="Annotation and stats for ChIP-seq/chip etc location data" href="/component//">Location Data</li></a>
+
 [% IF Catalyst.check_user_roles('dev')%]
   <li><a title="Development tools" href="#" class="dropdown">Devel Tools</a>
    <ul>

@@ -1,0 +1,15 @@
+<h3>Currently Selected Component</h4>
+[% IF selected_component %]
+  <p>[%selected_component.name%] ([%selected_component.version%])</p>
+  <p>[%selected_component.description%]</p>
+
+  <h5>Processes in this Component</h5>
+  [%FOREACH process IN selected_component.processes%]
+    <p>[%process.name%]</p>
+  [%END%]
+
+[% ELSE %]
+
+<p class="warning">No component currently selected</p>
+
+[% END %]

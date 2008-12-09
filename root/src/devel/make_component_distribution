@@ -1,1 +1,49 @@
 [% META title = 'Make a component distribution' %]
+
+[% IF Catalyst.check_user_roles("dev") %]
+
+  [% IF selected_component %]
+
+  <form action="/devel/component/package" 
+        method="post" 
+        onsubmit=" new Ajax.Updater( 'messages',  
+                                     '/devel/component/package', 
+                                     { parameters: Form.serialize(this), 
+                                       asynchronous: 1,
+	    			   } ) ; 	
+                   return false"
+  >
+
+
+    <fieldset>
+    <legend>Current Component</legend>
+
+      <h3>[%selected_component.name%]</h3>
+      <h4>version [%selected_component.version %]</h4>    
+      <p>[%selected_component.description%]</p>
+
+      <div class="labelled_input">
+        <label for="pack_type">Package as:</label>
+        <input type="radio" name="pack_type" value="zip">.zip</input>
+        <input type="radio" name="pack_type" value="tgz">.tgz</input>
+      </div>      
+
+      <input type="submit" name="submit" value="Package Component" class="button"/>
+
+    </fieldset>
+  
+  </form>
+
+
+  [%ELSE%]
+
+    <p class="warning">No component selected. <a href="/devel/components">Select one</a></p>
+
+  [%END%]
+
+
+[% ELSE %]
+
+<p class="warning">You do not have permission to access this page</p>
+
+[% END %]

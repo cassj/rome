@@ -128,7 +128,6 @@ sub _get_unpack_cmd(){
    my $cmd = "";
 
    $_ = $mime;
-   warn "I think $file is a $mime";
    SWITCH: {
        /application\/x-gtar/ && do {
           $cmd = "tar -xf ";

@@ -36,6 +36,7 @@ sub active_processes{
   #to the current ones, if not, just return that
   my $ap = $c->session->{active_processes};
   unless ($ap 
+	  && $c->user->experiment
 	  && $ap->experiment_name eq $c->user->experiment->name
 	  && $ap->experiment_owner eq $c->user->experiment->owner
 	  && grep {exists $ap->datafiles->{$_->name}} $c->user->datafiles){

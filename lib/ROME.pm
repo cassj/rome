@@ -150,30 +150,31 @@ our $VERSION = '0.01';
 __PACKAGE__->config( name => 'ROME' );
 
 # Authentication configuration. 
-__PACKAGE__->config->{'Plugin::Authentication'} =
-  {
-   default_realm => 'users',
-   use_session   => 1,
-   realms => {
-	      users => {
-			credential => {
-				       class              => 'Password',
-				       password_field     => 'password',
-				       password_type      => 'hashed',
-				       password_hash_type => 'SHA-1',
-				       password_pre_salt  => 'gibbon',
-				       password_post_salt => '',
-				      },
-			store => {
-				  class         => 'DBIx::Class',
-				  user_class    => 'ROMEDB::Person',
-				  id_field      => 'username',
-				  role_relation => 'map_person_role',
-				  role_field    => 'role',
-				 }
-		       },
-	     },
-  };
+# moved to config, so the rome_adminuser.pl script has access
+#__PACKAGE__->config->{'Plugin::Authentication'} =
+#  {
+#   default_realm => 'users',
+#   use_session   => 1,
+#   realms => {
+#	      users => {
+#			credential => {
+#				       class              => 'Password',
+#				       password_field     => 'password',
+#				       password_type      => 'hashed',
+#				       password_hash_type => 'SHA-1',
+#				       password_pre_salt  => 'gibbon',
+#				       password_post_salt => '',
+#				      },
+#			store => {
+#				  class         => 'DBIx::Class',
+#				  user_class    => 'ROMEDB::Person',
+#				  id_field      => 'username',
+#				  role_relation => 'map_person_role',
+#				  role_field    => 'role',
+#				 }
+#		       },
+#	     },
+#  };
 
 
 

@@ -93,8 +93,6 @@ Ajax.Autocompleter.set_linked_value =
 /***** ROME Stuff. *****/
 
    
-/* tesco value cream cleaner uploader */
-
 // set as your form's onsubmit callback:
 function start_upload(div_id){
     $(div_id).innerHTML = '<span class="message">Please wait, uploading file...</span>';
@@ -105,6 +103,20 @@ function stop_upload(div_id, message){
     $(div_id).innerHTML = message;
 
 }
+
+//check progress of a component installation
+function start_install_monitor(div_id){
+    install_updater = new Ajax.PeriodicalUpdater(div_id, '/admin/component/install/monitor', {
+	    method: 'get', frequency: 3
+	});
+    
+}
+
+//stop checking progress of a component installation
+function stop_install_monitor(div_id){
+    install.updater.stop();
+}
+
 
 
 function update_nav (){
@@ -296,12 +308,30 @@ function update_current_component(divid){
       var ccAjax = new Ajax.Updater(divid, cc_url, {evalScripts:true});}, 1000);
 }
 
+
 //update the current_datatype section of the devel page
 function update_current_datatype(divid){
     setTimeout(function(){
       var cd_url = '/devel/datatype/current';
       var cdAjax = new Ajax.Updater(divid, cd_url, {evalScripts:true});}, 1000);
 }
+
+
+//update the selected component of the admin page
+function update_admin_selected_component(divid){
+    setTimeout(function(){
+      var cc_url = '/admin/component/selected';
+      var ccAjax = new Ajax.Updater(divid, cc_url, {evalScripts:true});}, 1000);
+}
+
+
+//update the remove component of the admin page
+function update_admin_remove_component(divid){
+    setTimeout(function(){
+      var cc_url = '/admin/component/remove';
+      var ccAjax = new Ajax.Updater(divid, cc_url, {evalScripts:true});}, 1000);
+}
+
 
 
 /******* DEBUG *************/

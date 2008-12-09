@@ -1,0 +1,11 @@
+<span class="message">[% status_msg %]</span>
+<span class="error">[% error_msg%]</span>
+
+[% IF stop_monitor %]
+<script type="text/javascript">
+    //<![CDATA[
+        window.top.window.stop_install_monitor();
+    //]]>
+</script>
+[% END %]
+

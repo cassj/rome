@@ -1,0 +1,47 @@
+<form action="[%Catalyst.uri_for('/admin/component/uninstall')%]"
+      method="post" 
+      onsubmit=" new Ajax.Updater( 'remove_component_results',  
+                                   '[%Catalyst.uri_for('/admin/component/uninstall')%]', 
+                                   { parameters: Form.serialize(this), 
+                                     asynchronous: 1,
+				     onComplete: function(){update_admin_selected_component('selected_component');
+				       update_admin_remove_component('remove_component');}
+				   } ) ; 	
+                return false"
+>
+
+
+
+ <!--form id="upload_form" 
+        action="[%Catalyst.uri_for('/admin/component/uninstall')%]"
+        method="post"
+  -->
+
+  [% IF !selected_component %]
+    <h4>Delete the selected component</h4>
+    <p class="warning">No component selected.</p>
+
+  [% ELSE %]
+
+     <fieldset>
+       <legend>Delete the selected component</legend>
+       <h4>Name</h4> 
+       [% selected_component.name %]
+       <h4>Version</h4>
+       [% selected_component.version %]
+       <h4>Processes</h4>
+       [%FOREACH process IN selected_component.processes%]
+        [%process.name%]</br>
+       [%END%]  
+
+        <br/><br/><input type="submit" class="button" value="Uninstall this component" />
+   	      		  
+       <br/>
+     </fieldset>
+ [%END%]
+
+     </form>
+
+
+
+
