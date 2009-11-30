@@ -18,9 +18,11 @@ my $con = $config->{Model::ROMEDB}->{connect_info};
 my $schema = ROMEDB->connect( $con->[0],$con->[1],$con->[2] );
 
 #encrypt the pw
-my $pw =  sha1($config->{'Plugin::Authentication'}->{realms}->{users}->{credential}->{password_pre_salt}
-	       .'admin'
-	       .$config->{'Plugin::Authentication'}->{realms}->{users}->{credential}->{password_post_salt}), 
+my $pw =  $config->{'Plugin::Authentication'}->{realms}->{users}->{credential}->{password_pre_salt}
+          .'admin'
+          .$config->{'Plugin::Authentication'}->{realms}->{users}->{credential}->{password_post_salt};
+
+$pw = sha1($pw);
 
 #make the user
 my $admin_user = $schema->resultset('Person')->create({

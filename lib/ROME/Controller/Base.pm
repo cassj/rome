@@ -23,7 +23,7 @@ use ROME::ActiveProcesses;
 
 sub auto :Private{
   my ($self, $c) = @_;
-  if ($c->user){
+  if ($c->user_exists){
     $self->active_processes($c);
   }
   return 1;

@@ -149,6 +149,10 @@ our $VERSION = '0.01';
 
 __PACKAGE__->config( name => 'ROME' );
 
+__PACKAGE__->setup;
+
+
+
 # Authentication configuration. 
 # moved to config, so the rome_adminuser.pl script has access
 #__PACKAGE__->config->{'Plugin::Authentication'} =
@@ -156,37 +160,35 @@ __PACKAGE__->config( name => 'ROME' );
 #   default_realm => 'users',
 #   use_session   => 1,
 #   realms => {
-#	      users => {
-#			credential => {
-#				       class              => 'Password',
-#				       password_field     => 'password',
-#				       password_type      => 'hashed',
-#				       password_hash_type => 'SHA-1',
-#				       password_pre_salt  => 'gibbon',
-#				       password_post_salt => '',
-#				      },
-#			store => {
-#				  class         => 'DBIx::Class',
-#				  user_class    => 'ROMEDB::Person',
-#				  id_field      => 'username',
-#				  role_relation => 'map_person_role',
-#				  role_field    => 'role',
-#				 }
-#		       },
-#	     },
+#             users => {
+#                       credential => {
+#                                      class              => 'Password',
+#                                      password_field     => 'password',
+#                                      password_type      => 'hashed',
+#                                      password_hash_type => 'SHA-1',
+#                                      password_pre_salt  => 'gibbon',
+#                                      password_post_salt => '',
+#                                     },
+#                       store => {
+#                                 class         => 'DBIx::Class',
+#                                 user_class    => 'ROMEDB::Person',
+#                                 id_field      => 'username',
+#                                 role_relation => 'map_person_role',
+#                                 role_field    => 'role',
+#                                }
+#                      },
+#            },
 #  };
 
 
 
 
-__PACKAGE__->setup;
 
 
 #if we've got a relative path to user data, make it a full one, relative to root
 unless (__PACKAGE__->config->{userdata}=~/\/.+/){
   __PACKAGE__->config->{userdata}= __PACKAGE__->config->{root}.'/'.__PACKAGE__->config->{userdata};
 }
-
 
 ### static directory definitions ###
 my @statics;

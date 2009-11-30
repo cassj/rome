@@ -66,6 +66,7 @@ sub index : Private {
 =cut
     
 sub auto : Private {
+  return 1;
   my ($self, $c) = @_;
  
   # If a user doesn't exist, force login
@@ -99,11 +100,11 @@ sub auto : Private {
       $c->response->body('<h3 class="error">Please <a href="'. $c->uri_for('user/login'). '">login</a></h3>');
       return;
     }
-    
+
     # Dump a log message to the development server debug output
     $c->log->debug('***Root::auto User not found, forwarding to /login') if $c->debug;
 
-    # Redirect the user to the login page
+   # Redirect the user to the login page
     $c->response->redirect($c->uri_for('/user/login'));
 
     # Return 0 to cancel 'post-auto' processing and prevent use of application
